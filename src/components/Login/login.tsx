@@ -1,22 +1,12 @@
 import React from 'react';
-import {useState} from 'react';
-import {styles} from './ultis/styles'
-import {
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-} from 'react-native';
-import {compose} from 'recompose';
-import {Formik, FormikProps} from 'formik';
+import { useState } from 'react';
+import { styles } from './ultis/styles'
+import { View,Text,TextInput,TouchableOpacity } from 'react-native';
+import { compose } from 'recompose';
+import { Formik, FormikProps } from 'formik';
+import { handleTextInput,withNextInputAutoFocusInput,withNextInputAutoFocusForm } from 'react-native-formik';
 
-import {
-    handleTextInput,
-    withNextInputAutoFocusInput,
-    withNextInputAutoFocusForm,
-} from 'react-native-formik';
-
-import {LoginSchema} from './ultis/yupSchema'
+import { LoginSchema } from './ultis/yupSchema'
 
 const Input = compose(handleTextInput, withNextInputAutoFocusInput)(TextInput);
 const Form = withNextInputAutoFocusForm(View);
@@ -38,11 +28,11 @@ const CxDevxLogin: React.FC<{}> = () => {
             <Formik
                 validationSchema={LoginSchema}
                 initialValues={{email: '', password: ''}}
-                onSubmit={(values) => {
-                    console.log(values);
-                    setForm({...values});
+                onSubmit={(FormValues) => {
+                    console.log(FormValues);
+                    setForm({...FormValues});
                 }}>
-                {(FormikProps) => {
+                {(FormikProps: any) => {
                     return (
                         <Form style={styles.contextField}>
                             <Input

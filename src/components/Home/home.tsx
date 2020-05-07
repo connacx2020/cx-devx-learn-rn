@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
+import { styles } from './styles';
 
 const CxDevxLogin: React.FC = () => {
     return (
@@ -13,28 +14,4 @@ const CxDevxLogin: React.FC = () => {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    body: {
-        display: 'flex',
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        textAlign: 'center',
-    },
-    text: {
-        textAlign: 'center',
-        alignSelf: 'center',
-        fontWeight: 'bold',
-        fontSize: 20
-    },
-    home_text: {
-        textAlign: 'center',
-        alignSelf: 'center',
-        fontWeight: 'bold',
-        fontSize : 14
-    }
-
-});
-
 export default CxDevxLogin;
