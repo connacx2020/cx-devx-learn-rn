@@ -1,17 +1,15 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import {useEffect} from 'react';
 
-
-const CxDevxLanding: React.FC = () => {
-    useEffect(()=>{
-
-    },[]);
+const CxDevxLogin: React.FC = () => {
     return (
         <View style={styles.body}>
             <Text style={styles.text}>
-                Welcome From Devx Learning.
-        </Text>
+                 Devx Learning
+            </Text>
+            <Text style={styles.home_text}>
+                Home
+            </Text>
         </View>
     )
 }
@@ -29,8 +27,14 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         fontWeight: 'bold',
         fontSize: 20
+    },
+    home_text: {
+        textAlign: 'center',
+        alignSelf: 'center',
+        fontWeight: 'bold',
+        fontSize : 14
     }
 
 });
 
-export default CxDevxLanding
+export default CxDevxLogin;
