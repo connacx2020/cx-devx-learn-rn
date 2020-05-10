@@ -4,7 +4,7 @@ import { Image, TouchableOpacity } from "react-native";
 import { LearnParamList } from "../ultis/ParamLists/LearnParamList";
 import CxDevxLearn from '../components/Learn/Learn';
 
-import {styles} from './styles/header';
+import { styles } from './styles/header';
 
 interface LearnStackProps {}
 
