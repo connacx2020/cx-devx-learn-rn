@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import {TopicStackNavProps} from '../../ultis/ParamLists/TopicParamList';
+import { TopicStackNavProps } from '../../ultis/ParamLists/TopicParamList';
 
 function CxDevxTopic({ navigation }: TopicStackNavProps<"Topic">){
 
