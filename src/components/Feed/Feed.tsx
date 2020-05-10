@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { ScrollView ,TouchableOpacity,Text} from 'react-native';
-import {HomeStackNavProps} from '../../ultis/ParamLists/HomeParamList'
+import { HomeStackNavProps } from '../../ultis/ParamLists/HomeParamList'
 
 import { styles } from './styles';
 import CxDevxPost from '../PostCard/Card';
