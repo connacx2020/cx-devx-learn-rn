@@ -1,21 +1,14 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import {useEffect} from 'react';
-
-import {AuthNavProps} from 'src/ultis/ParamLists/AuthParamList'
+import { SearchStackNavProps } from '../../ultis/ParamLists/SearchParamList';
 
 
+function CxDevxSearch({ navigation }: SearchStackNavProps<"Search">) {
 
-function CxDevxLanding({ navigation }: AuthNavProps<"Login">) {
-    useEffect(()=>{
-        setTimeout(()=>{
-            navigation.navigate("Login");
-        },1500);
-    },[]);
     return (
         <View style={styles.body}>
             <Text style={styles.text}>
-                Welcome From Devx Learning.
+               Search Screen
         </Text>
         </View>
     )
@@ -38,4 +31,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default CxDevxLanding
+export default CxDevxSearch;

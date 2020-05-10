@@ -1,12 +1,15 @@
 import React from 'react';
-import { useState } from 'react';
-import { styles } from './ultis/styles'
+import { useState,useContext } from 'react';
+import { styles } from './styles'
 import { View,Text,TextInput,TouchableOpacity } from 'react-native';
 import { compose } from 'recompose';
 import { Formik, FormikProps } from 'formik';
 import { handleTextInput,withNextInputAutoFocusInput,withNextInputAutoFocusForm } from 'react-native-formik';
 
-import { LoginSchema } from './ultis/yupSchema'
+import { AuthNavProps } from 'src/ultis/ParamLists/AuthParamList';
+
+import { LoginSchema } from 'src/ultis/YupValidation'
+import { AuthContext } from 'src/Providers/AuthProvider';
 
 const Input = compose(handleTextInput, withNextInputAutoFocusInput)(TextInput);
 const Form = withNextInputAutoFocusForm(View);
@@ -15,7 +18,8 @@ interface FormValues {
     email: string;
     password: string;
 }
-const CxDevxLogin: React.FC<{}> = () => {
+function CxDevxLogin({ navigation }: AuthNavProps<"Login">) {
+    const { login,errors } = useContext(AuthContext);
     const [formValues, setForm] = useState<FormValues | null>({
         email: '',
         password: '',
@@ -29,8 +33,9 @@ const CxDevxLogin: React.FC<{}> = () => {
                 validationSchema={LoginSchema}
                 initialValues={{email: '', password: ''}}
                 onSubmit={(FormValues) => {
-                    console.log(FormValues);
+                    console.log("In Login")
                     setForm({...FormValues});
+                    login(FormValues.email,FormValues.password );
                 }}>
                 {(FormikProps: any) => {
                     return (
@@ -69,6 +74,7 @@ const CxDevxLogin: React.FC<{}> = () => {
                                     {FormikProps.errors.password}
                                 </Text>
                             ) : null}
+                            { !errors? null : <Text style={styles.invalid}>{errors}</Text> }
                             <TouchableOpacity
                                 onPress={FormikProps.handleSubmit}
                                 style={styles.btn}>

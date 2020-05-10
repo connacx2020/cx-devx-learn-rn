@@ -1,21 +1,17 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import {useEffect} from 'react';
+import { HomeStackNavProps } from '../../ultis/ParamLists/HomeParamList'
 
-import {AuthNavProps} from 'src/ultis/ParamLists/AuthParamList'
+import { AuthNavProps } from 'src/ultis/ParamLists/AuthParamList'
 
 
 
-function CxDevxLanding({ navigation }: AuthNavProps<"Login">) {
-    useEffect(()=>{
-        setTimeout(()=>{
-            navigation.navigate("Login");
-        },1500);
-    },[]);
+function CxDevxDetail({ navigation }: HomeStackNavProps<"PostDetail">) {
+
     return (
         <View style={styles.body}>
             <Text style={styles.text}>
-                Welcome From Devx Learning.
+                GraphQL Detail
         </Text>
         </View>
     )
@@ -38,4 +34,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default CxDevxLanding
+export default CxDevxDetail;
