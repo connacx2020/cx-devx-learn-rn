@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  createStackNavigator,
-  StackNavigationProp
-} from "@react-navigation/stack";
+import { createStackNavigator, StackNavigationProp } from "@react-navigation/stack";
 import { NavigationContainer, RouteProp } from "@react-navigation/native";
 import { ActivityIndicator } from "react-native";
 import AsyncStorage  from "@react-native-community/async-storage";
 
 
-import {Center} from '../ultis/Center';
+import { Center } from '../ultis/Center';
 import { AuthContext } from "../Providers/AuthProvider";
 import { AppTabs } from "../Tabs/AppTabs";
 import  AuthStack  from "../Stacks/AuthStack";
