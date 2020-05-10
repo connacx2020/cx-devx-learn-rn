@@ -1,11 +1,11 @@
 import React, { useContext, useRef, useState, useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Text, TouchableOpacity,Image } from "react-native";
-import {AuthContext} from '../Providers/AuthProvider';
+import { AuthContext } from '../Providers/AuthProvider';
 import { HomeParamList } from "../ultis/ParamLists/HomeParamList";
 import Feed from '../components/Feed/Feed';
 import PostDetail from '../components/PostDetail/PostDetail';
-import {styles} from './styles/header';
+import { styles } from './styles/header';
 
 interface HomeStackProps {}
 
