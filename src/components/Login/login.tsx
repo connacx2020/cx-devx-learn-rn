@@ -8,8 +8,8 @@ import { handleTextInput,withNextInputAutoFocusInput,withNextInputAutoFocusForm 
 
 import { AuthNavProps } from 'src/ultis/ParamLists/AuthParamList';
 
-import { LoginSchema } from '../../ultis/YupValidation'
-import { AuthContext } from '../../Providers/AuthProvider';
+import { LoginSchema } from 'src/ultis/YupValidation'
+import { AuthContext } from 'src/Providers/AuthProvider';
 
 const Input = compose(handleTextInput, withNextInputAutoFocusInput)(TextInput);
 const Form = withNextInputAutoFocusForm(View);
