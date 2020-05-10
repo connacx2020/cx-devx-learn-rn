@@ -7,10 +7,9 @@ import Feed from '../components/Feed/Feed';
 import PostDetail from '../components/PostDetail/PostDetail';
 import { styles } from './styles/header';
 import { User } from "../models";
-import { useSelector } from 'react-redux';
-import { checkUserInfoInRedux } from "../common/ultis/checkUserInfoInRedux";
 import AsyncStorage from "@react-native-community/async-storage";
 import { getCheckedUserInfo } from "../common/ultis/getUserInfo";
+import { from } from "rxjs";
 
 interface HomeStackProps { }
 
@@ -22,16 +21,18 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
     const [userInfo, setUserInfo] = React.useState<User | any>({});
 
     React.useEffect(() => {
-        AsyncStorage.getItem("devx_token").then(
+        let getLocalToken = from(AsyncStorage.getItem("devx_token")).subscribe(
             async (localData: any) => {
                 let localUserID = JSON.parse(localData);
-                // console.log("redux",reduxUserInfo)
                 if (localData) {
                     setUserInfo(await getCheckedUserInfo(localUserID.userID));
-                    // console.log(await getCheckedUserInfo(localUserID.userID));
                 }
             }
         )
+
+        return () => {
+            getLocalToken.unsubscribe();
+        }
     }, []);
 
     return (

@@ -27,11 +27,9 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
                     setLogin(true);
                     store.dispatch(saveUserInfo(await getCheckedUserInfo(localData.userID)))
                 } else {
-                    setLogin(false)
+                    setLogin(false);
                 }
-
                 setLoading(false);
-
             })
             .catch(err => {
                 console.log(err);

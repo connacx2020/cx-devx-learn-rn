@@ -1,17 +1,20 @@
-// import { HttpLink, InMemoryCache, ApolloClient, ApolloLink } from 'apollo-boost';
+import { HttpLink, InMemoryCache, ApolloClient, ApolloLink } from 'apollo-boost';
 import { ENV } from '../envirnoment';
-import ApolloClient from 'apollo-boost';
 
-const graphqlClient = new ApolloClient({
+const gatewayClient = new HttpLink({
     uri: `http://${ENV.apiGateway_baseUrl}:${ENV.apiGateway_port}/graphql`,
 });
 
-//   const cache = new InMemoryCache({addTypename: false});
+// const notiClient = new HttpLink({
+//     uri: `http://${ENV.apiGateway_baseUrl}:${ENV.notiPort}/graphql`,
+// });
 
-//   const graphqlClient = new ApolloClient({
-//       link: ApolloLink.from([gatewayClient]),
-//       cache,
-//   });
+  const cache = new InMemoryCache();
+
+  const graphqlClient = new ApolloClient({
+      link: ApolloLink.from([gatewayClient]),
+      cache,
+  });
 
 
 export { graphqlClient };
