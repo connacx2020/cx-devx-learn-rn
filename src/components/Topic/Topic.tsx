@@ -1,21 +1,13 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import {useEffect} from 'react';
+import {TopicStackNavProps} from '../../ultis/ParamLists/TopicParamList';
 
-import {AuthNavProps} from 'src/ultis/ParamLists/AuthParamList'
+function CxDevxTopic({ navigation }: TopicStackNavProps<"Topic">){
 
-
-
-function CxDevxLanding({ navigation }: AuthNavProps<"Login">) {
-    useEffect(()=>{
-        setTimeout(()=>{
-            navigation.navigate("Login");
-        },1500);
-    },[]);
     return (
         <View style={styles.body}>
             <Text style={styles.text}>
-                Welcome From Devx Learning.
+              Topic Screen
         </Text>
         </View>
     )
@@ -38,4 +30,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default CxDevxLanding
+export default CxDevxTopic;
