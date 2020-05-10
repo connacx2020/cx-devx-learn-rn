@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity,View,Text,Image } from 'react-native';
 import Icon from 'react-native-vector-icons/EvilIcons';
 
-import {styles} from './styles';
+import { styles } from './styles';
 
 
 const CxDevxPost : React.FC = ()=>{
