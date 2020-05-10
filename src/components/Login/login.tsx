@@ -6,7 +6,7 @@ import { compose } from 'recompose';
 import { Formik, FormikProps } from 'formik';
 import { handleTextInput,withNextInputAutoFocusInput,withNextInputAutoFocusForm } from 'react-native-formik';
 
-import {AuthNavProps} from 'src/ultis/ParamLists/AuthParamList';
+import { AuthNavProps } from 'src/ultis/ParamLists/AuthParamList';
 
 import { LoginSchema } from '../../ultis/YupValidation'
 import { AuthContext } from '../../Providers/AuthProvider';
