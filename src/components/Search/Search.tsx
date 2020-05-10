@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import {SearchStackNavProps} from '../../ultis/ParamLists/SearchParamList';
+import { SearchStackNavProps } from '../../ultis/ParamLists/SearchParamList';
 
 
 function CxDevxSearch({ navigation }: SearchStackNavProps<"Search">) {
