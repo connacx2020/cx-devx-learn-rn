@@ -19,7 +19,7 @@ export const Routes: React.FC<RoutesProps> = ({}) => {
 
   useEffect(() => {
     AsyncStorage.getItem("devx_token")
-      .then(localToken => {
+      .then((localToken:any) => {
         console.log(localToken);
         if (localToken) {
           setLogin(true);
