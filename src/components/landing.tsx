@@ -1,7 +1,12 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
+import {useEffect} from 'react';
+
 
 const CxDevxLanding: React.FC = () => {
+    useEffect(()=>{
+
+    },[]);
     return (
         <View style={styles.body}>
             <Text style={styles.text}>
