@@ -5,7 +5,7 @@ import {  TouchableOpacity,Image } from "react-native";
 import { SearchParamList } from "../ultis/ParamLists/SearchParamList";
 import Search from '../components/Search/Search';
 
-import {styles} from './styles/header';
+import { styles } from './styles/header';
 
 interface SearchStackProps {}
 
