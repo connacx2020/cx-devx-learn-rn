@@ -1,15 +1,15 @@
 import React from 'react';
-import { useState,useContext } from 'react';
+import { useState, useContext } from 'react';
 import { styles } from './styles'
-import { View,Text,TextInput,TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { compose } from 'recompose';
 import { Formik, FormikProps } from 'formik';
-import { handleTextInput,withNextInputAutoFocusInput,withNextInputAutoFocusForm } from 'react-native-formik';
+import { handleTextInput, withNextInputAutoFocusInput, withNextInputAutoFocusForm } from 'react-native-formik';
 
-import { AuthNavProps } from 'src/ultis/ParamLists/AuthParamList';
+import { AuthNavProps } from '../../common/ultis/ParamLists/AuthParamList';
 
-import { LoginSchema } from 'src/ultis/YupValidation'
-import { AuthContext } from 'src/Providers/AuthProvider';
+import { LoginSchema } from '../../common/ultis/YupValidation'
+import { AuthContext } from '../../Providers/AuthProvider';
 
 const Input = compose(handleTextInput, withNextInputAutoFocusInput)(TextInput);
 const Form = withNextInputAutoFocusForm(View);
@@ -19,11 +19,12 @@ interface FormValues {
     password: string;
 }
 function CxDevxLogin({ navigation }: AuthNavProps<"Login">) {
-    const { login,errors } = useContext(AuthContext);
+    const { login, errors } = useContext(AuthContext);
     const [formValues, setForm] = useState<FormValues | null>({
         email: '',
         password: '',
     });
+
     return (
         <View style={styles.body}>
             <View style={styles.brandField}>
@@ -31,11 +32,11 @@ function CxDevxLogin({ navigation }: AuthNavProps<"Login">) {
             </View>
             <Formik
                 validationSchema={LoginSchema}
-                initialValues={{email: '', password: ''}}
+                initialValues={{ email: '', password: '' }}
                 onSubmit={(FormValues) => {
-                    console.log("In Login")
-                    setForm({...FormValues});
-                    login(FormValues.email,FormValues.password );
+                    // console.log("In Login")
+                    setForm({ ...FormValues });
+                    login(FormValues.email, FormValues.password);
                 }}>
                 {(FormikProps: any) => {
                     return (
@@ -46,35 +47,35 @@ function CxDevxLogin({ navigation }: AuthNavProps<"Login">) {
                                 type="email"
                                 style={
                                     FormikProps.errors.email &&
-                                    FormikProps.touched.email
+                                        FormikProps.touched.email
                                         ? styles.inputFieldInvalid
                                         : styles.inputField
                                 }
                             />
                             {FormikProps.touched.email &&
-                            FormikProps.errors.email ? (
-                                <Text style={styles.invalid}>
-                                    {FormikProps.errors.email}
-                                </Text>
-                            ) : null}
+                                FormikProps.errors.email ? (
+                                    <Text style={styles.invalid}>
+                                        {FormikProps.errors.email}
+                                    </Text>
+                                ) : null}
                             <Input
                                 placeholder="Password"
                                 name="password"
                                 type="password"
                                 style={
                                     FormikProps.errors.password &&
-                                    FormikProps.touched.password
+                                        FormikProps.touched.password
                                         ? styles.inputFieldInvalid
                                         : styles.inputField
                                 }
                             />
                             {FormikProps.touched.password &&
-                            FormikProps.errors.password ? (
-                                <Text style={styles.invalid}>
-                                    {FormikProps.errors.password}
-                                </Text>
-                            ) : null}
-                            { !errors? null : <Text style={styles.invalid}>{errors}</Text> }
+                                FormikProps.errors.password ? (
+                                    <Text style={styles.invalid}>
+                                        {FormikProps.errors.password}
+                                    </Text>
+                                ) : null}
+                            {!errors ? null : <Text style={styles.invalid}>{errors}</Text>}
                             <TouchableOpacity
                                 onPress={FormikProps.handleSubmit}
                                 style={styles.btn}>

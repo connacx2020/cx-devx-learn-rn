@@ -10,15 +10,22 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 
-import {Providers} from './src/Providers/Providers'
+import { Providers } from './src/Providers/Providers'
+import { ApolloProvider } from '@apollo/react-hooks';
+import { graphqlClient } from './src/common/graphQL/graphql.config';
+import { Provider as ReduxProvider } from 'react-redux';
+import { store } from './src/common/redux';
 
 // const token: String = '';
 
 const App: React.FC = () => {
+
     return (
-        <>
-            <Providers/>
-        </>
+        <ApolloProvider client={graphqlClient}>
+            <ReduxProvider store={store}>
+                <Providers />
+            </ReduxProvider>
+        </ApolloProvider>
 
     );
 };

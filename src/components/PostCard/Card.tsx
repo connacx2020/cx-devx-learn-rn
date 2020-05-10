@@ -12,7 +12,7 @@ const CxDevxPost : React.FC = ()=>{
                 <Image
                     style={styles.header_img}
                     source={{
-                        uri:'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSx0EzoECUE80nn6aFV7Wc_HHhR6W_eLNaDqWa5NaRnoBPa59GN&usqp=CAU'
+                        uri:"http://192.168.42.217:3004/./images/profile_photos/BUbrigyCt-MK.jpg"
                     }}
                 />
                 <View style={styles.header_txt}>

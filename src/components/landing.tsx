@@ -1,17 +1,15 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import {useEffect} from 'react';
-
-import {AuthNavProps} from 'src/ultis/ParamLists/AuthParamList'
-
-
+import { useEffect } from 'react';
+import { AuthNavProps } from '../common/ultis/ParamLists/AuthParamList';
 
 function CxDevxLanding({ navigation }: AuthNavProps<"Login">) {
-    useEffect(()=>{
-        setTimeout(()=>{
-            navigation.navigate("Login");
-        },1500);
-    },[]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            navigation.replace("Login");
+        }, 1500);
+    });
     return (
         <View style={styles.body}>
             <Text style={styles.text}>
