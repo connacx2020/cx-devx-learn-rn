@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
-import {AuthParamList} from '../ultis/ParamLists/AuthParamList';
+import { AuthParamList } from '../ultis/ParamLists/AuthParamList';
 
 import CxDevLogin from '../components/Login/login';
 import CxDevxLanding from '../components/landing';
