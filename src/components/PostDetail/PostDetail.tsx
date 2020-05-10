@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import {HomeStackNavProps} from '../../ultis/ParamLists/HomeParamList'
+import { HomeStackNavProps } from '../../ultis/ParamLists/HomeParamList'
 
-import {AuthNavProps} from 'src/ultis/ParamLists/AuthParamList'
+import { AuthNavProps } from 'src/ultis/ParamLists/AuthParamList'
 
 
 
