@@ -4,7 +4,7 @@ import { Text, TouchableOpacity,Image } from "react-native";
 import { TopicParamList } from "../ultis/ParamLists/TopicParamList";
 import Topic from '../components/Topic/Topic';
 
-import {styles} from './styles/header';
+import { styles } from './styles/header';
 interface HomeStackProps {}
 
 const Stack = createStackNavigator<TopicParamList>();
