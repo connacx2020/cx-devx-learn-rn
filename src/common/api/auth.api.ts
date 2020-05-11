@@ -1,4 +1,4 @@
-import { getUserInfoByIdSchema } from '../../common';
+import { getUserInfoByIdSchema } from '../../common/graphQL';
 import { graphqlClient } from '../graphQL/graphql.config';
 
 export const getUserInfoByIDApi = (userID: string) => {

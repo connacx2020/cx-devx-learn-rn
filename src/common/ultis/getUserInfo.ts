@@ -1,7 +1,7 @@
 import { User } from "../../models";
 import { checkUserInfoInRedux } from "./checkUserInfoInRedux";
 import { store } from "../redux";
-import { getUserInfoByIDApi } from "../../common";
+import { getUserInfoByIDApi } from "../../common/api";
 import { saveUserInfo } from "../redux";
 
 export async function getCheckedUserInfo(userID: string) {

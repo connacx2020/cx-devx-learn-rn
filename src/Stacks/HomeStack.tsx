@@ -52,7 +52,6 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
                                     console.log("In Topic Stack")
                                 }}
                             >
-                                {/* <Text>{userInfo.name}</Text> */}
                                 <Image
                                     style={styles.profileImg}
                                     source={{ uri: userInfo.photo }}

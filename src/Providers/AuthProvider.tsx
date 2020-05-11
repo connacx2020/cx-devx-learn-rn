@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useMutation } from '@apollo/react-hooks';
-import { loginSchema } from '../common';
+import { loginSchema } from '../common/graphQL';
 import { from } from 'rxjs';
 
 export const AuthContext = React.createContext<{
