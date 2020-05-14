@@ -7,8 +7,8 @@ import AsyncStorage from "@react-native-community/async-storage";
 
 import { Center } from '../common/ultis/Center';
 import { AuthContext } from "../Providers/AuthProvider";
-import { AppTabs } from "../Tabs/AppTabs";
 import AuthStack from "../Stacks/AuthStack";
+import { AppDrawer } from '../Drawers';
 import { getCheckedUserInfo } from "../common/ultis/getUserInfo";
 import { store, saveUserInfo } from "../common/redux";
 
@@ -20,20 +20,34 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
     const [isLogined, setLogin] = useState(false);
 
     useEffect(() => {
+        // AsyncStorage.getItem("devx_token")
+        //     .then(async (localToken: any) => {
+        //         const localData = JSON.parse(localToken);
+        //         if (localToken) {
+        //             setLogin(true);
+        //             store.dispatch(saveUserInfo(await getCheckedUserInfo(localData.userID)))
+        //         } else {
+        //             setLogin(false);
+        //         }
+        //         setLoading(false);
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //     });
         AsyncStorage.getItem("devx_token")
-            .then(async (localToken: any) => {
-                const localData = JSON.parse(localToken);
-                if (localToken) {
-                    setLogin(true);
-                    store.dispatch(saveUserInfo(await getCheckedUserInfo(localData.userID)))
-                } else {
-                    setLogin(false);
+            .then(localToken => {
+                if (localToken === token) {
+                setLogin(true);
+                }else{
+                    setLogin(false)
                 }
+
                 setLoading(false);
+
             })
             .catch(err => {
                 console.log(err);
-            });
+        });
     }, [token]);
 
     if (loading) {
@@ -46,7 +60,7 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
 
     return (
         <NavigationContainer>
-            {!isLogined ? <AuthStack /> : <AppTabs />}
+            {!isLogined ? <AuthStack /> : <AppDrawer />}
         </NavigationContainer>
     );
 };

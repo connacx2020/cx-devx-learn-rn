@@ -1,10 +1,9 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { AppParamList } from "../ultis/ParamLists/AppParamList";
+import { AppParamList } from "../common/ultis/ParamLists/AppParamList";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import HomeStack from '../Stacks/HomeStack';
-import SearchStack from '../Stacks/SearchStack';
 import LearnStack from '../Stacks/LearnStack';
 import TopicStack from '../Stacks/TopicStack';
 
@@ -19,17 +18,14 @@ export const AppTabs: React.FC<AppTabsProps> = ({}) => {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName : string ="";
 
-          if (route.name === "Home") {
+          if (route.name === "Course") {
             iconName = "home";
           } else if (route.name === "Learn") {
               iconName="code"
-          }else if (route.name === "Search"){
-              iconName="search"
           }else if(route.name === "Topic"){
               iconName="lightbulb-o"
           }
 
-          // You can return any component that you like here!
           return <Icon name={iconName} size={size} color={color} />;
         }
       })}
@@ -38,9 +34,8 @@ export const AppTabs: React.FC<AppTabsProps> = ({}) => {
         inactiveTintColor: "gray"
       }}
     >
-      <Tabs.Screen name="Home" component={HomeStack} />
+      <Tabs.Screen name="Course" component={HomeStack} />
       <Tabs.Screen name="Learn" component={LearnStack} />
-      <Tabs.Screen name="Search" component={SearchStack} />
       <Tabs.Screen name="Topic" component={TopicStack} />
 
     </Tabs.Navigator>

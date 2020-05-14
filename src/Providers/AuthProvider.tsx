@@ -4,6 +4,13 @@ import { useMutation } from '@apollo/react-hooks';
 import { loginSchema } from '../common/graphQL';
 import { from } from 'rxjs';
 
+
+type User = null | {email: string; password: string};
+const AuthUser: User = {
+    email: 'admin@gmail.com',
+    password: 'admin'
+};
+
 export const AuthContext = React.createContext<{
     errors: string;
     token: string;
@@ -30,20 +37,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 errors,
                 login: (email, password) => {
                     let devx_token: string = '';
-                    from(loginHook({ variables: { email, password } })).subscribe(
-                        res => {
-                            if (res.data.login !== null) {
-                                devx_token = res.data.login.token;
-                                setToken(res.data.login.token);
-                                AsyncStorage.setItem('devx_token', JSON.stringify({ token: devx_token, userID: res.data.login.id }));
-                            } else {
-                                setError('Incorrect Email or Password.');
-                            }
-                        },
-                        err => {
-                            console.log(err)
-                        }
-                    )
+                    // from(loginHook({ variables: { email, password } })).subscribe(
+                    //     res => {
+                    //         if (res.data.login !== null) {
+                    //             devx_token = res.data.login.token;
+                    //             setToken(res.data.login.token);
+                    //             AsyncStorage.setItem('devx_token', JSON.stringify({ token: devx_token, userID: res.data.login.id }));
+                    //         } else {
+                    //             setError('Incorrect Email or Password.');
+                    //         }
+                    //     },
+                    //     err => {
+                    //         console.log(err)
+                    //     }
+                    // )
+                    if (AuthUser.email === email && AuthUser.password === password ) {
+                        devx_token = 'Connacx Token';
+                        setToken('Connacx Token');
+                    }else{
+                        setError('Incorrect Email or Password.');
+                    }
+                    AsyncStorage.setItem('devx_token', devx_token);
+
                 },
                 logout: () => {
                     setError('');
