@@ -5,8 +5,6 @@ const initialUserInfoState: any = {
     userInfoData: []
 }
 
-let a =[];
-
 export const UserInfoReducer = (state: any = initialUserInfoState, userInfoAction: any): User | any => {
     switch (userInfoAction.type) {
         case rdxUserInfo:
