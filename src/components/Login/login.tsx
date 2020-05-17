@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useContext } from 'react';
 import { styles } from './styles'
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Button } from 'react-native';
 import { compose } from 'recompose';
 import { Formik, FormikProps } from 'formik';
 import { handleTextInput, withNextInputAutoFocusInput, withNextInputAutoFocusForm } from 'react-native-formik';
@@ -18,7 +18,7 @@ interface FormValues {
     email: string;
     password: string;
 }
-function CxDevxLogin({ navigation }: AuthNavProps<"Login">) {
+function CxDevxLogin() {
     const { login, errors } = useContext(AuthContext);
     const [formValues, setForm] = useState<FormValues | null>({
         email: '',
@@ -45,6 +45,7 @@ function CxDevxLogin({ navigation }: AuthNavProps<"Login">) {
                                 placeholder="Email"
                                 name="email"
                                 type="email"
+                                id="email"
                                 style={
                                     FormikProps.errors.email &&
                                         FormikProps.touched.email
@@ -60,6 +61,7 @@ function CxDevxLogin({ navigation }: AuthNavProps<"Login">) {
                                 ) : null}
                             <Input
                                 placeholder="Password"
+                                id="password"
                                 name="password"
                                 type="password"
                                 style={
@@ -79,7 +81,7 @@ function CxDevxLogin({ navigation }: AuthNavProps<"Login">) {
                             <TouchableOpacity
                                 onPress={FormikProps.handleSubmit}
                                 style={styles.btn}>
-                                <Text style={styles.btnText}>Login</Text>
+                                <Text id="loginBtn" style={styles.btnText}>Login</Text>
                             </TouchableOpacity>
                         </Form>
                     );
