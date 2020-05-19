@@ -11,14 +11,14 @@ import { AuthNavProps } from '../../common/ultis/ParamLists/AuthParamList';
 import { LoginSchema } from '../../common/ultis/YupValidation'
 import { AuthContext } from '../../Providers/AuthProvider';
 
-const Input = compose(handleTextInput, withNextInputAutoFocusInput)(TextInput);
+const Input: any = compose(handleTextInput, withNextInputAutoFocusInput)(TextInput);
 const Form = withNextInputAutoFocusForm(View);
 
 interface FormValues {
     email: string;
     password: string;
 }
-function CxDevxLogin({ navigation }: AuthNavProps<"Login">) {
+function CxDevxLogin() {
     const { login, errors } = useContext(AuthContext);
     const [formValues, setForm] = useState<FormValues | null>({
         email: '',
@@ -28,7 +28,7 @@ function CxDevxLogin({ navigation }: AuthNavProps<"Login">) {
     return (
         <View style={styles.body}>
             <View style={styles.brandField}>
-                <Text style={styles.brandText}>Devx Learning</Text>
+                <Text style={styles.brandText} testID="loginPageBrand">Devx Learning</Text>
             </View>
             <Formik
                 validationSchema={LoginSchema}
@@ -40,11 +40,12 @@ function CxDevxLogin({ navigation }: AuthNavProps<"Login">) {
                 }}>
                 {(FormikProps: any) => {
                     return (
-                        <Form style={styles.contextField}>
+                        <Form testID="formId" style={styles.contextField}>
                             <Input
                                 placeholder="Email"
                                 name="email"
                                 type="email"
+                                id="email"
                                 style={
                                     FormikProps.errors.email &&
                                         FormikProps.touched.email
@@ -54,7 +55,7 @@ function CxDevxLogin({ navigation }: AuthNavProps<"Login">) {
                             />
                             {FormikProps.touched.email &&
                                 FormikProps.errors.email ? (
-                                    <Text style={styles.invalid}>
+                                    <Text testID="email" style={styles.invalid}>
                                         {FormikProps.errors.email}
                                     </Text>
                                 ) : null}
@@ -62,6 +63,7 @@ function CxDevxLogin({ navigation }: AuthNavProps<"Login">) {
                                 placeholder="Password"
                                 name="password"
                                 type="password"
+                                id="password"
                                 style={
                                     FormikProps.errors.password &&
                                         FormikProps.touched.password
@@ -78,8 +80,9 @@ function CxDevxLogin({ navigation }: AuthNavProps<"Login">) {
                             {!errors ? null : <Text style={styles.invalid}>{errors}</Text>}
                             <TouchableOpacity
                                 onPress={FormikProps.handleSubmit}
+                                testID="loginBtn"
                                 style={styles.btn}>
-                                <Text style={styles.btnText}>Login</Text>
+                                <Text testID="loginBtnTxt" style={styles.btnText}>Login</Text>
                             </TouchableOpacity>
                         </Form>
                     );
