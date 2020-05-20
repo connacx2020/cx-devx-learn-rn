@@ -1,9 +1,9 @@
 import React from 'react';
 import { useState, useContext } from 'react';
 import { styles } from './styles'
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Button } from 'react-native';
 import { compose } from 'recompose';
-import { Formik, FormikProps } from 'formik';
+import { Formik } from 'formik';
 import { handleTextInput, withNextInputAutoFocusInput, withNextInputAutoFocusForm } from 'react-native-formik';
 
 import { AuthNavProps } from '../../common/ultis/ParamLists/AuthParamList';
@@ -18,7 +18,7 @@ interface FormValues {
     email: string;
     password: string;
 }
-function CxDevxLogin() {
+function CxDevxLogin({testFunc}) {
     const { login, errors } = useContext(AuthContext);
     const [formValues, setForm] = useState<FormValues | null>({
         email: '',
@@ -36,6 +36,7 @@ function CxDevxLogin() {
                 onSubmit={(FormValues) => {
                     // console.log("In Login")
                     setForm({ ...FormValues });
+                    testFunc(FormValues.email,FormValues.password)
                     login(FormValues.email, FormValues.password);
                 }}>
                 {(FormikProps: any) => {
@@ -45,7 +46,7 @@ function CxDevxLogin() {
                                 placeholder="Email"
                                 name="email"
                                 type="email"
-                                id="email"
+                                testID="emailId"
                                 style={
                                     FormikProps.errors.email &&
                                         FormikProps.touched.email
@@ -55,7 +56,7 @@ function CxDevxLogin() {
                             />
                             {FormikProps.touched.email &&
                                 FormikProps.errors.email ? (
-                                    <Text testID="email" style={styles.invalid}>
+                                    <Text testID="emailErr" style={styles.invalid}>
                                         {FormikProps.errors.email}
                                     </Text>
                                 ) : null}
@@ -63,7 +64,7 @@ function CxDevxLogin() {
                                 placeholder="Password"
                                 name="password"
                                 type="password"
-                                id="password"
+                                testID="passwordId"
                                 style={
                                     FormikProps.errors.password &&
                                         FormikProps.touched.password
@@ -73,11 +74,12 @@ function CxDevxLogin() {
                             />
                             {FormikProps.touched.password &&
                                 FormikProps.errors.password ? (
-                                    <Text style={styles.invalid}>
+                                    <Text testID="passwordErr" style={styles.invalid}>
                                         {FormikProps.errors.password}
                                     </Text>
                                 ) : null}
-                            {!errors ? null : <Text style={styles.invalid}>{errors}</Text>}
+                            {!errors ? null :
+                            <Text testID="authErrId" style={styles.invalid}>{errors}</Text>}
                             <TouchableOpacity
                                 onPress={FormikProps.handleSubmit}
                                 testID="loginBtn"
