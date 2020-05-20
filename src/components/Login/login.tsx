@@ -36,7 +36,7 @@ function CxDevxLogin({testFunc}) {
                 onSubmit={(FormValues) => {
                     // console.log("In Login")
                     setForm({ ...FormValues });
-                    testFunc(FormValues.email,FormValues.password)
+                    // testFunc(FormValues.email,FormValues.password)
                     login(FormValues.email, FormValues.password);
                 }}>
                 {(FormikProps: any) => {
