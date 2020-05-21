@@ -1,15 +1,28 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import { TopicStackNavProps } from '../../ultis/ParamLists/TopicParamList';
+import { Topic } from '../../models';
+import { useQuery } from '@apollo/react-hooks';
+import { getAllTopicsSchema } from '../../common/graphQL';
 
 function CxDevxTopic({ navigation }: TopicStackNavProps<"Topic">){
 
+    const [topics, setTopics] = React.useState([]);
+    const fetchTopics = useQuery(getAllTopicsSchema,{notifyOnNetworkStatusChange: true})
+
+    React.useEffect(()=>{
+        if(fetchTopics.data){
+            setTopics(fetchTopics.data.findAllTopic)
+        }
+    },[topics])
+
     return (
-        <View style={styles.body}>
-            <Text style={styles.text}>
-              Topic Screen
-        </Text>
-        </View>
+        <ScrollView style={styles.body}>
+            {
+                topics.map((res:Topic) => <View style={styles.topicList}><Text style={styles.text}>{res.title}</Text></View>)
+            }
+
+        </ScrollView>
     )
 }
 
@@ -18,14 +31,16 @@ const styles = StyleSheet.create({
         display: 'flex',
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'center',
         textAlign: 'center',
+        backgroundColor:'#cfcbca'
+    },
+    topicList: {
+        padding: 10,
+        backgroundColor: '#fff',
+        margin: 2
     },
     text: {
-        textAlign: 'center',
-        alignSelf: 'center',
-        fontWeight: 'bold',
-        fontSize: 20
+        fontWeight: 'bold'
     }
 
 });

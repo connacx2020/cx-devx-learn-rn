@@ -37,27 +37,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 errors,
                 login: (email, password) => {
                     let devx_token: string = '';
-                    // from(loginHook({ variables: { email, password } })).subscribe(
-                    //     res => {
-                    //         if (res.data.login !== null) {
-                    //             devx_token = res.data.login.token;
-                    //             setToken(res.data.login.token);
-                    //             AsyncStorage.setItem('devx_token', JSON.stringify({ token: devx_token, userID: res.data.login.id }));
-                    //         } else {
-                    //             setError('Incorrect Email or Password.');
-                    //         }
-                    //     },
-                    //     err => {
-                    //         console.log(err)
-                    //     }
-                    // )
-                    if (AuthUser.email === email && AuthUser.password === password ) {
-                        devx_token = 'Connacx Token';
-                        setToken('Connacx Token');
-                    }else{
-                        setError('Incorrect Email or Password.');
-                    }
-                    AsyncStorage.setItem('devx_token', devx_token);
+                    from(loginHook({ variables: { email, password } })).subscribe(
+                        res => {
+                            if (res.data.login !== null) {
+                                console.log(res.data)
+                                devx_token = res.data.login.token;
+                                setToken(res.data.login.token);
+                                AsyncStorage.setItem('devx_token', JSON.stringify({ token: devx_token, userID: res.data.login.id }));
+                            } else {
+                                setError('Incorrect Email or Password.');
+                            }
+                        },
+                        err => {
+                            console.log(err)
+                        }
+                    )
+                    // if (AuthUser.email === email && AuthUser.password === password ) {
+                    //     devx_token = 'Connacx Token';
+                    //     setToken('Connacx Token');
+                    // }else{
+                    //     setError('Incorrect Email or Password.');
+                    // }
+                    // AsyncStorage.setItem('devx_token', devx_token);
 
                 },
                 logout: () => {

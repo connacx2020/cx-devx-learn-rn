@@ -20,34 +20,34 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
     const [isLogined, setLogin] = useState(false);
 
     useEffect(() => {
-        // AsyncStorage.getItem("devx_token")
-        //     .then(async (localToken: any) => {
-        //         const localData = JSON.parse(localToken);
-        //         if (localToken) {
-        //             setLogin(true);
-        //             store.dispatch(saveUserInfo(await getCheckedUserInfo(localData.userID)))
-        //         } else {
-        //             setLogin(false);
-        //         }
-        //         setLoading(false);
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     });
         AsyncStorage.getItem("devx_token")
-            .then(localToken => {
-                if (localToken === token) {
-                setLogin(true);
-                }else{
-                    setLogin(false)
+            .then(async (localToken: any) => {
+                const localData = JSON.parse(localToken);
+                if (localToken) {
+                    setLogin(true);
+                    store.dispatch(saveUserInfo(await getCheckedUserInfo(localData.userID)))
+                } else {
+                    setLogin(false);
                 }
-
                 setLoading(false);
-
             })
             .catch(err => {
                 console.log(err);
-        });
+            });
+        // AsyncStorage.getItem("devx_token")
+        //     .then(localToken => {
+        //         if (localToken === token) {
+        //         setLogin(true);
+        //         }else{
+        //             setLogin(false)
+        //         }
+
+        //         setLoading(false);
+
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        // });
     }, [token]);
 
     if (loading) {

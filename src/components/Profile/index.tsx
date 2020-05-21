@@ -9,6 +9,10 @@ import {
     Animated,
     View
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import { checkUserInfoInRedux } from '../../common/ultis/checkUserInfoInRedux';
+import { getCheckedUserInfo } from '../../common/ultis/getUserInfo';
+import { User } from '../../models';
 
 const HEADER_MAX_HEIGHT: number = 120;
 const HEADER_MIN_HEIGHT: number = 70;
@@ -60,6 +64,19 @@ export const CxDevxProfile: React.FC = () => {
         extrapolate: 'clamp',
     });
 
+    const [userInfo, setUserInfo] = React.useState<User>();
+
+    React.useEffect(()=>{
+        AsyncStorage.getItem("devx_token")
+        .then(async (localToken: any) => {
+            const localData = JSON.parse(localToken);
+            setUserInfo(await getCheckedUserInfo(localData.userID));
+            console.log(await getCheckedUserInfo(localData.userID))
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    },[userInfo])
 
     return (
         <View style={{flex: 1}}>
@@ -84,7 +101,7 @@ export const CxDevxProfile: React.FC = () => {
                             fontWeight: 'bold',
                             padding:25
                         }}>
-                        Vertix HozoX
+                        {userInfo?.name}
                     </Text>
                 </Animated.View>
             </Animated.View>
@@ -108,9 +125,9 @@ export const CxDevxProfile: React.FC = () => {
                     }}>
                     <Image
                         source={{
-                            uri:'https://data.junkee.com/wp-content/uploads/2016/02/deadpool-movie-2015-thumbs-up-mditd0fn2czy3ps40jx65quje2tgdkslj5zcgyqd4o-680x453.jpg'
+                            // uri: userInfo?.photo
+                            uri:'https://miro.medium.com/max/1400/1*uvd7Z4npUG8qulaQLjHcZw.jpeg'
                         }}
-                        style={{flex: 1, width: null, height: null}}
                     />
                 </Animated.View>
                 <View>
@@ -120,7 +137,9 @@ export const CxDevxProfile: React.FC = () => {
                             fontSize: 26,
                             paddingLeft: 15,
                         }}>
-                       Vertix HozoX
+                            {
+                                userInfo?.gender
+                            }
                     </Text>
                 </View>
 
