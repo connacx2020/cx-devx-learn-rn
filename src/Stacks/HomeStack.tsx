@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState, useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Text, TouchableOpacity, Image } from "react-native";
+import { Text, TouchableOpacity, Image, TextInput } from "react-native";
 import { HomeParamList } from "../common/ultis/ParamLists/HomeParamList";
 import Feed from '../components/Feed/Feed';
 import PostDetail from '../components/PostDetail/PostDetail';
@@ -14,7 +14,6 @@ import { DrawerActions } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { searchStyles } from './styles/searchBar';
-import { TextInput } from "react-native-gesture-handler";
 
 interface HomeStackProps { }
 

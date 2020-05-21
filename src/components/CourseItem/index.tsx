@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View, Text, Image } from 'react-native';
+import { TouchableOpacity, View, Text, Image ,StyleProp,ViewStyle} from 'react-native';
 import StarRating from 'react-native-star-rating';
 
 import { styles } from './styles';
@@ -9,6 +9,7 @@ type courseItem = {
     title: string,
     rate: number,
     likes : number
+    starStyle: StyleProp<ViewStyle>
 }
 
 export function CxDevxCourseItem({ img,title,rate,likes }: courseItem) {
