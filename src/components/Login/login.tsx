@@ -18,7 +18,9 @@ interface FormValues {
     email: string;
     password: string;
 }
-function CxDevxLogin({testFunc}) {
+function CxDevxLogin({
+    // testFunc
+}) {
     const { login, errors } = useContext(AuthContext);
     const [formValues, setForm] = useState<FormValues | null>({
         email: '',
@@ -36,7 +38,7 @@ function CxDevxLogin({testFunc}) {
                 onSubmit={(FormValues) => {
                     // console.log("In Login")
                     setForm({ ...FormValues });
-                    // testFunc(FormValues.email,FormValues.password)
+                    // testFunc(FormValues.email,FormValues.password)                              //unit test function
                     login(FormValues.email, FormValues.password);
                 }}>
                 {(FormikProps: any) => {
