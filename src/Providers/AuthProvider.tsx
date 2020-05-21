@@ -4,6 +4,13 @@ import { useMutation } from '@apollo/react-hooks';
 import { loginSchema } from '../common/graphQL';
 import { from } from 'rxjs';
 
+
+type User = null | {email: string; password: string};
+const AuthUser: User = {
+    email: 'admin@gmail.com',
+    password: 'admin'
+};
+
 export const AuthContext = React.createContext<{
     errors: string;
     token: string;
@@ -33,6 +40,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                     from(loginHook({ variables: { email, password } })).subscribe(
                         res => {
                             if (res.data.login !== null) {
+                                console.log(res.data)
                                 devx_token = res.data.login.token;
                                 setToken(res.data.login.token);
                                 AsyncStorage.setItem('devx_token', JSON.stringify({ token: devx_token, userID: res.data.login.id }));
@@ -44,6 +52,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                             console.log(err)
                         }
                     )
+                    // if (AuthUser.email === email && AuthUser.password === password ) {
+                    //     devx_token = 'Connacx Token';
+                    //     setToken('Connacx Token');
+                    // }else{
+                    //     setError('Incorrect Email or Password.');
+                    // }
+                    // AsyncStorage.setItem('devx_token', devx_token);
+
                 },
                 logout: () => {
                     setError('');

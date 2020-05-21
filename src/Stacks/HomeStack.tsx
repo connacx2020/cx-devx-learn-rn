@@ -1,7 +1,6 @@
 import React, { useContext, useRef, useState, useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Text, TouchableOpacity, Image } from "react-native";
-import { AuthContext } from '../Providers/AuthProvider';
+import { Text, TouchableOpacity, Image, TextInput } from "react-native";
 import { HomeParamList } from "../common/ultis/ParamLists/HomeParamList";
 import Feed from '../components/Feed/Feed';
 import PostDetail from '../components/PostDetail/PostDetail';
@@ -11,13 +10,19 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { getCheckedUserInfo } from "../common/ultis/getUserInfo";
 import { from } from "rxjs";
 
+import { DrawerActions } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { searchStyles } from './styles/searchBar';
+
 interface HomeStackProps { }
 
 const Stack = createStackNavigator<HomeParamList>();
 
 
 const HomeStack: React.FC<HomeStackProps> = ({ }) => {
-    const { logout } = useContext(AuthContext);
+    const navigation = useNavigation();
+    const [isShowSearch,setShowSearch] = useState(false);
     const [userInfo, setUserInfo] = React.useState<User | any>({});
 
     React.useEffect(() => {
@@ -41,29 +46,36 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
             <Stack.Screen
                 name="Feed"
                 options={{
-                    title: 'Devx Learning',
+                    title: !isShowSearch? 'Devx Learning': '',
                     headerTitleStyle: {
-                        fontSize: 25
+                        fontSize: 28
                     },
-                    headerRight: () => {
+                    headerLeft: () => {
                         return (
-                            <TouchableOpacity
-                                onPress={() => {
-                                    console.log("In Topic Stack")
-                                }}
-                            >
-                                <Image
-                                    style={styles.profileImg}
-                                    source={{ uri: userInfo.photo }}
-                                />
+                            <TouchableOpacity onPress={()=>navigation.dispatch(DrawerActions.openDrawer())}>
+                                <Icon style={searchStyles.barsIcon} name="bars" size={30} color="#808080"/>
                             </TouchableOpacity>
                         );
+                    },
+                    headerRight: () =>{
+                        return(
+                            !isShowSearch?
+                                (
+                                    <TouchableOpacity onPress={()=>setShowSearch(true)}>
+                                        <Text style={searchStyles.searchTxt}>Search</Text>
+                                    </TouchableOpacity>
+                                ):
+                                (
+                                    <TextInput style={searchStyles.searchBar} placeholder="Search ..." />
+                                )
+
+                        )
                     }
                 }}
                 component={Feed}
             />
 
-            <Stack.Screen
+            {/* <Stack.Screen
                 name="PostDetail"
                 options={{
                     title: 'GraphQl Tutorial',
@@ -86,7 +98,7 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
                     }
                 }}
                 component={PostDetail}
-            />
+            /> */}
         </Stack.Navigator>
     );
 };

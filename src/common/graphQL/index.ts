@@ -17,3 +17,8 @@ export {
     getUsersSchema,
     loginSchema
 } from './graphqlSchema/auth.graphqlSchema';
+
+export {
+    findTopicByIDSchema,
+    getAllTopicsSchema
+} from './graphqlSchema/devx.graphqlSchema';

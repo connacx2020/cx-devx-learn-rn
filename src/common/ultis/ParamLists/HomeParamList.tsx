@@ -3,6 +3,8 @@ import { RouteProp } from '@react-navigation/native';
 
 
 export type HomeParamList = {
+    Course: undefined;
+    CourseDetail : undefined;
     Feed: undefined;
     PostDetail: undefined;
 };
