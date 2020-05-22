@@ -9,7 +9,6 @@ type courseItem = {
     title: string,
     rate: number,
     likes : number
-    starStyle: StyleProp<ViewStyle>
 }
 
 export function CxDevxCourseItem({ img,title,rate,likes }: courseItem) {
@@ -17,25 +16,28 @@ export function CxDevxCourseItem({ img,title,rate,likes }: courseItem) {
         <View style={styles.container}>
                 <View style={styles.content}>
                     <Image
+                        testID="imgID"
                         style={styles.img}
                         source={{
                             uri: img
                         }}/>
-                    <Text style={styles.title}>{title}</Text>
+                    <Text testID="titleID" style={styles.title}>{title}</Text>
                 </View>
                 <View style={styles.footer}>
-                    <View style={styles.ratingContainer}>
+                    <View style={styles.ratingContainer} >
                         <StarRating
+                            testID={"star"}
                             disabled={true}
                             maxStars={5}
                             rating={rate}
                             starSize={20}
-                            starStyle={styles.star}
+                            starStyle={styles.star as StyleProp<ViewStyle>}
                         />
-                        <Text style={styles.ratingTxt}>{rate}</Text>
+                        <Text testID="rateID" style={styles.ratingTxt}>{rate}</Text>
                     </View>
-                    <Text style={styles.likes}>{likes} Likes</Text>
+                    <Text testID="likeID" style={styles.likes}>{likes} Likes</Text>
                 </View>
+
 
         </View>
 

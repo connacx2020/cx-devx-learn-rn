@@ -16,8 +16,8 @@ import { string, number } from 'yup';
 function CxDevxFeed({ navigation }: HomeStackNavProps<"Feed">) {
 
 
-    const [postID, setPostID] = React.useState([]);
-    const fetchPostData = useQuery(getAllPostsSchema, { notifyOnNetworkStatusChange: true });
+    // const [postID, setPostID] = React.useState([]);
+    // const fetchPostData = useQuery(getAllPostsSchema, { notifyOnNetworkStatusChange: true });
     const screenWidth = Math.round(Dimensions.get('window').width);
     let carousel = useRef();
 
@@ -82,6 +82,7 @@ function CxDevxFeed({ navigation }: HomeStackNavProps<"Feed">) {
 
             <Text style={styles.centerTxt}>Recommended for you</Text>
             <Carousel
+              testID="carouselID"
               ref={(c:any) => { carousel = c; }}
               data={courseData}
               renderItem={_renderItem}
