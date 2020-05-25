@@ -16,8 +16,8 @@ import { string, number } from 'yup';
 function CxDevxFeed({ navigation }: HomeStackNavProps<"Feed">) {
 
 
-    // const [postID, setPostID] = React.useState([]);
-    // const fetchPostData = useQuery(getAllPostsSchema, { notifyOnNetworkStatusChange: true });
+    const [postID, setPostID] = React.useState([]);
+    const fetchPostData = useQuery(getAllPostsSchema, { notifyOnNetworkStatusChange: true });
     const screenWidth = Math.round(Dimensions.get('window').width);
     let carousel = useRef();
 
