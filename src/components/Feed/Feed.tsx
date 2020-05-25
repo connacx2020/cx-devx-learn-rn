@@ -82,6 +82,7 @@ function CxDevxFeed({ navigation }: HomeStackNavProps<"Feed">) {
 
             <Text style={styles.centerTxt}>Recommended for you</Text>
             <Carousel
+              testID="carouselID"
               ref={(c:any) => { carousel = c; }}
               data={courseData}
               renderItem={_renderItem}
