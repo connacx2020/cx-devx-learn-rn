@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { LearnStackNavProps } from '../../ultis/ParamLists/LearnParamList';
+import { LearnStackNavProps } from '../../common/ultis/ParamLists/LearnParamList';
 
 function CxDevxLearn({ navigation }: LearnStackNavProps<"Learn">) {
 

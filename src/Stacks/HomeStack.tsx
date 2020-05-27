@@ -12,13 +12,16 @@ import { from } from "rxjs";
 
 import { DrawerActions } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
+
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { searchStyles } from './styles/searchBar';
+import { CxDevxCourseDetail } from "../components/CourseDetail";
+import CxDevxCourseOverview  from '../components/CourseOverview';
+import CxDevxCourseContent from '../components/CourseContent';
+import CxDevxCourseSection from '../components/CourseSection';
 
 interface HomeStackProps { }
-
 const Stack = createStackNavigator<HomeParamList>();
-
 
 const HomeStack: React.FC<HomeStackProps> = ({ }) => {
     const navigation = useNavigation();
@@ -41,7 +44,9 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
     }, []);
 
     return (
-        <Stack.Navigator initialRouteName="Feed">
+        <Stack.Navigator
+
+            initialRouteName="Feed">
             {/* {addProductRoutes(Stack)} */}
             <Stack.Screen
                 name="Feed"
@@ -74,7 +79,26 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
                 }}
                 component={Feed}
             />
-
+            <Stack.Screen
+                 options={{headerShown: false}}
+                name="CourseDetail"
+                component={CxDevxCourseDetail}
+            />
+            <Stack.Screen
+                 options={{headerShown: false}}
+                name="CourseOverview"
+                component={CxDevxCourseOverview}
+            />
+            <Stack.Screen
+                 options={{headerShown: false}}
+                name="CourseContent"
+                component={CxDevxCourseContent}
+            />
+            <Stack.Screen
+                 options={{headerShown: true}}
+                name="CourseSection"
+                component={CxDevxCourseSection}
+            />
             {/* <Stack.Screen
                 name="PostDetail"
                 options={{

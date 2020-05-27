@@ -1,5 +1,7 @@
 import React, { useContext ,useRef } from 'react';
 import { ScrollView, TouchableOpacity, Text, Dimensions } from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
+
 import { HomeStackNavProps } from '../../common/ultis/ParamLists/HomeParamList';
 
 import { styles } from './styles';
@@ -11,16 +13,21 @@ import { Post } from '../../models/post.model';
 
 import { CxDevxCourseItem } from '../CourseItem';
 import Carousel from 'react-native-snap-carousel';
-import { string, number } from 'yup';
+
+import { useNavigation } from '@react-navigation/native';
 
 function CxDevxFeed({ navigation }: HomeStackNavProps<"Feed">) {
+    const tabNavigation = useNavigation();
+    const parent = tabNavigation.dangerouslyGetParent();
 
-
-    // const [postID, setPostID] = React.useState([]);
-    // const fetchPostData = useQuery(getAllPostsSchema, { notifyOnNetworkStatusChange: true });
+    const [postID, setPostID] = React.useState([]);
+    const fetchPostData = useQuery(getAllPostsSchema, { notifyOnNetworkStatusChange: true });
     const screenWidth = Math.round(Dimensions.get('window').width);
     let carousel = useRef();
 
+    useFocusEffect(()=>{
+        parent?.setOptions({tabBarVisible: true});
+    })
 
     const courseData = [
         {
@@ -58,12 +65,16 @@ function CxDevxFeed({ navigation }: HomeStackNavProps<"Feed">) {
 
     const _renderItem = ({item } :any )=>{
         return (
-            <CxDevxCourseItem img={item.img} title={item.title} rate={item.rate} likes ={item.likes}/>
+            <CxDevxCourseItem img={item.img} title={item.title} rate={item.rate} likes ={item.likes} routeToCourseDetail={routeToCourseDetail}/>
 
         )
     }
 
 
+    const  routeToCourseDetail = ( img:string, title:string ) =>{
+        navigation.navigate("CourseDetail",{image:img,title:title});
+        // navigation.push('CourseDetail');
+    }
     // React.useEffect(() => {
     //     if (fetchPostData.data) {
     //         setPostID(fetchPostData.data.getPosts);
@@ -97,12 +108,14 @@ function CxDevxFeed({ navigation }: HomeStackNavProps<"Feed">) {
                 title="GraphQL Advanced Course"
                 rate={4.5}
                 likes={1000}
-            />
+                routeToCourseDetail = {routeToCourseDetail}            />
             <CxDevxCourseItem
                 img="https://miro.medium.com/max/2880/1*xcDT-neKHP7E3quS9n30gw.png"
                 title="React Hooks Course"
                 rate={5}
                 likes={1050}
+                routeToCourseDetail = {routeToCourseDetail}
+
             />
 
             <CxDevxCourseItem
@@ -110,18 +123,19 @@ function CxDevxFeed({ navigation }: HomeStackNavProps<"Feed">) {
                 title="Nodejs Advanced Course"
                 rate={5}
                 likes={890}
-            />
+                routeToCourseDetail = {routeToCourseDetail}            />
             <CxDevxCourseItem
                 img="https://i.ytimg.com/vi/OdU9H-_d14Y/maxresdefault.jpg"
                 title="React Native With Typescript"
                 rate={4.5}
                 likes={1000}
-            />
+                routeToCourseDetail = {routeToCourseDetail}            />
             <CxDevxCourseItem
                 img="https://dist.neo4j.com/wp-content/uploads/20170524234854/graph-ql-graph-database-neo4j-integration.png"
                 title="GraphQL with Neo4j  Course"
                 rate={3.5}
                 likes={1000}
+                routeToCourseDetail = {routeToCourseDetail}
             />
 
             <Text style={styles.centerTxt}>Related Topics</Text>
@@ -131,12 +145,14 @@ function CxDevxFeed({ navigation }: HomeStackNavProps<"Feed">) {
                 title="GraphQL Advanced Course"
                 rate={4.5}
                 likes={1000}
+                routeToCourseDetail = {routeToCourseDetail}
             />
             <CxDevxCourseItem
                 img="https://miro.medium.com/max/2880/1*xcDT-neKHP7E3quS9n30gw.png"
                 title="React Hooks Course"
                 rate={5}
                 likes={1050}
+                routeToCourseDetail = {routeToCourseDetail}
             />
 
             <CxDevxCourseItem
@@ -144,18 +160,21 @@ function CxDevxFeed({ navigation }: HomeStackNavProps<"Feed">) {
                 title="Nodejs Advanced Course"
                 rate={5}
                 likes={890}
+                routeToCourseDetail = {routeToCourseDetail}
             />
             <CxDevxCourseItem
                 img="https://i.ytimg.com/vi/OdU9H-_d14Y/maxresdefault.jpg"
                 title="React Native With Typescript"
                 rate={4.5}
                 likes={1000}
+                routeToCourseDetail = {routeToCourseDetail}
             />
             <CxDevxCourseItem
                 img="https://dist.neo4j.com/wp-content/uploads/20170524234854/graph-ql-graph-database-neo4j-integration.png"
                 title="GraphQL with Neo4j  Course"
                 rate={3.5}
                 likes={1000}
+                routeToCourseDetail = {routeToCourseDetail}
             />
         </ScrollView>
     )

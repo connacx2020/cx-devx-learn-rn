@@ -1,0 +1,22 @@
+import { StyleSheet } from 'react-native';
+
+export const styles = StyleSheet.create({
+    container:{
+        flex:1,
+        justifyContent:'flex-start',
+        alignItems:'stretch',
+        marginHorizontal:10,
+        marginVertical:20,
+    },
+    render_course_item_container:{
+        padding:15,
+        borderBottomWidth:0.1,
+        elevation:1,
+        marginHorizontal:10,
+        alignItems:'stretch'
+    },
+    render_course_item_txt:{
+        fontSize:20,
+        fontWeight:'bold',
+    }
+})

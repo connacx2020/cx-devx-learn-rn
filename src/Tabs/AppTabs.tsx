@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AppParamList } from "../common/ultis/ParamLists/AppParamList";
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -12,7 +12,9 @@ interface AppTabsProps {}
 const Tabs = createBottomTabNavigator<AppParamList>();
 
 export const AppTabs: React.FC<AppTabsProps> = ({}) => {
-  return (
+
+    // const {name : routeName}  = navigationRef.current.getCurrentRoute();
+    return (
     <Tabs.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
@@ -34,7 +36,11 @@ export const AppTabs: React.FC<AppTabsProps> = ({}) => {
         inactiveTintColor: "gray"
       }}
     >
-      <Tabs.Screen name="Course" component={HomeStack} />
+      <Tabs.Screen name="Course" component={HomeStack}
+            options={{
+                tabBarVisible: true
+            }}
+       />
       <Tabs.Screen name="Learn" component={LearnStack} />
       <Tabs.Screen name="Topic" component={TopicStack} />
 

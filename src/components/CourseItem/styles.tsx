@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
        flexDirection:'row'
     },
     star:{
-        backgroundColor: "#FFD700"
+        color: "#FFD700"
     },
     ratingTxt : {
         marginTop:-2,
