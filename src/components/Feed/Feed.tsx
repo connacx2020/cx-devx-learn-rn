@@ -11,7 +11,7 @@ import { getAllPostsSchema } from '../../common/graphQL';
 import { Post } from '../../models/post.model';
 
 
-import { CxDevxCourseItem } from '../CourseItem';
+import { CxDevxCourseItem } from '../CourseItem/CourseItem';
 import Carousel from 'react-native-snap-carousel';
 
 import { useNavigation } from '@react-navigation/native';

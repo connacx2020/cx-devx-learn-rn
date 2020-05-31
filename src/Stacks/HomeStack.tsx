@@ -15,10 +15,10 @@ import { useNavigation } from '@react-navigation/native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { searchStyles } from './styles/searchBar';
-import { CxDevxCourseDetail } from "../components/CourseDetail";
-import CxDevxCourseOverview  from '../components/CourseOverview';
-import CxDevxCourseContent from '../components/CourseContent';
-import CxDevxCourseSection from '../components/CourseSection';
+import { CxDevxCourseDetail } from "../components/CourseDetail/CourseDetail";
+import CxDevxCourseOverview  from '../components/CourseOverview/CourseOverview';
+import CxDevxCourseContent from '../components/CourseContent/CourseContent';
+import CxDevxCourseSection from '../components/CourseSection/CourseSection';
 
 interface HomeStackProps { }
 const Stack = createStackNavigator<HomeParamList>();

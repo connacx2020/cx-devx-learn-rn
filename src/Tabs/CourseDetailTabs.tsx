@@ -2,8 +2,8 @@ import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { CourseDetailTabsParamList } from '../common/ultis/ParamLists/CourseDetailTabsParamList';
 
-import CxDevxCourseOverview from '../components/CourseOverview';
-import CxDevxCourseContent from '../components/CourseContent';
+import CxDevxCourseOverview from '../components/CourseOverview/CourseOverview';
+import CxDevxCourseContent from '../components/CourseContent/CourseContent';
 
 const Tab = createMaterialTopTabNavigator<CourseDetailTabsParamList>();
 

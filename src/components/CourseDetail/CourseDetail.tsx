@@ -16,7 +16,7 @@ export function CxDevxCourseDetail({ navigation,route }: HomeStackNavProps<"Cour
     let [isLiked,setLike] = useState<Boolean>(false);
     useEffect(()=>{
         parent?.setOptions({tabBarVisible: false});
-    },[1]);
+    });
     return(
         <ScrollView style={styles.container}>
             <View style={styles.header}>
