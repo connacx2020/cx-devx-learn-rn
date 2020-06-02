@@ -8,13 +8,15 @@ type courseItem = {
     img: string,
     title: string,
     rate: number,
-    likes : number
+    likes : number,
+    routeToCourseDetail : ()=>void
 }
 
-export function CxDevxCourseItem({ img,title,rate,likes }: courseItem) {
+export function CxDevxCourseItem({ img,title,rate,likes,routeToCourseDetail }: courseItem) {
     return(
         <View style={styles.container}>
                 <View style={styles.content}>
+                    <TouchableOpacity onPress={()=>routeToCourseDetail(img,title)}>
                     <Image
                         testID="imgID"
                         style={styles.img}
@@ -22,6 +24,7 @@ export function CxDevxCourseItem({ img,title,rate,likes }: courseItem) {
                             uri: img
                         }}/>
                     <Text testID="titleID" style={styles.title}>{title}</Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.footer}>
                     <View style={styles.ratingContainer} >

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, wait, act } from '@testing-library/react-native';
-import { CxDevxCourseItem } from '../src/components/CourseItem';
+import { CxDevxCourseItem } from '../src/components/CourseItem/CourseItem';
 import CxDevxFeed from '../src/components/Feed/Feed';
 
 

@@ -12,6 +12,7 @@ import { AppDrawer } from '../Drawers';
 import { getCheckedUserInfo } from "../common/ultis/getUserInfo";
 import { store, saveUserInfo } from "../common/redux";
 
+
 interface RoutesProps { }
 
 export const Routes: React.FC<RoutesProps> = ({ }) => {
@@ -50,17 +51,17 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
         // });
     }, [token]);
 
-    if (loading) {
-        return (
-            <Center>
-                <ActivityIndicator size="large" />
-            </Center>
-        );
-    }
+    // if (loading) {
+    //     return (
+    //         <Center>
+    //             <ActivityIndicator size="large" />
+    //         </Center>
+    //     );
+    // }
 
     return (
         <NavigationContainer>
-            {!isLogined ? <AuthStack /> : <AppDrawer />}
+            { !isLogined? <AuthStack /> : <AppDrawer />}
         </NavigationContainer>
     );
 };

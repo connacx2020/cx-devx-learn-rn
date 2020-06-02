@@ -2,7 +2,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 
 
-export type HomeParamList = {
+export type CourseDetailParamList = {
     Course: undefined;
     CourseDetail : undefined;
     CourseOverview: undefined;
@@ -12,7 +12,7 @@ export type HomeParamList = {
 };
 
 
-export type HomeStackNavProps<T extends keyof HomeParamList> = {
-    navigation: StackNavigationProp<HomeParamList, T>;
-    route: RouteProp<HomeParamList, T>;
+export type CourseDetailStackNavProps<T extends keyof CourseDetailParamList> = {
+    navigation: StackNavigationProp<CourseDetailParamList, T>;
+    route: RouteProp<CourseDetailParamList, T>;
 };
