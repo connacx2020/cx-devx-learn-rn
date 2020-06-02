@@ -18,6 +18,7 @@ export const CxDevxCommentModal: React.FC<CommentModalProps> = ({
     setLike,
     setModalVisible,
 }) => {
+
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
     return (

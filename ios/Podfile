@@ -81,6 +81,8 @@ target 'devxLearn' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
+  pod 'RNSearchBar', :path => '../node_modules/react-native-search-bar'
+
   target 'devxLearnTests' do
     inherit! :complete
     # Pods for testing

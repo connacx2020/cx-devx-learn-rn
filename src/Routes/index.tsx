@@ -61,7 +61,7 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
 
     return (
         <NavigationContainer>
-            {false ? <AuthStack /> : <AppDrawer />}
+            { !isLogined? <AuthStack /> : <AppDrawer />}
         </NavigationContainer>
     );
 };
