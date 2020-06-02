@@ -1,6 +1,9 @@
 import React, { useContext, useRef, useState, useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Text, TouchableOpacity, Image, TextInput } from "react-native";
+import { Text, TouchableOpacity, Image, TextInput,Dimensions,View } from "react-native";
+import Icon from 'react-native-vector-icons/FontAwesome';
+import FeatureIcon from 'react-native-vector-icons/Feather';
+import { Searchbar } from 'react-native-paper';
 import { HomeParamList } from "../common/ultis/ParamLists/HomeParamList";
 import Feed from '../components/Feed/Feed';
 import PostDetail from '../components/PostDetail/PostDetail';
@@ -13,7 +16,7 @@ import { from } from "rxjs";
 import { DrawerActions } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+
 import { searchStyles } from './styles/searchBar';
 import { CxDevxCourseDetail } from "../components/CourseDetail/CourseDetail";
 import CxDevxCourseOverview  from '../components/CourseOverview/CourseOverview';
@@ -27,6 +30,9 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
     const navigation = useNavigation();
     const [isShowSearch,setShowSearch] = useState(false);
     const [userInfo, setUserInfo] = React.useState<User | any>({});
+    const [searchValue,setSearchValue] = React.useState<String | undefined>('');
+    const screenWidth = Math.round(Dimensions.get('window').width);
+
 
     React.useEffect(() => {
         let getLocalToken = from(AsyncStorage.getItem("devx_token")).subscribe(
@@ -51,15 +57,23 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
             <Stack.Screen
                 name="Feed"
                 options={{
-                    title: !isShowSearch? 'Devx Learning': '',
+                    title:  'Devx Learning',
                     headerTitleStyle: {
-                        fontSize: 28
+                        fontSize: 20
+                    },
+                    headerStyle:{
+                    //    backgroundColor:'lightblue'
                     },
                     headerLeft: () => {
                         return (
-                            <TouchableOpacity onPress={()=>navigation.dispatch(DrawerActions.openDrawer())}>
-                                <Icon style={searchStyles.barsIcon} name="bars" size={30} color="#808080"/>
-                            </TouchableOpacity>
+                            !isShowSearch?
+                                (<TouchableOpacity onPress={()=>navigation.dispatch(DrawerActions.openDrawer())}>
+                                    <Icon style={searchStyles.barsIcon} name="bars" size={25} color="#808080"/>
+                                </TouchableOpacity>)
+                            :
+                                (<TouchableOpacity onPress={()=>setShowSearch(false)}>
+                                    <FeatureIcon style={searchStyles.barsIcon} name="arrow-left" size={25} color="#808080"/>
+                                </TouchableOpacity>)
                         );
                     },
                     headerRight: () =>{
@@ -67,11 +81,17 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
                             !isShowSearch?
                                 (
                                     <TouchableOpacity onPress={()=>setShowSearch(true)}>
-                                        <Text style={searchStyles.searchTxt}>Search</Text>
+                                        <Icon style={searchStyles.barsIcon} name="search" size={20} color="#808080"/>
                                     </TouchableOpacity>
                                 ):
                                 (
-                                    <TextInput style={searchStyles.searchBar} placeholder="Search ..." />
+                                    // <TextInput style={searchStyles.searchBar} placeholder="Search ..." />
+                                    <Searchbar
+                                        placeholder="Search"
+                                        onChangeText={(value)=>{setSearchValue(value);console.log(searchValue);}}
+                                        value={searchValue}
+                                        style={{width:screenWidth-80,marginRight:20,elevation:1}}
+                                    />
                                 )
 
                         )

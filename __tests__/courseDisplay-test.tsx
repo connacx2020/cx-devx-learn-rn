@@ -2,11 +2,13 @@ import React from 'react';
 import { render, fireEvent, wait, act } from '@testing-library/react-native';
 import { CxDevxCourseItem } from '../src/components/CourseItem/CourseItem';
 import CxDevxFeed from '../src/components/Feed/Feed';
+import { string } from 'yup';
 
 
 describe("Course's Item UI test", ()=>{
-    let courseItemWrapper = render(<CxDevxCourseItem img="image" title="Apollo Server Express Tutorial" likes={1500} rate={4} />);
-   it('Must include Title, Image ,StarRating, Rate and Likes',()=>{
+    let routeToCourseDetail = jest.fn();
+    let courseItemWrapper = render(<CxDevxCourseItem img="image" title="Apollo Server Express Tutorial" likes={1500} rate={4} routeToCourseDetail={routeToCourseDetail} />);
+   it('Must include Title, Image ,StarRating, Rate and Likes , routeFunction props',()=>{
 
         expect(courseItemWrapper.getByTestId('titleID').props.children).toBe('Apollo Server Express Tutorial');
         expect(courseItemWrapper.getByTestId('likeID').props.children[0]).toEqual(1500);
