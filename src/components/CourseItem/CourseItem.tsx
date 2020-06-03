@@ -1,6 +1,8 @@
 import React from 'react';
 import { TouchableOpacity, View, Text, Image ,StyleProp,ViewStyle} from 'react-native';
 import StarRating from 'react-native-star-rating';
+import { useTheme } from '@react-navigation/native';
+
 
 import { styles } from './styles';
 
@@ -13,8 +15,9 @@ type courseItem = {
 }
 
 export function CxDevxCourseItem({ img,title,rate,likes,routeToCourseDetail }: courseItem) {
+    const { colors } = useTheme();
     return(
-        <View style={styles.container}>
+        <View style={[styles.container,{backgroundColor:colors.background}]}>
                 <View style={styles.content}>
                     <TouchableOpacity onPress={()=>routeToCourseDetail(img,title)}>
                     <Image
@@ -23,7 +26,7 @@ export function CxDevxCourseItem({ img,title,rate,likes,routeToCourseDetail }: c
                         source={{
                             uri: img
                         }}/>
-                    <Text testID="titleID" style={styles.title}>{title}</Text>
+                    <Text testID="titleID" style={[styles.title,{color:colors.text}]}>{title}</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.footer}>
@@ -36,9 +39,9 @@ export function CxDevxCourseItem({ img,title,rate,likes,routeToCourseDetail }: c
                             starSize={20}
                             starStyle={styles.star as StyleProp<ViewStyle>}
                         />
-                        <Text testID="rateID" style={styles.ratingTxt}>{rate}</Text>
+                        <Text testID="rateID" style={[styles.ratingTxt,,{color:colors.text}]}>{rate}</Text>
                     </View>
-                    <Text testID="likeID" style={styles.likes}>{likes} Likes</Text>
+                    <Text testID="likeID" style={[styles.likes,,{color:colors.text}]}>{likes} Likes</Text>
                 </View>
 
 

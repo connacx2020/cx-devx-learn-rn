@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { createStackNavigator, StackNavigationProp } from "@react-navigation/stack";
-import { NavigationContainer, RouteProp } from "@react-navigation/native";
+import { NavigationContainer, RouteProp, DefaultTheme as NavigationDefaultTheme, DarkTheme as NavigationDarkTheme } from "@react-navigation/native";
+import { Provider as PaperProvider, DefaultTheme as PaperDefaultTheme, DarkTheme as PaperDarkTheme  } from 'react-native-paper';
 import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 
@@ -16,9 +17,34 @@ import { store, saveUserInfo } from "../common/redux";
 interface RoutesProps { }
 
 export const Routes: React.FC<RoutesProps> = ({ }) => {
-    const { token } = useContext(AuthContext);
+    const { token,isDarkTheme } = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [isLogined, setLogin] = useState(false);
+    
+    const CustomDefaultTheme = {
+        ...NavigationDefaultTheme,
+        ...PaperDefaultTheme,
+        colors: {
+          ...NavigationDefaultTheme.colors,
+          ...PaperDefaultTheme.colors,
+          background: '#ffffff',
+          text: '#333333'
+        }
+      }
+      
+      const CustomDarkTheme = {
+        ...NavigationDarkTheme,
+        ...PaperDarkTheme,
+        colors: {
+          ...NavigationDarkTheme.colors,
+          ...PaperDarkTheme.colors,
+          background: '#333333',
+          text: '#ffffff'
+        }
+      }
+    
+      const theme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme;
+
 
     useEffect(() => {
         AsyncStorage.getItem("devx_token")
@@ -35,20 +61,6 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
             .catch(err => {
                 console.log(err);
             });
-        // AsyncStorage.getItem("devx_token")
-        //     .then(localToken => {
-        //         if (localToken === token) {
-        //         setLogin(true);
-        //         }else{
-        //             setLogin(false)
-        //         }
-
-        //         setLoading(false);
-
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        // });
     }, [token]);
 
     // if (loading) {
@@ -60,8 +72,10 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
     // }
 
     return (
-        <NavigationContainer>
-            { !isLogined? <AuthStack /> : <AppDrawer />}
-        </NavigationContainer>
+        <PaperProvider theme={theme}>
+            <NavigationContainer theme={theme}>
+                { false? <AuthStack /> : <AppDrawer />}
+            </NavigationContainer>
+        </PaperProvider>
     );
 };

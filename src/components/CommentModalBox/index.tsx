@@ -5,6 +5,7 @@ import Modal from 'react-native-modal';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import AntdIcon from 'react-native-vector-icons/AntDesign';
 import { styles } from './style';
+import { useTheme } from '@react-navigation/native'
 
 type CommentModalProps = {
     isLiked: Boolean;
@@ -20,13 +21,14 @@ export const CxDevxCommentModal: React.FC<CommentModalProps> = ({
 }) => {
     const screenWidth = Math.round(Dimensions.get('window').width);
     const screenHeight = Math.round(Dimensions.get('window').height);
+    const { colors } = useTheme();
     return (
         <Modal
             deviceWidth={screenWidth}
             deviceHeight={screenHeight}
             isVisible={isModalVisible}
             onBackButtonPress={() => setModalVisible(false)}>
-            <View style={styles.modal}>
+            <View style={[styles.modal,{backgroundColor:colors.background}]}>
                 <View style={styles.modal_header}>
                     <TouchableOpacity
                         style={styles.modal_header_back_left}
@@ -74,16 +76,16 @@ export const CxDevxCommentModal: React.FC<CommentModalProps> = ({
                                 style={
                                     styles.modal_comment_header_userInfo_rfield
                                 }>
-                                <Text style={styles.modal_user_info_txt}>
+                                <Text style={[styles.modal_user_info_txt,{color:colors.text}]}>
                                     Min Khant T Kyi
                                 </Text>
-                                <Text style={styles.modal_comment_time_txt}>
+                                <Text style={[styles.modal_comment_time_txt,{color:colors.text}]}>
                                     4 hours ago
                                 </Text>
                             </View>
                         </View>
                         <View style={styles.modal_comment_content}>
-                            <Text style={styles.modal_comment_content_txt}>
+                            <Text style={[styles.modal_comment_content_txt,{color:colors.text}]}>
                                 What is Angular?
                             </Text>
                         </View>
@@ -106,16 +108,16 @@ export const CxDevxCommentModal: React.FC<CommentModalProps> = ({
                                 style={
                                     styles.modal_comment_header_userInfo_rfield
                                 }>
-                                <Text style={styles.modal_user_info_txt}>
+                                <Text style={[styles.modal_user_info_txt,{color:colors.text}]}>
                                     Vertix Horizon
                                 </Text>
-                                <Text style={styles.modal_comment_time_txt}>
+                                <Text style={[styles.modal_comment_time_txt,{color:colors.text}]}>
                                     1 hours ago
                                 </Text>
                             </View>
                         </View>
                         <View style={styles.modal_comment_content}>
-                            <Text style={styles.modal_comment_content_txt}>
+                            <Text style={[styles.modal_comment_content_txt,{color:colors.text}]}>
                                 Good Course! It is very helpful! Thank You so
                                 must!
                             </Text>

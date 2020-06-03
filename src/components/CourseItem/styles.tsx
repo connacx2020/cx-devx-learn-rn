@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     container:{
         borderRadius: 5,
-        elevation: 3,
+        elevation: 5,
         backgroundColor: '#fff',
         shadowOffset: { width: 2, height: 1 },
         shadowColor: '#333',
@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
         shadowRadius: 5,
         marginHorizontal: 15,
         marginVertical: 10,
-        padding: 1
+        padding: 1,
     },
     content : {
 
@@ -22,13 +22,13 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 5,
         borderColor:'#ededed',
-        borderWidth:1,
-        height:180,
+        borderWidth:0.5,
+        height:150,
         width:'100%',
         resizeMode: 'stretch'
     },
     title:{
-        fontSize:23,
+        fontSize:18,
         fontStyle:'italic',
         paddingTop: 5,
         paddingLeft:5
@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
     ratingTxt : {
         marginTop:-2,
         fontStyle:'italic',
-        fontSize:18,
+        fontSize:15,
         marginHorizontal:20
     },
     likes :{
@@ -55,7 +55,7 @@ export const styles = StyleSheet.create({
         fontStyle:'italic',
         marginTop:-3,
         marginHorizontal:15,
-        fontSize:18,
+        fontSize:15,
         textAlign:'right'
     }
 });

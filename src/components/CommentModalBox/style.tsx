@@ -54,31 +54,31 @@ export const styles = StyleSheet.create({
         paddingLeft:10
     },
     modal_avatar:{
-        width:'75%',
-        height:"80%",
+        width:40,
+        height:40,
         borderRadius:100
     },
     modal_comment_header_userInfo_rfield:{
         marginVertical:5,
         justifyContent:'flex-start',
         alignItems:'flex-start',
-        flexGrow:4,
+        flexGrow:6,
         flexDirection:'column'
     },
     modal_user_info_txt:{
-        fontSize:17,
+        fontSize:15,
         fontWeight:'bold'
     },
     modal_comment_time_txt:{
-        fontStyle:'italic'
+        fontStyle:'italic',
     },
     modal_comment_content:{
         minHeight:30,
         marginVertical:5,
-        marginLeft:50
+        marginLeft:65
     },
     modal_comment_content_txt:{
-        fontSize:17
+        fontSize:14
 
     },
     modal_footer:{

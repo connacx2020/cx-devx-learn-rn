@@ -22,18 +22,19 @@ import { CxDevxCourseDetail } from "../components/CourseDetail/CourseDetail";
 import CxDevxCourseOverview  from '../components/CourseOverview/CourseOverview';
 import CxDevxCourseContent from '../components/CourseContent/CourseContent';
 import CxDevxCourseSection from '../components/CourseSection/CourseSection';
+import { AuthContext } from "../Providers/AuthProvider";
 
 interface HomeStackProps { }
 const Stack = createStackNavigator<HomeParamList>();
 
 const HomeStack: React.FC<HomeStackProps> = ({ }) => {
     const navigation = useNavigation();
+    const {isDarkTheme } = useContext(AuthContext);
     const [isShowSearch,setShowSearch] = useState(false);
     const [userInfo, setUserInfo] = React.useState<User | any>({});
     const [searchValue,setSearchValue] = React.useState<String | undefined>('');
     const screenWidth = Math.round(Dimensions.get('window').width);
-
-
+   
     React.useEffect(() => {
         let getLocalToken = from(AsyncStorage.getItem("devx_token")).subscribe(
             async (localData: any) => {
@@ -59,7 +60,8 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
                 options={{
                     title:  'Devx Learning',
                     headerTitleStyle: {
-                        fontSize: 20
+                        fontSize: 18,
+                        fontStyle:'italic'
                     },
                     headerStyle:{
                     //    backgroundColor:'lightblue'
@@ -68,11 +70,11 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
                         return (
                             !isShowSearch?
                                 (<TouchableOpacity onPress={()=>navigation.dispatch(DrawerActions.openDrawer())}>
-                                    <Icon style={searchStyles.barsIcon} name="bars" size={25} color="#808080"/>
+                                    <Icon style={searchStyles.barsIcon} name="bars" size={25} color={isDarkTheme?'#fff':"#333"}/>
                                 </TouchableOpacity>)
                             :
                                 (<TouchableOpacity onPress={()=>setShowSearch(false)}>
-                                    <FeatureIcon style={searchStyles.barsIcon} name="arrow-left" size={25} color="#808080"/>
+                                    <FeatureIcon style={searchStyles.barsIcon} name="arrow-left" size={25} color={isDarkTheme?'#fff':"#333"}/>
                                 </TouchableOpacity>)
                         );
                     },
@@ -81,7 +83,7 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
                             !isShowSearch?
                                 (
                                     <TouchableOpacity onPress={()=>setShowSearch(true)}>
-                                        <Icon style={searchStyles.barsIcon} name="search" size={20} color="#808080"/>
+                                        <Icon style={searchStyles.barsIcon} name="search" size={20} color={isDarkTheme?'#fff':"#333"}/>
                                     </TouchableOpacity>
                                 ):
                                 (

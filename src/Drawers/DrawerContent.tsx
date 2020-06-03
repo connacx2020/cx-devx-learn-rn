@@ -18,12 +18,8 @@ import{ AuthContext } from '../Providers/AuthProvider';
 
 export function DrawerContent(props:any){
     const paperTheme = useTheme();
-    const { logout } = React.useContext(AuthContext)
-    const [isDarkTheme,setIsDarkTheme] = React.useState<Boolean>(false);
+    const { logout,toggleTheme } = React.useContext(AuthContext)
 
-    const toggleTheme = () =>{
-        setIsDarkTheme(!isDarkTheme);
-    }
 
     return(
         <View style={{flex:1}}>
@@ -117,7 +113,7 @@ export function DrawerContent(props:any){
                             <View style={styles.preference}>
                                 <Text>Dark Theme</Text>
                                 <View pointerEvents="none">
-                                    <Switch value={isDarkTheme}/>
+                                    <Switch value={paperTheme.dark}/>
                                 </View>
                             </View>
 

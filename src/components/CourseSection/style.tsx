@@ -22,44 +22,44 @@ export const styles = StyleSheet.create({
         flexGrow:2,
     },
     avatar:{
+        backgroundColor:'red',
         width:'65%',
-        height:"80%",
+        height:50,
         borderRadius:100
     },
     header_info_rfield:{
-        marginVertical:10,
+        marginVertical:13,
         justifyContent:'flex-start',
         alignItems:'flex-start',
         flexGrow:4,
         flexDirection:'column'
     },
     info_txt:{
-        fontSize:20,
+        fontSize:17,
         fontStyle:'italic'
     },
     info_time:{
-        fontSize:18,
+        fontSize:15,
         fontWeight:'bold'
     },
     content:{
         marginHorizontal:15,
-        marginVertical:10,
-        padding:20,
+        padding:10,
         flexGrow:10,
 
     },
     content_title:{
         fontWeight:'bold',
-        fontSize:25
+        fontSize:20
     },
     content_title_txt:{
         fontWeight:'bold',
-        fontSize:20,
+        fontSize:16,
         paddingVertical:10
     },
     content_txt:{
         padding:5,
-        fontSize:17
+        fontSize:15
     },
     footer:{
         flexDirection:'row',

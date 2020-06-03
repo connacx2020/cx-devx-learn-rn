@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
         flex:1,
     },
     header:{
-        height:250,
+        height:200,
         flexGrow:3,
         position:"relative",
         justifyContent:'center',
@@ -17,6 +17,7 @@ export const styles = StyleSheet.create({
     header_course_img:{
         width:'100%',
         height:'100%',
+        resizeMode: 'stretch',
         opacity:0.5
     },
     header_left_arrow:{
@@ -29,8 +30,9 @@ export const styles = StyleSheet.create({
         top:"25%",
         position:"absolute",
         textAlign:'center',
-        fontSize:35,
-        color:'#333',
+        fontSize:25,
+        color:'#000',
+        fontStyle:"italic",
         fontWeight:'bold',
     },
     header_btn:{
@@ -43,7 +45,7 @@ export const styles = StyleSheet.create({
         textAlign:'center'
     },
     header_btn_txt:{
-        fontSize:20,
+        fontSize:15,
         fontWeight:'bold',
         textAlign:'center',
         color:'white'

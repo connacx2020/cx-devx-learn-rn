@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 import { AppParamList } from "../common/ultis/ParamLists/AppParamList";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -9,7 +9,10 @@ import TopicStack from '../Stacks/TopicStack';
 
 interface AppTabsProps {}
 
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tabs = createBottomTabNavigator<AppParamList>();
+// import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+// const Tabs = createMaterialBottomTabNavigator<AppParamList>();
 
 export const AppTabs: React.FC<AppTabsProps> = ({}) => {
 
