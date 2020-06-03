@@ -22,7 +22,11 @@ import { CxDevxCourseDetail } from "../components/CourseDetail/CourseDetail";
 import CxDevxCourseOverview  from '../components/CourseOverview/CourseOverview';
 import CxDevxCourseContent from '../components/CourseContent/CourseContent';
 import CxDevxCourseSection from '../components/CourseSection/CourseSection';
+
 import { AuthContext } from "../Providers/AuthProvider";
+import DevxSearch from "../components/Search/DevxSearch";
+import CxDevxSearchResult from "../components/Search/DevxSearchResult";
+
 
 interface HomeStackProps { }
 const Stack = createStackNavigator<HomeParamList>();
@@ -82,7 +86,7 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
                         return(
                             !isShowSearch?
                                 (
-                                    <TouchableOpacity onPress={()=>setShowSearch(true)}>
+                                    <TouchableOpacity onPress={()=>navigation.navigate('Search')}>
                                         <Icon style={searchStyles.barsIcon} name="search" size={20} color={isDarkTheme?'#fff':"#333"}/>
                                     </TouchableOpacity>
                                 ):
@@ -120,6 +124,16 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
                  options={{headerShown: true}}
                 name="CourseSection"
                 component={CxDevxCourseSection}
+            />
+            <Stack.Screen
+                 options={{headerShown: false}}
+                name="Search"
+                component={DevxSearch}
+            />
+             <Stack.Screen
+                 options={{headerShown: true}}
+                name="SearchResult"
+                component={CxDevxSearchResult}
             />
             {/* <Stack.Screen
                 name="PostDetail"
