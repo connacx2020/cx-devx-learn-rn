@@ -2,16 +2,14 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
     card_body: {
-        height: 140,
+        height: 80,
         backgroundColor: 'blue',
         flexDirection: 'row',
-        marginVertical: 5,
-        elevation: 2
+        elevation: 3
     },
     card_cover: {
-        flexGrow: 1,
         backgroundColor: 'white',
-        width: '50%'
+        width: '35%'
     },
     cover_img: {
         height: '100%',
@@ -24,15 +22,18 @@ export const styles = StyleSheet.create({
         flexDirection: 'column',
         width: "50%",
         justifyContent: 'space-around',
-        padding: 7
+        padding: 7,
     },
     content_title: {
         fontSize: 15,
-        lineHeight: 20
+        lineHeight: 15,
     },
     content_paragraph: {
         fontSize: 13,
-        fontStyle: 'italic'
+        fontStyle: 'italic',
+    },
+    rating_field:{
+       width:20
     },
     rating_star: {
         color: "#FFD700"

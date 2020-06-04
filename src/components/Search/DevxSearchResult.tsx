@@ -5,7 +5,6 @@ import StarRating from 'react-native-star-rating';
 import { Card, Title, Paragraph } from 'react-native-paper';
 
 import { SearchItemCoverLeft } from '../SearchResultItem/CoverLeftItem';
-import { SearchItemCoverRight } from '../SearchResultItem/CoverRightItem';
 
 
 const CxDevxSearchResult: React.FC = () => {
@@ -58,27 +57,15 @@ const CxDevxSearchResult: React.FC = () => {
                 data={courseData}
                 keyExtractor={item => item.title}
                 renderItem={({ item, index }) => {
-                    if (index % 2 === 0) {
-                        return (
-                            <SearchItemCoverLeft
-                                img={item.img}
-                                title={item.title}
-                                rate={item.rate}
-                                likes={item.likes}
-                                enrolled={item.enrolled}
-                            />
-                        )
-                    } else {
-                        return (
-                            <SearchItemCoverRight
-                                img={item.img}
-                                title={item.title}
-                                rate={item.rate}
-                                likes={item.likes}
-                                enrolled={item.enrolled}
-                            />
-                        )
-                    }
+                    return (
+                        <SearchItemCoverLeft
+                            img={item.img}
+                            title={item.title}
+                            rate={item.rate}
+                            likes={item.likes}
+                            enrolled={item.enrolled}
+                        />
+                    )
                 }}
 
 
