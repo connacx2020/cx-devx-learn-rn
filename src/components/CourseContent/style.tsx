@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
         alignItems:'stretch',
         marginHorizontal:10,
         marginVertical:20,
+        backgroundColor:'#fff'
     },
     render_course_item_container:{
         padding:15,
@@ -16,7 +17,7 @@ export const styles = StyleSheet.create({
         alignItems:'stretch'
     },
     render_course_item_txt:{
-        fontSize:20,
+        fontSize:17,
         fontWeight:'bold',
     }
 })

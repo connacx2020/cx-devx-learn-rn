@@ -3,11 +3,15 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     content: {
         flex:1,
+        backgroundColor:'#fff'
     },
     centerTxt:{
-        marginHorizontal:20,
+        marginHorizontal:15,
+        paddingLeft:5,
         marginVertical:12,
-        fontSize:20,
-        fontWeight:'bold'
+        alignItems:'center',
+        fontSize:17,
+        fontStyle:"italic",
+        fontWeight:'200'
     }
 })

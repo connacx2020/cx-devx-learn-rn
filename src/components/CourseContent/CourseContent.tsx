@@ -2,9 +2,10 @@ import React from 'react';
 import { StyleSheet, View, Text ,TouchableOpacity,SafeAreaView,FlatList} from 'react-native';
 import { HomeStackNavProps } from '../../common/ultis/ParamLists/HomeParamList';
 import { styles } from './style';
-
+import { useTheme } from '@react-navigation/native'
 function CxDevxCourseContent({ navigation }: HomeStackNavProps<"CourseContent">) {
 
+    const { colors } = useTheme();
     const courseData = [
         {title:"Introduction"},
         {title: "What is Angular?"},
@@ -18,12 +19,12 @@ function CxDevxCourseContent({ navigation }: HomeStackNavProps<"CourseContent">)
     const RenderCourseItem = ({index,title})=>{
         return(
             <TouchableOpacity style={styles.render_course_item_container}onPress={()=>navigation.navigate('CourseSection',{course:title})}>
-                <Text style={styles.render_course_item_txt}>{index+1}. {title} </Text>
+                <Text style={[styles.render_course_item_txt,{color:colors.text}]}>{index+1}. {title} </Text>
              </TouchableOpacity>
         )
     }
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={[styles.container,{backgroundColor:colors.background}]}>
             {
                 <FlatList
                 data={courseData}

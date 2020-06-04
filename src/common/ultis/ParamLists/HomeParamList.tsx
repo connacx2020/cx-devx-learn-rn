@@ -9,6 +9,8 @@ export type HomeParamList = {
     CourseContent: undefined;
     CourseSection: undefined;
     Feed: undefined;
+    Search:undefined;
+    SearchResult:undefined;
 };
 
 

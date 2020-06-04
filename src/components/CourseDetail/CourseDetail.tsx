@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View,Text,Image,TouchableOpacity,ScrollView} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,useTheme } from '@react-navigation/native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
 
@@ -14,6 +14,7 @@ export function CxDevxCourseDetail({ navigation,route }: HomeStackNavProps<"Cour
     const tabNavigation = useNavigation();
     const parent = tabNavigation.dangerouslyGetParent();
     let [isLiked,setLike] = useState<Boolean>(false);
+    const { colors } = useTheme();
     useEffect(()=>{
         parent?.setOptions({tabBarVisible: false});
     });
@@ -32,7 +33,7 @@ export function CxDevxCourseDetail({ navigation,route }: HomeStackNavProps<"Cour
                 >
                         <FeatherIcon name={"arrow-left"} size={30} color={"#2541B2"} />
                 </TouchableOpacity>
-                <Text style={styles.header_title}>{title}</Text>
+                <Text style={[styles.header_title,{color:colors.text}]}>{title}</Text>
                 <TouchableOpacity style={styles.header_btn}>
                     <Text style={styles.header_btn_txt}> Enroll this course</Text>
                 </TouchableOpacity>

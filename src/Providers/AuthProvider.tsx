@@ -16,16 +16,21 @@ export const AuthContext = React.createContext<{
     token: string;
     login: (email: string, password: string) => void;
     logout: () => void;
+    isDarkTheme: Boolean;
+    toggleTheme:()=>void;
 }>({
     errors: '',
     token: '',
+    isDarkTheme: false,
     login: () => { },
     logout: () => { },
+    toggleTheme: () => { },
 });
 
 interface AuthProviderProps { }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+    const [isDarkTheme,setIsDarkTheme] = React.useState<Boolean>(false);
     const [token, setToken] = useState<string | ''>('');
     const [errors, setError] = useState<string | ''>('');
     const [loginHook] = useMutation(loginSchema);
@@ -35,7 +40,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             value={{
                 token,
                 errors,
-                login: (email, password) => {
+                isDarkTheme,
+                login: ( email:string, password:string ) => {
                     let devx_token: string = '';
                     from(loginHook({ variables: { email, password } })).subscribe(
                         res => {
@@ -52,21 +58,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                             console.log(err)
                         }
                     )
-                    // if (AuthUser.email === email && AuthUser.password === password ) {
-                    //     devx_token = 'Connacx Token';
-                    //     setToken('Connacx Token');
-                    // }else{
-                    //     setError('Incorrect Email or Password.');
-                    // }
-                    // AsyncStorage.setItem('devx_token', devx_token);
 
                 },
                 logout: () => {
                     setError('');
                     setToken('');
-                    // console.log('Logout');
                     AsyncStorage.removeItem('devx_token');
                 },
+                toggleTheme: () => {
+                    setIsDarkTheme( isDarkTheme => !isDarkTheme );
+                }
             }}>
             {children}
         </AuthContext.Provider>

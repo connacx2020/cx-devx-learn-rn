@@ -9,7 +9,6 @@
  */
 import 'react-native-gesture-handler';
 import React from 'react';
-
 import { Providers } from './src/Providers/Providers'
 import { ApolloProvider } from '@apollo/react-hooks';
 import { graphqlClient } from './src/common/graphQL/graphql.config';

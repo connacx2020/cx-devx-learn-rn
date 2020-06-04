@@ -14,9 +14,11 @@ import { Post } from '../../models/post.model';
 import { CxDevxCourseItem } from '../CourseItem/CourseItem';
 import Carousel from 'react-native-snap-carousel';
 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,useTheme } from '@react-navigation/native';
 
 function CxDevxFeed({ navigation }: HomeStackNavProps<"Feed">) {
+    const { colors } = useTheme();
+
     const tabNavigation = useNavigation();
     const parent = tabNavigation.dangerouslyGetParent();
 
@@ -82,7 +84,8 @@ function CxDevxFeed({ navigation }: HomeStackNavProps<"Feed">) {
     // }, [fetchPostData]);
 
     return (
-        <ScrollView style={styles.content}>
+        <ScrollView style={[styles.content,{backgroundColor:colors.background}]}>
+            
             {/* {
                 postID.map((resPostID: Post) =>
                     <TouchableOpacity key={resPostID.id} onPress={() => navigation.navigate('PostDetail', { postID: resPostID.id })}>
@@ -91,7 +94,7 @@ function CxDevxFeed({ navigation }: HomeStackNavProps<"Feed">) {
                 )
             } */}
 
-            <Text style={styles.centerTxt}>Recommended for you</Text>
+            <Text style={[styles.centerTxt,{color:colors.text}]}>Recommended for you</Text>
             <Carousel
               testID="carouselID"
               ref={(c:any) => { carousel = c; }}
@@ -101,7 +104,7 @@ function CxDevxFeed({ navigation }: HomeStackNavProps<"Feed">) {
               itemWidth={screenWidth-20}
             />
 
-            <Text style={styles.centerTxt}>Recommended for you</Text>
+            <Text style={[styles.centerTxt,{color:colors.text}]}>Recommended for you</Text>
 
             <CxDevxCourseItem
                 img="https://miro.medium.com/max/1400/1*uvd7Z4npUG8qulaQLjHcZw.jpeg"
@@ -138,7 +141,7 @@ function CxDevxFeed({ navigation }: HomeStackNavProps<"Feed">) {
                 routeToCourseDetail = {routeToCourseDetail}
             />
 
-            <Text style={styles.centerTxt}>Related Topics</Text>
+            <Text style={[styles.centerTxt,{color:colors.text}]}>Recommended for you</Text>
 
             <CxDevxCourseItem
                 img="https://miro.medium.com/max/1400/1*uvd7Z4npUG8qulaQLjHcZw.jpeg"
