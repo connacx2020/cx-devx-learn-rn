@@ -2,7 +2,7 @@ import DevxSearch from '../src/components/Search/DevxSearch';
 import { SearchItemCoverLeft } from '../src/components/SearchResultItem/CoverLeftItem';
 
 import React from 'react';
-import { render, fireEvent, wait, act } from '@testing-library/react-native';
+import { render, fireEvent } from '@testing-library/react-native';
 
 describe('Search Page UI test',()=>{
     let wrapper = render(<DevxSearch/>);
