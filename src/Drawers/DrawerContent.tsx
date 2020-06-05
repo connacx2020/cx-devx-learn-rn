@@ -27,12 +27,14 @@ export function DrawerContent(props:any){
                 <View style={styles.drawerContent}>
                     <View style={styles.userInfoSection}>
                         <View style={{flexDirection:'row',marginTop:10}}>
-                            <Avatar.Image
-                                source={{
-                                    uri:"https://avatars0.githubusercontent.com/u/22853376?s=400&u=eb6a624d15b9a564680c3aac4c1943e25ffe45cb&v=4"
-                                }}
-                                size={50}
-                            />
+                            <TouchableRipple onPress={()=>props.navigation.navigate("Profile")}>
+                                <Avatar.Image
+                                    source={{
+                                        uri:"https://avatars0.githubusercontent.com/u/22853376?s=400&u=eb6a624d15b9a564680c3aac4c1943e25ffe45cb&v=4"
+                                    }}
+                                    size={50}
+                                />
+                            </TouchableRipple>
                             <View style={{marginLeft:15,flexDirection:'column'}}>
                                 <Title style={styles.title}>Osk Soe Kyaw</Title>
                                 <Caption style={styles.caption}>@connacx</Caption>
@@ -63,7 +65,7 @@ export function DrawerContent(props:any){
                             label="Home"
                             onPress={()=>{props.navigation.navigate('Home')}}
                         />
-                        <DrawerItem
+                        {/* <DrawerItem
                             icon={({color,size})=>(
                                 <Icon
                                     name="account-outline"
@@ -73,7 +75,7 @@ export function DrawerContent(props:any){
                             )}
                             label="Profile"
                             onPress={()=>props.navigation.navigate("Profile")}
-                        />
+                        /> */}
                         <DrawerItem
                             icon={({color,size})=>(
                                 <Icon

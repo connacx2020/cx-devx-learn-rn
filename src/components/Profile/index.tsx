@@ -14,7 +14,7 @@ import { checkUserInfoInRedux } from '../../common/ultis/checkUserInfoInRedux';
 import { getCheckedUserInfo } from '../../common/ultis/getUserInfo';
 import { User } from '../../models';
 
-const HEADER_MAX_HEIGHT: number = 120;
+const HEADER_MAX_HEIGHT: number = 150;
 const HEADER_MIN_HEIGHT: number = 70;
 const PROFILE_IMAGE_MAX_HEIGHT: number = 80;
 const PROFILE_IMAGE_MIN_HEIGHT: number = 40;
@@ -101,8 +101,11 @@ export const CxDevxProfile: React.FC = () => {
                             fontWeight: 'bold',
                             padding:25
                         }}>
-                        {userInfo?.name}
+                        {/* {userInfo?.name} */}
+                        Horizon 
                     </Text>
+                    
+                   
                 </Animated.View>
             </Animated.View>
 
@@ -120,15 +123,17 @@ export const CxDevxProfile: React.FC = () => {
                         borderColor: 'white',
                         borderWidth: 3,
                         overflow: 'hidden',
-                        marginTop: profileImageMarginTop,
+                        // marginTop: profileImageMarginTop,
+                        marginTop:20,
                         marginLeft: 10,
                     }}>
                     <Image
+                    style={{width:"100%",height:"100%"}}
                         source={{
-                            // uri: userInfo?.photo
-                            uri:'https://miro.medium.com/max/1400/1*uvd7Z4npUG8qulaQLjHcZw.jpeg'
+                            uri:'https://microhealth.com/assets/images/illustrations/personal-user-illustration-@2x.png'
                         }}
                     />
+            
                 </Animated.View>
                 <View>
                     <Text
@@ -137,9 +142,9 @@ export const CxDevxProfile: React.FC = () => {
                             fontSize: 26,
                             paddingLeft: 15,
                         }}>
-                            {
+                            {/* {
                                 userInfo?.gender
-                            }
+                            } */}
                     </Text>
                 </View>
 
