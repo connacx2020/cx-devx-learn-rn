@@ -25,6 +25,7 @@ export const SearchItemCoverLeft: React.FC<courseItem> = ({ img, title, rate, li
                     <View style={styles.card_body}>
                         <View style={styles.card_cover}>
                             <Image
+                                testID="imgID"
                                 style={styles.cover_img}
                                 source={{
                                     uri: img
@@ -32,9 +33,9 @@ export const SearchItemCoverLeft: React.FC<courseItem> = ({ img, title, rate, li
                             />
                         </View>
                         <View style={[styles.card_content,{backgroundColor:colors.background}]}>
-                            <Title style={[styles.content_title,{color:colors.text}]}>{title}</Title>
-                            <Paragraph style={[styles.content_paragraph,{color:colors.text}]}>{likes} likes</Paragraph>
-                            <Paragraph style={[styles.content_paragraph,{color:colors.text}]}>{enrolled} enrolled</Paragraph>
+                            <Title testID="titleID" style={[styles.content_title,{color:colors.text}]}>{title}</Title>
+                            <Paragraph testID="likeID" style={[styles.content_paragraph,{color:colors.text}]}>{likes} likes</Paragraph>
+                            <Paragraph testID="enrolledID" style={[styles.content_paragraph,{color:colors.text}]}>{enrolled} enrolled</Paragraph>
                             <View style={styles.rating_field}>
                                 <StarRating
                                     testID={"star"}

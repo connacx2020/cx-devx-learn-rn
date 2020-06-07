@@ -25,26 +25,28 @@ const DevxSearch: React.FC= () =>{
         sethData(data)
 
      }
-     console.log(data);
+
     return(
         <View>
             <Searchbar
+                testID="searchInput"
                 placeholder="Search Here ..."
                 onChangeText={(value)=>updateSearch(value) }
                 value={searchText}
              />
             <FlatList
-            data={data}
-            keyExtractor={item => item}
-            renderItem={({ item }) => 
-                (
-                <TouchableOpacity onPress={()=>navigation.navigate('SearchResult',{searchValue:'GraphQL'})}>
-                    <List.Item
-                        title={item}
-                    />
-                 </TouchableOpacity>
-                 )
-            }
+                testID="searchArrayList"
+                data={data}
+                keyExtractor={item => item}
+                renderItem={({ item }) => 
+                    (
+                    <TouchableOpacity onPress={()=>navigation.navigate('SearchResult',{searchValue:'GraphQL'})}>
+                        <List.Item
+                            title={item}
+                        />
+                    </TouchableOpacity>
+                    )
+                }
             />
         </View>
     )

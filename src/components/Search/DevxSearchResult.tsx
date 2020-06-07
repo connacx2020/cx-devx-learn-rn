@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, ScrollView, Image, FlatList } from 'react-native';
+import { View, ScrollView, FlatList } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import StarRating from 'react-native-star-rating';
 import { Card, Title, Paragraph } from 'react-native-paper';
@@ -67,8 +67,6 @@ const CxDevxSearchResult: React.FC = () => {
                         />
                     )
                 }}
-
-
             />
         </View>
     )
