@@ -7,11 +7,15 @@ import CxDevxCourseContent from '../components/CourseContent/CourseContent';
 
 const Tab = createMaterialTopTabNavigator<CourseDetailTabsParamList>();
 
-interface CourseDetailTabsProps{}
-export const CourseDetailTabs: React.FC<CourseDetailTabsProps>=({})=>{
+interface CourseDetailTabsProps{
+    courseID: string;
+    authourID: string
+}
+
+export const CourseDetailTabs: React.FC<any>=(props:any)=>{
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Overview" component={CxDevxCourseOverview} />
+      <Tab.Screen name="Overview" options={props.authourID} component={CxDevxCourseOverview} />
       <Tab.Screen name="Content" component={CxDevxCourseContent} />
     </Tab.Navigator>
   );

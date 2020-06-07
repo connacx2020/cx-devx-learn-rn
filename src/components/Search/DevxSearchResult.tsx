@@ -67,8 +67,6 @@ const CxDevxSearchResult: React.FC = () => {
                         />
                     )
                 }}
-
-
             />
         </View>
     )
