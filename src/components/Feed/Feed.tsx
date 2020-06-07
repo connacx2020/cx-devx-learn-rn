@@ -25,7 +25,7 @@ function CxDevxFeed({ navigation }: any) {
     const parent = tabNavigation.dangerouslyGetParent();
 
     // const serverlessClient = new ApolloClient({
-    //     uri: `http://${ENV.serverless_baseUrl}:3000/default/graphql`,
+    //     uri: `http://192.168.43.93:3000/dev/graphql`,
     // });
 
     const serverlessClient = new ApolloClient({
