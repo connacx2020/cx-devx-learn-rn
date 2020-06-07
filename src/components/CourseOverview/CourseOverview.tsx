@@ -7,10 +7,12 @@ import { useTheme } from '@react-navigation/native';
 
 import { HomeStackNavProps } from '../../common/ultis/ParamLists/HomeParamList';
 import { styles } from './style';
+// import { getCheckedUserInfo } from '../../common/ultis/getUserInfo';
 
 function CxDevxCourseOverview({ navigation }: HomeStackNavProps<"CourseOverview">) {
 
     const { colors } = useTheme();
+    // const userInfoData = getCheckedUserInfo("");
 
     return (
         <View style={[styles.container,{backgroundColor:colors.background}]}>
@@ -27,7 +29,7 @@ function CxDevxCourseOverview({ navigation }: HomeStackNavProps<"CourseOverview"
                         <Text style={[styles.user_email_txt,{color:colors.text}]}>oaksoekyaw.coe@gmail.com</Text>
                     </View>
                 </View>
-                
+
                 <View style={{marginTop:5,paddingHorizontal:5}}>
                     <Text style={[styles.user_about_txt,{color:colors.text}]}>
                         The CEO of Connacx LTS : Professtional in iOT
