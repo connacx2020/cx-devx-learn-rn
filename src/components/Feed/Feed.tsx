@@ -1,184 +1,96 @@
-import React, { useContext ,useRef } from 'react';
-import { ScrollView, TouchableOpacity, Text, Dimensions } from 'react-native';
-import {useFocusEffect} from '@react-navigation/native';
+import React, { useContext, useRef } from 'react';
+import { ScrollView, TouchableOpacity, Text, Dimensions, ToastAndroid } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { HomeStackNavProps } from '../../common/ultis/ParamLists/HomeParamList';
 
 import { styles } from './styles';
-import CxDevxPost from '../PostCard/postCard';
-import { useQuery } from '@apollo/react-hooks';
-import { getAllPostsSchema } from '../../common/graphQL';
-import { Post } from '../../models/post.model';
+import { getCoursesSchema } from '../../common/graphQL';
+import { Course } from '../../models/course.model';
+import { Query } from '@apollo/react-components';
 
 
 import { CxDevxCourseItem } from '../CourseItem/CourseItem';
-import Carousel from 'react-native-snap-carousel';
 
-import { useNavigation,useTheme } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
+import { View } from 'react-native-animatable';
+import  ApolloClient  from 'apollo-boost';
+import { ENV } from '../../common/envirnoment';
+import { ActivityIndicator } from 'react-native';
 
-function CxDevxFeed({ navigation }: HomeStackNavProps<"Feed">) {
+function CxDevxFeed({ navigation }: any) {
     const { colors } = useTheme();
 
     const tabNavigation = useNavigation();
     const parent = tabNavigation.dangerouslyGetParent();
 
-    const [postID, setPostID] = React.useState([]);
-    const fetchPostData = useQuery(getAllPostsSchema, { notifyOnNetworkStatusChange: true });
-    const screenWidth = Math.round(Dimensions.get('window').width);
-    let carousel = useRef();
+    // const serverlessClient = new ApolloClient({
+    //     uri: `http://${ENV.serverless_baseUrl}:3000/default/graphql`,
+    // });
 
-    useFocusEffect(()=>{
-        parent?.setOptions({tabBarVisible: true});
+    const serverlessClient = new ApolloClient({
+        uri: `https://n1lv2xmb44.execute-api.ap-southeast-1.amazonaws.com/default/graphql`,
+    });
+
+    useFocusEffect(() => {
+        parent?.setOptions({ tabBarVisible: true });
     })
 
-    const courseData = [
-        {
-            img :"https://miro.medium.com/max/1400/1*uvd7Z4npUG8qulaQLjHcZw.jpeg",
-            title:"GraphQL Advanced Course",
-            rate:4.5,
-            likes:1000
-        },
-        {
-            img :"https://miro.medium.com/max/2880/1*xcDT-neKHP7E3quS9n30gw.png",
-            title:"React Hooks Course",
-            rate:5,
-            likes:1500
-        },
-        {
-            img :"https://railsware.com/blog/wp-content/uploads/2018/09/2400%D1%851260-rw-blog-node-js.png",
-            title:"Nodejs Advanced Course",
-            rate:4,
-            likes:784
-        },
-        {
-            img : "https://i.ytimg.com/vi/OdU9H-_d14Y/maxresdefault.jpg",
-            title: "React Native With Typescript",
-            rate:4,
-            likes:1000
-        },
-        {
-            img :"https://dist.neo4j.com/wp-content/uploads/20170524234854/graph-ql-graph-database-neo4j-integration.png",
-            title: "GraphQL with Neo4j  Course",
-            rate:5,
-            likes:1000
-        }
-
-    ];
-
-    const _renderItem = ({item } :any )=>{
-        return (
-            <CxDevxCourseItem img={item.img} title={item.title} rate={item.rate} likes ={item.likes} routeToCourseDetail={routeToCourseDetail}/>
-
-        )
+    const routeToCourseDetail = (id: string, authourId: string, img: string, title: string) => {
+        navigation.navigate("CourseDetail", { id, authourId, image: img, title: title });
     }
-
-
-    const  routeToCourseDetail = ( img:string, title:string ) =>{
-        navigation.navigate("CourseDetail",{image:img,title:title});
-        // navigation.push('CourseDetail');
-    }
-    // React.useEffect(() => {
-    //     if (fetchPostData.data) {
-    //         setPostID(fetchPostData.data.getPosts);
-    //     }
-    // }, [fetchPostData]);
 
     return (
-        <ScrollView style={[styles.content,{backgroundColor:colors.background}]}>
-            
-            {/* {
-                postID.map((resPostID: Post) =>
-                    <TouchableOpacity key={resPostID.id} onPress={() => navigation.navigate('PostDetail', { postID: resPostID.id })}>
-                        <CxDevxPost postID={resPostID.id} />
-                    </TouchableOpacity>
-                )
-            } */}
+        <ScrollView style={[styles.content, { backgroundColor: colors.background }]}>
 
-            <Text style={[styles.centerTxt,{color:colors.text}]}>Recommended for you</Text>
-            <Carousel
-              testID="carouselID"
-              ref={(c:any) => { carousel = c; }}
-              data={courseData}
-              renderItem={_renderItem}
-              sliderWidth={screenWidth}
-              itemWidth={screenWidth-20}
-            />
+            <Query<any, any> client={serverlessClient} query={getCoursesSchema}>
+                {
+                    ({ loading, error, data }) => {
 
-            <Text style={[styles.centerTxt,{color:colors.text}]}>Recommended for you</Text>
+                        if (error) ToastAndroid.show("No Internet Connection ", ToastAndroid.SHORT);
 
-            <CxDevxCourseItem
-                img="https://miro.medium.com/max/1400/1*uvd7Z4npUG8qulaQLjHcZw.jpeg"
-                title="GraphQL Advanced Course"
-                rate={4.5}
-                likes={1000}
-                routeToCourseDetail = {routeToCourseDetail}            />
-            <CxDevxCourseItem
-                img="https://miro.medium.com/max/2880/1*xcDT-neKHP7E3quS9n30gw.png"
-                title="React Hooks Course"
-                rate={5}
-                likes={1050}
-                routeToCourseDetail = {routeToCourseDetail}
+                        if (loading) return <View style={{ alignSelf: 'center' }} >
+                            <View>
+                                <ActivityIndicator size="large" />
+                            </View>
+                        </View>
 
-            />
+                        return <View>
+                            <Text style={[styles.centerTxt, { color: colors.text }]}>Recommended for you</Text>
+                            <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
+                                {
+                                    data.getAllCourses.map((res: Course) =>
+                                        <CxDevxCourseItem
+                                            key={res.id}
+                                            authourID={res.authorID}
+                                            id={res.id}
+                                            img={res.photoUrl}
+                                            title={res.title}
+                                            rate={parseFloat(res.rating)}
+                                            routeToCourseDetail={routeToCourseDetail}
+                                        />)
+                                }
+                            </ScrollView>
+                            <Text style={[styles.centerTxt, { color: colors.text }]}> Most Popular </Text>
+                            <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row' }}>
+                                {
+                                    data.getAllCourses.map((res: Course) =>
+                                        <CxDevxCourseItem
+                                            key={res.id}
+                                            authourID={res.authorID}
+                                            id={res.id}
+                                            img={res.photoUrl}
+                                            title={res.title}
+                                            rate={parseFloat(res.rating)}
+                                            routeToCourseDetail={routeToCourseDetail}
+                                        />)
+                                }
+                            </ScrollView>
+                        </View>
+                    }
+                }
+            </Query>
 
-            <CxDevxCourseItem
-                img="https://railsware.com/blog/wp-content/uploads/2018/09/2400%D1%851260-rw-blog-node-js.png"
-                title="Nodejs Advanced Course"
-                rate={5}
-                likes={890}
-                routeToCourseDetail = {routeToCourseDetail}            />
-            <CxDevxCourseItem
-                img="https://i.ytimg.com/vi/OdU9H-_d14Y/maxresdefault.jpg"
-                title="React Native With Typescript"
-                rate={4.5}
-                likes={1000}
-                routeToCourseDetail = {routeToCourseDetail}            />
-            <CxDevxCourseItem
-                img="https://dist.neo4j.com/wp-content/uploads/20170524234854/graph-ql-graph-database-neo4j-integration.png"
-                title="GraphQL with Neo4j  Course"
-                rate={3.5}
-                likes={1000}
-                routeToCourseDetail = {routeToCourseDetail}
-            />
-
-            <Text style={[styles.centerTxt,{color:colors.text}]}>Recommended for you</Text>
-
-            <CxDevxCourseItem
-                img="https://miro.medium.com/max/1400/1*uvd7Z4npUG8qulaQLjHcZw.jpeg"
-                title="GraphQL Advanced Course"
-                rate={4.5}
-                likes={1000}
-                routeToCourseDetail = {routeToCourseDetail}
-            />
-            <CxDevxCourseItem
-                img="https://miro.medium.com/max/2880/1*xcDT-neKHP7E3quS9n30gw.png"
-                title="React Hooks Course"
-                rate={5}
-                likes={1050}
-                routeToCourseDetail = {routeToCourseDetail}
-            />
-
-            <CxDevxCourseItem
-                img="https://railsware.com/blog/wp-content/uploads/2018/09/2400%D1%851260-rw-blog-node-js.png"
-                title="Nodejs Advanced Course"
-                rate={5}
-                likes={890}
-                routeToCourseDetail = {routeToCourseDetail}
-            />
-            <CxDevxCourseItem
-                img="https://i.ytimg.com/vi/OdU9H-_d14Y/maxresdefault.jpg"
-                title="React Native With Typescript"
-                rate={4.5}
-                likes={1000}
-                routeToCourseDetail = {routeToCourseDetail}
-            />
-            <CxDevxCourseItem
-                img="https://dist.neo4j.com/wp-content/uploads/20170524234854/graph-ql-graph-database-neo4j-integration.png"
-                title="GraphQL with Neo4j  Course"
-                rate={3.5}
-                likes={1000}
-                routeToCourseDetail = {routeToCourseDetail}
-            />
         </ScrollView>
     )
 }

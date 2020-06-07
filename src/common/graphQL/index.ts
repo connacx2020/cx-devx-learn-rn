@@ -22,3 +22,7 @@ export {
     findTopicByIDSchema,
     getAllTopicsSchema
 } from './graphqlSchema/devx.graphqlSchema';
+
+export {
+    getCoursesSchema
+} from './graphqlSchema/course.graphqlSchema';

@@ -2,7 +2,7 @@ import React from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { AppTabs } from '../Tabs/AppTabs';
 import { CxDevxLogout } from '../components/Logout';
-import {CxDevxProfile} from '../components/Profile';
+import {InstructorProfile as CxDevxProfile} from '../components/Profile/InstructorProfile';
 import { DrawerContent } from './DrawerContent';
 
 const Drawer = createDrawerNavigator();

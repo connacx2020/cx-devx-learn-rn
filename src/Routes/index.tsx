@@ -20,7 +20,7 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
     const { token,isDarkTheme } = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [isLogined, setLogin] = useState(false);
-    
+
     const CustomDefaultTheme = {
         ...NavigationDefaultTheme,
         ...PaperDefaultTheme,
@@ -31,7 +31,7 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
           text: '#333333'
         }
       }
-      
+
       const CustomDarkTheme = {
         ...NavigationDarkTheme,
         ...PaperDarkTheme,
@@ -42,7 +42,7 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
           text: '#ffffff'
         }
       }
-    
+
       const theme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme;
 
 
@@ -63,18 +63,10 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
             });
     }, [token]);
 
-    // if (loading) {
-    //     return (
-    //         <Center>
-    //             <ActivityIndicator size="large" />
-    //         </Center>
-    //     );
-    // }
-
     return (
         <PaperProvider theme={theme}>
             <NavigationContainer theme={theme}>
-                { false? <AuthStack /> : <AppDrawer />}
+                { !isLogined ? <AuthStack /> : <AppDrawer />}
             </NavigationContainer>
         </PaperProvider>
     );
