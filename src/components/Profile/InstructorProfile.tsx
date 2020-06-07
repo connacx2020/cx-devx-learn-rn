@@ -86,11 +86,6 @@ export const InstructorProfile: React.FC = () => {
                     </Text>
                     <View style={styles.connect_follow_field}>
                         <TouchableOpacity style={styles.connect_follow_btn}>
-                            <Text style={styles.connect_follow_txt}>
-                                Connect
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.connect_follow_btn}>
                             <Text>Follow</Text>
                         </TouchableOpacity>
                     </View>
