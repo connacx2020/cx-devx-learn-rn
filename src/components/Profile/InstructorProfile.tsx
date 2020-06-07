@@ -88,12 +88,7 @@ export const InstructorProfile: React.FC = () => {
                         dr.osksoekyaw@gmail.com
                     </Text>
                     <View style={styles.connect_follow_field}>
-                        <TouchableOpacity testID="connectBtnID" style={styles.connect_follow_btn}>
-                            <Text style={styles.connect_follow_txt}>
-                                Connect
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity testID="followBtnID" style={styles.connect_follow_btn}>
+                        <TouchableOpacity style={styles.connect_follow_btn}>
                             <Text>Follow</Text>
                         </TouchableOpacity>
                     </View>
