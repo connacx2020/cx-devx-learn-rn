@@ -10,6 +10,7 @@ export const UserProfile:React.FC = () =>{
     return (
         <ScrollView style={[styles.wrapper,{backgroundColor:colors.background}]}>
             <ImageBackground
+                testID="bgID"
                 source={{
                     uri:
                        "https://cdn4.vectorstock.com/i/1000x1000/77/88/poligonal-background-of-rhombus-gradient-colors-vector-20407788.jpg"
@@ -20,6 +21,7 @@ export const UserProfile:React.FC = () =>{
                         style={styles.back_arrow}
                         onPress={() =>navigation.goBack()}>
                         <FeatherIcon
+                            testID="iconID"
                             name={'arrow-left'}
                             size={25}
                             color={'#fff'}
@@ -27,6 +29,7 @@ export const UserProfile:React.FC = () =>{
                     </TouchableOpacity>
                     <View style={styles.avator_container}>
                         <Image
+                            testID="avatarID"
                             style={styles.avatar}
                             source={{
                                 uri:
@@ -36,13 +39,13 @@ export const UserProfile:React.FC = () =>{
                     </View>
                 </View>
                 <View style={styles.header_right}>
-                    <Text style={styles.user_name}>Dr.Osk Soe Kyaw</Text>
-                    <Text style={styles.user_email}>
+                    <Text testID="nameID" style={styles.user_name}>Dr.Osk Soe Kyaw</Text>
+                    <Text testID="emailID" style={styles.user_email}>
                         dr.osksoekyaw@gmail.com
                     </Text>
                     <View style={styles.devx_view_field}>
-                        <TouchableOpacity style={styles.devx_view_btn}>
-                            <Text>View on Devx</Text>
+                        <TouchableOpacity testID="btnID" style={styles.devx_view_btn}>
+                            <Text testID="btnTxt">View on Devx</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

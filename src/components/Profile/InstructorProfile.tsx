@@ -54,6 +54,7 @@ export const InstructorProfile: React.FC = () => {
     return (
         <ScrollView style={[styles.wrapper,{backgroundColor:colors.background}]}>
             <ImageBackground
+                testID="bgID"
                 source={{
                     uri:
                        "https://cdn4.vectorstock.com/i/1000x1000/77/88/poligonal-background-of-rhombus-gradient-colors-vector-20407788.jpg"
@@ -64,6 +65,7 @@ export const InstructorProfile: React.FC = () => {
                         style={styles.back_arrow}
                         onPress={() =>navigation.goBack()}>
                         <FeatherIcon
+                            testID="iconID"
                             name={'arrow-left'}
                             size={25}
                             color={'#fff'}
@@ -71,6 +73,7 @@ export const InstructorProfile: React.FC = () => {
                     </TouchableOpacity>
                     <View style={styles.avator_container}>
                         <Image
+                            testID="avatarID"
                             style={styles.avatar}
                             source={{
                                 uri:
@@ -80,8 +83,8 @@ export const InstructorProfile: React.FC = () => {
                     </View>
                 </View>
                 <View style={styles.header_right}>
-                    <Text style={styles.user_name}>Dr.Osk Soe Kyaw</Text>
-                    <Text style={styles.user_email}>
+                    <Text testID="nameID" style={styles.user_name}>Dr.Osk Soe Kyaw</Text>
+                    <Text testID="emailID" style={styles.user_email}>
                         dr.osksoekyaw@gmail.com
                     </Text>
                     <View style={styles.connect_follow_field}>
@@ -91,6 +94,7 @@ export const InstructorProfile: React.FC = () => {
                     </View>
                     <View style={styles.social_field}>
                         <TouchableOpacity
+                            testID="githubImgBtnID"
                             onPress={()=>Linking.openURL('https://github.com/oaksoe')} 
                             style={styles.icon_field}>
                             <Image
@@ -99,6 +103,7 @@ export const InstructorProfile: React.FC = () => {
                             />
                         </TouchableOpacity>
                         <TouchableOpacity 
+                            testID="fbImgBtnID"
                             onPress={()=>Linking.openURL('https://www.facebook.com/profile.php?id=100012330697064')}
                             style={styles.icon_field}>
                             <Image
@@ -107,6 +112,7 @@ export const InstructorProfile: React.FC = () => {
                             />
                         </TouchableOpacity>
                         <TouchableOpacity
+                             testID="linkedInImgBtnID"
                              onPress={()=>Linking.openURL('https://www.linkedin.com/in/wai-min-5679a81aa/')} 
                              style={styles.icon_field}>
                             <Image
@@ -119,8 +125,8 @@ export const InstructorProfile: React.FC = () => {
             </ImageBackground>
             <View style={{ flex: 1 }}>
                 <View style={styles.about_field}>
-                    <Text style={[styles.about_txt,{color:colors.text}]}>About</Text>
-                    <Text style={[styles.about_context_txt,{color:colors.text}]}>
+                    <Text testID="aboutID" style={[styles.about_txt,{color:colors.text}]}>About</Text>
+                    <Text testID="aboutContentID" style={[styles.about_context_txt,{color:colors.text}]}>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Voluptatum neque nesciunt soluta odit est reprehenderit
                         ducimus praesentium,
@@ -128,6 +134,7 @@ export const InstructorProfile: React.FC = () => {
                 </View>
                 <View style={styles.profile_content}>
                     <FlatList
+                        testID="flatListID"
                         data={courseData}
                         keyExtractor={(item) => item.title}
                         renderItem={({ item, index }) => {
