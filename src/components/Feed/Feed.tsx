@@ -29,7 +29,7 @@ function CxDevxFeed({ navigation }: any) {
     // });
 
     const serverlessClient = new ApolloClient({
-        uri: `https://n1lv2xmb44.execute-api.ap-southeast-1.amazonaws.com/default/graphql`,
+        uri: `https://noq5efwak3.execute-api.ap-southeast-1.amazonaws.com/dev/graphql`,
     });
 
     useFocusEffect(() => {
