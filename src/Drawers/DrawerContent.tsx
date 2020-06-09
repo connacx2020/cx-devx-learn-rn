@@ -27,7 +27,7 @@ export function DrawerContent(props:any){
                 <View style={styles.drawerContent}>
                     <View style={styles.userInfoSection}>
                         <View style={{flexDirection:'row',marginTop:10}}>
-                            <TouchableRipple onPress={()=>props.navigation.navigate("Profile")}>
+                            <TouchableRipple onPress={()=>props.navigation.navigate("UserProfile")}>
                                 <Avatar.Image
                                     source={{
                                         uri:"https://avatars0.githubusercontent.com/u/22853376?s=400&u=eb6a624d15b9a564680c3aac4c1943e25ffe45cb&v=4"
@@ -37,7 +37,7 @@ export function DrawerContent(props:any){
                             </TouchableRipple>
                             <View style={{marginLeft:15,flexDirection:'column'}}>
                                 <Title style={styles.title}>Osk Soe Kyaw</Title>
-                                <Caption style={styles.caption}>@connacx</Caption>
+                                <Caption style={styles.caption}>@devx</Caption>
                             </View>
                         </View>
                         <View style={styles.row}>

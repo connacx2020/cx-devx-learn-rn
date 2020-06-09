@@ -11,6 +11,7 @@ export type HomeParamList = {
     Feed: undefined;
     Search:undefined;
     SearchResult:undefined;
+    InstructorProfile:undefined;
 };
 
 

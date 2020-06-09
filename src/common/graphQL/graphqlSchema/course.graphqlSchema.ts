@@ -9,7 +9,6 @@ const Course_Info_Fragment = {
     title
     rating
     photoUrl
-    likes
     enrolled
 }`
 };

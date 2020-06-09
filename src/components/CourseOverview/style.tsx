@@ -6,20 +6,14 @@ export const styles = StyleSheet.create({
         backgroundColor:'#fff'
     },
     user_overview:{
-        padding:10,
-        marginVertical:10,
+        padding:15,
         marginHorizontal:20,
         shadowColor: '#333',
         shadowOpacity: 0.5,
         shadowRadius: 5,
         borderRadius: 1,
-        elevation: 1
-
-    },
-    instructor_text:{
-        fontSize:18,
-        fontWeight:'bold',
-        padding:5
+        elevation: 3,
+        backgroundColor:'#fff',
     },
     user_container:{
         flexDirection:'row',
@@ -35,107 +29,112 @@ export const styles = StyleSheet.create({
     },
     user_name_email_field:{
         flexGrow:3,
-        fontWeight:'bold'
+        fontWeight:'bold',
+        alignItems:'center'
     },
     user_name_txt:{
-        padding:5,
+        marginRight:15,
         fontSize:14,
         fontWeight:'bold'
     },
-    user_email_txt:{
-        padding:5,
-        fontSize:15,
-        fontWeight:'bold'
-    },
-    user_about_txt:{
-        fontSize:13,
-        fontStyle:"italic",
-        textAlign:'center'
-    },
     feedback_overview:{
-        padding:10,
+        padding:15,
         flexDirection:'column',
         marginHorizontal:20,
-        marginVertical:10,
+        marginVertical:20,
         justifyContent:'center',
+        backgroundColor:'#fff',
         shadowColor: '#333',
         shadowOpacity: 0.5,
         shadowRadius: 5,
         borderRadius: 1,
-        elevation: 1
+        elevation: 3
     },
-    rate_enroll_like_field:{
-        justifyContent:'space-around',
-        marginHorizontal:5,
-        marginVertical:5,
-        flexDirection:'row',
-    },
-    rating_star:{
-        marginLeft:5,
-    },
-    rating_txt:{
-        padding:5,
-        fontSize:16,
-        fontStyle:'italic'
-    },
-    enroll_like_field:{
-        paddingHorizontal:10,
-        marginHorizontal:5,
-        flexDirection:'row',
-        justifyContent:'flex-start',
-        alignItems:'center',
-        borderWidth:1,
-        borderRadius:20,
-    },
-    course_duration_field:{
+    course_info_text:{
         paddingHorizontal:5,
-        marginVertical:10,
-        marginHorizontal:15,
-        flexDirection:'row',
-        justifyContent:'center',
-        alignItems:'center',
-        borderWidth:1,
-        borderRadius:20
+        fontSize:18,
+        fontWeight:'300',
+        textAlign:'left'
+
     },
-    course_duration_txt:{
-        paddingHorizontal:10,
-        marginHorizontal:10,
-        fontSize:16,
-        fontStyle:'italic',
-        padding:6
+    cinfo_row:{
+        padding:10,
+        flexDirection:'row',
+        justifyContent:'space-between'
+    },
+    cinfo_title:{
+        fontSize:15
+    },
+    cinfo_value_txt:{
+        fontSize:14
     },
     rating_field:{
-        marginVertical:5,
-        marginHorizontal:40,
-        // flexDirection:'row',
-        // alignItems:'center',
+      
     },
     star:{
         color: "#FFD700"
+    },
+    desc_field:{
+        paddingHorizontal:10,
+        paddingVertical:5
+    },
+    desc_txt:{
+        fontSize:15
+    },
+    desc_info_txt:{
+        textAlign: 'left',
+        fontSize:13,
+        paddingVertical:4
+    },
+    show_more_less_txt:{
+        fontSize:12,
+        color:'#333',
+        paddingHorizontal:2,
+        fontStyle:'italic'
     },
     content_overiew:{
         padding:15,
         flexDirection:'column',
         marginHorizontal:20,
-        marginVertical:10,
+        marginVertical:15,
         justifyContent:'flex-start',
         alignItems:'flex-start',
         shadowColor: '#333',
         shadowOpacity: 0.5,
         shadowRadius: 5,
-        borderRadius: 2,
-        elevation: 1
+        borderRadius: 1,
+        elevation: 3,
+        backgroundColor:'#fff',
 
     },
     content_title:{
-        fontSize:18,
+        fontSize:17,
         fontWeight:'bold',
-        padding:10
+        paddingVertical:7
 
     },
     content_description:{
-        padding:5,
-        fontSize:14
+        fontSize:14,
+        textAlign:'left',
+        padding:5
 
-    }
+    },
+    caption: {
+        fontSize: 14,
+        lineHeight: 14,
+      },
+      row: {
+        marginTop: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+      },
+      section: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginRight: 15,
+      },
+      paragraph: {
+        fontWeight: 'bold',
+        marginRight: 3,
+      },
 })

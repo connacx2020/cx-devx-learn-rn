@@ -84,9 +84,9 @@ export const InstructorProfile: React.FC = () => {
                 </View>
                 <View style={styles.header_right}>
                     <Text testID="nameID" style={styles.user_name}>Dr.Osk Soe Kyaw</Text>
-                    <Text testID="emailID" style={styles.user_email}>
+                    {/* <Text testID="emailID" style={styles.user_email}>
                         dr.osksoekyaw@gmail.com
-                    </Text>
+                    </Text> */}
                     <View style={styles.connect_follow_field}>
                         <TouchableOpacity style={styles.connect_follow_btn}>
                             <Text>Follow</Text>
@@ -107,8 +107,8 @@ export const InstructorProfile: React.FC = () => {
                             onPress={()=>Linking.openURL('https://www.facebook.com/profile.php?id=100012330697064')}
                             style={styles.icon_field}>
                             <Image
-                                style={styles.icon}
-                                source={require('../../asset/icons/facebook.png')}
+                                style={styles.gmail_icon}
+                                source={require('../../asset/icons/gmail.png')}
                             />
                         </TouchableOpacity>
                         <TouchableOpacity
