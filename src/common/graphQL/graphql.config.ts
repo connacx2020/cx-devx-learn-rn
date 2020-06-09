@@ -5,9 +5,9 @@ const gatewayClient = new HttpLink({
     uri: `http://${ENV.apiGateway_baseUrl}:${ENV.apiGateway_port}/graphql`,
 });
 
-// const notiClient = new HttpLink({
-//     uri: `http://${ENV.apiGateway_baseUrl}:${ENV.notiPort}/graphql`,
-// });
+const serverlessLink = new HttpLink({
+    uri: `https://noq5efwak3.execute-api.ap-southeast-1.amazonaws.com/dev/graphql`,
+});
 
   const cache = new InMemoryCache();
 
@@ -16,5 +16,10 @@ const gatewayClient = new HttpLink({
       cache,
   });
 
+  const serverlessClient = new ApolloClient({
+      link: ApolloLink.from([serverlessLink]),
+      cache,
+  });
 
-export { graphqlClient };
+
+export { graphqlClient, serverlessClient };

@@ -13,6 +13,8 @@ const Course_Info_Fragment = {
 }`
 };
 
+
+
 export const getCoursesSchema = gql`
 query{
         getAllCourses {
@@ -23,3 +25,11 @@ ${Course_Info_Fragment.courseInfo}
 `;
 
 
+export const searchCourseByTitle = gql`
+query($courseTitle: String!){
+    findCourseWithTitle(courseTitle: $courseTitle){
+      ...CourseData
+  }
+}
+${Course_Info_Fragment.courseInfo}
+`;

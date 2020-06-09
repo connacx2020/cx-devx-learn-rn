@@ -14,9 +14,10 @@ import { CxDevxCourseItem } from '../CourseItem/CourseItem';
 
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { View } from 'react-native-animatable';
-import  ApolloClient  from 'apollo-boost';
+
 import { ENV } from '../../common/envirnoment';
 import { ActivityIndicator } from 'react-native';
+import { serverlessClient } from '../../common/graphQL/graphql.config';
 
 function CxDevxFeed({ navigation }: any) {
     const { colors } = useTheme();
@@ -27,10 +28,6 @@ function CxDevxFeed({ navigation }: any) {
     // const serverlessClient = new ApolloClient({
     //     uri: `http://192.168.43.93:3000/dev/graphql`,
     // });
-
-    const serverlessClient = new ApolloClient({
-        uri: `https://noq5efwak3.execute-api.ap-southeast-1.amazonaws.com/dev/graphql`,
-    });
 
     useFocusEffect(() => {
         parent?.setOptions({ tabBarVisible: true });

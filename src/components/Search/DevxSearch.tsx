@@ -1,50 +1,61 @@
-import React ,{ useState } from 'react';
-import {View,Text,FlatList,Button} from 'react-native';
-import { Searchbar,List  } from 'react-native-paper';  
-import * as Animatable from 'react-native-animatable'  
+import React, { useState } from 'react';
+import { View, Text, FlatList, Button } from 'react-native';
+import { Searchbar, List } from 'react-native-paper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
+import { useLazyQuery } from '@apollo/react-hooks';
+import { searchCourseByTitle } from '../../common/graphQL';
+import { serverlessClient } from '../../common/graphQL/graphql.config';
 
-const DevxSearch: React.FC= () =>{
-    const listItems = ['GraphQL', 'RxJS', 'Nestjs', 'Nextjs', 'Reactjs', 'React Native', 'Neo4j', 'Microservices',"Angular","Typescript","React-Navigation-v5"]
-    const [tempData,setTempData] = useState(listItems);
-    let [data,sethData] = useState(listItems);
-    const [searchText,setSearchText] = useState<String>('');
+const DevxSearch: React.FC = () => {
+    const [searchedResultData, setSearchedData] = useState([]);
+    const [fetchSearch, searchResult] = useLazyQuery(searchCourseByTitle, { variables: { courseTitle: '' }, client:serverlessClient, onCompleted: data => { setSearchedData(data.findCourseWithTitle.map((res: any)=>res)) } });
+    const [searchText, setSearchText] = useState<String>('');
     const navigation = useNavigation();
 
-    const renderHeader = () => {
-         return  
-     };
-     const updateSearch =(value:string) =>{
+
+    const updateSearch = (value: string) => {
+        fetchSearch({ variables: { courseTitle: value } })
         setSearchText(value);
-        let data = tempData.filter(function(item){
-            return item.includes(value);
-        }).map((item)=>{
-            return item
-        });
-        sethData(data)
+        if (searchResult.data) {
+            // console.log(searchResult.data)
+            // let result = searchResult.data.findCourseWithTitle.map((res: any)=>res.title)
+            // console.log(result)
+            // setSearchedData(result)
 
-     }
+            // searchedData.filter((item: any) => {
+            //     return item.includes(value);
+            // }).map((item) => {
+            //     return item
+            // });
+            // setSearchedData(searchedData);
+        }
+        else {
+            console.log(searchResult.error)
+        }
 
-    return(
+
+    }
+
+    return (
         <View>
             <Searchbar
                 testID="searchInput"
                 placeholder="Search Here ..."
-                onChangeText={(value)=>updateSearch(value) }
+                onChangeText={(value) => updateSearch(value)}
                 value={searchText}
-             />
+            />
             <FlatList
                 testID="searchArrayList"
-                data={data}
-                keyExtractor={item => item}
-                renderItem={({ item }) => 
+                data={searchedResultData}
+                keyExtractor={(item:any) => item.id}
+                renderItem={({ item }) =>
                     (
-                    <TouchableOpacity onPress={()=>navigation.navigate('SearchResult',{searchValue:'GraphQL'})}>
-                        <List.Item
-                            title={item}
-                        />
-                    </TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate('SearchResult', { searchValue: item.title, searchData: searchedResultData })}>
+                            <List.Item
+                                title={item.title}
+                            />
+                        </TouchableOpacity>
                     )
                 }
             />
