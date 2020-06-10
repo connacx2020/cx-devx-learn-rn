@@ -25,12 +25,11 @@ function CxDevxFeed({ navigation }: any) {
     const parent = tabNavigation.dangerouslyGetParent();
 
     // const serverlessClient = new ApolloClient({
-    //     uri: `http://${ENV.serverless_baseUrl}:3000/default/graphql`,
+    //     uri: `http://192.168.43.93:3000/dev/graphql`,
     // });
 
     const serverlessClient = new ApolloClient({
-        // uri: `https://n1lv2xmb44.execute-api.ap-southeast-1.amazonaws.com/default/graphql`,
-        uri:`https://noq5efwak3.execute-api.ap-southeast-1.amazonaws.com/dev/graphql`
+        uri: `https://noq5efwak3.execute-api.ap-southeast-1.amazonaws.com/dev/graphql`,
     });
 
     useFocusEffect(() => {
