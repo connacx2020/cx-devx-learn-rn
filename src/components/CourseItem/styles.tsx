@@ -45,12 +45,6 @@ export const styles = StyleSheet.create({
     star:{
         color: "#FFD700"
     },
-    ratingTxt : {
-        marginTop:-2,
-        fontStyle:'italic',
-        fontSize:15,
-        marginHorizontal:20
-    },
     likes :{
         flexGrow:1,
         fontStyle:'italic',

@@ -72,6 +72,11 @@ export const styles = StyleSheet.create({
         width: 25,
         height: 25
     },
+    gmail_icon: {
+        marginTop:-2.5,
+        width: 25,
+        height: 30
+    },
     about_field:{
         marginHorizontal:10,
         marginVertical:10,

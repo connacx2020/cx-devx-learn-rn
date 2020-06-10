@@ -42,7 +42,6 @@ export const CxDevxCourseItem = ({ id, authourID, img, title, rate, routeToCours
                         starSize={20}
                         starStyle={styles.star as StyleProp<ViewStyle>}
                     />
-                    <Text testID="rateID" style={[styles.ratingTxt, , { color: colors.text }]}>{rate}</Text>
                 </View>
                 <Text testID="likeID" style={[styles.likes, , { color: colors.text }]}>{1} Enrolls</Text>
             </View>

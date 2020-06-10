@@ -66,7 +66,7 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
     return (
         <PaperProvider theme={theme}>
             <NavigationContainer theme={theme}>
-                { !isLogined ? <AuthStack /> : <AppDrawer />}
+                { false ? <AuthStack /> : <AppDrawer />}
             </NavigationContainer>
         </PaperProvider>
     );

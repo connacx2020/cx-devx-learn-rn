@@ -40,9 +40,9 @@ export const UserProfile:React.FC = () =>{
                 </View>
                 <View style={styles.header_right}>
                     <Text testID="nameID" style={styles.user_name}>Dr.Osk Soe Kyaw</Text>
-                    <Text testID="emailID" style={styles.user_email}>
+                    {/* <Text testID="emailID" style={styles.user_email}>
                         dr.osksoekyaw@gmail.com
-                    </Text>
+                    </Text> */}
                     <View style={styles.devx_view_field}>
                         <TouchableOpacity testID="btnID" style={styles.devx_view_btn}>
                             <Text testID="btnTxt">View on Devx</Text>

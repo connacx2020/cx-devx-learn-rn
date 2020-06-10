@@ -22,6 +22,7 @@ import { CxDevxCourseDetail } from "../components/CourseDetail/CourseDetail";
 import CxDevxCourseOverview  from '../components/CourseOverview/CourseOverview';
 import CxDevxCourseContent from '../components/CourseContent/CourseContent';
 import CxDevxCourseSection from '../components/CourseSection/CourseSection';
+import { InstructorProfile as CxDevxInstructorProfile} from '../components/Profile/InstructorProfile'
 
 import { AuthContext } from "../Providers/AuthProvider";
 import DevxSearch from "../components/Search/DevxSearch";
@@ -135,6 +136,11 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
                 name="SearchResult"
                 component={CxDevxSearchResult}
             />
+            <Stack.Screen
+                options={{headerShown: false}}
+                name="InstructorProfile"
+                component={CxDevxInstructorProfile}
+                />
             {/* <Stack.Screen
                 name="PostDetail"
                 options={{
