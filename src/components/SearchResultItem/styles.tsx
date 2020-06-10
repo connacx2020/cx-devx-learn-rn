@@ -37,5 +37,17 @@ export const styles = StyleSheet.create({
     },
     rating_star: {
         color: "#FFD700"
+    },
+    search_result_left: {
+        display:"flex",
+        flex:1,
+        flexDirection:"column",
+        justifyContent:'center',
+        backgroundColor:'#2289f0',
+        alignItems:'center'
+    },
+    search_result_left_text: {
+        color:'#fff',
+        fontWeight:'bold'
     }
 })

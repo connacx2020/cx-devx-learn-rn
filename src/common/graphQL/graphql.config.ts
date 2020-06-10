@@ -1,20 +1,26 @@
 import { HttpLink, InMemoryCache, ApolloClient, ApolloLink } from 'apollo-boost';
-import { ENV } from '../envirnoment';
+// @ts-ignore
+import { CX_DEVX_API_GATEWAY_URL, CX_DEVX_API_GATEWAY_PORT, CX_DEVX_SERVERLESS_URL } from 'react-native-dotenv';
 
 const gatewayClient = new HttpLink({
-    uri: `http://${ENV.apiGateway_baseUrl}:${ENV.apiGateway_port}/graphql`,
+    uri: `http://${CX_DEVX_API_GATEWAY_URL}:${CX_DEVX_API_GATEWAY_PORT}/graphql`
 });
 
-// const notiClient = new HttpLink({
-//     uri: `http://${ENV.apiGateway_baseUrl}:${ENV.notiPort}/graphql`,
-// });
+const serverlessLink = new HttpLink({
+    uri: CX_DEVX_SERVERLESS_URL
+});
 
-  const cache = new InMemoryCache();
+const cache = new InMemoryCache();
 
-  const graphqlClient = new ApolloClient({
-      link: ApolloLink.from([gatewayClient]),
-      cache,
-  });
+const graphqlClient = new ApolloClient({
+    link: ApolloLink.from([gatewayClient]),
+    cache,
+});
+
+const serverlessClient = new ApolloClient({
+    link: ApolloLink.from([serverlessLink]),
+    cache,
+});
 
 
-export { graphqlClient };
+export { graphqlClient, serverlessClient };

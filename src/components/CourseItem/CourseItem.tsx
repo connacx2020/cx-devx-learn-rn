@@ -43,7 +43,7 @@ export const CxDevxCourseItem = ({ id, authourID, img, title, rate, routeToCours
                         starStyle={styles.star as StyleProp<ViewStyle>}
                     />
                 </View>
-                <Text testID="likeID" style={[styles.likes, , { color: colors.text }]}>{1} Enrolls</Text>
+                <Text style={[styles.likes, { color: colors.text }]}>{1} Enrolls</Text>
             </View>
 
 

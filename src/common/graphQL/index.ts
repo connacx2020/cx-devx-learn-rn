@@ -24,5 +24,6 @@ export {
 } from './graphqlSchema/devx.graphqlSchema';
 
 export {
-    getCoursesSchema
+    getCoursesSchema,
+    searchCourseByTitle
 } from './graphqlSchema/course.graphqlSchema';

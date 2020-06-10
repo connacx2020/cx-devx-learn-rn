@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { createStackNavigator, StackNavigationProp } from "@react-navigation/stack";
-import { NavigationContainer, RouteProp, DefaultTheme as NavigationDefaultTheme, DarkTheme as NavigationDarkTheme } from "@react-navigation/native";
+import { NavigationContainer, DefaultTheme as NavigationDefaultTheme, DarkTheme as NavigationDarkTheme } from "@react-navigation/native";
 import { Provider as PaperProvider, DefaultTheme as PaperDefaultTheme, DarkTheme as PaperDarkTheme  } from 'react-native-paper';
-import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 
 
