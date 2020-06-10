@@ -23,7 +23,7 @@ export const SearchItemCoverLeft: React.FC<courseItem> = ({ img, title, rate, en
             <View style={{ padding: 5 }}>
                 <View style={styles.card_body}>
                     <View style={styles.card_cover}>
-                        {img === "" ? <View style={{display:"flex",flex:1,flexDirection:"column",justifyContent:'center',backgroundColor:'#2289f0',alignItems:'center'}}><Text style={{color:'#fff',fontWeight:'bold'}}>{title}</Text></View> :
+                        {img === "" ? <View style={styles.search_result_left}><Text style={styles.search_result_left_text}>{title}</Text></View> :
                             <Image
                                 testID="imgID"
                                 style={styles.cover_img}

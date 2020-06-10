@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
-import { View, ScrollView, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import StarRating from 'react-native-star-rating';
-import { Card, Title, Paragraph } from 'react-native-paper';
 
 import { SearchItemCoverLeft } from '../SearchResultItem/CoverLeftItem';
 
