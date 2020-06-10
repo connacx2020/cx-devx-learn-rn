@@ -3,13 +3,17 @@ import gql from "graphql-tag";
 const Course_Info_Fragment = {
     courseInfo: gql`
     fragment CourseData on CourseType {
-    courseContent
     id
     authorID
     title
     rating
     photoUrl
     enrolled
+    description
+    duration
+    preRequested
+    outcome
+    seriesId
 }`
 };
 
@@ -22,6 +26,15 @@ query{
     }
 }
 ${Course_Info_Fragment.courseInfo}
+`;
+
+export const getCourseById = gql`
+query($courseID: ID!){
+ getCourseById(courseId: $courseID){
+    ...CourseData
+  }
+  }
+  ${Course_Info_Fragment.courseInfo}
 `;
 
 

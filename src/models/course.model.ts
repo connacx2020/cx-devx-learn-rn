@@ -2,8 +2,12 @@ export interface Course {
     id: string,
     authorID: string,
     title: string,
-    rating: string,
+    rating: number,
     photoUrl: string,
-    courseContent: [string],
+    seriesId: string,
     enrolled: number,
+    description: string,
+    duration: string,
+    outcome: [string],
+    preRequested: [string]
 }

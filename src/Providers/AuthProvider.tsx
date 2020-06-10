@@ -3,9 +3,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { useMutation } from '@apollo/react-hooks';
 import { loginSchema } from '../common/graphQL';
 import { from } from 'rxjs';
+import { graphqlClient } from '../common/graphQL/graphql.config';
 
 
-type User = null | {email: string; password: string};
+type User = null | { email: string; password: string };
 const AuthUser: User = {
     email: 'admin@gmail.com',
     password: 'admin'
@@ -17,7 +18,7 @@ export const AuthContext = React.createContext<{
     login: (email: string, password: string) => void;
     logout: () => void;
     isDarkTheme: Boolean;
-    toggleTheme:()=>void;
+    toggleTheme: () => void;
 }>({
     errors: '',
     token: '',
@@ -30,7 +31,7 @@ export const AuthContext = React.createContext<{
 interface AuthProviderProps { }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [isDarkTheme,setIsDarkTheme] = React.useState<Boolean>(false);
+    const [isDarkTheme, setIsDarkTheme] = React.useState<Boolean>(false);
     const [token, setToken] = useState<string | ''>('');
     const [errors, setError] = useState<string | ''>('');
     const [loginHook] = useMutation(loginSchema);
@@ -41,7 +42,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 token,
                 errors,
                 isDarkTheme,
-                login: ( email:string, password:string ) => {
+                login: (email: string, password: string) => {
                     let devx_token: string = '';
                     from(loginHook({ variables: { email, password } })).subscribe(
                         res => {
@@ -66,7 +67,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                     AsyncStorage.removeItem('devx_token');
                 },
                 toggleTheme: () => {
-                    setIsDarkTheme( isDarkTheme => !isDarkTheme );
+                    setIsDarkTheme(isDarkTheme => !isDarkTheme);
                 }
             }}>
             {children}
