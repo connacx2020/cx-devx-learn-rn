@@ -11,7 +11,7 @@ const Course_Info_Fragment = {
     enrolled
     description
     duration
-    preRequested
+    prerequisite
     outcome
     seriesId
 }`
