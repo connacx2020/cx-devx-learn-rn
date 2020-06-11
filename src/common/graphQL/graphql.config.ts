@@ -7,7 +7,7 @@ const gatewayClient = new HttpLink({
 });
 
 const serverlessLink = new HttpLink({
-    uri: 'https://noq5efwak3.execute-api.ap-southeast-1.amazonaws.com/dev/graphql'
+    uri: CX_DEVX_SERVERLESS_URL
 });
 
 const cache = new InMemoryCache();
