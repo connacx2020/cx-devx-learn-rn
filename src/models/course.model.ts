@@ -9,5 +9,5 @@ export interface Course {
     description: string,
     duration: string,
     outcome: [string],
-    preRequested: [string]
+    prerequisite: [string]
 }

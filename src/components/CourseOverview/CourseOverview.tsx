@@ -118,7 +118,7 @@ function CxDevxCourseOverview(props: Course) {
                 {/* Requirements Part */}
                 <Text style={[styles.content_title, { color: colors.text }]}>Requirements</Text>
                 {
-                    props.preRequested.map((res, index) => <View key={index} style={{ flexDirection: 'row' }}>
+                    props.prerequisite.map((res, index) => <View key={index} style={{ flexDirection: 'row' }}>
                         <Text style={[styles.content_description, { color: colors.text }]}>{'\u2B24'}</Text>
                         <Text style={[styles.content_description, { color: colors.text }]}>{res}</Text>
                     </View>)
