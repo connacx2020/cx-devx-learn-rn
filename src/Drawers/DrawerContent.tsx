@@ -133,7 +133,7 @@ export function DrawerContent(props:any){
                         />
                     )}
                     label="Sign Out"
-                    onPress={()=>props.navigation.navigate("Logout")}
+                    onPress={()=>{props.navigation.navigate("Logout");logout()}}
                     />
             </Drawer.Section>
         </View>
