@@ -7,8 +7,9 @@ import { useNavigation,useTheme } from '@react-navigation/native';
 
 import { styles } from './instructor_styles';
 
-export const InstructorProfile: React.FC = () => {
+export const InstructorProfile: React.FC = ({route}: any) => {
     const navigation = useNavigation();
+    const { authorID } = route.params;
     const { colors } = useTheme();
     const courseData = [
         {
@@ -84,9 +85,9 @@ export const InstructorProfile: React.FC = () => {
                 </View>
                 <View style={styles.header_right}>
                     <Text testID="nameID" style={styles.user_name}>Dr.Osk Soe Kyaw</Text>
-                    {/* <Text testID="emailID" style={styles.user_email}>
-                        dr.osksoekyaw@gmail.com
-                    </Text> */}
+                    <Text testID="emailID" style={styles.user_email}>
+                            {authorID}
+                    </Text>
                     <View style={styles.connect_follow_field}>
                         <TouchableOpacity style={styles.connect_follow_btn}>
                             <Text>Follow</Text>
@@ -95,14 +96,14 @@ export const InstructorProfile: React.FC = () => {
                     <View style={styles.social_field}>
                         <TouchableOpacity
                             testID="githubImgBtnID"
-                            onPress={()=>Linking.openURL('https://github.com/oaksoe')} 
+                            onPress={()=>Linking.openURL('https://github.com/oaksoe')}
                             style={styles.icon_field}>
                             <Image
                                 style={styles.icon}
                                 source={require('../../asset/icons/github.png')}
                             />
                         </TouchableOpacity>
-                        <TouchableOpacity 
+                        <TouchableOpacity
                             testID="fbImgBtnID"
                             onPress={()=>Linking.openURL('https://www.facebook.com/profile.php?id=100012330697064')}
                             style={styles.icon_field}>
@@ -113,7 +114,7 @@ export const InstructorProfile: React.FC = () => {
                         </TouchableOpacity>
                         <TouchableOpacity
                              testID="linkedInImgBtnID"
-                             onPress={()=>Linking.openURL('https://www.linkedin.com/in/wai-min-5679a81aa/')} 
+                             onPress={()=>Linking.openURL('https://www.linkedin.com/in/wai-min-5679a81aa/')}
                              style={styles.icon_field}>
                             <Image
                                 style={styles.icon}
