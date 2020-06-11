@@ -78,7 +78,7 @@ function CxDevxCourseOverview(props: Course) {
                                 if (error) return <View><Text>err</Text></View>
                                 if (data) {
                                     return (<React.Fragment>
-                                        <TouchableRipple style={styles.user_avatar_field} onPress={() => navigation.navigate('InstructorProfile')}>
+                                        <TouchableRipple style={styles.user_avatar_field} onPress={() => navigation.navigate('InstructorProfile',{authorID: props.authorID})}>
                                             <Image style={styles.user_avatar} source={{
                                                 uri: data.photo
                                             }} />
