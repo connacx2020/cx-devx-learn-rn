@@ -13,9 +13,13 @@ interface CourseDetailTabsProps{
 }
 
 export const CourseDetailTabs: React.FC<any>=(props:any)=>{
+
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Overview" options={props.authourID} component={CxDevxCourseOverview} />
+      <Tab.Screen name="Overview">
+        {()=><CxDevxCourseOverview {...props}/>
+        }
+      </Tab.Screen>
       <Tab.Screen name="Content" component={CxDevxCourseContent} />
     </Tab.Navigator>
   );

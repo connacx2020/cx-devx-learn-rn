@@ -1,15 +1,44 @@
-import React from 'react';
-import { View,Text,Button,ScrollView,Image,TouchableOpacity,ImageBackground,FlatList,Linking,} from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, Button, ScrollView, Image, TouchableOpacity, ImageBackground, FlatList, Linking, ActivityIndicator } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { SearchItemCoverLeft } from '../SearchResultItem/CoverLeftItem';
-import { useNavigation,useTheme } from '@react-navigation/native';
+import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
+import { Query } from '@apollo/react-components';
+import { useMutation,useQuery } from '@apollo/react-hooks';
+import AsyncStorage from "@react-native-community/async-storage";
 
+import { getCheckedUserInfo } from '../../common/ultis/getUserInfo';
+import { Async } from 'react-async';
+import { isFollowedSchema,followUserSchema,unfollowUserSchema,getAllCourseByAuthorID } from '../../common/graphQL';
 
 import { styles } from './instructor_styles';
 
 export const InstructorProfile: React.FC = () => {
     const navigation = useNavigation();
+    const route = useRoute();
+    const { authourId } = route.params
+    const [userID,setUserID] = React.useState<string>("");
     const { colors } = useTheme();
+    const [followUser] = useMutation(followUserSchema);
+    const [unfollowUser] = useMutation(unfollowUserSchema);
+    const {data : followData} = useQuery(isFollowedSchema,{
+        variables:{ userID1: userID, userID2:authourId  }
+    });
+    const authorCoursesData = useQuery(getAllCourseByAuthorID,{
+        variables:{authorId:authourId}
+    });
+
+    useEffect(() => {
+        AsyncStorage.getItem("devx_token")
+            .then(async (localToken: any) => {
+                const localData = JSON.parse(localToken);
+                setUserID(localData.userID)  
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }, [authourId]);
+
     const courseData = [
         {
             img:
@@ -52,105 +81,134 @@ export const InstructorProfile: React.FC = () => {
         },
     ];
     return (
-        <ScrollView style={[styles.wrapper,{backgroundColor:colors.background}]}>
-            <ImageBackground
-                testID="bgID"
-                source={{
-                    uri:
-                       "https://cdn4.vectorstock.com/i/1000x1000/77/88/poligonal-background-of-rhombus-gradient-colors-vector-20407788.jpg"
-                }}
-                style={styles.header}>
-                <View style={styles.header_left}>
-                    <TouchableOpacity
-                        style={styles.back_arrow}
-                        onPress={() =>navigation.goBack()}>
-                        <FeatherIcon
-                            testID="iconID"
-                            name={'arrow-left'}
-                            size={25}
-                            color={'#fff'}
-                        />
-                    </TouchableOpacity>
-                    <View style={styles.avator_container}>
-                        <Image
-                            testID="avatarID"
-                            style={styles.avatar}
-                            source={{
-                                uri:
-                                    'https://avatars0.githubusercontent.com/u/22853376?s=400&u=eb6a624d15b9a564680c3aac4c1943e25ffe45cb&v=4',
-                            }}
-                        />
-                    </View>
-                </View>
-                <View style={styles.header_right}>
-                    <Text testID="nameID" style={styles.user_name}>Dr.Osk Soe Kyaw</Text>
-                    {/* <Text testID="emailID" style={styles.user_email}>
-                        dr.osksoekyaw@gmail.com
-                    </Text> */}
-                    <View style={styles.connect_follow_field}>
-                        <TouchableOpacity style={styles.connect_follow_btn}>
-                            <Text>Follow</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.social_field}>
-                        <TouchableOpacity
-                            testID="githubImgBtnID"
-                            onPress={()=>Linking.openURL('https://github.com/oaksoe')} 
-                            style={styles.icon_field}>
-                            <Image
-                                style={styles.icon}
-                                source={require('../../asset/icons/github.png')}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity 
-                            testID="fbImgBtnID"
-                            onPress={()=>Linking.openURL('https://www.facebook.com/profile.php?id=100012330697064')}
-                            style={styles.icon_field}>
-                            <Image
-                                style={styles.gmail_icon}
-                                source={require('../../asset/icons/gmail.png')}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                             testID="linkedInImgBtnID"
-                             onPress={()=>Linking.openURL('https://www.linkedin.com/in/wai-min-5679a81aa/')} 
-                             style={styles.icon_field}>
-                            <Image
-                                style={styles.icon}
-                                source={require('../../asset/icons/linkedin.png')}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </ImageBackground>
-            <View style={{ flex: 1 }}>
-                <View style={styles.about_field}>
-                    <Text testID="aboutID" style={[styles.about_txt,{color:colors.text}]}>About</Text>
-                    <Text testID="aboutContentID" style={[styles.about_context_txt,{color:colors.text}]}>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Voluptatum neque nesciunt soluta odit est reprehenderit
-                        ducimus praesentium,
-                    </Text>
-                </View>
-                <View style={styles.profile_content}>
-                    <FlatList
-                        testID="flatListID"
-                        data={courseData}
-                        keyExtractor={(item) => item.title}
-                        renderItem={({ item, index }) => {
+        <ScrollView style={[styles.wrapper, { backgroundColor: colors.background }]}>
+            <Async promise={getCheckedUserInfo(authourId)}>
+                {
+                    ({ data, error, isLoading }) => {
+
+                        if (isLoading) return <View><Text>loading</Text></View>
+                        if (error) return <View><Text>{error}</Text></View>
+                        if (data) {
                             return (
-                                <SearchItemCoverLeft
-                                    img={item.img}
-                                    title={item.title}
-                                    rate={item.rate}
-                                    likes={item.likes}
-                                    enrolled={item.enrolled}
-                                />
-                            );
-                        }}
-                    />
-                </View>
-            </View>
+                                <>
+                                    <ImageBackground
+                                        testID="bgID"
+                                        source={{
+                                            uri:
+                                                "https://cdn4.vectorstock.com/i/1000x1000/77/88/poligonal-background-of-rhombus-gradient-colors-vector-20407788.jpg"
+                                        }}
+                                        style={styles.header}>
+                                        <View style={styles.header_left}>
+                                            <TouchableOpacity
+                                                style={styles.back_arrow}
+                                                onPress={() => navigation.goBack()}>
+                                                <FeatherIcon
+                                                    testID="iconID"
+                                                    name={'arrow-left'}
+                                                    size={25}
+                                                    color={'#fff'}
+                                                />
+                                            </TouchableOpacity>
+                                            <View style={styles.avator_container}>
+                                                <Image
+                                                    testID="avatarID"
+                                                    style={styles.avatar}
+                                                    source={{
+                                                        uri: data.photo
+                                                    }}
+                                                />
+                                            </View>
+                                        </View>
+                                        <View style={styles.header_right}>
+                                            <Text testID="nameID" style={styles.user_name}>{data.name}</Text>
+                                          
+                                                       {
+                                                          
+                                                
+                                                            !followData.checkIsFollowed ?
+                                                                <View style={styles.connect_follow_field}>
+                                                                    <TouchableOpacity style={styles.connect_follow_btn}
+                                                                        onPress={()=>followUser({ variables: { userID1: userID, userID2: authourId},
+                                                                        refetchQueries:[{query:isFollowedSchema,variables:{ userID1: userID, userID2: authourId }}]  })}
+                                                                    >
+                                                                        <Text>Follow</Text>
+                                                                    </TouchableOpacity>
+                                                                </View> :
+                                                                <View style={styles.connect_follow_field}>
+                                                                    <TouchableOpacity style={styles.connect_follow_btn}
+                                                                         onPress={()=>unfollowUser({ variables: { userID1: userID, userID2: authourId}, 
+                                                                         refetchQueries:[{query:isFollowedSchema,variables:{ userID1: userID, userID2: authourId }}] })}
+                                                                    >
+                                                                        <Text>Unfollow</Text>
+                                                                    </TouchableOpacity>
+                                                                </View>
+
+
+                                                       }
+                                                  
+
+                                            <View style={styles.social_field}>
+                                                <TouchableOpacity
+                                                    testID="githubImgBtnID"
+                                                    onPress={() => Linking.openURL(data.weblinks[0].url)}
+                                                    style={styles.icon_field}>
+                                                    <Image
+                                                        style={styles.icon}
+                                                        source={require('../../asset/icons/github.png')}
+                                                    />
+                                                </TouchableOpacity>
+                                                <TouchableOpacity
+                                                    testID="fbImgBtnID"
+                                                    onPress={() => Linking.openURL(data.weblinks[1].url)}
+                                                    style={styles.icon_field}>
+                                                    <Image
+                                                        style={styles.gmail_icon}
+                                                        source={require('../../asset/icons/gmail.png')}
+                                                    />
+                                                </TouchableOpacity>
+                                                <TouchableOpacity
+                                                    testID="linkedInImgBtnID"
+                                                    onPress={() => Linking.openURL(data.weblinks[0].url)}
+                                                    style={styles.icon_field}>
+                                                    <Image
+                                                        style={styles.icon}
+                                                        source={require('../../asset/icons/linkedin.png')}
+                                                    />
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                    </ImageBackground>
+                                    <View style={{ flex: 1 }}>
+                                        <View style={styles.about_field}>
+                                            <Text testID="aboutID" style={[styles.about_txt, { color: colors.text }]}>About</Text>
+                                            <Text testID="aboutContentID" style={[styles.about_context_txt, { color: colors.text }]}>
+                                                {data.about}
+                                            </Text>
+                                        </View>
+                                        <View style={styles.profile_content}>
+                                            <FlatList
+                                                testID="flatListID"
+                                                data={authorCoursesData.getCoursesByAuthorId}
+                                                keyExtractor={(item) => item.title}
+                                                renderItem={({ item, index }) => {
+                                                    return (
+                                                        <SearchItemCoverLeft
+                                                            img={item.photoUrl}
+                                                            title={item.title}
+                                                            rate={item.rating}
+                                                            enrolled={item.enrolled}
+                                                        />
+                                                    );
+                                                }}
+                                            />
+                                        </View>
+                                    </View>
+                                </>
+                            )
+                        }
+                    }
+                }
+            </Async>
         </ScrollView>
     );
 };

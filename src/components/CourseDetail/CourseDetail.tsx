@@ -11,6 +11,7 @@ import { CourseDetailTabs } from '../../Tabs/CourseDetailTabs';
 
 export function CxDevxCourseDetail({ navigation, route }: HomeStackNavProps<"CourseDetail">) {
     const { id, authourId, image, title } = route.params;
+
     const tabNavigation = useNavigation();
     const parent = tabNavigation.dangerouslyGetParent();
     const { colors } = useTheme();
@@ -41,7 +42,7 @@ export function CxDevxCourseDetail({ navigation, route }: HomeStackNavProps<"Cou
             </View>
 
             <View style={styles.footer_tabs}>
-                <CourseDetailTabs courseID={id}/>
+                <CourseDetailTabs courseID={id} authourID={authourId}/>
             </View>
 
         </ScrollView>

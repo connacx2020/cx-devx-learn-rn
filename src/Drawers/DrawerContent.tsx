@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, {useEffect} from 'react';
+import { View, StyleSheet,ActivityIndicator } from 'react-native';
 import {
     useTheme,
     Title,
@@ -13,44 +13,83 @@ import {
 } from 'react-native-paper';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from "@react-native-community/async-storage";
+import { Query } from '@apollo/react-components';
+
+import { getUserInfoByIdSchema } from '../common/graphQL';
 
 import{ AuthContext } from '../Providers/AuthProvider';
 
 export function DrawerContent(props:any){
     const paperTheme = useTheme();
-    const { logout,toggleTheme } = React.useContext(AuthContext)
+    const [ID,setID] = React.useState('');
+    const { logout,toggleTheme,token } = React.useContext(AuthContext)
+    useEffect(() => {
+        AsyncStorage.getItem("devx_token")
+            .then(async (localToken: any) => {
+                const localData = JSON.parse(localToken);
+                if (localToken) {
+                    setID(localData.userID);
+                } else {
+                  console.log('No token')
+                }
+               
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }, [token]);
+    
 
 
     return(
         <View style={{flex:1}}>
             <DrawerContentScrollView {...props}>
                 <View style={styles.drawerContent}>
-                    <View style={styles.userInfoSection}>
-                        <View style={{flexDirection:'row',marginTop:10}}>
-                            <TouchableRipple onPress={()=>props.navigation.navigate("UserProfile")}>
-                                <Avatar.Image
-                                    source={{
-                                        uri:"https://avatars0.githubusercontent.com/u/22853376?s=400&u=eb6a624d15b9a564680c3aac4c1943e25ffe45cb&v=4"
-                                    }}
-                                    size={50}
-                                />
-                            </TouchableRipple>
-                            <View style={{marginLeft:15,flexDirection:'column'}}>
-                                <Title style={styles.title}>Osk Soe Kyaw</Title>
-                                <Caption style={styles.caption}>@devx</Caption>
-                            </View>
-                        </View>
-                        <View style={styles.row}>
-                            <View style={styles.section}>
-                                <Paragraph style={[styles.paragraph,styles.caption ]}>65</Paragraph>
-                                <Paragraph style={styles.caption}>Following</Paragraph>
-                            </View>
-                            <View style={styles.section}>
-                                <Paragraph style={[styles.paragraph,styles.caption ]}>15</Paragraph>
-                                <Paragraph style={styles.caption}>Follower</Paragraph>
-                            </View>
-                        </View>
-                    </View>
+                    
+                    <Query<any, any>  query={getUserInfoByIdSchema} variables={{userID:ID}}>
+                        {
+                            ({ loading, error, data }) => {
+
+                                if (error) console.log(error)
+
+                                if (loading) return <View style={{ alignSelf: 'center' }} >
+                                    <View>
+                                        <ActivityIndicator size="large" />
+                                    </View>
+                                </View>
+                                return (
+                                    <View style={styles.userInfoSection}>
+                                        <View style={{flexDirection:'row',marginTop:10}}>
+                                            <TouchableRipple onPress={()=>props.navigation.navigate("UserProfile",{id:ID})}>
+                                                <Avatar.Image
+                                                    source={{
+                                                        uri: data.getUserInfoByID.photo
+                                                    }}
+                                                    size={50}
+                                                />
+                                            </TouchableRipple>
+                                            <View style={{marginLeft:15,flexDirection:'column'}}>
+                                                <Title style={styles.title}>{data.getUserInfoByID.name}</Title>
+                                                <Caption style={styles.caption}>@devx</Caption>
+                                            </View>
+                                        </View>
+                                        <View style={styles.row}>
+                                            <View style={styles.section}>
+                                                <Paragraph style={[styles.paragraph,styles.caption ]}>65</Paragraph>
+                                                <Paragraph style={styles.caption}>Following</Paragraph>
+                                            </View>
+                                            <View style={styles.section}>
+                                                <Paragraph style={[styles.paragraph,styles.caption ]}>15</Paragraph>
+                                                <Paragraph style={styles.caption}>Follower</Paragraph>
+                                            </View>
+                                        </View>
+                                    </View>
+                                
+                                )
+                            }
+                        }
+                    </Query>
 
 
                     <Drawer.Section style={styles.drawerSection}>

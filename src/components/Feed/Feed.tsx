@@ -17,6 +17,7 @@ import { View } from 'react-native-animatable';
 
 import { ENV } from '../../common/envirnoment';
 import { ActivityIndicator } from 'react-native';
+import ApolloClient from 'apollo-boost';
 import { serverlessClient } from '../../common/graphQL/graphql.config';
 
 function CxDevxFeed({ navigation }: any) {
@@ -27,6 +28,9 @@ function CxDevxFeed({ navigation }: any) {
 
     // const serverlessClient = new ApolloClient({
     //     uri: `http://192.168.43.93:3000/dev/graphql`,
+    // });
+    // const serverlessClient = new ApolloClient({
+    //     uri: `http://localhost:3000/graphql`,
     // });
 
     useFocusEffect(() => {
