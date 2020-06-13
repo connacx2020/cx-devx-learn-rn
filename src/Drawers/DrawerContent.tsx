@@ -40,7 +40,6 @@ export function DrawerContent(props: any) {
 
                                 if (isLoading) return <View><Text>loading</Text></View>
                                 if (error) return <View><Text>{error}</Text></View>
-                                console.log(data);
                                 if (data) {
                                     return (
                                         <View style={styles.userInfoSection}>

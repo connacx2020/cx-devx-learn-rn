@@ -82,7 +82,6 @@ function CxDevxCourseOverview({ authourID }: HomeStackNavProps<"CourseOverview">
                         ({ loading, error, data }) => {
 
                             if (error) console.log(error)
-                            // console.log(data);
 
                             if (loading) return <View style={{ alignSelf: 'center' }} >
                                 <View>
