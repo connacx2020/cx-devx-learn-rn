@@ -20,6 +20,7 @@ const Course_Info_Fragment = {
 export const getAllCourseByAuthorID = gql`
     query($authorId: ID!){
         getCoursesByAuthorId(authorId:$authorId){
+            id
             title
             rating
             photoUrl

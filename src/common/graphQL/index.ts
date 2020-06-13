@@ -35,4 +35,4 @@ export {
     isFollowedSchema,
     followUserSchema,
     unfollowUserSchema
-} from './graphqlSchema/follow.graphql.Schema';
+} from './graphqlSchema/connect.graphql.Schema';
