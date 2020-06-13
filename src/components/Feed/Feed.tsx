@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react';
-import { ScrollView, TouchableOpacity, Text, Dimensions, ToastAndroid } from 'react-native';
+import { ScrollView, TouchableOpacity, Text, RefreshControl, ToastAndroid } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { styles } from './styles';
@@ -22,6 +22,8 @@ function CxDevxFeed({ navigation }: any) {
     const tabNavigation = useNavigation();
     const parent = tabNavigation.dangerouslyGetParent();
 
+    const [refreshing, setRefreshing] = React.useState<boolean>(false);
+
     useFocusEffect(() => {
         parent?.setOptions({ tabBarVisible: true });
     })
@@ -35,7 +37,7 @@ function CxDevxFeed({ navigation }: any) {
 
             <Query<any, any> client={serverlessClient} query={getCoursesSchema}>
                 {
-                    ({ loading, error, data }) => {
+                    ({ loading, error, data, refetch }) => {
 
                         if (error) ToastAndroid.show("No Internet Connection ", ToastAndroid.SHORT);
 
@@ -47,7 +49,16 @@ function CxDevxFeed({ navigation }: any) {
 
                         return <View>
                             <Text style={[styles.centerTxt, { color: colors.text }]}>Recommended for you</Text>
-                            <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
+                            <ScrollView
+                                refreshControl={
+                                    <RefreshControl
+                                        refreshing={refreshing}
+                                        onRefresh={() => {
+                                            setRefreshing(true)
+                                            refetch().then(res => { setRefreshing(false) });
+                                        }}
+                                    />}
+                                showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
                                 {data.getAllCourses && data.getAllCourses.map((res: Course) =>
                                     <CxDevxCourseItem
                                         key={res.id}

@@ -7,7 +7,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import { HomeStackNavProps } from '../../common/ultis/ParamLists/HomeParamList';
 import { styles } from './style';
 import { CourseDetailTabs } from '../../Tabs/CourseDetailTabs';
-import { getCourseById } from '../../common/graphQL';
+import { getCourseByIdSchema } from '../../common/graphQL';
 import { serverlessClient } from '../../common/graphQL/graphql.config';
 import { Query } from '@apollo/react-components';
 
@@ -25,7 +25,7 @@ export function CxDevxCourseDetail({ navigation, route }: HomeStackNavProps<"Cou
 
     return (
         <ScrollView style={styles.container}>
-            <Query<any, any> query={getCourseById} variables={{ courseID: id }} client={serverlessClient}>
+            <Query<any, any> query={getCourseByIdSchema} variables={{ courseID: id }} client={serverlessClient}>
                 {
                     ({ loading, error, data }) => {
                         if (loading) return (<View style={{ alignSelf: 'center' }} >

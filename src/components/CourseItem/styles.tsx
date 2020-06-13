@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
         borderWidth:0.5,
         height:150,
         width:'100%',
-        resizeMode: 'stretch'
+        resizeMode: 'contain'
     },
     title:{
         fontSize:18,

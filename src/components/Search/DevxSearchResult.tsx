@@ -22,9 +22,10 @@ const CxDevxSearchResult: React.FC = () => {
                 renderItem={({ item, index }) => {
                     return (
                         <SearchItemCoverLeft
-                            img={item.photoUrl}
+                            id={item.id}
+                            photoUrl={item.photoUrl}
                             title={item.title}
-                            rate={item.rating}
+                            rating={item.rating}
                             enrolled={item.enrolled}
                         />
                     )
