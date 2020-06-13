@@ -4,31 +4,24 @@ import { useNavigation, useTheme } from '@react-navigation/native';
 import StarRating from 'react-native-star-rating';
 import { Title, Paragraph } from 'react-native-paper';
 import { styles } from './styles';
+import { Course } from '../../models';
 
-type courseItem = {
-    img: string,
-    title: string,
-    rate: number,
-    enrolled: number
-}
-
-export const SearchItemCoverLeft: React.FC<courseItem> = ({ img, title, rate, enrolled }) => {
+export const SearchItemCoverLeft: React.FC<any> = ({id, photoUrl, title, rating, enrolled}) => {
     const navigation = useNavigation();
     const { colors } = useTheme();
-    const routeToCourseDetail = (img: string, title: string) => {
-        navigation.navigate("CourseDetail", { image: img, title: title });
-    }
+
     return (
-        <TouchableOpacity onPress={() => routeToCourseDetail(img, title)}>
+        <TouchableOpacity onPress={() => navigation.navigate("CourseDetail", { id: id })}>
             <View style={{ padding: 5 }}>
                 <View style={styles.card_body}>
                     <View style={styles.card_cover}>
-                        {img === "" ? <View style={styles.search_result_left}><Text style={styles.search_result_left_text}>{title}</Text></View> :
+                        {photoUrl === "" ? <View style={styles.search_result_left}><Text style={styles.search_result_left_text}>{title}</Text></View> :
                             <Image
                                 testID="imgID"
+                                resizeMode="contain"
                                 style={styles.cover_img}
                                 source={{
-                                    uri: img
+                                    uri: photoUrl
                                 }}
                             />
                         }
@@ -36,13 +29,13 @@ export const SearchItemCoverLeft: React.FC<courseItem> = ({ img, title, rate, en
                     </View>
                     <View style={[styles.card_content, { backgroundColor: colors.background }]}>
                         <Title testID="titleID" style={[styles.content_title, { color: colors.text }]}>{title}</Title>
-                        <Paragraph testID="enrolledID" style={[styles.content_paragraph, { color: colors.text }]}>{enrolled} enrolled</Paragraph>
+                        <Paragraph testID="enrolledID" style={[styles.content_paragraph, { color: colors.text }]}>{title} enrolled</Paragraph>
                         <View style={styles.rating_field}>
                             <StarRating
                                 testID={"star"}
                                 disabled={true}
                                 maxStars={5}
-                                rating={rate}
+                                rating={rating}
                                 starSize={15}
                                 starStyle={styles.rating_star as StyleProp<ViewStyle>}
                             />

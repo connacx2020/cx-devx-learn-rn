@@ -14,7 +14,6 @@ export const styles = StyleSheet.create({
     cover_img: {
         height: '100%',
         width: '100%',
-        resizeMode: 'stretch'
     },
     card_content: {
         flexGrow: 1,
