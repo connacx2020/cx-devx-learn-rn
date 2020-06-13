@@ -3,7 +3,6 @@ import { View, Text, Button, ScrollView, Image, TouchableOpacity, ImageBackgroun
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { SearchItemCoverLeft } from '../SearchResultItem/CoverLeftItem';
 import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
-import { Query } from '@apollo/react-components';
 import { useMutation,useQuery } from '@apollo/react-hooks';
 import AsyncStorage from "@react-native-community/async-storage";
 

@@ -17,7 +17,6 @@ import { View } from 'react-native-animatable';
 
 import { ENV } from '../../common/envirnoment';
 import { ActivityIndicator } from 'react-native';
-import ApolloClient from 'apollo-boost';
 import { serverlessClient } from '../../common/graphQL/graphql.config';
 
 function CxDevxFeed({ navigation }: any) {
