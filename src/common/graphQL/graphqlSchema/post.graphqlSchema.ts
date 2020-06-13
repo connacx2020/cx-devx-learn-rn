@@ -9,10 +9,8 @@ const PostData_Fragment = {
       category
       content
       published
-      isSeries
       likes
       views
-      shares
       comments{
           id
           authorID
@@ -55,12 +53,24 @@ ${PostData_Fragment.postResult}
 
 
 export const getPostByIDSchema = gql`
-query($postID: String!){
+query($postID: ID!){
 	searchPostByID(postID:$postID) {
         ...PostRequestData
   }
 }
 ${PostData_Fragment.postResult}
+`;
+
+export const getNextPostIDSchema = gql`
+query($postID: String!) {
+  getNextPost(postID:$postID)
+}
+`;
+
+export const getPrevPostIDSchema = gql`
+query($postID: String!) {
+  getPrevPost(postID:$postID)
+}
 `;
 
 export const getPaginatedPostsSchema = gql`

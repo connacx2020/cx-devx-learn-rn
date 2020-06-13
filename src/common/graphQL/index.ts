@@ -1,15 +1,14 @@
 export {
-    addPostSchema,
+
     addCommentSchema,
     addLikeSchema,
-    getPostFeedsSchema,
     removeLikeSchema,
     searchPostsByTextSchema,
     isViewedSchema,
     addViewSchema,
-    getAllPostsSchema,
     getPostByIDSchema,
-    getPaginatedPostsSchema
+    getNextPostIDSchema,
+    getPrevPostIDSchema
 } from './graphqlSchema/post.graphqlSchema';
 
 export {

@@ -1,103 +1,132 @@
 import React from 'react';
-import {useEffect,useState} from 'react';
-import { View, Text,Image, ScrollView,TouchableOpacity,Dimensions,TextInput } from 'react-native';
+import { useEffect, useState } from 'react';
+import { View, Text, Image, ScrollView, TouchableOpacity, Dimensions, TextInput } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import { styles } from './style'
 import { CxDevxCommentModal } from '../CommentModalBox';
 import { HomeStackNavProps } from '../../common/ultis/ParamLists/HomeParamList';
 import { useTheme } from '@react-navigation/native'
-function CxDevxCourseSection({ navigation,route}: HomeStackNavProps<"CourseSection">) {
-    let [isLiked,setLike] = useState<Boolean>(false);
-    let [isModalVisible,setModalVisible] = useState<Boolean>(false);
+import { Query } from '@apollo/react-components';
+import { getPostByIDSchema, getPrevPostIDSchema, getNextPostIDSchema } from '../../common/graphQL';
+import { Async } from 'react-async';
+import { getCheckedUserInfo } from '../../common/ultis/getUserInfo';
+import { useQuery } from '@apollo/react-hooks';
+
+function CxDevxCourseSection({ navigation, route }: HomeStackNavProps<"CourseSection">) {
+    let [isLiked, setLike] = useState<Boolean>(false);
+    let [isModalVisible, setModalVisible] = useState<Boolean>(false);
+    const postID = route.params.postID;
     const { colors } = useTheme();
-    useEffect(()=>{
+
+    const [isFirstPost, setIsFirstPost] = React.useState(false);
+    const [isLastPost, setIsLastPost] = React.useState(true);
+    const [nextPostID, setNextPostID] = React.useState('');
+    const [prevPostID, setPrevPostID] = React.useState('');
+    const getPrevPost = useQuery(getPrevPostIDSchema, { variables: { postID }, notifyOnNetworkStatusChange: true });
+    const getNextPost = useQuery(getNextPostIDSchema, { variables: { postID }, notifyOnNetworkStatusChange: true });
+
+    useEffect(() => {
         console.log(route);
         navigation.setOptions({ title: route.params.course })
-    },[route.params.course])
+        if (getPrevPost.data && getNextPost.data) {
+            setPrevPostID(getPrevPost.data.getPrevPost);
+            setNextPostID(getNextPost.data.getNextPost);
+        }
+        if (prevPostID === '') {
+            setIsFirstPost(true)
+        } else {
+            setIsFirstPost(false);
+        }
+        if (nextPostID === '') {
+            setIsLastPost(true)
+        } else {
+            setIsLastPost(false);
+        }
+    }, [route.params.course])
 
 
 
     const config = {
         velocityThreshold: 0.3,
         directionalOffsetThreshold: 80
-      };
+    };
 
     return (
 
         <GestureRecognizer
             // onSwipeUp={() => console.log("SwipeUp")}
             // onSwipeDown={() => console.log("SwipeDown") }
-            onSwipeLeft={() =>  navigation.navigate('CourseSection',{course:'What is Angular?'})}
-            onSwipeRight={() => navigation.navigate('CourseSection',{course:'Introduction'}) }
+            // onSwipeLeft={() => navigation.navigate('CourseSection', { course: 'What is Angular?', postID: prevPostID })}
+            // onSwipeRight={() => navigation.navigate('CourseSection', { course: 'Introduction', postID: '52fbafbb-93b9-4ac2-8f31-243f628ac135' })}
             config={config}
             style={styles.wrapper}
         >
-            <View style={[styles.container,{backgroundColor:colors.background}]}>
-                <ScrollView>
-                    <View style={styles.header}>
-                        <View style={styles.header_avatar_lfield}>
-                            <Image style={styles.avatar}
-                                source={{
-                                    uri:'https://avatars0.githubusercontent.com/u/22853376?s=400&u=eb6a624d15b9a564680c3aac4c1943e25ffe45cb&v=4'
-                                }}
-                            />
-                        </View>
-                        <View style={styles.header_info_rfield}>
-                            <Text style={[styles.info_txt,{color:colors.text}]}>Osk add new course on Angular</Text>
-                            <Text style={[styles.info_time,{color:colors.text}]}>02:30 PM</Text>
-                        </View>
+            <View style={[styles.container, { backgroundColor: colors.background }]}>
 
-                    </View>
-                    <View style={styles.content}>
-                        <Text style={[styles.content_title,{color:colors.text}]}>{route.params.course }</Text>
-                        <Text style={[styles.content_title_txt,{color:colors.text}]}>Key feature of this Angular Traning:</Text>
-                        <Text style={[styles.content_txt,{color:colors.text}]}> - After course instructor couching benefit</Text>
-                        <Text style={[styles.content_txt,{color:colors.text}]}> - After course computing sandbox include</Text>
-                        <Text style={[styles.content_txt,{color:colors.text}]}> - Learning Tree end of course exam included</Text>
+                <Query<any, any> query={getPostByIDSchema} variables={{ postID: postID }}>
+                    {
+                        (fetchPostByID) => {
+                            if (fetchPostByID.loading) return <Text>Loading...</Text>
+                            if (fetchPostByID.error) return <Text>Error</Text>
 
-                        <Text style={[styles.content_title_txt,{color:colors.text}]}>You will learn How To: </Text>
-                        <Text style={[styles.content_txt,{color:colors.text}]}> - Create device independent Angular application</Text>
-                        <Text style={[styles.content_txt,{color:colors.text}]}> - Develop Component using Typscript</Text>
-                        <Text style={[styles.content_txt,{color:colors.text}]}> - Consume REST services using Obervables</Text>
-                        <Text style={[styles.content_title_txt,{color:colors.text}]}>Key feature of this Angular Traning:</Text>
-                        <Text style={[styles.content_txt,{color:colors.text}]}> - After course instructor couching benefit</Text>
-                        <Text style={[styles.content_txt,{color:colors.text}]}> - After course computing sandbox include</Text>
-                        <Text style={[styles.content_txt,{color:colors.text}]}> - Learning Tree end of course exam included</Text>
+                            return <Async promise={getCheckedUserInfo(fetchPostByID.data.searchPostByID.authorID)}>
+                                {
+                                    (getUserInfo) => {
+                                        if (getUserInfo.isLoading) return <View><Text>loading</Text></View>
+                                        if (getUserInfo.error) return <View><Text>err</Text></View>
 
-                        <Text style={[styles.content_title_txt,{color:colors.text}]}>You will learn How To: </Text>
-                        <Text style={[styles.content_txt,{color:colors.text}]}> - Create device independent Angular application</Text>
-                        <Text style={[styles.content_txt,{color:colors.text}]}> - Develop Component using Typscript</Text>
-                        <Text style={[styles.content_txt,{color:colors.text}]}> - Consume REST services using Obervables</Text>
-                        <Text style={[styles.content_title_txt,{color:colors.text}]}>Key feature of this Angular Traning:</Text>
-                        <Text style={[styles.content_txt,{color:colors.text}]}> - After course instructor couching benefit</Text>
-                        <Text style={[styles.content_txt,{color:colors.text}]}> - After course computing sandbox include</Text>
-                        <Text style={[styles.content_txt,{color:colors.text}]}> - Learning Tree end of course exam included</Text>
+                                        return (
+                                            <View style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
 
-                        <Text style={[styles.content_title_txt,{color:colors.text}]}>You will learn How To: </Text>
-                        <Text style={[styles.content_txt,{color:colors.text}]}> - Create device independent Angular application</Text>
-                        <Text style={[styles.content_txt,{color:colors.text}]}> - Develop Component using Typscript</Text>
-                        <Text style={[styles.content_txt,{color:colors.text}]}> - Consume REST services using Obervables</Text>
-                    </View>
-                </ScrollView>
-                <View style={styles.footer}>
-                    <TouchableOpacity style={styles.footer_likes_lfied}>
-                        <Text style={[styles.footer_likes_txt,{color:colors.text}]}>Likes</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.footer_comments_cfield}
-                        onPress={()=>setModalVisible(!isModalVisible)}
-                    >
-                        <Text style={[styles.footer_comments_txt,{color:colors.text}]}>Comments</Text>
-                    </TouchableOpacity>
-                    <View style={ styles.footer_views_rfield}>
-                        <Text style={[styles.footer_views_txt,{color:colors.text}]}>1000 Views</Text>
-                    </View>
-                </View>
-                <View>
-                    <CxDevxCommentModal isLiked={isLiked} isModalVisible={isModalVisible} setLike={setLike} setModalVisible={setModalVisible}/>
-                </View>
+                                                <ScrollView style={{ backgroundColor: '#fff', }}>
+
+                                                    <View style={{ flexDirection: 'row', borderBottomColor: 'black', borderBottomWidth: 0.5, paddingBottom: 5 }}>
+
+                                                        <Image style={{ width: 60, height: 60, marginHorizontal: 10, borderRadius: 100, }}
+                                                            source={{
+                                                                uri: getUserInfo.data.photo
+                                                            }}
+                                                        />
+                                                        <View style={{ justifyContent: 'center', marginHorizontal: 10 }}>
+                                                            <Text style={[styles.info_txt, { color: colors.text, fontWeight: 'bold' }]}>{getUserInfo.data.name}</Text>
+                                                            <Text style={[styles.info_time, { color: colors.text }]}>{new Date(fetchPostByID.data.searchPostByID.postedOn).toDateString()}</Text>
+                                                        </View>
+                                                    </View>
+
+                                                    <View style={styles.content}>
+                                                        <Text style={[styles.info_time, { color: colors.text }]}>{fetchPostByID.data.searchPostByID.content}</Text>
+                                                    </View>
+                                                </ScrollView>
+
+                                                <View style={styles.footer}>
+
+                                                    <TouchableOpacity>
+                                                        <Text style={{ color: colors.text }}>{fetchPostByID.data.searchPostByID.likes} Likes</Text>
+                                                    </TouchableOpacity>
+
+                                                    <TouchableOpacity
+                                                        onPress={() => setModalVisible(!isModalVisible)}
+                                                    >
+                                                        <Text style={{ color: colors.text }}>Comments</Text>
+                                                    </TouchableOpacity>
+
+                                                    <View >
+                                                        <Text style={{ color: colors.text }}>{fetchPostByID.data.searchPostByID.views}Views</Text>
+                                                    </View>
+                                                </View>
+
+                                            </View>
+                                        )
+                                    }}
+                            </Async>
+
+                        }
+                    }
+                </Query>
+                <CxDevxCommentModal isLiked={isLiked} isModalVisible={isModalVisible} setLike={setLike} setModalVisible={setModalVisible} />
             </View>
 
-      </GestureRecognizer>
+        </GestureRecognizer >
 
 
 

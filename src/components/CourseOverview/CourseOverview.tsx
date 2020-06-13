@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleProp, ViewStyle, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleProp, ViewStyle } from 'react-native';
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IonicIcon from 'react-native-vector-icons/Ionicons';
 import StarRating from 'react-native-star-rating';

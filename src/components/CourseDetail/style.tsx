@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     header_course_img:{
         width:'100%',
         height:'100%',
-        // resizeMode: 'contain',
+        resizeMode: 'stretch',
         opacity:0.5
     },
     header_left_arrow:{
