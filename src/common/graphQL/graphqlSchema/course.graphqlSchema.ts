@@ -25,7 +25,7 @@ export const getAllCourseByAuthorID = gql`
             photoUrl
             enrolled
         }
-        
+
     }
 `
 
@@ -40,6 +40,15 @@ query{
 ${Course_Info_Fragment.courseInfo}
 `;
 
+export const getCourseByIdSchema = gql`
+query($courseID: ID!){
+ getCourseById(courseId: $courseID){
+    ...CourseData
+  }
+  }
+  ${Course_Info_Fragment.courseInfo}
+`;
+
 
 export const searchCourseByTitle = gql`
 query($courseTitle: String!){
@@ -51,3 +60,17 @@ query($courseTitle: String!){
 ${Course_Info_Fragment.courseInfo}
 `;
 
+export const createCourseSchema = gql`
+mutation($authorID: ID!,$title: String!,$photoUrl: String!,$seriesId: String!,$duration: String! ,$description: String!,$outcome: [String!]!,$requirements: [String!]!){
+  createNewCourse(courseData:{
+    authorID: $authorID
+    title: $title
+    photoUrl: $photoUrl
+    seriesId: $seriesId
+    duration: $duration
+    description: $description
+    outcome: $outcome
+    prerequisite: $requirements
+  })
+}
+`;

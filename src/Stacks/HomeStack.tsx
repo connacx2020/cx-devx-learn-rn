@@ -27,6 +27,7 @@ import { InstructorProfile as CxDevxInstructorProfile} from '../components/Profi
 import { AuthContext } from "../Providers/AuthProvider";
 import DevxSearch from "../components/Search/DevxSearch";
 import CxDevxSearchResult from "../components/Search/DevxSearchResult";
+import { CxDevxCourseCreate } from "../components/CourseCreate/CourseCreate";
 
 
 interface HomeStackProps { }
@@ -39,7 +40,7 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
     const [userInfo, setUserInfo] = React.useState<User | any>({});
     const [searchValue,setSearchValue] = React.useState<String | undefined>('');
     const screenWidth = Math.round(Dimensions.get('window').width);
-   
+
     React.useEffect(() => {
         let getLocalToken = from(AsyncStorage.getItem("devx_token")).subscribe(
             async (localData: any) => {
@@ -141,30 +142,6 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
                 name="InstructorProfile"
                 component={CxDevxInstructorProfile}
                 />
-            {/* <Stack.Screen
-                name="PostDetail"
-                options={{
-                    title: 'GraphQl Tutorial',
-                    headerTitleStyle: {
-                        fontSize: 25
-                    },
-                    headerRight: () => {
-                        return (
-                            <TouchableOpacity
-                                onPress={() => {
-                                    console.log("In Topic Stack")
-                                }}
-                            >
-                                <Image
-                                    style={styles.profileImg}
-                                    source={{ uri: userInfo.photo }}
-                                />
-                            </TouchableOpacity>
-                        );
-                    }
-                }}
-                component={PostDetail}
-            /> */}
         </Stack.Navigator>
     );
 };

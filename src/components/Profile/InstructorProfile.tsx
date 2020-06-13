@@ -3,12 +3,12 @@ import { View, Text, Button, ScrollView, Image, TouchableOpacity, ImageBackgroun
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { SearchItemCoverLeft } from '../SearchResultItem/CoverLeftItem';
 import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
-import { useMutation,useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import AsyncStorage from "@react-native-community/async-storage";
 
 import { getCheckedUserInfo } from '../../common/ultis/getUserInfo';
 import { Async } from 'react-async';
-import { isFollowedSchema,followUserSchema,unfollowUserSchema,getAllCourseByAuthorID } from '../../common/graphQL';
+import { isFollowedSchema, followUserSchema, unfollowUserSchema, getAllCourseByAuthorID } from '../../common/graphQL';
 
 import { styles } from './instructor_styles';
 
@@ -16,22 +16,22 @@ export const InstructorProfile: React.FC = () => {
     const navigation = useNavigation();
     const route = useRoute();
     const { authourId } = route.params
-    const [userID,setUserID] = React.useState<string>("");
+    const [userID, setUserID] = React.useState<string>("");
     const { colors } = useTheme();
     const [followUser] = useMutation(followUserSchema);
     const [unfollowUser] = useMutation(unfollowUserSchema);
-    const {data : followData} = useQuery(isFollowedSchema,{
-        variables:{ userID1: userID, userID2:authourId  }
+    const { data: followData } = useQuery(isFollowedSchema, {
+        variables: { userID1: userID, userID2: authourId }
     });
-    const authorCoursesData = useQuery(getAllCourseByAuthorID,{
-        variables:{authorId:authourId}
+    const authorCoursesData = useQuery(getAllCourseByAuthorID, {
+        variables: { authorId: authourId }
     });
 
     useEffect(() => {
         AsyncStorage.getItem("devx_token")
             .then(async (localToken: any) => {
                 const localData = JSON.parse(localToken);
-                setUserID(localData.userID)  
+                setUserID(localData.userID)
             })
             .catch(err => {
                 console.log(err);
@@ -120,31 +120,33 @@ export const InstructorProfile: React.FC = () => {
                                         </View>
                                         <View style={styles.header_right}>
                                             <Text testID="nameID" style={styles.user_name}>{data.name}</Text>
-                                          
-                                                       {
-                                                          
-                                                
-                                                            !followData.checkIsFollowed ?
-                                                                <View style={styles.connect_follow_field}>
-                                                                    <TouchableOpacity style={styles.connect_follow_btn}
-                                                                        onPress={()=>followUser({ variables: { userID1: userID, userID2: authourId},
-                                                                        refetchQueries:[{query:isFollowedSchema,variables:{ userID1: userID, userID2: authourId }}]  })}
-                                                                    >
-                                                                        <Text>Follow</Text>
-                                                                    </TouchableOpacity>
-                                                                </View> :
-                                                                <View style={styles.connect_follow_field}>
-                                                                    <TouchableOpacity style={styles.connect_follow_btn}
-                                                                         onPress={()=>unfollowUser({ variables: { userID1: userID, userID2: authourId}, 
-                                                                         refetchQueries:[{query:isFollowedSchema,variables:{ userID1: userID, userID2: authourId }}] })}
-                                                                    >
-                                                                        <Text>Unfollow</Text>
-                                                                    </TouchableOpacity>
-                                                                </View>
+
+                                            {
+                                                !followData.checkIsFollowed ?
+                                                    <View style={styles.connect_follow_field}>
+                                                        <TouchableOpacity style={styles.connect_follow_btn}
+                                                            onPress={() => followUser({
+                                                                variables: { userID1: userID, userID2: authourId },
+                                                                refetchQueries: [{ query: isFollowedSchema, variables: { userID1: userID, userID2: authourId } }]
+                                                            })}
+                                                        >
+                                                            <Text>Follow</Text>
+                                                        </TouchableOpacity>
+                                                    </View> :
+                                                    <View style={styles.connect_follow_field}>
+                                                        <TouchableOpacity style={styles.connect_follow_btn}
+                                                            onPress={() => unfollowUser({
+                                                                variables: { userID1: userID, userID2: authourId },
+                                                                refetchQueries: [{ query: isFollowedSchema, variables: { userID1: userID, userID2: authourId } }]
+                                                            })}
+                                                        >
+                                                            <Text>Unfollow</Text>
+                                                        </TouchableOpacity>
+                                                    </View>
 
 
-                                                       }
-                                                  
+                                            }
+
 
                                             <View style={styles.social_field}>
                                                 <TouchableOpacity

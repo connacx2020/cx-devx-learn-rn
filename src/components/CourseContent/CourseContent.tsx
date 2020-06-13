@@ -26,11 +26,7 @@ function CxDevxCourseContent({ navigation }: HomeStackNavProps<"CourseContent">)
     return (
         <SafeAreaView style={[styles.container,{backgroundColor:colors.background}]}>
             {
-                <FlatList
-                data={courseData}
-                renderItem={({ item,index }) => <RenderCourseItem index={index} title={item.title} />}
-                keyExtractor={item => item.title}
-              />
+                courseData.map((res, index)=> <RenderCourseItem key={index} index={index} title={res.title} />)
             }
 
         </SafeAreaView>

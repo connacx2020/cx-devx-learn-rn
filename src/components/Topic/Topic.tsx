@@ -9,8 +9,8 @@ import { ActivityIndicator, TouchableOpacity, Image } from 'react-native';
 function CxDevxTopic({ navigation }: any) {
     const { colors } = useTheme();
 
-    const renderTopics = (Item: Topic) => <TouchableOpacity key={Item.id} style={{ backgroundColor:'white', elevation: 4, height: 50, display: 'flex', flexDirection: 'row', marginVertical: 2 }}>
-        <Image source={{ uri: 'https://i.ytimg.com/vi/OdU9H-_d14Y/maxresdefault.jpg' }} style={{ flex: 1 }} />
+    const renderTopics = (Item: Topic) => <TouchableOpacity key={Item.id} style={{ backgroundColor:'white', elevation: 3, shadowOpacity: 5, height: 50, display: 'flex', flexDirection: 'row', marginVertical: 2 }}>
+        <Image source={{ uri: Item.logo }} resizeMode="contain" style={{ flex: 1 }} />
         <Text style={{ flex: 5, alignSelf: 'center', fontSize: 23, paddingLeft: 10 }}>{Item.title}</Text>
     </TouchableOpacity>
 

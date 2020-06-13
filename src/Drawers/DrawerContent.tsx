@@ -86,17 +86,17 @@ export function DrawerContent(props: any) {
                             label="Home"
                             onPress={() => { props.navigation.navigate('Home') }}
                         />
-                        {/* <DrawerItem
+                        <DrawerItem
                             icon={({color,size})=>(
                                 <Icon
-                                    name="account-outline"
+                                    name="playlist-plus"
                                     color={color}
                                     size={size}
                                 />
                             )}
-                            label="Profile"
-                            onPress={()=>props.navigation.navigate("Profile")}
-                        /> */}
+                            label="Create Course"
+                            onPress={()=>props.navigation.navigate("createCourse")}
+                        />
                         <DrawerItem
                             icon={({ color, size }) => (
                                 <Icon
@@ -154,8 +154,8 @@ export function DrawerContent(props: any) {
                         />
                     )}
                     label="Sign Out"
-                    onPress={() => props.navigation.navigate("Logout")}
-                />
+                    onPress={()=>{props.navigation.navigate("Logout");logout()}}
+                    />
             </Drawer.Section>
         </View>
 

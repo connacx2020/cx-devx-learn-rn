@@ -1,8 +1,6 @@
 import React, { useContext, useRef } from 'react';
-import { ScrollView, TouchableOpacity, Text, Dimensions, ToastAndroid } from 'react-native';
+import { ScrollView, TouchableOpacity, Text, RefreshControl, ToastAndroid } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-
-import { HomeStackNavProps } from '../../common/ultis/ParamLists/HomeParamList';
 
 import { styles } from './styles';
 import { getCoursesSchema } from '../../common/graphQL';
@@ -15,7 +13,6 @@ import { CxDevxCourseItem } from '../CourseItem/CourseItem';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { View } from 'react-native-animatable';
 
-import { ENV } from '../../common/envirnoment';
 import { ActivityIndicator } from 'react-native';
 import { serverlessClient } from '../../common/graphQL/graphql.config';
 
@@ -25,12 +22,7 @@ function CxDevxFeed({ navigation }: any) {
     const tabNavigation = useNavigation();
     const parent = tabNavigation.dangerouslyGetParent();
 
-    // const serverlessClient = new ApolloClient({
-    //     uri: `http://192.168.43.93:3000/dev/graphql`,
-    // });
-    // const serverlessClient = new ApolloClient({
-    //     uri: `http://localhost:3000/graphql`,
-    // });
+    const [refreshing, setRefreshing] = React.useState<boolean>(false);
 
     useFocusEffect(() => {
         parent?.setOptions({ tabBarVisible: true });
@@ -45,7 +37,7 @@ function CxDevxFeed({ navigation }: any) {
 
             <Query<any, any> client={serverlessClient} query={getCoursesSchema}>
                 {
-                    ({ loading, error, data }) => {
+                    ({ loading, error, data, refetch }) => {
 
                         if (error) ToastAndroid.show("No Internet Connection ", ToastAndroid.SHORT);
 
@@ -57,33 +49,44 @@ function CxDevxFeed({ navigation }: any) {
 
                         return <View>
                             <Text style={[styles.centerTxt, { color: colors.text }]}>Recommended for you</Text>
-                            <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
-                                {
-                                    data.getAllCourses.map((res: Course) =>
-                                        <CxDevxCourseItem
-                                            key={res.id}
-                                            authourID={res.authorID}
-                                            id={res.id}
-                                            img={res.photoUrl}
-                                            title={res.title}
-                                            rate={parseFloat(res.rating)}
-                                            routeToCourseDetail={routeToCourseDetail}
-                                        />)
+                            <ScrollView
+                                refreshControl={
+                                    <RefreshControl
+                                        refreshing={refreshing}
+                                        onRefresh={() => {
+                                            setRefreshing(true)
+                                            refetch().then(res => { setRefreshing(false) });
+                                        }}
+                                    />}
+                                showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
+                                {data.getAllCourses && data.getAllCourses.map((res: Course) =>
+                                    <CxDevxCourseItem
+                                        key={res.id}
+                                        authorID={res.authorID}
+                                        id={res.id}
+                                        img={res.photoUrl}
+                                        title={res.title}
+                                        rate={res.rating}
+                                        description={res.description}
+                                        enrolled={res.enrolled}
+                                        routeToCourseDetail={routeToCourseDetail}
+                                    />)
                                 }
                             </ScrollView>
-                            <Text style={[styles.centerTxt, { color: colors.text }]}> Most Popular </Text>
-                            <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row' }}>
-                                {
-                                    data.getAllCourses.map((res: Course) =>
-                                        <CxDevxCourseItem
-                                            key={res.id}
-                                            authourID={res.authorID}
-                                            id={res.id}
-                                            img={res.photoUrl}
-                                            title={res.title}
-                                            rate={parseFloat(res.rating)}
-                                            routeToCourseDetail={routeToCourseDetail}
-                                        />)
+                            <Text style={[styles.centerTxt, { color: colors.text }]}>Most Popular</Text>
+                            <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
+                                {data.getAllCourses && data.getAllCourses.map((res: Course) =>
+                                    <CxDevxCourseItem
+                                        key={res.id}
+                                        authorID={res.authorID}
+                                        id={res.id}
+                                        img={res.photoUrl}
+                                        title={res.title}
+                                        rate={res.rating}
+                                        description={res.description}
+                                        enrolled={res.enrolled}
+                                        routeToCourseDetail={routeToCourseDetail}
+                                    />)
                                 }
                             </ScrollView>
                         </View>

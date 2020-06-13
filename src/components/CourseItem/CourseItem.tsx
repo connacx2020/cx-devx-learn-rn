@@ -5,22 +5,16 @@ import { useTheme } from '@react-navigation/native';
 
 
 import { styles } from './styles';
+import { Course } from '../../models';
 
-type courseItem = {
-    id: string,
-    img: string,
-    title: string,
-    rate: number,
-    authourID: string,
-    routeToCourseDetail: any
-}
 
-export const CxDevxCourseItem = ({ id, authourID, img, title, rate, routeToCourseDetail }: courseItem) => {
+export const CxDevxCourseItem:React.FC<any> = ({id, authorID, enrolled, img, title, rating, description, routeToCourseDetail}: any, ) => {
     const { colors } = useTheme();
+
     return (
         <View style={[styles.container, { backgroundColor: colors.background }]}>
             <View style={styles.content}>
-                <TouchableOpacity onPress={() => routeToCourseDetail(id, authourID, img, title)}>
+                <TouchableOpacity onPress={() => routeToCourseDetail(id)}>
                     {
                         img === "" ? <View  style={{height: 150, display:'flex',flexDirection:'column',justifyContent:'center', backgroundColor:'#2289f0'}}><Text style={{alignSelf:'center', fontWeight:'bold', fontSize: 30, color:'white'}}>{title}</Text></View> :
                         <Image
@@ -38,12 +32,12 @@ export const CxDevxCourseItem = ({ id, authourID, img, title, rate, routeToCours
                     <StarRating
                         disabled={true}
                         maxStars={5}
-                        rating={rate}
+                        rating={rating}
                         starSize={20}
                         starStyle={styles.star as StyleProp<ViewStyle>}
                     />
                 </View>
-                <Text style={[styles.likes, { color: colors.text }]}>{1} Enrolls</Text>
+                <Text style={[styles.likes, { color: colors.text }]}>{enrolled} Enrolls</Text>
             </View>
 
 

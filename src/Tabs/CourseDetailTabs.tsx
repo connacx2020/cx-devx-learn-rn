@@ -4,21 +4,17 @@ import { CourseDetailTabsParamList } from '../common/ultis/ParamLists/CourseDeta
 
 import CxDevxCourseOverview from '../components/CourseOverview/CourseOverview';
 import CxDevxCourseContent from '../components/CourseContent/CourseContent';
+import { Course } from '../models';
 
 const Tab = createMaterialTopTabNavigator<CourseDetailTabsParamList>();
 
-interface CourseDetailTabsProps{
-    courseID: string;
-    authourID: string
-}
-
-export const CourseDetailTabs: React.FC<any>=(props:any)=>{
-
+export const CourseDetailTabs: React.FC<any>=(props:Course)=>{
   return (
     <Tab.Navigator>
       <Tab.Screen name="Overview">
-        {()=><CxDevxCourseOverview {...props}/>
-        }
+          {()=> <CxDevxCourseOverview
+          {...props}
+          />}
       </Tab.Screen>
       <Tab.Screen name="Content" component={CxDevxCourseContent} />
     </Tab.Navigator>
