@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, ScrollView, TouchableOpacity, TextInput, Button, ToastAndroid, Image } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, Button, ToastAndroid, Image, StyleSheet } from 'react-native';
 import { useMutation } from '@apollo/react-hooks';
 import { createCourseSchema } from '../../common/graphQL';
 import { serverlessClient } from '../../common/graphQL/graphql.config';
@@ -24,16 +24,16 @@ export const CxDevxCourseCreate = () => {
     const [authorID, setAuthorID] = React.useState();
     const [photo, setPhoto] = React.useState<any>();
 
-    const [createCourse] = useMutation(createCourseSchema, { client: serverlessClient });
+    const [createCourse,{ loading: mutationLoading, error: mutationError }] = useMutation(createCourseSchema, { client: serverlessClient });
 
     const addOutCome = (value: string) => {
         value !== "" && setOutCome(outcome.concat(value));
+        setOutComeInput('');
     }
     const addRequirements = (value: string) => {
         value !== "" && setRequirements(requirements.concat(value));
+        setRequirementsInput('');
     }
-
-
 
     const filePick = async () => {
         try {
@@ -53,35 +53,65 @@ export const CxDevxCourseCreate = () => {
     }
 
     const createCoursePressed = () => {
-        from(createCourse({
-            variables: {
-                authorID,
-                title,
-                photoUrl: photo ? photo.uri : '',
-                seriesId: seriesId,
-                duration,
-                description,
-                outcome,
-                requirements
+        if (seriesId !== '' && duration !== '' && description !== '' && outcome.length > 0 && requirements.length > 0) {
+            from(createCourse({
+                variables: {
+                    authorID: '81e0964d-6da3-4e55-b894-e8a79be6cb02',
+                    title,
+                    photoUrl: photo ? photo.uri : '',
+                    seriesId: seriesId,
+                    duration,
+                    description,
+                    outcome,
+                    requirements
+                }
+            })).subscribe(res => {
+                if(mutationLoading === true){
+                    ToastAndroid.showWithGravity(
+                        "loading",
+                        ToastAndroid.SHORT,
+                        ToastAndroid.BOTTOM
+                    );
+                }
+                res.data.createNewCourse === true && navigation.navigate('Home')
+                ToastAndroid.showWithGravity(
+                    "Course creation successful!",
+                    ToastAndroid.SHORT,
+                    ToastAndroid.BOTTOM
+                );
+            }, err => {
+                ToastAndroid.showWithGravity(
+                    "Error",
+                    ToastAndroid.SHORT,
+                    ToastAndroid.BOTTOM
+                );
             }
-        })).subscribe(res => {
-            res.data.createNewCourse === true && navigation.navigate('Home')
+            )
+        } else {
             ToastAndroid.showWithGravity(
-                "Course creation successful!",
-                ToastAndroid.SHORT,
-                ToastAndroid.BOTTOM
-            );
-        }, err => {
-            ToastAndroid.showWithGravity(
-                "Error",
+                "Please Fill All Field",
                 ToastAndroid.SHORT,
                 ToastAndroid.BOTTOM
             );
         }
-        )
+    }
+
+    const removeFromList = (info: string, index: number) => {
+        switch (info) {
+            case "outcome":
+                let outcomeResult = outcome.splice(index, 1);
+                setOutCome(outcome.filter((item: any) => item !== outcomeResult));
+                break;
+            case "requirements":
+                let reqResult = requirements.splice(index, 1);
+                setRequirements(requirements.filter((item: any) => item !== reqResult));
+                break;
+        }
+
     }
 
     React.useEffect(() => {
+
         AsyncStorage.getItem("devx_token")
             .then(async (localToken: any) => {
                 const localData = JSON.parse(localToken);
@@ -106,15 +136,14 @@ export const CxDevxCourseCreate = () => {
 
     return (
         <View>
-
-            <View style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 10, height: 50, elevation: 3, }}>
+            <View style={styles.body}>
                 <Text style={{ fontWeight: "bold", fontSize: 20, alignSelf: 'center' }}>Create Course</Text>
                 <TouchableOpacity
-                    disabled={outcomeInput === '' && requirementsInput === ''}
+                    // disabled={outcomeInput === '' && requirementsInput === ''}
                     onPress={() => createCoursePressed()}
-                    style={{ alignSelf: 'center', flexDirection: 'row', backgroundColor: 'blue', padding: 10, borderRadius: 10 }}
+                    style={styles.create_btn}
                 >
-                    {seriesId !== '' && duration !== '' && description !== '' && outcome.length > 0 && requirements.length > 0 && <View style={{ alignSelf: 'center', flexDirection: 'row' }}>
+                    <View style={{ alignSelf: 'center', flexDirection: 'row' }}>
                         <Icon
                             name="plus"
                             color="#fff"
@@ -122,7 +151,7 @@ export const CxDevxCourseCreate = () => {
                         />
                         <Text style={{ color: '#fff' }}>Create</Text>
                     </View>
-                    }
+
 
                 </TouchableOpacity>
             </View>
@@ -159,37 +188,52 @@ export const CxDevxCourseCreate = () => {
 
                 <View style={styles.content_container}>
                     <Text style={styles.content_header}>Outcome</Text>
+                    {outcome.length > 0 &&
+                        <View style={{ backgroundColor: '#c5d1db', padding: 5, marginVertical: 5 }}>
+                            {
+                                outcome.map((res, index) => <View key={index} style={{ marginVertical: 3, padding: 7, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <Text style={{ flex: 9 }} >{index + 1}. {res}</Text>
+                                    <TouchableOpacity onPress={() => removeFromList("outcome", index)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                                        <Icon
+                                            name="delete"
+                                            color="#000"
+                                            size={25}
+                                        /></TouchableOpacity>
+                                </View>)
+                            }
+                        </View>
+                    }
                     <View style={{ flexDirection: 'row' }}>
-                        <TextInput onChangeText={text => setOutComeInput(text)} placeholder="Enter" style={[styles.text_Input, { flex: 2 }]} />
+                        <TextInput value={outcomeInput} onChangeText={text => setOutComeInput(text)} placeholder="Enter" style={[styles.text_Input, { flex: 2 }]} />
                         <View style={{ flex: 1, paddingLeft: 10 }}>
                             <Button title='Add' disabled={outcomeInput === ''} onPress={() => addOutCome(outcomeInput)} />
                         </View>
                     </View>
-                    {outcome.length > 0 &&
-                        <View style={{ backgroundColor: 'gray', padding: 10 }}>
-                            {
-                                outcome.map(res => <Text key={res}>{res}</Text>)
-                            }
-                        </View>
-                    }
-
                 </View>
 
                 <View style={styles.content_container}>
                     <Text style={styles.content_header}>Requirements</Text>
+                    {requirements.length > 0 &&
+                        <View style={{ backgroundColor: '#c5d1db', padding: 5, marginVertical: 5 }}>
+                            {
+                                requirements.map((res, index) => <View key={index} style={{ marginVertical: 3, padding: 7, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <Text style={{ flex: 9 }} >{index + 1}. {res}</Text>
+                                    <TouchableOpacity onPress={() => removeFromList("requirements", index)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                                        <Icon
+                                            name="delete"
+                                            color="#000"
+                                            size={25}
+                                        /></TouchableOpacity>
+                                </View>)
+                            }
+                        </View>
+                    }
                     <View style={{ flexDirection: 'row' }}>
-                        <TextInput onChangeText={text => setRequirementsInput(text)} placeholder="Enter" style={[styles.text_Input, { flex: 2 }]} />
+                        <TextInput value={requirementsInput} onChangeText={text => setRequirementsInput(text)} placeholder="Enter" style={[styles.text_Input, { flex: 2 }]} />
                         <View style={{ flex: 1, paddingLeft: 10 }}>
                             <Button disabled={requirementsInput === ''} title='Add' onPress={() => addRequirements(requirementsInput)} />
                         </View>
                     </View>
-                    {requirements.length > 0 &&
-                        <View style={{ backgroundColor: 'gray', padding: 10 }}>
-                            {
-                                requirements.map(res => <Text key={res} >{res}</Text>)
-                            }
-                        </View>
-                    }
                 </View>
 
                 <View>
@@ -200,9 +244,10 @@ export const CxDevxCourseCreate = () => {
     )
 }
 
-import { StyleSheet } from 'react-native';
-
 export const styles = StyleSheet.create({
+    body: {
+        display: 'flex', justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 10, height: 50, elevation: 3
+    },
     container: {
         paddingHorizontal: 10,
         height: "92%",
@@ -236,6 +281,12 @@ export const styles = StyleSheet.create({
     text_Input: {
         borderColor: '#000',
         borderBottomWidth: 1
+    },
+    create_btn: {
+        alignSelf: 'center',
+        flexDirection: 'row',
+        backgroundColor: '#24a2f0',
+        padding: 6,
+        borderRadius: 10
     }
-
 });
