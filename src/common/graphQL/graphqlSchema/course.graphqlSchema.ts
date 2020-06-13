@@ -46,3 +46,15 @@ query($courseTitle: String!){
 }
 ${Course_Info_Fragment.courseInfo}
 `;
+
+export const getPostSeriesByIdSchema = gql`
+query ($seriesId: ID!){
+    getPostSeries(seriesID: $seriesId){
+      id
+      title
+      posts{
+        id
+        title
+      }
+    }
+  }`;

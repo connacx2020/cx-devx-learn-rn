@@ -11,10 +11,10 @@ export const styles = StyleSheet.create({
     },
     render_course_item_container:{
         padding:15,
-        borderBottomWidth:0.1,
+        // borderBottomWidth:0.1,
         elevation:1,
-        marginHorizontal:10,
-        alignItems:'stretch'
+        alignItems:'stretch',
+        // backgroundColor:'red'
     },
     render_course_item_txt:{
         fontSize:17,

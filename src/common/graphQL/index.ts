@@ -26,5 +26,6 @@ export {
 export {
     getCoursesSchema,
     searchCourseByTitle,
-    getCourseById
+    getCourseById,
+    getPostSeriesByIdSchema
 } from './graphqlSchema/course.graphqlSchema';

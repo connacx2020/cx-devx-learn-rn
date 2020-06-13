@@ -1,35 +1,38 @@
 import React from 'react';
-import { StyleSheet, View, Text ,TouchableOpacity,SafeAreaView,FlatList} from 'react-native';
-import { HomeStackNavProps } from '../../common/ultis/ParamLists/HomeParamList';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { styles } from './style';
-import { useTheme } from '@react-navigation/native'
-function CxDevxCourseContent({ navigation }: HomeStackNavProps<"CourseContent">) {
-
+import { useTheme, useNavigation } from '@react-navigation/native';
+import { getPostSeriesByIdSchema } from '../../common/graphQL';
+import { Query } from '@apollo/react-components';
+import { Course } from '../../models';
+import { Divider } from 'react-native-paper';
+const CxDevxCourseContent: React.FC<any> = (props: Course) => {
+    const navigation = useNavigation();
     const { colors } = useTheme();
-    const courseData = [
-        {title:"Introduction"},
-        {title: "What is Angular?"},
-        {title: "Setup"},
-        {title:"Course curriculum"},
-        {title: "Why use Angular?"},
-        {title: "Typescript with Angular"},
-        {title: "Creact Angular Project"},
-        {title: "Hello Wordl"}
-    ]
-    const RenderCourseItem = ({index,title})=>{
-        return(
-            <TouchableOpacity style={styles.render_course_item_container}onPress={()=>navigation.navigate('CourseSection',{course:title})}>
-                <Text style={[styles.render_course_item_txt,{color:colors.text}]}>{index+1}. {title} </Text>
-             </TouchableOpacity>
+
+    const RenderCourseItem = ({ index, title }) => {
+        return (
+            <View>
+                <TouchableOpacity style={styles.render_course_item_container} onPress={() => navigation.navigate('CourseSection', { course: title })}>
+                    <Text style={[styles.render_course_item_txt, { color: colors.text }]}>{index + 1}. {title} </Text>
+                </TouchableOpacity>
+                <Divider />
+            </View>
         )
     }
     return (
-        <SafeAreaView style={[styles.container,{backgroundColor:colors.background}]}>
-            {
-                courseData.map((res, index)=> <RenderCourseItem key={index} index={index} title={res.title} />)
-            }
+        <View>
+            <Query<any, any> query={getPostSeriesByIdSchema} variables={{ seriesId: props.seriesId }}>
+                {
+                    ({ loading, error, data }) => {
+                        if (loading) return <Text>Loading...</Text>
+                        if (error) return <Text>Error</Text>
 
-        </SafeAreaView>
+                        return data.getPostSeries.posts.map((res: any, index: any) => <RenderCourseItem key={index} index={index} title={res.title} />)
+                    }
+                }
+            </Query>
+        </View>
     )
 }
 export default CxDevxCourseContent;
