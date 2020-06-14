@@ -44,11 +44,11 @@ export const InstructorProfile: React.FC = () => {
         <ScrollView style={[styles.wrapper, { backgroundColor: colors.background }]}>
             <Async promise={getCheckedUserInfo(authorID)}>
                 {
-                    ({ data, error, isLoading }) => {
+                   getUserInfo => {
 
-                        if (isLoading) return <View><Text>loading</Text></View>
-                        if (error) return <View><Text>{error}</Text></View>
-                        if (data) {
+                        if (getUserInfo.loading) return <View><Text>loading ...</Text></View>
+                        if (getUserInfo.error) return <View><Text>{getUserInfo.error}</Text></View>
+                        if (getUserInfo.data) {
                             return (
                                 <>
                                     <ImageBackground
@@ -74,13 +74,13 @@ export const InstructorProfile: React.FC = () => {
                                                     testID="avatarID"
                                                     style={styles.avatar}
                                                     source={{
-                                                        uri: data.photo
+                                                        uri: getUserInfo.data.photo
                                                     }}
                                                 />
                                             </View>
                                         </View>
                                         <View style={styles.header_right}>
-                                            <Text testID="nameID" style={styles.user_name}>{data.name}</Text>
+                                            <Text testID="nameID" style={styles.user_name}>{getUserInfo.data.name}</Text>
 
                                             <Query<any, any> query={isFollowedSchema} client={graphqlClient} variables={{ userID1: userID, userID2: authorID }}>
                                                 {
@@ -128,33 +128,62 @@ export const InstructorProfile: React.FC = () => {
 
 
                                             <View style={styles.social_field}>
-                                                <TouchableOpacity
-                                                    testID="githubImgBtnID"
-                                                    onPress={() => Linking.openURL(data.weblinks[0].url)}
-                                                    style={styles.icon_field}>
-                                                    <Image
-                                                        style={styles.icon}
-                                                        source={require('../../asset/icons/github.png')}
-                                                    />
-                                                </TouchableOpacity>
-                                                <TouchableOpacity
-                                                    testID="fbImgBtnID"
-                                                    onPress={() => Linking.openURL(data.weblinks[1].url)}
-                                                    style={styles.icon_field}>
-                                                    <Image
-                                                        style={styles.gmail_icon}
-                                                        source={require('../../asset/icons/gmail.png')}
-                                                    />
-                                                </TouchableOpacity>
-                                                <TouchableOpacity
-                                                    testID="linkedInImgBtnID"
-                                                    onPress={() => Linking.openURL(data.weblinks[0].url)}
-                                                    style={styles.icon_field}>
-                                                    <Image
-                                                        style={styles.icon}
-                                                        source={require('../../asset/icons/linkedin.png')}
-                                                    />
-                                                </TouchableOpacity>
+                                               {
+                                                   getUserInfo.data.weblinks.map((item:any)=>{
+                                                       console.log(item)
+                                                       console.log(item.url.search('github'))
+                                                       if(item.url.search('github') !== -1){
+                                                           console.log("Ok")
+                                                           return(
+                                                                <TouchableOpacity
+                                                                    testID="githubImgBtnID"
+                                                                    onPress={() => Linking.openURL(item.url)}
+                                                                    style={styles.icon_field}>
+                                                                    <Image
+                                                                        style={styles.icon}
+                                                                        source={require('../../asset/icons/github.png')}
+                                                                    />
+                                                                </TouchableOpacity>
+                                                           )
+                                                        }else if(item.url.search('gmail') !== -1){
+                                                            return(
+                                                                <TouchableOpacity
+                                                                    testID="fbImgBtnID"
+                                                                    onPress={() => Linking.openURL(item.url)}
+                                                                    style={styles.icon_field}>
+                                                                    <Image
+                                                                        style={styles.gmail_icon}
+                                                                        source={require('../../asset/icons/gmail.png')}
+                                                                    />
+                                                                </TouchableOpacity>
+                                                            )
+                                                        }else if(item.url.search("linkedin") !== -1){
+                                                            return(
+                                                                <TouchableOpacity
+                                                                testID="linkedInImgBtnID"
+                                                                onPress={() => Linking.openURL(item.url)}
+                                                                style={styles.icon_field}>
+                                                                <Image
+                                                                    style={styles.icon}
+                                                                    source={require('../../asset/icons/linkedin.png')}
+                                                                />
+                                                            </TouchableOpacity>
+                                                            )
+                                                        }else{
+                                                            <TouchableOpacity
+                                                                testID="linkedInImgBtnID"
+                                                                onPress={() => Linking.openURL(item.url)}
+                                                                style={styles.icon_field}>
+                                                                <Image
+                                                                    style={styles.icon}
+                                                                    source={require('../../asset/icons/web.png')}
+                                                                />
+                                                            </TouchableOpacity>
+                                                        }
+                                                   })
+                                               }
+                                                
+                                               
                                             </View>
                                         </View>
                                     </ImageBackground>
@@ -162,7 +191,7 @@ export const InstructorProfile: React.FC = () => {
                                         <View style={styles.about_field}>
                                             <Text testID="aboutID" style={[styles.about_txt, { color: colors.text }]}>About</Text>
                                             <Text testID="aboutContentID" style={[styles.about_context_txt, { color: colors.text }]}>
-                                                {data.about}
+                                                {getUserInfo.data.about}
                                             </Text>
                                         </View>
                                         <Query<any, any> query={getAllCourseByAuthorID} client={serverlessClient} variables={{ authorId: authorID }}>
