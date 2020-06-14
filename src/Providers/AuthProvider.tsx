@@ -4,6 +4,8 @@ import { useMutation } from '@apollo/react-hooks';
 import { loginSchema } from '../common/graphQL';
 import { from } from 'rxjs';
 import { graphqlClient } from '../common/graphQL/graphql.config';
+import { store } from '../common/redux';
+import { saveAuthUserInfo } from '../common/redux/redux-actions';
 
 
 type User = null | { email: string; password: string };
@@ -50,7 +52,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                                 console.log(res.data)
                                 devx_token = res.data.login.token;
                                 setToken(res.data.login.token);
-                                AsyncStorage.setItem('devx_token', JSON.stringify({ token: devx_token, userID: res.data.login.id }));
+                                AsyncStorage.setItem('devx_token', JSON.stringify({ token: devx_token, authUserData: res.data.login }));
+                                store.dispatch(saveAuthUserInfo({ email: res.data.login.email, name: res.data.login.name, token: res.data.login.token, userID: res.data.login.id, username: res.data.login.username }))
                             } else {
                                 setError('Incorrect Email or Password.');
                             }

@@ -1,13 +1,18 @@
 import React from 'react'
-import { View, Text, ScrollView, TouchableOpacity, TextInput, Button, ToastAndroid, Image, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, Button, ToastAndroid, Image, StyleSheet, Modal, Alert } from 'react-native';
 import { useMutation } from '@apollo/react-hooks';
-import { createCourseSchema } from '../../common/graphQL';
-import { serverlessClient } from '../../common/graphQL/graphql.config';
+import { createCourseSchema, getAllPostSeriesSchema } from '../../common/graphQL';
+import { serverlessClient, graphqlClient } from '../../common/graphQL/graphql.config';
 import { from } from 'rxjs';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
 import DocumentPicker from 'react-native-document-picker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Query } from '@apollo/react-components';
+import Autocomplete from 'react-native-autocomplete-input';
+import { Divider } from 'react-native-paper';
+import { AuthUserInfo } from '../../common/redux/redux-actions';
+import { useSelector } from 'react-redux';
 
 export const CxDevxCourseCreate = () => {
 
@@ -17,14 +22,16 @@ export const CxDevxCourseCreate = () => {
 
     const [outcomeInput, setOutComeInput] = React.useState<string>('');
     const [requirementsInput, setRequirementsInput] = React.useState<string>('');
+    const [seriesInput, setSeriesInput] = React.useState<string>('');
     const [title, setTitle] = React.useState<string>('');
     const [description, setDescription] = React.useState<string>('');
     const [seriesId, setSeriesId] = React.useState<string>('');
     const [duration, setDuration] = React.useState<string>('');
-    const [authorID, setAuthorID] = React.useState();
+    const auth: AuthUserInfo = useSelector((state: any) => state.authUserInfo);
     const [photo, setPhoto] = React.useState<any>();
+    const [modalVisible, setModalVisible] = React.useState<boolean>(false);
 
-    const [createCourse,{ loading: mutationLoading, error: mutationError }] = useMutation(createCourseSchema, { client: serverlessClient });
+    const [createCourse, { loading: mutationLoading, error: mutationError }] = useMutation(createCourseSchema, { client: serverlessClient });
 
     const addOutCome = (value: string) => {
         value !== "" && setOutCome(outcome.concat(value));
@@ -66,7 +73,7 @@ export const CxDevxCourseCreate = () => {
                     requirements
                 }
             })).subscribe(res => {
-                if(mutationLoading === true){
+                if (mutationLoading === true) {
                     ToastAndroid.showWithGravity(
                         "loading",
                         ToastAndroid.SHORT,
@@ -111,28 +118,7 @@ export const CxDevxCourseCreate = () => {
     }
 
     React.useEffect(() => {
-
-        AsyncStorage.getItem("devx_token")
-            .then(async (localToken: any) => {
-                const localData = JSON.parse(localToken);
-                if (localToken) {
-                    setAuthorID(localData.userID)
-                } else {
-                    ToastAndroid.showWithGravity(
-                        "No local data",
-                        ToastAndroid.SHORT,
-                        ToastAndroid.BOTTOM
-                    );
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            });
-
-        return () => {
-            // setPhoto(undefined)
-        }
-    }, [authorID, photo]);
+    }, [photo]);
 
     return (
         <View>
@@ -168,7 +154,52 @@ export const CxDevxCourseCreate = () => {
 
                 <View style={styles.content_container}>
                     <Text style={styles.content_header}>Series</Text>
-                    <TextInput onChangeText={text => setSeriesId(text)} placeholder="Enter Course Series" style={styles.text_Input} />
+                    <TextInput value={seriesInput} onFocus={() => setModalVisible(!modalVisible)} style={styles.text_Input} />
+                    <Query<any, any> query={getAllPostSeriesSchema} client={graphqlClient}>
+                        {
+                            (postSeries) => {
+                                if (postSeries.loading) return <Text>Loading</Text>
+                                if (postSeries.error) return <Text>Error</Text>
+
+                                return <Modal
+                                    animationType="slide"
+                                    transparent={true}
+                                    visible={modalVisible}
+                                    onRequestClose={() => {
+                                        Alert.alert("Modal has been closed.");
+                                    }}
+                                >
+                                    <View style={{
+                                        flex: 1,
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        marginTop: 22
+                                    }}>
+                                        <View style={styles.modalBoxContent}>
+                                            <View style={{ flexDirection: 'row', backgroundColor: '#ebeced', borderRadius: 10, justifyContent: 'space-between', padding: 10 }}>
+                                                <Text>Choose Series Title</Text>
+                                                <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}><Text>Close</Text></TouchableOpacity>
+                                            </View>
+                                            <ScrollView style={{ height: 200 }}>
+                                                {
+                                                    postSeries.data.getAllSeries.map((res: any) => <View style={{ padding: 1 }}>
+
+                                                        <TouchableOpacity
+                                                            onPress={() => { setSeriesId(res.id); setSeriesInput(res.title); setModalVisible(!modalVisible) }}
+                                                            style={{ padding: 10 }}>
+                                                            <Text >{res.title}</Text>
+                                                        </TouchableOpacity>
+                                                        <Divider />
+                                                    </View>)
+                                                }
+                                            </ScrollView>
+                                        </View>
+                                    </View>
+                                </Modal>
+
+                            }
+                        }
+                    </Query>
                 </View>
 
                 <View style={styles.content_container}>
@@ -252,6 +283,21 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 10,
         height: "92%",
 
+    },
+    modalBoxContent: {
+        margin: 20,
+        width: '90%',
+        backgroundColor: "white",
+        shadowColor: "#000",
+        borderRadius: 10,
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        borderWidth: 1
     },
     imgSection: {
         flex: 1,

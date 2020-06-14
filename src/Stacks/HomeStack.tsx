@@ -27,7 +27,6 @@ import { InstructorProfile as CxDevxInstructorProfile} from '../components/Profi
 import { AuthContext } from "../Providers/AuthProvider";
 import DevxSearch from "../components/Search/DevxSearch";
 import CxDevxSearchResult from "../components/Search/DevxSearchResult";
-import { CxDevxCourseCreate } from "../components/CourseCreate/CourseCreate";
 
 
 interface HomeStackProps { }
@@ -37,24 +36,9 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
     const navigation = useNavigation();
     const {isDarkTheme } = useContext(AuthContext);
     const [isShowSearch,setShowSearch] = useState(false);
-    const [userInfo, setUserInfo] = React.useState<User | any>({});
     const [searchValue,setSearchValue] = React.useState<String | undefined>('');
     const screenWidth = Math.round(Dimensions.get('window').width);
 
-    React.useEffect(() => {
-        let getLocalToken = from(AsyncStorage.getItem("devx_token")).subscribe(
-            async (localData: any) => {
-                let localUserID = JSON.parse(localData);
-                if (localData) {
-                    setUserInfo(await getCheckedUserInfo(localUserID.userID));
-                }
-            }
-        )
-
-        return () => {
-            getLocalToken.unsubscribe();
-        }
-    }, []);
 
     return (
         <Stack.Navigator
