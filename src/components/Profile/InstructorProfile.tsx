@@ -130,10 +130,7 @@ export const InstructorProfile: React.FC = () => {
                                             <View style={styles.social_field}>
                                                {
                                                    getUserInfo.data.weblinks.map((item:any)=>{
-                                                       console.log(item)
-                                                       console.log(item.url.search('github'))
                                                        if(item.url.search('github') !== -1){
-                                                           console.log("Ok")
                                                            return(
                                                                 <TouchableOpacity
                                                                     testID="githubImgBtnID"
