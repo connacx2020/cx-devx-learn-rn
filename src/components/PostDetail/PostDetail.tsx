@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity, Dimensions, TextInput, ToastAndroid } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, ToastAndroid, RefreshControl } from 'react-native';
 
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import { Query } from '@apollo/react-components';
 import { getCheckedUserInfo } from '../../common/ultis/getUserInfo';
 import { Async } from 'react-async';
 import { useTheme } from '@react-navigation/native';
-import { getPostByIDSchema, addLikeSchema, removeLikeSchema, addCommentSchema } from '../../common/graphQL';
+import { getPostByIDSchema, addLikeSchema, removeLikeSchema, addCommentSchema, getLikedUserSchema } from '../../common/graphQL';
 import { graphqlClient } from '../../common/graphQL/graphql.config';
 import { from } from 'rxjs';
 import { AuthUserInfo } from '../../common/redux/redux-actions';
@@ -17,38 +17,49 @@ import { styles } from '../CourseSection/style';
 
 function CxPostDetail(props: any) {
     const { colors } = useTheme();
-    let [isLiked, setLike] = useState<Boolean>(false);
+    let [isLiked, setLike] = useState<Boolean>(true);
+    const [likedUsers, setLikedUsers] = React.useState([]);
     let [isModalVisible, setModalVisible] = useState<Boolean>(false);
     const [addLike] = useMutation(addLikeSchema, { client: graphqlClient });
     const [removeLike] = useMutation(removeLikeSchema, { client: graphqlClient });
     const [addComment] = useMutation(addCommentSchema, { client: graphqlClient });
+    const getLikeUser = useQuery(getLikedUserSchema, { variables: { postID: props.postID }, notifyOnNetworkStatusChange: true });
+    const [refreshing, setRefreshing] = React.useState<boolean>(false);
 
     const auth: AuthUserInfo = useSelector((state: any) => state.authUserInfo);
 
     const likePressed = () => {
-        if (!isLiked) {
-            from(addLike({ variables: { postID: props.postID, authorID: auth.userID } }))
-                .subscribe(res => {
-                    if (res.data.addLike) {
-                        setLike(true)
-                    }
-                }, err => {
-                    ToastAndroid.showWithGravity(
-                        "Cannot Like",
-                        ToastAndroid.SHORT,
-                        ToastAndroid.BOTTOM
-                    );
-                })
-        }
+        // if (!isLiked) {
+        from(addLike({ variables: { postID: props.postID, authorID: auth.userID } }))
+            .subscribe(res => {
+                // if (res.data.addLike) {
+                setLike(true)
+                ToastAndroid.showWithGravity(
+                    "Like",
+                    ToastAndroid.SHORT,
+                    ToastAndroid.BOTTOM
+                );
+                // }
+            }, err => {
+                ToastAndroid.showWithGravity(
+                    "Cannot Like",
+                    ToastAndroid.SHORT,
+                    ToastAndroid.BOTTOM
+                );
+            })
+        // }
     }
 
     const unlikePressed = () => {
         if (isLiked) {
             from(removeLike({ variables: { postID: props.postID, authorID: auth.userID } }))
                 .subscribe(res => {
-                    if (!res.data.removeLike) {
-                        setLike(false)
-                    }
+                    setLike(false)
+                    ToastAndroid.showWithGravity(
+                        "UnLike",
+                        ToastAndroid.SHORT,
+                        ToastAndroid.BOTTOM
+                    );
                 }, err => {
                     ToastAndroid.showWithGravity(
                         "Cannot UnLike",
@@ -58,6 +69,18 @@ function CxPostDetail(props: any) {
                 })
         }
     }
+
+    React.useEffect(() => {
+        if (getLikeUser.data) {
+            getLikeUser.data.getPostLikedUsers !== null && setLikedUsers(getLikeUser.data.getPostLikedUsers);
+            getLikeUser.data.getPostLikedUsers !== null && getLikeUser.data.getPostLikedUsers.map((res: any) => {
+                if (res === auth.userID) {
+                    setLike(true);
+                }
+                return 'not match';
+            })
+        }
+    }, [isLiked])
 
 
     return (
@@ -77,7 +100,16 @@ function CxPostDetail(props: any) {
 
                                     return (
                                         <View style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-                                            <ScrollView style={{backgroundColor: colors.background}}>
+                                            <ScrollView
+                                                refreshControl={
+                                                    <RefreshControl
+                                                        refreshing={refreshing}
+                                                        onRefresh={() => {
+                                                            setRefreshing(true)
+                                                            fetchPostByID.refetch().then(res => { setRefreshing(false) });
+                                                        }}
+                                                    />}
+                                                style={{ backgroundColor: colors.background }}>
                                                 <View style={{ flexDirection: 'row', borderBottomColor: 'black', borderBottomWidth: 0.5, paddingBottom: 5 }}>
 
                                                     <Image style={{ width: 60, height: 60, marginHorizontal: 10, borderRadius: 100, }}
@@ -100,11 +132,11 @@ function CxPostDetail(props: any) {
                                             <View style={styles.footer}>
                                                 {
                                                     isLiked ?
-                                                        <TouchableOpacity style={{ backgroundColor: 'red' }} onPress={likePressed}>
+                                                        <TouchableOpacity style={{ backgroundColor: 'red' }} onPress={() => { likePressed(); fetchPostByID.refetch() }}>
                                                             <Text style={{ color: colors.text }}>{fetchPostByID.data.searchPostByID.likes} Likes</Text>
                                                         </TouchableOpacity>
                                                         :
-                                                        <TouchableOpacity style={{ backgroundColor: 'green' }} onPress={unlikePressed}>
+                                                        <TouchableOpacity style={{ backgroundColor: 'green' }} onPress={() => { unlikePressed(); fetchPostByID.refetch() }}>
                                                             <Text style={{ color: colors.text }}>{fetchPostByID.data.searchPostByID.likes} unLikes</Text>
                                                         </TouchableOpacity>
                                                 }

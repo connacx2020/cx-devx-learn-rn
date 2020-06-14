@@ -154,6 +154,11 @@ mutation($postID: ID!, $authorID: ID!){
     })
 }`;
 
+export const getLikedUserSchema = gql`
+  query ($postID: String!){
+    getPostLikedUsers(postID:$postID)
+  }
+`;
 
 export const searchPostsByTextSchema = gql`
 query($text: String!) {
