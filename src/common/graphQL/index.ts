@@ -1,15 +1,13 @@
 export {
-    addPostSchema,
+
     addCommentSchema,
     addLikeSchema,
-    getPostFeedsSchema,
     removeLikeSchema,
     searchPostsByTextSchema,
     isViewedSchema,
     addViewSchema,
-    getAllPostsSchema,
     getPostByIDSchema,
-    getPaginatedPostsSchema
+    getLikedUserSchema
 } from './graphqlSchema/post.graphqlSchema';
 
 export {
@@ -26,8 +24,10 @@ export {
 export {
     getCoursesSchema,
     searchCourseByTitle,
+    getPostSeriesByIdSchema,
     getAllCourseByAuthorID,
     getCourseByIdSchema,
+    getAllPostSeriesSchema,
     createCourseSchema
 } from './graphqlSchema/course.graphqlSchema';
 

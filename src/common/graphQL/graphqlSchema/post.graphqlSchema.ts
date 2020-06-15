@@ -9,10 +9,8 @@ const PostData_Fragment = {
       category
       content
       published
-      isSeries
       likes
       views
-      shares
       comments{
           id
           authorID
@@ -44,68 +42,13 @@ export const getAllPostsSchema = gql`
 }
 `;
 
-export const getPostFeedsSchema = gql`
-query($userID: String!){
-	getPostFeeds(userID:$userID) {
-     ...PostRequestData
-  }
-}
-${PostData_Fragment.postResult}
-`;
-
-
 export const getPostByIDSchema = gql`
-query($postID: String!){
+query($postID: ID!){
 	searchPostByID(postID:$postID) {
         ...PostRequestData
   }
 }
 ${PostData_Fragment.postResult}
-`;
-
-export const getPaginatedPostsSchema = gql`
-query($cursor: String, $userID: ID!){
-    getPaginatedPosts(input: {
-        limit: 1,
-        cursor: $cursor
-        userID: $userID
-    }) {
-        edges{
-            cursor
-            post{
-               ...PostRequestData
-            }
-        }
-        pageInfo{
-            endCursor
-            hasNextPage
-        }
-    }
-}
-${PostData_Fragment.postResult}
-`;
-
-export const addPostSchema = gql`
-mutation(
-  $authorID: ID!,
-	$title:String!,
-	$category:String!,
-  $content:String!,
-  $published: Boolean!,
-  $isSeries: Boolean!,
-	$access: String!) {
-  	addPost(input: {
-  	authorID: $authorID
-  	title: $title
-  	category: $category
-    content: $content
-    published: $published
-    isSeries: $isSeries
-  	access: $access
-  	}) {
-    	id
-  	}
-}
 `;
 
 export const addCommentSchema = gql`
@@ -144,6 +87,11 @@ mutation($postID: ID!, $authorID: ID!){
     })
 }`;
 
+export const getLikedUserSchema = gql`
+  query ($postID: String!){
+    getPostLikedUsers(postID:$postID)
+  }
+`;
 
 export const searchPostsByTextSchema = gql`
 query($text: String!) {

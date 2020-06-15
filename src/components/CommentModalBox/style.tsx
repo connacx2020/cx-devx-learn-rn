@@ -83,13 +83,15 @@ export const styles = StyleSheet.create({
     },
     modal_footer:{
         borderTopWidth:1,
-        height:60,
         alignItems:'center',
-        justifyContent:'center',
-
+        justifyContent:'space-between',
+        flexDirection:'row',
+        paddingHorizontal: 5,
+        maxHeight:100,
+        paddingVertical:5
     },
     modal_comment_txtinput:{
-        width:'90%',
+        width:'82%',
         paddingLeft:20,
         backgroundColor:'#E0EAEB',
         borderRadius:10,

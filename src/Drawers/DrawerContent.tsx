@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
-import { useTheme,Title,Caption,Paragraph,Drawer,Text,TouchableRipple,Switch,Avatar } from 'react-native-paper';
+import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
+import { useTheme,Title,Caption,Paragraph,Drawer,TouchableRipple,Switch,Avatar } from 'react-native-paper';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from "@react-native-community/async-storage";
@@ -9,32 +9,21 @@ import { getCheckedUserInfo } from '../common/ultis/getUserInfo';
 import { Async } from 'react-async';
 
 import { AuthContext } from '../Providers/AuthProvider';
+import { AuthUserInfo } from '../common/redux/redux-actions';
+import { useSelector } from 'react-redux';
 
 export function DrawerContent(props: any) {
     const paperTheme = useTheme();
-    const [ID, setID] = React.useState('');
     const { logout, toggleTheme, token } = React.useContext(AuthContext)
+    const auth: AuthUserInfo = useSelector((state: any) => state.authUserInfo);
     useEffect(() => {
-        AsyncStorage.getItem("devx_token")
-            .then(async (localToken: any) => {
-                const localData = JSON.parse(localToken);
-                if (localToken) {
-                    setID(localData.userID);
-                } else {
-                    console.log('No token')
-                }
-
-            })
-            .catch(err => {
-                console.log(err);
-            });
     }, [token]);
 
     return (
         <View style={{ flex: 1 }}>
             <DrawerContentScrollView {...props}>
                 <View style={styles.drawerContent}>
-                    <Async promise={getCheckedUserInfo(ID)}>
+                    <Async promise={getCheckedUserInfo(auth.userID)}>
                         {
                             ({ data, error, isLoading }) => {
 
@@ -44,7 +33,7 @@ export function DrawerContent(props: any) {
                                     return (
                                         <View style={styles.userInfoSection}>
                                             <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                                                <TouchableRipple onPress={() => props.navigation.navigate("UserProfile", { id: ID })}>
+                                                <TouchableRipple onPress={() => props.navigation.navigate("UserProfile", { id: auth.userID })}>
                                                     <Avatar.Image
                                                         source={{
                                                             uri: data.photo

@@ -61,6 +61,27 @@ query($courseTitle: String!){
 ${Course_Info_Fragment.courseInfo}
 `;
 
+export const getAllPostSeriesSchema= gql`
+query {
+  getAllSeries{
+    id
+    title
+  }
+}
+`;
+
+export const getPostSeriesByIdSchema = gql`
+query ($seriesId: ID!){
+    getPostSeries(seriesID: $seriesId){
+      id
+      title
+      posts{
+        id
+        title
+      }
+    }
+  }`;
+
 export const createCourseSchema = gql`
 mutation($authorID: ID!,$title: String!,$photoUrl: String!,$seriesId: String!,$duration: String! ,$description: String!,$outcome: [String!]!,$requirements: [String!]!){
   createNewCourse(courseData:{

@@ -4,12 +4,12 @@ import { Provider as PaperProvider, DefaultTheme as PaperDefaultTheme, DarkTheme
 import AsyncStorage from "@react-native-community/async-storage";
 
 
-import { Center } from '../common/ultis/Center';
 import { AuthContext } from "../Providers/AuthProvider";
 import AuthStack from "../Stacks/AuthStack";
 import { AppDrawer } from '../Drawers';
 import { getCheckedUserInfo } from "../common/ultis/getUserInfo";
 import { store, saveUserInfo } from "../common/redux";
+import { saveAuthUserInfo } from "../common/redux/redux-actions";
 
 
 interface RoutesProps { }
@@ -50,7 +50,8 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
                 const localData = JSON.parse(localToken);
                 if (localToken) {
                     setLogin(true);
-                    store.dispatch(saveUserInfo(await getCheckedUserInfo(localData.userID)))
+                    store.dispatch(saveUserInfo(await getCheckedUserInfo(localData.authUserData.userID)))
+                    store.dispatch(saveAuthUserInfo({ email: localData.authUserData.email, name: localData.authUserData.name, token: localData.authUserData.token, userID: localData.authUserData.id, username: localData.authUserData.username }))
                 } else {
                     setLogin(false);
                 }

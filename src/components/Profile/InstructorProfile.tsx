@@ -14,39 +14,29 @@ import { Query } from '@apollo/react-components';
 
 
 import { styles } from './instructor_styles';
+import { AuthUserInfo } from '../../common/redux/redux-actions';
+import { useSelector } from 'react-redux';
 
 export const InstructorProfile: React.FC = () => {
     const navigation = useNavigation();
     const route = useRoute();
     const { authorID } = route.params
     console.log(authorID)
-    const [userID, setUserID] = React.useState<string>("");
     const { colors } = useTheme();
     const [followUser] = useMutation(followUserSchema, { client: graphqlClient });
     const [unfollowUser] = useMutation(unfollowUserSchema, { client: graphqlClient });
-    // const { data: followData,error:followError } = useQuery(isFollowedSchema, {
-    //     variables: { userID1: userID, userID2: authorID },client:graphqlClient
-    // });
-    // console.log(followError);
-    // console.log(followData)
+    const auth: AuthUserInfo = useSelector((state: any) => state.authUserInfo);
+
     useEffect(() => {
-        AsyncStorage.getItem("devx_token")
-            .then(async (localToken: any) => {
-                const localData = JSON.parse(localToken);
-                setUserID(localData.userID)
-            })
-            .catch(err => {
-                console.log(err);
-            });
     }, [authorID]);
 
     return (
         <ScrollView style={[styles.wrapper, { backgroundColor: colors.background }]}>
             <Async promise={getCheckedUserInfo(authorID)}>
                 {
-                   getUserInfo => {
+                   (getUserInfo) => {
 
-                        if (getUserInfo.loading) return <View><Text>loading ...</Text></View>
+                        if (getUserInfo.isLoading) return <View><Text>loading ...</Text></View>
                         if (getUserInfo.error) return <View><Text>{getUserInfo.error}</Text></View>
                         if (getUserInfo.data) {
                             return (
@@ -82,7 +72,7 @@ export const InstructorProfile: React.FC = () => {
                                         <View style={styles.header_right}>
                                             <Text testID="nameID" style={styles.user_name}>{getUserInfo.data.name}</Text>
 
-                                            <Query<any, any> query={isFollowedSchema} client={graphqlClient} variables={{ userID1: userID, userID2: authorID }}>
+                                            <Query<any, any> query={isFollowedSchema} client={graphqlClient} variables={{ userID1: auth.userID, userID2: authorID }}>
                                                 {
                                                     ({ loading, error, data }) => {
 
@@ -98,8 +88,8 @@ export const InstructorProfile: React.FC = () => {
                                                                 <View style={styles.connect_follow_field}>
                                                                     <TouchableOpacity style={styles.connect_follow_btn}
                                                                         onPress={() => followUser({
-                                                                            variables: { userID1: userID, userID2: authorID },
-                                                                            refetchQueries: [{ query: isFollowedSchema, variables: { userID1: userID, userID2: authorID } }]
+                                                                            variables: { userID1: auth.userID, userID2: authorID },
+                                                                            refetchQueries: [{ query: isFollowedSchema, variables: { userID1: auth.userID, userID2: authorID } }]
                                                                         })}
                                                                     >
                                                                         <Text>Follow</Text>
@@ -111,8 +101,8 @@ export const InstructorProfile: React.FC = () => {
                                                                 <View style={styles.connect_follow_field}>
                                                                     <TouchableOpacity style={styles.connect_follow_btn}
                                                                         onPress={() => unfollowUser({
-                                                                            variables: { userID1: userID, userID2: authorID },
-                                                                            refetchQueries: [{ query: isFollowedSchema, variables: { userID1: userID, userID2: authorID } }]
+                                                                            variables: { userID1: auth.userID, userID2: authorID },
+                                                                            refetchQueries: [{ query: isFollowedSchema, variables: { userID1: auth.userID, userID2: authorID } }]
                                                                         })}
                                                                     >
                                                                         <Text>Unfollow</Text>
@@ -179,8 +169,8 @@ export const InstructorProfile: React.FC = () => {
                                                         }
                                                    })
                                                }
-                                                
-                                               
+
+
                                             </View>
                                         </View>
                                     </ImageBackground>

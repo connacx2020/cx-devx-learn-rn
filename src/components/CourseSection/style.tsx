@@ -7,10 +7,10 @@ export const styles = StyleSheet.create({
     container:{
         flex:1,
         justifyContent:'space-between',
-        backgroundColor:'white',
+        backgroundColor:'#000',
     },
     header:{
-        flexGrow:1,
+        // flexGrow:1,
         height:80,
         flexDirection:'row',
         elevation: 0.8
@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
         flexGrow:2,
     },
     avatar:{
-        backgroundColor:'red',
+        backgroundColor:'#333',
         width:'65%',
         height:50,
         borderRadius:100
@@ -43,10 +43,9 @@ export const styles = StyleSheet.create({
         fontWeight:'bold'
     },
     content:{
-        marginHorizontal:15,
-        padding:10,
-        flexGrow:10,
-
+        marginHorizontal:10,
+        flex:1,
+        flexDirection: 'column',
     },
     content_title:{
         fontWeight:'bold',
@@ -63,36 +62,12 @@ export const styles = StyleSheet.create({
     },
     footer:{
         flexDirection:'row',
-        flexGrow:1,
         height:50,
         borderWidth:0.1,
-        borderColor:'#A3A0A1',
-        elevation: 1
-
-    },
-    footer_likes_lfied:{
-        flexGrow:1,
-        justifyContent:'center',
-        alignItems:'center',
-    },
-    footer_likes_txt: {
-
-    },
-    footer_comments_cfield:{
-        flexGrow:1,
-        justifyContent:'center',
-        alignItems:'center',
-    },
-    footer_comments_txt:{
-
-    },
-    footer_views_rfield:{
-        flexGrow:1,
-        justifyContent:'center',
-        alignItems:'center',
-    },
-    footer_views_txt:{
-
-    },
+        // backgroundColor:'green',
+        elevation: 1,
+        justifyContent: 'space-around',
+        alignItems: 'center'
+    }
 });
 

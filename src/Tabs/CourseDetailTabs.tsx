@@ -16,7 +16,11 @@ export const CourseDetailTabs: React.FC<any>=(props:Course)=>{
           {...props}
           />}
       </Tab.Screen>
-      <Tab.Screen name="Content" component={CxDevxCourseContent} />
+      <Tab.Screen name="Content" >
+          {
+              ()=> <CxDevxCourseContent {...props}/>
+          }
+      </Tab.Screen>
     </Tab.Navigator>
   );
 }

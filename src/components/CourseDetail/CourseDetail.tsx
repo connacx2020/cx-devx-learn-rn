@@ -37,7 +37,7 @@ export function CxDevxCourseDetail({ navigation, route }: HomeStackNavProps<"Cou
 
                         if (error) return <View><Text>Error</Text></View>
 
-                        return (
+                         return (
                             <View>
                                 <View style={styles.header}>
                                     <Image
