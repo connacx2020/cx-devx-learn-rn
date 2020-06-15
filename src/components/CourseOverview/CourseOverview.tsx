@@ -6,6 +6,9 @@ import StarRating from 'react-native-star-rating';
 import { useTheme, useNavigation } from '@react-navigation/native';
 import { TouchableRipple, Paragraph, Divider, useTheme as PaperTheme } from 'react-native-paper';
 import ViewMoreText from 'react-native-view-more-text';
+import { Query } from '@apollo/react-components';
+
+import { getUserInfoByIdSchema } from '../../common/graphQL';
 
 import { styles } from './style';
 import { Course } from '../../models';

@@ -26,6 +26,13 @@ export {
 export {
     getCoursesSchema,
     searchCourseByTitle,
+    getAllCourseByAuthorID,
     getCourseByIdSchema,
     createCourseSchema
 } from './graphqlSchema/course.graphqlSchema';
+
+export {
+    isFollowedSchema,
+    followUserSchema,
+    unfollowUserSchema
+} from './graphqlSchema/connect.graphql.Schema';

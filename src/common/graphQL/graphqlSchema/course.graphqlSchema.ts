@@ -17,6 +17,19 @@ const Course_Info_Fragment = {
 }`
 };
 
+export const getAllCourseByAuthorID = gql`
+    query($authorId: ID!){
+        getCoursesByAuthorId(authorId:$authorId){
+            id
+            title
+            rating
+            photoUrl
+            enrolled
+        }
+
+    }
+`
+
 
 
 export const getCoursesSchema = gql`
@@ -44,6 +57,7 @@ query($courseTitle: String!){
       ...CourseData
   }
 }
+
 ${Course_Info_Fragment.courseInfo}
 `;
 

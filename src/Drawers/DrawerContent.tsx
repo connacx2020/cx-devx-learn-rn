@@ -1,61 +1,82 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import {
-    useTheme,
-    Title,
-    Caption,
-    Paragraph,
-    Drawer,
-    Text,
-    TouchableRipple,
-    Switch,
-    Avatar
-} from 'react-native-paper';
+import React, { useEffect } from 'react';
+import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import { useTheme,Title,Caption,Paragraph,Drawer,Text,TouchableRipple,Switch,Avatar } from 'react-native-paper';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from "@react-native-community/async-storage";
 
-import{ AuthContext } from '../Providers/AuthProvider';
+import { getCheckedUserInfo } from '../common/ultis/getUserInfo';
+import { Async } from 'react-async';
 
-export function DrawerContent(props:any){
+import { AuthContext } from '../Providers/AuthProvider';
+
+export function DrawerContent(props: any) {
     const paperTheme = useTheme();
-    const { logout,toggleTheme } = React.useContext(AuthContext)
+    const [ID, setID] = React.useState('');
+    const { logout, toggleTheme, token } = React.useContext(AuthContext)
+    useEffect(() => {
+        AsyncStorage.getItem("devx_token")
+            .then(async (localToken: any) => {
+                const localData = JSON.parse(localToken);
+                if (localToken) {
+                    setID(localData.userID);
+                } else {
+                    console.log('No token')
+                }
 
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }, [token]);
 
-    return(
-        <View style={{flex:1}}>
+    return (
+        <View style={{ flex: 1 }}>
             <DrawerContentScrollView {...props}>
                 <View style={styles.drawerContent}>
-                    <View style={styles.userInfoSection}>
-                        <View style={{flexDirection:'row',marginTop:10}}>
-                            <TouchableRipple onPress={()=>props.navigation.navigate("UserProfile")}>
-                                <Avatar.Image
-                                    source={{
-                                        uri:"https://avatars0.githubusercontent.com/u/22853376?s=400&u=eb6a624d15b9a564680c3aac4c1943e25ffe45cb&v=4"
-                                    }}
-                                    size={50}
-                                />
-                            </TouchableRipple>
-                            <View style={{marginLeft:15,flexDirection:'column'}}>
-                                <Title style={styles.title}>Osk Soe Kyaw</Title>
-                                <Caption style={styles.caption}>@devx</Caption>
-                            </View>
-                        </View>
-                        <View style={styles.row}>
-                            <View style={styles.section}>
-                                <Paragraph style={[styles.paragraph,styles.caption ]}>65</Paragraph>
-                                <Paragraph style={styles.caption}>Following</Paragraph>
-                            </View>
-                            <View style={styles.section}>
-                                <Paragraph style={[styles.paragraph,styles.caption ]}>15</Paragraph>
-                                <Paragraph style={styles.caption}>Follower</Paragraph>
-                            </View>
-                        </View>
-                    </View>
+                    <Async promise={getCheckedUserInfo(ID)}>
+                        {
+                            ({ data, error, isLoading }) => {
 
+                                if (isLoading) return <View><Text>loading</Text></View>
+                                if (error) return <View><Text>{error}</Text></View>
+                                if (data) {
+                                    return (
+                                        <View style={styles.userInfoSection}>
+                                            <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                                                <TouchableRipple onPress={() => props.navigation.navigate("UserProfile", { id: ID })}>
+                                                    <Avatar.Image
+                                                        source={{
+                                                            uri: data.photo
+                                                        }}
+                                                        size={50}
+                                                    />
+                                                </TouchableRipple>
+                                                <View style={{ marginLeft: 15, flexDirection: 'column' }}>
+                                                    <Title style={styles.title}>{data.name}</Title>
+                                                    <Caption style={styles.caption}>@devx</Caption>
+                                                </View>
+                                            </View>
+                                            <View style={styles.row}>
+                                                <View style={styles.section}>
+                                                    <Paragraph style={[styles.paragraph, styles.caption]}>65</Paragraph>
+                                                    <Paragraph style={styles.caption}>Following</Paragraph>
+                                                </View>
+                                                <View style={styles.section}>
+                                                    <Paragraph style={[styles.paragraph, styles.caption]}>15</Paragraph>
+                                                    <Paragraph style={styles.caption}>Follower</Paragraph>
+                                                </View>
+                                            </View>
+                                        </View>
+                                    )
+                                }
+                            }
+                        }
+                    </Async>
 
                     <Drawer.Section style={styles.drawerSection}>
                         <DrawerItem
-                            icon={({color,size})=>(
+                            icon={({ color, size }) => (
                                 <Icon
                                     name="home-outline"
                                     color={color}
@@ -63,7 +84,7 @@ export function DrawerContent(props:any){
                                 />
                             )}
                             label="Home"
-                            onPress={()=>{props.navigation.navigate('Home')}}
+                            onPress={() => { props.navigation.navigate('Home') }}
                         />
                         <DrawerItem
                             icon={({color,size})=>(
@@ -77,7 +98,7 @@ export function DrawerContent(props:any){
                             onPress={()=>props.navigation.navigate("createCourse")}
                         />
                         <DrawerItem
-                            icon={({color,size})=>(
+                            icon={({ color, size }) => (
                                 <Icon
                                     name="bookmark-outline"
                                     color={color}
@@ -85,10 +106,10 @@ export function DrawerContent(props:any){
                                 />
                             )}
                             label="Bookmarks"
-                            onPress={()=>{}}
+                            onPress={() => { }}
                         />
                         <DrawerItem
-                            icon={({color,size})=>(
+                            icon={({ color, size }) => (
                                 <Icon
                                     name="settings-outline"
                                     color={color}
@@ -96,10 +117,10 @@ export function DrawerContent(props:any){
                                 />
                             )}
                             label="Settings"
-                            onPress={()=>{}}
+                            onPress={() => { }}
                         />
                         <DrawerItem
-                            icon={({color,size})=>(
+                            icon={({ color, size }) => (
                                 <Icon
                                     name="heart-multiple-outline"
                                     color={color}
@@ -107,15 +128,15 @@ export function DrawerContent(props:any){
                                 />
                             )}
                             label="Favorite"
-                            onPress={()=>{}}
+                            onPress={() => { }}
                         />
                     </Drawer.Section>
                     <Drawer.Section title="Preferences">
-                        <TouchableRipple onPress={()=>toggleTheme()}>
+                        <TouchableRipple onPress={() => toggleTheme()}>
                             <View style={styles.preference}>
                                 <Text>Dark Theme</Text>
                                 <View pointerEvents="none">
-                                    <Switch value={paperTheme.dark}/>
+                                    <Switch value={paperTheme.dark} />
                                 </View>
                             </View>
 
@@ -125,7 +146,7 @@ export function DrawerContent(props:any){
             </DrawerContentScrollView>
             <Drawer.Section style={styles.bottomDrawerSection}>
                 <DrawerItem
-                    icon={({color,size})=>(
+                    icon={({ color, size }) => (
                         <Icon
                             name="exit-to-app"
                             color={color}
@@ -142,36 +163,36 @@ export function DrawerContent(props:any){
 }
 const styles = StyleSheet.create({
     drawerContent: {
-      flex: 1,
+        flex: 1,
     },
     userInfoSection: {
-      paddingLeft: 20,
+        paddingLeft: 20,
     },
     title: {
-      fontSize: 16,
-      marginTop: 3,
-      fontWeight: 'bold',
+        fontSize: 16,
+        marginTop: 3,
+        fontWeight: 'bold',
     },
     caption: {
-      fontSize: 14,
-      lineHeight: 14,
+        fontSize: 14,
+        lineHeight: 14,
     },
     row: {
-      marginTop: 20,
-      flexDirection: 'row',
-      alignItems: 'center',
+        marginTop: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     section: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginRight: 15,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginRight: 15,
     },
     paragraph: {
-      fontWeight: 'bold',
-      marginRight: 3,
+        fontWeight: 'bold',
+        marginRight: 3,
     },
     drawerSection: {
-      marginTop: 15,
+        marginTop: 15,
     },
     bottomDrawerSection: {
         marginBottom: 15,
@@ -179,9 +200,9 @@ const styles = StyleSheet.create({
         borderTopWidth: 1
     },
     preference: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      paddingVertical: 12,
-      paddingHorizontal: 16,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingVertical: 12,
+        paddingHorizontal: 16,
     },
-  });
+});

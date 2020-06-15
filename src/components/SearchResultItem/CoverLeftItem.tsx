@@ -9,7 +9,6 @@ import { Course } from '../../models';
 export const SearchItemCoverLeft: React.FC<any> = ({id, photoUrl, title, rating, enrolled}) => {
     const navigation = useNavigation();
     const { colors } = useTheme();
-
     return (
         <TouchableOpacity onPress={() => navigation.navigate("CourseDetail", { id: id })}>
             <View style={{ padding: 5 }}>
