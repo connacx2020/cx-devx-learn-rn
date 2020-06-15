@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react';
-import { ScrollView, TouchableOpacity, Text, Dimensions, ToastAndroid } from 'react-native';
+import { ScrollView, TouchableOpacity, Text, Dimensions, ToastAndroid, RefreshControl } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { styles } from './styles';
@@ -21,6 +21,7 @@ function CxDevxFeed({ navigation }: any) {
 
     const tabNavigation = useNavigation();
     const parent = tabNavigation.dangerouslyGetParent();
+    const [refreshing, setRefreshing] = React.useState<boolean>(false);
 
     useFocusEffect(() => {
         parent?.setOptions({ tabBarVisible: true });
@@ -31,21 +32,29 @@ function CxDevxFeed({ navigation }: any) {
     }
 
     return (
-        <ScrollView style={[styles.content, { backgroundColor: colors.background }]}>
+        <Query<any, any> client={serverlessClient} query={getCoursesSchema}>
+            {
+                ({ loading, error, data, refetch }) => {
 
-            <Query<any, any> client={serverlessClient} query={getCoursesSchema}>
-                {
-                    ({ loading, error, data }) => {
+                    if (error) ToastAndroid.show("No Internet Connection ", ToastAndroid.SHORT);
 
-                        if (error) ToastAndroid.show("No Internet Connection ", ToastAndroid.SHORT);
-
-                        if (loading) return <View style={{ alignSelf: 'center' }} >
-                            <View>
-                                <ActivityIndicator size="large" />
-                            </View>
+                    if (loading) return <View style={{ alignSelf: 'center' }} >
+                        <View>
+                            <ActivityIndicator size="large" />
                         </View>
+                    </View>
 
-                        return <View>
+                    return <ScrollView style={{ flex: 1 }}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={() => {
+                                    setRefreshing(true)
+                                    refetch().then((res: any) => { setRefreshing(false) });
+                                }}
+                            />}>
+
+                        <View>
                             <Text style={[styles.centerTxt, { color: colors.text }]}>Recommended for you</Text>
                             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
                                 {data.getAllCourses && data.getAllCourses.map((res: Course) =>
@@ -62,6 +71,9 @@ function CxDevxFeed({ navigation }: any) {
                                     />)
                                 }
                             </ScrollView>
+                        </View>
+
+                        <View>
                             <Text style={[styles.centerTxt, { color: colors.text }]}>Most Popular</Text>
                             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
                                 {data.getAllCourses && data.getAllCourses.map((res: Course) =>
@@ -79,11 +91,11 @@ function CxDevxFeed({ navigation }: any) {
                                 }
                             </ScrollView>
                         </View>
-                    }
-                }
-            </Query>
 
-        </ScrollView>
+                    </ScrollView>
+                }
+            }
+        </Query>
     )
 }
 
