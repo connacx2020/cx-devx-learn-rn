@@ -37,9 +37,7 @@ function CxDevxFeed({ navigation }: any) {
             <Query<any, any> client={serverlessClient} query={getCoursesSchema}>
                 {
                     ({ loading, error, data }) => {
-                        console.log(data);
                         if (error) ToastAndroid.show("No Internet Connection ", ToastAndroid.SHORT);
-
                         if (loading) return <View style={{ alignSelf: 'center' }} >
                             <View>
                                 <ActivityIndicator size="large" />
@@ -47,10 +45,10 @@ function CxDevxFeed({ navigation }: any) {
                         </View>
 
                         return <View>
-                            {/* <Text style={[styles.centerTxt, { color: colors.text }]}>Enrolled Course</Text>
+                            <Text style={[styles.centerTxt, { color: colors.text }]}>Enrolled Course</Text>
                             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
                                 {data.getAllCourses && data.getAllCourses.map((res: Course) =>
-                                    res.enrolledUsers.includes(userInfo.UserID)? 
+                                    res.enrolledUsers.includes(userInfo.userID)? 
                                         (
                                             <CxDevxCourseItem
                                                 key={res.id}
@@ -66,7 +64,7 @@ function CxDevxFeed({ navigation }: any) {
                                         ):null
                                     )
                                 }
-                            </ScrollView> */}
+                            </ScrollView>
                             
                             <Text style={[styles.centerTxt, { color: colors.text }]}>Recommended for you</Text>
                             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>

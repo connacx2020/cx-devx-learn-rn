@@ -14,6 +14,7 @@ const Course_Info_Fragment = {
     prerequisite
     outcome
     seriesId
+    enrolledUsers
 }`
 };
 
