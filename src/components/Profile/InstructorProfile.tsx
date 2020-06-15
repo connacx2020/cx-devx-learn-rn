@@ -3,7 +3,7 @@ import { View, Text, Button, ScrollView, Image, TouchableOpacity, ImageBackgroun
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { SearchItemCoverLeft } from '../SearchResultItem/CoverLeftItem';
 import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import AsyncStorage from "@react-native-community/async-storage";
 
 import { getCheckedUserInfo } from '../../common/ultis/getUserInfo';

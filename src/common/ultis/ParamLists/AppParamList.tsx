@@ -1,5 +1,5 @@
 export type AppParamList = {
-    Course: undefined;
+    Home: undefined;
     Learn: undefined;
     Topic: undefined;
 };

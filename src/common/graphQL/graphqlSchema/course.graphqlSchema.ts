@@ -96,3 +96,30 @@ mutation($authorID: ID!,$title: String!,$photoUrl: String!,$seriesId: String!,$d
   })
 }
 `;
+
+export const checkUserIsEnrolled = gql`
+  query($courseID: ID!, $userID: ID!){
+    checkUserIsEnrolled(enrollData:{
+      courseID: $courseID,
+      userID: $userID
+    })
+  }
+`;
+
+export const enrollCourse = gql`
+  mutation($courseID: ID!, $userID: ID!){
+    enrollCourse(enrollData:{
+      courseID: $courseID,
+      userID: $userID
+    })
+  }
+`;
+
+export const unenrollCourse = gql`
+  mutation($courseID: ID!, $userID: ID!){
+    unenrollCourse(enrollData:{
+      courseID: $courseID,
+      userID: $userID
+    })
+  }
+`;

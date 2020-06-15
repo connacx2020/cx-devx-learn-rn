@@ -6,7 +6,7 @@ import { styles } from './styles';
 import { getCoursesSchema } from '../../common/graphQL';
 import { Course } from '../../models/course.model';
 import { Query } from '@apollo/react-components';
-
+import {  useSelector } from 'react-redux'
 
 import { CxDevxCourseItem } from '../CourseItem/CourseItem';
 
@@ -21,6 +21,7 @@ function CxDevxFeed({ navigation }: any) {
 
     const tabNavigation = useNavigation();
     const parent = tabNavigation.dangerouslyGetParent();
+    const userInfo = useSelector((state: any) => state.authUserInfo);
 
     useFocusEffect(() => {
         parent?.setOptions({ tabBarVisible: true });
@@ -36,7 +37,7 @@ function CxDevxFeed({ navigation }: any) {
             <Query<any, any> client={serverlessClient} query={getCoursesSchema}>
                 {
                     ({ loading, error, data }) => {
-
+                        console.log(data);
                         if (error) ToastAndroid.show("No Internet Connection ", ToastAndroid.SHORT);
 
                         if (loading) return <View style={{ alignSelf: 'center' }} >
@@ -46,9 +47,31 @@ function CxDevxFeed({ navigation }: any) {
                         </View>
 
                         return <View>
+                            {/* <Text style={[styles.centerTxt, { color: colors.text }]}>Enrolled Course</Text>
+                            <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
+                                {data.getAllCourses && data.getAllCourses.map((res: Course) =>
+                                    res.enrolledUsers.includes(userInfo.UserID)? 
+                                        (
+                                            <CxDevxCourseItem
+                                                key={res.id}
+                                                authorID={res.authorID}
+                                                id={res.id}
+                                                img={res.photoUrl}
+                                                title={res.title}
+                                                rate={res.rating}
+                                                description={res.description}
+                                                enrolled={res.enrolled}
+                                                routeToCourseDetail={routeToCourseDetail}
+                                            />
+                                        ):null
+                                    )
+                                }
+                            </ScrollView> */}
+                            
                             <Text style={[styles.centerTxt, { color: colors.text }]}>Recommended for you</Text>
                             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
                                 {data.getAllCourses && data.getAllCourses.map((res: Course) =>
+                              
                                     <CxDevxCourseItem
                                         key={res.id}
                                         authorID={res.authorID}

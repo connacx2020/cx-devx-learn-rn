@@ -50,7 +50,7 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
                 const localData = JSON.parse(localToken);
                 if (localToken) {
                     setLogin(true);
-                    store.dispatch(saveUserInfo(await getCheckedUserInfo(localData.authUserData.userID)))
+                    // store.dispatch(saveUserInfo(await getCheckedUserInfo(localData.authUserData.userID)))
                     store.dispatch(saveAuthUserInfo({ email: localData.authUserData.email, name: localData.authUserData.name, token: localData.authUserData.token, userID: localData.authUserData.id, username: localData.authUserData.username }))
                 } else {
                     setLogin(false);

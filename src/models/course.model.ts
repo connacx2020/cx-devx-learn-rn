@@ -10,4 +10,5 @@ export interface Course {
     duration: string,
     outcome: [string],
     prerequisite: [string]
+    enrolledUsers:[String]
 }
