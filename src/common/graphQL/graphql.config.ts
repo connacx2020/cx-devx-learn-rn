@@ -9,6 +9,7 @@ const gatewayClient = new HttpLink({
 const serverlessLink = new HttpLink({
     uri: CX_DEVX_SERVERLESS_URL
 });
+ 
 
 const cache = new InMemoryCache();
 

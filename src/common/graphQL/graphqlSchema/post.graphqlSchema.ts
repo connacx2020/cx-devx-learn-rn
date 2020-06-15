@@ -42,16 +42,6 @@ export const getAllPostsSchema = gql`
 }
 `;
 
-export const getPostFeedsSchema = gql`
-query($userID: String!){
-	getPostFeeds(userID:$userID) {
-     ...PostRequestData
-  }
-}
-${PostData_Fragment.postResult}
-`;
-
-
 export const getPostByIDSchema = gql`
 query($postID: ID!){
 	searchPostByID(postID:$postID) {
@@ -59,63 +49,6 @@ query($postID: ID!){
   }
 }
 ${PostData_Fragment.postResult}
-`;
-
-export const getNextPostIDSchema = gql`
-query($postID: String!) {
-  getNextPost(postID:$postID)
-}
-`;
-
-export const getPrevPostIDSchema = gql`
-query($postID: String!) {
-  getPrevPost(postID:$postID)
-}
-`;
-
-export const getPaginatedPostsSchema = gql`
-query($cursor: String, $userID: ID!){
-    getPaginatedPosts(input: {
-        limit: 1,
-        cursor: $cursor
-        userID: $userID
-    }) {
-        edges{
-            cursor
-            post{
-               ...PostRequestData
-            }
-        }
-        pageInfo{
-            endCursor
-            hasNextPage
-        }
-    }
-}
-${PostData_Fragment.postResult}
-`;
-
-export const addPostSchema = gql`
-mutation(
-  $authorID: ID!,
-	$title:String!,
-	$category:String!,
-  $content:String!,
-  $published: Boolean!,
-  $isSeries: Boolean!,
-	$access: String!) {
-  	addPost(input: {
-  	authorID: $authorID
-  	title: $title
-  	category: $category
-    content: $content
-    published: $published
-    isSeries: $isSeries
-  	access: $access
-  	}) {
-    	id
-  	}
-}
 `;
 
 export const addCommentSchema = gql`
