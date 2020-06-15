@@ -13,18 +13,17 @@ import { AuthUserInfo } from '../../common/redux/redux-actions';
 import { useSelector } from 'react-redux';
 import { CxDevxCommentModal } from '../CommentModalBox';
 import { styles } from '../CourseSection/style';
+import { Comment, Post } from '../../models/post.model';
 
 
 function CxPostDetail(props: any) {
     const { colors } = useTheme();
     let [isLiked, setLike] = useState<Boolean>(true);
-    const [likedUsers, setLikedUsers] = React.useState([]);
     let [isModalVisible, setModalVisible] = useState<Boolean>(false);
     const [addLike] = useMutation(addLikeSchema, { client: graphqlClient });
     const [removeLike] = useMutation(removeLikeSchema, { client: graphqlClient });
-    const [addComment] = useMutation(addCommentSchema, { client: graphqlClient });
-    const getLikeUser = useQuery(getLikedUserSchema, { variables: { postID: props.postID }, notifyOnNetworkStatusChange: true });
     const [refreshing, setRefreshing] = React.useState<boolean>(false);
+
 
     const auth: AuthUserInfo = useSelector((state: any) => state.authUserInfo);
 
@@ -70,18 +69,10 @@ function CxPostDetail(props: any) {
         }
     }
 
-    React.useEffect(() => {
-        if (getLikeUser.data) {
-            getLikeUser.data.getPostLikedUsers !== null && setLikedUsers(getLikeUser.data.getPostLikedUsers);
-            getLikeUser.data.getPostLikedUsers !== null && getLikeUser.data.getPostLikedUsers.map((res: any) => {
-                if (res === auth.userID) {
-                    setLike(true);
-                }
-                return 'not match';
-            })
-        }
-    }, [isLiked])
 
+
+    React.useEffect(() => {
+    }, [isLiked])
 
     return (
         <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -151,8 +142,8 @@ function CxPostDetail(props: any) {
                                                 <View >
                                                     <Text style={{ color: colors.text }}>{fetchPostByID.data.searchPostByID.views}Views</Text>
                                                 </View>
+                                                <CxDevxCommentModal postID={props.postID} commentInfo={fetchPostByID.data.searchPostByID.comments}  isLiked={isLiked} isModalVisible={isModalVisible} setLike={isLiked} setModalVisible={setModalVisible} />
                                             </View>
-
                                         </View>
                                     )
                                 }}
@@ -161,7 +152,7 @@ function CxPostDetail(props: any) {
                     }
                 }
             </Query>
-            <CxDevxCommentModal isLiked={isLiked} isModalVisible={isModalVisible} setLike={setLike} setModalVisible={setModalVisible} />
+
         </View>
     )
 }

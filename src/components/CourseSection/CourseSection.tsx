@@ -1,17 +1,14 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import { styles } from './style';
 import { HomeStackNavProps } from '../../common/ultis/ParamLists/HomeParamList';
-import { useTheme } from '@react-navigation/native';
 import CxPostDetail from '../PostDetail/PostDetail';
 import { ToastAndroid, View } from 'react-native';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 function CxDevxCourseSection({ navigation, route }: HomeStackNavProps<"CourseSection">) {
 
     const { postID, postSeries } = route.params;
-    const { colors } = useTheme();
     const [renderPostID, setPostID] = React.useState(postID);
     const [headTitle, setHeadTitle] = React.useState(route.params.course)
 
@@ -29,8 +26,8 @@ function CxDevxCourseSection({ navigation, route }: HomeStackNavProps<"CourseSec
     return (
 
         <GestureRecognizer
-            onSwipeUp={() => console.log("SwipeUp")}
-            onSwipeDown={() => console.log("SwipeDown")}
+            // onSwipeUp={() => console.log("SwipeUp")}
+            // onSwipeDown={() => console.log("SwipeDown")}
             onSwipeRight={() => {
                 let currentPostId = postSeries.filter((item: any) => item.id === renderPostID);
                 if (postSeries.indexOf(currentPostId[0]) === 0) {
