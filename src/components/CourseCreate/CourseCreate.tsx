@@ -1,14 +1,15 @@
 import React from 'react'
 import { View, Text, ScrollView, TouchableOpacity, TextInput, Button, ToastAndroid, Image, StyleSheet, Picker } from 'react-native';
 import { useMutation } from '@apollo/react-hooks';
-import { createCourseSchema, getAllPostSeriesSchema, getAllTopicsSchema } from '../../common/graphQL';
-import { serverlessClient, graphqlClient } from '../../common/graphQL/graphql.config';
+import { createCourseSchema, getAllPostSeriesSchema, getAllTopicsSchema, uploadCoursePicSchema } from '../../common/graphQL';
+import { serverlessClient, graphqlClient, devXFileUploadClient } from '../../common/graphQL/graphql.config';
 import { from } from 'rxjs';
 import { useNavigation } from '@react-navigation/native';
 import DocumentPicker from 'react-native-document-picker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Query } from '@apollo/react-components';
 import MultiSelect from 'react-native-multiple-select';
+import { ReactNativeFile } from 'apollo-upload-client';
 
 export const CxDevxCourseCreate = () => {
 
@@ -24,6 +25,7 @@ export const CxDevxCourseCreate = () => {
     const [duration, setDuration] = React.useState<string>('');
     const [photo, setPhoto] = React.useState<any>();
     const [topicID, setTopicID] = React.useState<string[]>([]);
+    const [uploadCoursePhoto] = useMutation(uploadCoursePicSchema, { client: devXFileUploadClient });
     // const auth: AuthUserInfo = useSelector((state: any) => state.authUserInfo);
 
     const [createCourse] = useMutation(createCourseSchema, { client: serverlessClient });
@@ -43,7 +45,24 @@ export const CxDevxCourseCreate = () => {
                 type: [DocumentPicker.types.images],
             });
 
-            setPhoto(res)
+            const file = new ReactNativeFile({
+                uri: res.uri,
+                name: res.name,
+                type: 'image/jpeg'
+            });
+
+            console.log(file)
+
+            uploadCoursePhoto({ variables: { file } })
+                .then(result => {
+                    console.log(result.data.uploadTopicLogo.uri)
+                }, err => console.log(err))
+
+            // from(uploadCoursePhoto({variables:{file: res}}))
+            // .subscribe(result=>{
+            //     console.log(result.data.uploadTopicLogo.uri)
+            // })
+            // setPhoto(res)
 
         } catch (err) {
             if (DocumentPicker.isCancel(err)) {

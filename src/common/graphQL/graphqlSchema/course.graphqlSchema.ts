@@ -126,3 +126,13 @@ export const unenrollCourseSchema = gql`
     })
   }
 `;
+
+export const uploadCoursePicSchema = gql`
+ mutation($file: Upload!){
+   uploadTopicLogo(file: $file) {
+    encoding
+    mimetype
+    filename
+    uri
+  }
+}`;
