@@ -26,9 +26,9 @@ export const CxDevxCourseCreate = () => {
     const [description, setDescription] = React.useState<string>('');
     const [seriesId, setSeriesId] = React.useState<any>();
     const [duration, setDuration] = React.useState<string>('');
-    const auth: AuthUserInfo = useSelector((state: any) => state.authUserInfo);
     const [photo, setPhoto] = React.useState<any>();
     const [topicID, setTopicID] = React.useState<string[]>([]);
+    // const auth: AuthUserInfo = useSelector((state: any) => state.authUserInfo);
 
     const [createCourse] = useMutation(createCourseSchema, { client: serverlessClient });
 
@@ -143,7 +143,7 @@ export const CxDevxCourseCreate = () => {
 
                                 return <Picker
                                     selectedValue={seriesId}
-                                    onValueChange={(itemValue, itemIndex) => { setSeriesId(itemValue); setTitle(itemValue.title);console.log(itemValue.title)  }}
+                                    onValueChange={(itemValue, itemIndex) => { setSeriesId(itemValue); setTitle(itemValue.title); console.log(itemValue.title) }}
                                 >
                                     <Picker.Item label="Choose Series name" value="" />
 
@@ -178,7 +178,7 @@ export const CxDevxCourseCreate = () => {
                                     hideTags
                                     items={fetchTopic.data.findAllTopic}
                                     uniqueKey="id"
-                                    // ref={(component) => { this.multiSelect = component }}
+                                    // ref={multiSelectRef}
                                     onSelectedItemsChange={(selectedItems) => setTopicID(selectedItems)}
                                     selectedItems={topicID}
                                     selectText="Choose Topics"
@@ -196,10 +196,6 @@ export const CxDevxCourseCreate = () => {
                                     submitButtonColor="red"
                                     submitButtonText="Submit"
                                 />
-                                <View>
-                                    {MultiSelect}
-                                </View>
-
                             </View>
 
                         }
