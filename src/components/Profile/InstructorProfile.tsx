@@ -4,7 +4,6 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import { SearchItemCoverLeft } from '../SearchResultItem/CoverLeftItem';
 import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
 import { useMutation } from '@apollo/react-hooks';
-import AsyncStorage from "@react-native-community/async-storage";
 
 import { getCheckedUserInfo } from '../../common/ultis/getUserInfo';
 import { Async } from 'react-async';
@@ -21,14 +20,11 @@ export const InstructorProfile: React.FC = () => {
     const navigation = useNavigation();
     const route = useRoute();
     const { authorID } = route.params
-    console.log(authorID)
+    // console.log(authorID)
     const { colors } = useTheme();
     const [followUser] = useMutation(followUserSchema, { client: graphqlClient });
     const [unfollowUser] = useMutation(unfollowUserSchema, { client: graphqlClient });
     const auth: AuthUserInfo = useSelector((state: any) => state.authUserInfo);
-
-    useEffect(() => {
-    }, [authorID]);
 
     return (
         <ScrollView style={[styles.wrapper, { backgroundColor: colors.background }]}>
@@ -181,7 +177,7 @@ export const InstructorProfile: React.FC = () => {
                                                 {getUserInfo.data.about}
                                             </Text>
                                         </View>
-                                        <Query<any, any> query={getAllCourseByAuthorID} client={serverlessClient} variables={{ authorId: authorID }}>
+                                        <Query<any, any> query={getAllCourseByAuthorID} client={serverlessClient} variables={{ authorID: authorID }}>
                                             {
                                                 ({ loading, error, data }) => {
 

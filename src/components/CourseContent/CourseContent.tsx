@@ -22,7 +22,7 @@ const CxDevxCourseContent: React.FC<any> = (props: Course) => {
     }
     return (
         <View>
-            <Query<any, any> query={getPostSeriesByIdSchema} variables={{ seriesId: props.seriesId }}>
+            <Query<any, any> query={getPostSeriesByIdSchema} variables={{ seriesID: props.seriesID }}>
                 {
                     ({ loading, error, data }) => {
                         if (loading) return <Text>Loading...</Text>

@@ -13,14 +13,15 @@ const Course_Info_Fragment = {
     duration
     prerequisite
     outcome
-    seriesId
+    seriesID
+    topicID
     enrolledUsers
 }`
 };
 
 export const getAllCourseByAuthorID = gql`
-    query($authorId: ID!){
-        getCoursesByAuthorId(authorId:$authorId){
+    query($authorID: ID!){
+        getCoursesByAuthorId(authorID:$authorID){
             id
             title
             rating
@@ -72,8 +73,8 @@ query {
 `;
 
 export const getPostSeriesByIdSchema = gql`
-query ($seriesId: ID!){
-    getPostSeries(seriesID: $seriesId){
+query ($seriesID: ID!){
+    getPostSeries(seriesID: $seriesID){
       id
       title
       posts{
@@ -84,16 +85,17 @@ query ($seriesId: ID!){
   }`;
 
 export const createCourseSchema = gql`
-mutation($authorID: ID!,$title: String!,$photoUrl: String!,$seriesId: String!,$duration: String! ,$description: String!,$outcome: [String!]!,$requirements: [String!]!){
+mutation($authorID: ID!,$title: String!,$photoUrl: String!,$seriesID: ID!,$duration: String! ,$description: String!,$outcome: [String!]!,$requirements: [String!]!, $topicID: [ID!]!){
   createNewCourse(courseData:{
     authorID: $authorID
     title: $title
     photoUrl: $photoUrl
-    seriesId: $seriesId
+    seriesID: $seriesID
     duration: $duration
     description: $description
     outcome: $outcome
     prerequisite: $requirements
+    topicID: $topicID
   })
 }
 `;
