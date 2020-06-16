@@ -8,15 +8,14 @@ const gatewayClient = new HttpLink({
 });
 
 const cxDevxCdnLink = createUploadLink({
-    // uri: `http://${CX_DEVX_API_GATEWAY_URL}:${CX_DEVX_CDN_PORT}/graphql`,
-    uri: `http://178.128.111.108:3004/graphql`,
+    uri: `http://${CX_DEVX_API_GATEWAY_URL}:${CX_DEVX_CDN_PORT}/graphql`,
     headers: {
         "keep-alive": "true"
     }
 });
 
 const serverlessLink = new HttpLink({
-    uri: `http://192.168.43.93:3000/graphql`
+    uri: CX_DEVX_SERVERLESS_URL
 });
 
 
