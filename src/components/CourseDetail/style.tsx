@@ -35,10 +35,19 @@ export const styles = StyleSheet.create({
         fontStyle:"italic",
         fontWeight:'bold',
     },
-    header_btn:{
+    header_btn_blue:{
         top:"65%",
         position:"absolute",
         backgroundColor:'#2541B2',
+        paddingVertical:12,
+        paddingHorizontal:24,
+        borderRadius:10,
+        textAlign:'center'
+    },
+    header_btn_red:{
+        top:"65%",
+        position:"absolute",
+        backgroundColor:'#fa3b2d',
         paddingVertical:12,
         paddingHorizontal:24,
         borderRadius:10,

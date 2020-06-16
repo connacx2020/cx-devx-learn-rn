@@ -14,6 +14,7 @@ const Course_Info_Fragment = {
     prerequisite
     outcome
     seriesId
+    enrolledUsers
 }`
 };
 
@@ -95,4 +96,31 @@ mutation($authorID: ID!,$title: String!,$photoUrl: String!,$seriesId: String!,$d
     prerequisite: $requirements
   })
 }
+`;
+
+export const checkUserIsEnrolledSchema = gql`
+  query($courseID: ID!, $userID: ID!){
+    checkUserIsEnrolled(enrollData:{
+      courseID: $courseID,
+      userID: $userID
+    })
+  }
+`;
+
+export const enrollCourseSchema = gql`
+  mutation($courseID: ID!, $userID: ID!){
+    enrollCourse(enrollData:{
+      courseID: $courseID,
+      userID: $userID
+    })
+  }
+`;
+
+export const unenrollCourseSchema = gql`
+  mutation($courseID: ID!, $userID: ID!){
+    unenrollCourse(enrollData:{
+      courseID: $courseID,
+      userID: $userID
+    })
+  }
 `;
