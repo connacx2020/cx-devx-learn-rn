@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, ScrollView, TouchableOpacity, TextInput, Button, ToastAndroid, Image, StyleSheet, Modal, Alert, Picker } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, Button, ToastAndroid, Image, StyleSheet, Picker } from 'react-native';
 import { useMutation } from '@apollo/react-hooks';
 import { createCourseSchema, getAllPostSeriesSchema, getAllTopicsSchema } from '../../common/graphQL';
 import { serverlessClient, graphqlClient } from '../../common/graphQL/graphql.config';
@@ -8,10 +8,6 @@ import { useNavigation } from '@react-navigation/native';
 import DocumentPicker from 'react-native-document-picker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Query } from '@apollo/react-components';
-import { Divider } from 'react-native-paper';
-import { AuthUserInfo } from '../../common/redux/redux-actions';
-import { useSelector } from 'react-redux';
-import { Topic } from '../../models';
 import MultiSelect from 'react-native-multiple-select';
 
 export const CxDevxCourseCreate = () => {
