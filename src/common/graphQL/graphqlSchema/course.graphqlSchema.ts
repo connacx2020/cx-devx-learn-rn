@@ -14,6 +14,7 @@ const Course_Info_Fragment = {
     prerequisite
     outcome
     seriesId
+    topicID
 }`
 };
 
@@ -83,7 +84,7 @@ query ($seriesId: ID!){
   }`;
 
 export const createCourseSchema = gql`
-mutation($authorID: ID!,$title: String!,$photoUrl: String!,$seriesId: String!,$duration: String! ,$description: String!,$outcome: [String!]!,$requirements: [String!]!){
+mutation($authorID: ID!,$title: String!,$photoUrl: String!,$seriesId: ID!,$duration: String! ,$description: String!,$outcome: [String!]!,$requirements: [String!]!, $topicID: [ID!]!){
   createNewCourse(courseData:{
     authorID: $authorID
     title: $title
@@ -93,6 +94,7 @@ mutation($authorID: ID!,$title: String!,$photoUrl: String!,$seriesId: String!,$d
     description: $description
     outcome: $outcome
     prerequisite: $requirements
+    topicID: $topicID
   })
 }
 `;

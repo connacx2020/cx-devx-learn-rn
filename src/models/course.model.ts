@@ -9,5 +9,6 @@ export interface Course {
     description: string,
     duration: string,
     outcome: [string],
-    prerequisite: [string]
+    prerequisite: [string],
+    topicID: string
 }

@@ -1,18 +1,18 @@
 import React from 'react'
-import { View, Text, ScrollView, TouchableOpacity, TextInput, Button, ToastAndroid, Image, StyleSheet, Modal, Alert } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, Button, ToastAndroid, Image, StyleSheet, Modal, Alert, Picker } from 'react-native';
 import { useMutation } from '@apollo/react-hooks';
-import { createCourseSchema, getAllPostSeriesSchema } from '../../common/graphQL';
+import { createCourseSchema, getAllPostSeriesSchema, getAllTopicsSchema } from '../../common/graphQL';
 import { serverlessClient, graphqlClient } from '../../common/graphQL/graphql.config';
 import { from } from 'rxjs';
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-community/async-storage';
 import DocumentPicker from 'react-native-document-picker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Query } from '@apollo/react-components';
-import Autocomplete from 'react-native-autocomplete-input';
 import { Divider } from 'react-native-paper';
 import { AuthUserInfo } from '../../common/redux/redux-actions';
 import { useSelector } from 'react-redux';
+import { Topic } from '../../models';
+import MultiSelect from 'react-native-multiple-select';
 
 export const CxDevxCourseCreate = () => {
 
@@ -22,16 +22,15 @@ export const CxDevxCourseCreate = () => {
 
     const [outcomeInput, setOutComeInput] = React.useState<string>('');
     const [requirementsInput, setRequirementsInput] = React.useState<string>('');
-    const [seriesInput, setSeriesInput] = React.useState<string>('');
     const [title, setTitle] = React.useState<string>('');
     const [description, setDescription] = React.useState<string>('');
-    const [seriesId, setSeriesId] = React.useState<string>('');
+    const [seriesId, setSeriesId] = React.useState<any>();
     const [duration, setDuration] = React.useState<string>('');
     const auth: AuthUserInfo = useSelector((state: any) => state.authUserInfo);
     const [photo, setPhoto] = React.useState<any>();
-    const [modalVisible, setModalVisible] = React.useState<boolean>(false);
+    const [topicID, setTopicID] = React.useState<string[]>([]);
 
-    const [createCourse, { loading: mutationLoading, error: mutationError }] = useMutation(createCourseSchema, { client: serverlessClient });
+    const [createCourse] = useMutation(createCourseSchema, { client: serverlessClient });
 
     const addOutCome = (value: string) => {
         value !== "" && setOutCome(outcome.concat(value));
@@ -60,46 +59,29 @@ export const CxDevxCourseCreate = () => {
     }
 
     const createCoursePressed = () => {
-        if (seriesId !== '' && duration !== '' && description !== '' && outcome.length > 0 && requirements.length > 0) {
+        if (seriesId !== undefined && duration !== '' && description !== '' && outcome.length > 0 && requirements.length > 0) {
             from(createCourse({
                 variables: {
                     authorID: '81e0964d-6da3-4e55-b894-e8a79be6cb02',
                     title,
                     photoUrl: photo ? photo.uri : '',
-                    seriesId: seriesId,
+                    seriesId: seriesId.id,
                     duration,
                     description,
                     outcome,
-                    requirements
+                    requirements,
+                    topicID
                 }
             })).subscribe(res => {
-                if (mutationLoading === true) {
-                    ToastAndroid.showWithGravity(
-                        "loading",
-                        ToastAndroid.SHORT,
-                        ToastAndroid.BOTTOM
-                    );
-                }
                 res.data.createNewCourse === true && navigation.navigate('Home')
-                ToastAndroid.showWithGravity(
-                    "Course creation successful!",
-                    ToastAndroid.SHORT,
-                    ToastAndroid.BOTTOM
-                );
+                ToastAndroid.show("Course creation successful!", ToastAndroid.SHORT);
             }, err => {
-                ToastAndroid.showWithGravity(
-                    "Error",
-                    ToastAndroid.SHORT,
-                    ToastAndroid.BOTTOM
-                );
+                ToastAndroid.show("Course creation Error!", ToastAndroid.SHORT);
+                console.log(err)
             }
             )
         } else {
-            ToastAndroid.showWithGravity(
-                "Please Fill All Field",
-                ToastAndroid.SHORT,
-                ToastAndroid.BOTTOM
-            );
+            ToastAndroid.show("Please fill all field", ToastAndroid.SHORT);
         }
     }
 
@@ -125,7 +107,6 @@ export const CxDevxCourseCreate = () => {
             <View style={styles.body}>
                 <Text style={{ fontWeight: "bold", fontSize: 20, alignSelf: 'center' }}>Create Course</Text>
                 <TouchableOpacity
-                    // disabled={outcomeInput === '' && requirementsInput === ''}
                     onPress={() => createCoursePressed()}
                     style={styles.create_btn}
                 >
@@ -153,50 +134,24 @@ export const CxDevxCourseCreate = () => {
                 </View>
 
                 <View style={styles.content_container}>
-                    <Text style={styles.content_header}>Series</Text>
-                    <TextInput value={seriesInput} onFocus={() => setModalVisible(!modalVisible)} style={styles.text_Input} />
+                    <Text style={styles.content_header}>Choose Series</Text>
                     <Query<any, any> query={getAllPostSeriesSchema} client={graphqlClient}>
                         {
                             (postSeries) => {
                                 if (postSeries.loading) return <Text>Loading</Text>
                                 if (postSeries.error) return <Text>Error</Text>
 
-                                return <Modal
-                                    animationType="slide"
-                                    transparent={true}
-                                    visible={modalVisible}
-                                    onRequestClose={() => {
-                                        Alert.alert("Modal has been closed.");
-                                    }}
+                                return <Picker
+                                    selectedValue={seriesId}
+                                    onValueChange={(itemValue, itemIndex) => { setSeriesId(itemValue); setTitle(itemValue.title);console.log(itemValue.title)  }}
                                 >
-                                    <View style={{
-                                        flex: 1,
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        marginTop: 22
-                                    }}>
-                                        <View style={styles.modalBoxContent}>
-                                            <View style={{ flexDirection: 'row', backgroundColor: '#ebeced', borderRadius: 10, justifyContent: 'space-between', padding: 10 }}>
-                                                <Text>Choose Series Title</Text>
-                                                <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}><Text>Close</Text></TouchableOpacity>
-                                            </View>
-                                            <ScrollView style={{ height: 200 }}>
-                                                {
-                                                    postSeries.data.getAllSeries.map((res: any) => <View style={{ padding: 1 }}>
+                                    <Picker.Item label="Choose Series name" value="" />
 
-                                                        <TouchableOpacity
-                                                            onPress={() => { setSeriesId(res.id); setSeriesInput(res.title); setModalVisible(!modalVisible) }}
-                                                            style={{ padding: 10 }}>
-                                                            <Text >{res.title}</Text>
-                                                        </TouchableOpacity>
-                                                        <Divider />
-                                                    </View>)
-                                                }
-                                            </ScrollView>
-                                        </View>
-                                    </View>
-                                </Modal>
+                                    {
+                                        postSeries.data.getAllSeries.map((res: any) => <Picker.Item key={res.id} label={res.title} value={res} />)
+                                    }
 
+                                </Picker>
                             }
                         }
                     </Query>
@@ -204,8 +159,53 @@ export const CxDevxCourseCreate = () => {
 
                 <View style={styles.content_container}>
                     <Text style={styles.content_header}>Course Title</Text>
-                    <TextInput onChangeText={text => setTitle(text)} placeholder="Enter Course Title" style={styles.text_Input} />
+                    <TextInput value={title} onChangeText={text => setTitle(text)} placeholder="Enter Course Title" style={styles.text_Input} />
                 </View>
+
+                <Query<any, any> query={getAllTopicsSchema}>
+                    {
+                        (fetchTopic) => {
+
+                            if (fetchTopic.error) ToastAndroid.show("No Internet Connection ", ToastAndroid.SHORT);
+
+                            if (fetchTopic.loading) return <View style={{ alignSelf: 'center' }} >
+                                <Text>Loading</Text>
+                            </View>
+
+                            return <View style={styles.content_container}>
+                                <Text style={{ marginBottom: 5, fontWeight: "bold" }}>Choose Topics</Text>
+                                <MultiSelect
+                                    hideTags
+                                    items={fetchTopic.data.findAllTopic}
+                                    uniqueKey="id"
+                                    // ref={(component) => { this.multiSelect = component }}
+                                    onSelectedItemsChange={(selectedItems) => setTopicID(selectedItems)}
+                                    selectedItems={topicID}
+                                    selectText="Choose Topics"
+                                    searchInputPlaceholderText="Search Items..."
+                                    onChangeInput={(text) => console.log(text)}
+                                    altFontFamily="ProximaNova-Light"
+                                    tagRemoveIconColor="#CCC"
+                                    tagBorderColor="#CCC"
+                                    tagTextColor="red"
+                                    selectedItemTextColor="red"
+                                    selectedItemIconColor="red"
+                                    itemTextColor="#000"
+                                    displayKey="title"
+                                    searchInputStyle={{ color: '#CCC' }}
+                                    submitButtonColor="red"
+                                    submitButtonText="Submit"
+                                />
+                                <View>
+                                    {MultiSelect}
+                                </View>
+
+                            </View>
+
+                        }
+                    }
+                </Query>
+
 
                 <View style={styles.content_container}>
                     <Text style={styles.content_header}>Course Description</Text>
