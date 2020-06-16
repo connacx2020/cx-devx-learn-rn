@@ -50,19 +50,11 @@ export const CxDevxCourseCreate = () => {
                 name: res.name,
                 type: 'image/jpeg'
             });
-
-            console.log(file)
-
             uploadCoursePhoto({ variables: { file } })
                 .then(result => {
-                    console.log(result.data.uploadTopicLogo.uri)
+                    setPhoto(result.data.uploadTopicLogo.uri)
                 }, err => console.log(err))
 
-            // from(uploadCoursePhoto({variables:{file: res}}))
-            // .subscribe(result=>{
-            //     console.log(result.data.uploadTopicLogo.uri)
-            // })
-            // setPhoto(res)
 
         } catch (err) {
             if (DocumentPicker.isCancel(err)) {
@@ -143,7 +135,7 @@ export const CxDevxCourseCreate = () => {
                 <View>
                     <TouchableOpacity style={styles.imgSection} onPress={() => filePick()}>
                         {photo ?
-                            <Image resizeMode="stretch" source={{ uri: photo.uri }} style={{ alignSelf: 'center', width: "100%", height: "100%" }} /> :
+                            <Image resizeMode="stretch" source={{ uri: photo }} style={{ alignSelf: 'center', width: "100%", height: "100%" }} /> :
                             <Text style={styles.imgSectionText}>Add Course Photo</Text>}
                     </TouchableOpacity>
                 </View>
