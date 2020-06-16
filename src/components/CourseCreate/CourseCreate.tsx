@@ -20,7 +20,7 @@ export const CxDevxCourseCreate = () => {
     const [requirementsInput, setRequirementsInput] = React.useState<string>('');
     const [title, setTitle] = React.useState<string>('');
     const [description, setDescription] = React.useState<string>('');
-    const [seriesId, setSeriesId] = React.useState<any>();
+    const [seriesID, setSeriesID] = React.useState<any>();
     const [duration, setDuration] = React.useState<string>('');
     const [photo, setPhoto] = React.useState<any>();
     const [topicID, setTopicID] = React.useState<string[]>([]);
@@ -55,13 +55,13 @@ export const CxDevxCourseCreate = () => {
     }
 
     const createCoursePressed = () => {
-        if (seriesId !== undefined && duration !== '' && description !== '' && outcome.length > 0 && requirements.length > 0) {
+        if (seriesID !== undefined && duration !== '' && description !== '' && outcome.length > 0 && requirements.length > 0) {
             from(createCourse({
                 variables: {
                     authorID: '81e0964d-6da3-4e55-b894-e8a79be6cb02',
                     title,
                     photoUrl: photo ? photo.uri : '',
-                    seriesId: seriesId.id,
+                    seriesID: seriesID.id,
                     duration,
                     description,
                     outcome,
@@ -138,8 +138,8 @@ export const CxDevxCourseCreate = () => {
                                 if (postSeries.error) return <Text>Error</Text>
 
                                 return <Picker
-                                    selectedValue={seriesId}
-                                    onValueChange={(itemValue, itemIndex) => { setSeriesId(itemValue); setTitle(itemValue.title); console.log(itemValue.title) }}
+                                    selectedValue={seriesID}
+                                    onValueChange={(itemValue, itemIndex) => { setSeriesID(itemValue); setTitle(itemValue.title); console.log(itemValue.title) }}
                                 >
                                     <Picker.Item label="Choose Series name" value="" />
 

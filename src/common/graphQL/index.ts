@@ -28,7 +28,10 @@ export {
     getAllCourseByAuthorID,
     getCourseByIdSchema,
     getAllPostSeriesSchema,
-    createCourseSchema
+    createCourseSchema,
+    checkUserIsEnrolledSchema,
+    enrollCourseSchema,
+    unenrollCourseSchema
 } from './graphqlSchema/course.graphqlSchema';
 
 export {

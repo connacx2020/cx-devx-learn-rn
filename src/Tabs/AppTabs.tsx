@@ -18,7 +18,7 @@ export const AppTabs: React.FC<{}> = ({}) => {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName : string ="";
 
-          if (route.name === "Course") {
+          if (route.name === "Home") {
             iconName = "home";
           } else if (route.name === "Learn") {
               iconName="code"
@@ -34,7 +34,7 @@ export const AppTabs: React.FC<{}> = ({}) => {
         inactiveTintColor: "gray"
       }}
     >
-      <Tabs.Screen name="Course" component={HomeStack}
+      <Tabs.Screen name="Home" component={HomeStack}
             options={{
                 tabBarVisible: true
             }}

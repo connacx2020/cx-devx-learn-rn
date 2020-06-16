@@ -4,11 +4,12 @@ export interface Course {
     title: string,
     rating: number,
     photoUrl: string,
-    seriesId: string,
+    seriesID: string,
     enrolled: number,
     description: string,
     duration: string,
     outcome: [string],
     prerequisite: [string],
-    topicID: string
+    topicID: string,
+    enrolledUsers:[String]
 }
