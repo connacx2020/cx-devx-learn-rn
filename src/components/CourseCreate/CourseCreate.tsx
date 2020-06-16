@@ -50,11 +50,11 @@ export const CxDevxCourseCreate = () => {
                 name: res.name,
                 type: 'image/jpeg'
             });
+
             uploadCoursePhoto({ variables: { file } })
                 .then(result => {
-                    setPhoto(result.data.uploadTopicLogo.uri)
+                    setPhoto(result.data.uploadCoursePhoto.uri)
                 }, err => console.log(err))
-
 
         } catch (err) {
             if (DocumentPicker.isCancel(err)) {
@@ -136,7 +136,10 @@ export const CxDevxCourseCreate = () => {
                     <TouchableOpacity style={styles.imgSection} onPress={() => filePick()}>
                         {photo ?
                             <Image resizeMode="stretch" source={{ uri: photo }} style={{ alignSelf: 'center', width: "100%", height: "100%" }} /> :
-                            <Text style={styles.imgSectionText}>Add Course Photo</Text>}
+                            <View style={{ display: 'flex', flexDirection: 'column' }}><Text style={styles.imgSectionText}>Add Course Photo</Text>
+                                <Text style={styles.imgSectionText}>Recommended Size 1024x500 Dimensions</Text>
+                            </View>
+                        }
                     </TouchableOpacity>
                 </View>
 
