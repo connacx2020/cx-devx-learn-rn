@@ -8,10 +8,11 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import { HomeStackNavProps } from '../../common/ultis/ParamLists/HomeParamList';
 import { styles } from './style';
 import { CourseDetailTabs } from '../../Tabs/CourseDetailTabs';
-import { getCourseByIdSchema,checkUserIsEnrolled,enrollCourse,unenrollCourse,getCoursesSchema } from '../../common/graphQL';
+import { getCourseByIdSchema,checkUserIsEnrolledSchema,enrollCourseSchema,unenrollCourseSchema,getCoursesSchema } from '../../common/graphQL';
 import { serverlessClient } from '../../common/graphQL/graphql.config';
 import { Query } from '@apollo/react-components';
 import { useMutation } from '@apollo/react-hooks';
+import { AuthUserInfo } from '../../common/redux/redux-actions';
 
 
 export function CxDevxCourseDetail({ navigation, route }: HomeStackNavProps<"CourseDetail">) {
@@ -20,9 +21,9 @@ export function CxDevxCourseDetail({ navigation, route }: HomeStackNavProps<"Cou
 
     const parent = tabNavigation.dangerouslyGetParent();
     const { colors } = useTheme();
-    const [enrollHandler] = useMutation(enrollCourse, { client: serverlessClient });
-    const [unenrollHandler] = useMutation(unenrollCourse, { client: serverlessClient });
-    const userInfo = useSelector((state: any) => state.authUserInfo);
+    const [enrollHandler] = useMutation(enrollCourseSchema, { client: serverlessClient });
+    const [unenrollHandler] = useMutation(unenrollCourseSchema, { client: serverlessClient });
+    const userInfo:AuthUserInfo = useSelector((state: any) => state.authUserInfo);
 
     useEffect(() => {
         parent?.setOptions({ tabBarVisible: false })
@@ -59,7 +60,7 @@ export function CxDevxCourseDetail({ navigation, route }: HomeStackNavProps<"Cou
                                         <FeatherIcon name={"arrow-left"} size={30} color={"#2541B2"} />
                                     </TouchableOpacity>
                                     <Text style={[styles.header_title, { color: colors.text }]}>{data.getCourseById.title}</Text>
-                                    <Query<any, any> query={checkUserIsEnrolled} client={serverlessClient} variables={{ courseID: data.getCourseById.id, userID: userInfo.userID }}>
+                                    <Query<any, any> query={checkUserIsEnrolledSchema} client={serverlessClient} variables={{ courseID: data.getCourseById.id, userID: userInfo.userID }}>
                                                 {
                                                     checkIsEnrollData => {
                                                         if (checkIsEnrollData.error) console.log(checkIsEnrollData.error);
@@ -74,7 +75,7 @@ export function CxDevxCourseDetail({ navigation, route }: HomeStackNavProps<"Cou
                                                                 <TouchableOpacity style={styles.header_btn_blue}
                                                                     onPress={() => enrollHandler({
                                                                         variables: { courseID:data.getCourseById.id, userID: userInfo.userID },
-                                                                        refetchQueries: [{ query: checkUserIsEnrolled, variables:  { courseID:data.getCourseById.id, userID: userInfo.userID } },{query:getCoursesSchema}]
+                                                                        refetchQueries: [{ query: checkUserIsEnrolledSchema, variables:  { courseID:data.getCourseById.id, userID: userInfo.userID } },{query:getCoursesSchema}]
                                                                     })}
                                                                 >
                                                                     <Text style={styles.header_btn_txt}> Enroll this course </Text>
@@ -85,7 +86,7 @@ export function CxDevxCourseDetail({ navigation, route }: HomeStackNavProps<"Cou
                                                                 <TouchableOpacity style={styles.header_btn_red}
                                                                     onPress={() => unenrollHandler({
                                                                         variables: { courseID:data.getCourseById.id, userID:  userInfo.userID },
-                                                                        refetchQueries: [{ query: checkUserIsEnrolled, variables:  { courseID:data.getCourseById.id, userID: userInfo.userID } },{query:getCoursesSchema}]
+                                                                        refetchQueries: [{ query: checkUserIsEnrolledSchema, variables:  { courseID:data.getCourseById.id, userID: userInfo.userID } },{query:getCoursesSchema}]
                                                                     })}
                                                                 >
                                                                     <Text style={styles.header_btn_txt}> Unenroll this course </Text>

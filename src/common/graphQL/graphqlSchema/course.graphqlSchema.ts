@@ -98,7 +98,7 @@ mutation($authorID: ID!,$title: String!,$photoUrl: String!,$seriesId: String!,$d
 }
 `;
 
-export const checkUserIsEnrolled = gql`
+export const checkUserIsEnrolledSchema = gql`
   query($courseID: ID!, $userID: ID!){
     checkUserIsEnrolled(enrollData:{
       courseID: $courseID,
@@ -107,7 +107,7 @@ export const checkUserIsEnrolled = gql`
   }
 `;
 
-export const enrollCourse = gql`
+export const enrollCourseSchema = gql`
   mutation($courseID: ID!, $userID: ID!){
     enrollCourse(enrollData:{
       courseID: $courseID,
@@ -116,7 +116,7 @@ export const enrollCourse = gql`
   }
 `;
 
-export const unenrollCourse = gql`
+export const unenrollCourseSchema = gql`
   mutation($courseID: ID!, $userID: ID!){
     unenrollCourse(enrollData:{
       courseID: $courseID,

@@ -15,13 +15,15 @@ import { View } from 'react-native-animatable';
 
 import { ActivityIndicator } from 'react-native';
 import { serverlessClient } from '../../common/graphQL/graphql.config';
+import { AuthUserInfo } from '../../common/redux/redux-actions';
+
 
 function CxDevxFeed({ navigation }: any) {
     const { colors } = useTheme();
 
     const tabNavigation = useNavigation();
     const parent = tabNavigation.dangerouslyGetParent();
-    const userInfo = useSelector((state: any) => state.authUserInfo);
+    const userInfo:AuthUserInfo = useSelector((state: any) => state.authUserInfo);
 
     useFocusEffect(() => {
         parent?.setOptions({ tabBarVisible: true });
