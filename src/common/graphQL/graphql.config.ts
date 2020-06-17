@@ -7,7 +7,7 @@ const gatewayClient = new HttpLink({
 });
 
 const serverlessLink = new HttpLink({
-    uri: `http://192.168.43.93:3000/graphql`
+    uri: CX_DEVX_SERVERLESS_URL
 });
 
 
