@@ -19,7 +19,7 @@ const CxDevxSearchResult: React.FC = () => {
             <FlatList
                 data={searchResult}
                 keyExtractor={item => item.id}
-                renderItem={({ item, index }) =>
+                renderItem={({ item }) =>
                     <SearchItemCoverLeft
                         id={item.id}
                         photoUrl={item.photoUrl}

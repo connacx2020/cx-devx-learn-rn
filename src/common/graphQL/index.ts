@@ -18,7 +18,10 @@ export {
 
 export {
     findTopicByIDSchema,
-    getAllTopicsSchema
+    getAllTopicsSchema,
+    isLikedTopicSchema,
+    likeTopicSchema,
+    unlikeTopicSchema
 } from './graphqlSchema/devx.graphqlSchema';
 
 export {
