@@ -1,12 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, ToastAndroid } from 'react-native';
 import { Topic } from '../../models';
-import {
-    getAllTopicsSchema,
-    isLikedTopicSchema,
-    likeTopicSchema,
-    unlikeTopicSchema,
-} from '../../common/graphQL';
+import { getAllTopicsSchema, isLikedTopicSchema, likeTopicSchema, unlikeTopicSchema} from '../../common/graphQL';
 import { useTheme } from '@react-navigation/native';
 import { Query } from '@apollo/react-components';
 import { useSelector } from 'react-redux';
@@ -14,13 +9,8 @@ import { useMutation } from '@apollo/react-hooks';
 import { graphqlClient } from '../../common/graphQL/graphql.config';
 import { AuthUserInfo } from '../../common/redux/redux-actions';
 
-import {
-    ActivityIndicator,
-    TouchableOpacity,
-    Image,
-    FlatList,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { ActivityIndicator, TouchableOpacity, Image, FlatList } from 'react-native';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 import { styles } from './style';
 function CxDevxTopic({ navigation }: any) {
@@ -46,8 +36,6 @@ function CxDevxTopic({ navigation }: any) {
     };
 
     const renderCardItem = ({ item }) => {
-        console.log(item.id);
-        console.log(userInfo)
         if (item.empty) {
             return (
                 <View
@@ -67,9 +55,12 @@ function CxDevxTopic({ navigation }: any) {
                             uri: item.logo,
                         }}
                     />
-                    <Query<any, any> query={isLikedTopicSchema} client={graphqlClient} variables={{userID: userInfo.userID,topicID: item.id}}>
+                    
+                </View>
+                <View style={styles.topic_card_footer}>
+                <Query<any, any> query={isLikedTopicSchema} client={graphqlClient} variables={{userID: userInfo.userID, topicID: item.id}}>
                         {(isLikedTopicData) => {
-                            console.log(isLikedTopicData);
+                            console.log(isLikedTopicData.data);
                             if (isLikedTopicData.error)
                                 console.log(isLikedTopicData.error);
 
@@ -81,34 +72,40 @@ function CxDevxTopic({ navigation }: any) {
                                         </View>
                                     </View>
                                 );
-                            return (
-                                <Text>Horizon</Text>
-                            )
-                            // if (!isLikedTopicData.data.checkUserIsEnrolled) {
-                            //     return (
-                            //         <TouchableOpacity style={styles.heard_icon}>
-                            //             <Icon
-                            //                 name={'heart-multiple'}
-                            //                 size={20}
-                            //                 color={'red'}
-                            //             />
-                            //         </TouchableOpacity>
-                            //     );
-                            // } else {
-                            //     return (
-                            //         <TouchableOpacity style={styles.heard_icon}>
-                            //             <Icon
-                            //                 name={'heart-multiple'}
-                            //                 size={20}
-                            //                 color={'red'}
-                            //             />
-                            //         </TouchableOpacity>
-                            //     );
-                            // }
+                            if (!isLikedTopicData.data.isLikedTopic) {
+                                return (
+                                    <TouchableOpacity style={styles.heard_icon}
+                                        onPress={() => likeHandler({
+                                            variables: { userID: userInfo.userID, topicID: item.id },
+                                            refetchQueries: [{ query: isLikedTopicSchema, variables: { userID: userInfo.userID, topicID: item.id } }]
+                                        })}
+                                    >
+                                        <Icon
+                                            name={'like2'}
+                                            size={20}
+                                            color={'#7C7879'}
+                                        />
+                                    </TouchableOpacity>
+                                );
+                            } else {
+                                return (
+                                    <TouchableOpacity style={styles.heard_icon}
+                                        onPress={() => unlikeHandler({
+                                            variables: { userID: userInfo.userID, topicID: item.id },
+                                            refetchQueries: [{ query: isLikedTopicSchema, variables: { userID: userInfo.userID, topicID: item.id } }]
+                                        })}
+                                    >
+                                        <Icon
+                                            name={'like1'}
+                                            size={20}
+                                            color={"#1E91D6"}
+                                        />
+                                    </TouchableOpacity>
+                                );
+                            }
+
                         }}
                     </Query>
-                </View>
-                <View style={styles.topic_card_footer}>
                     <Text style={styles.topic_card_title_txt}>
                         {item.title}
                     </Text>
@@ -141,96 +138,7 @@ function CxDevxTopic({ navigation }: any) {
                     return (
                         <FlatList
                             data={formatData(data.findAllTopic, numColumns)}
-                            renderItem={({ item }) => {
-                               
-                                if (item.empty) {
-                                    return (
-                                        <View
-                                            style={[
-                                                styles.topic_card,
-                                                { backgroundColor: 'transparent', elevation: 0 },
-                                            ]}
-                                        />
-                                    );
-                                }
-                                return (
-                                    <View style={styles.topic_card}>
-                                        <View style={styles.topic_card_header}>
-                                            <Image
-                                                style={styles.img}
-                                                source={{
-                                                    uri: item.logo,
-                                                }}
-                                            />
-                                            
-                                            <Query<any, any> query={isLikedTopicSchema} client={graphqlClient} variables={{userID: userInfo.userID, topicID: item.id}}>
-                                                {(isLikedTopicData) => {
-                                                    console.log(isLikedTopicData.data);
-                                                    if (isLikedTopicData.error)
-                                                        console.log(isLikedTopicData.error);
-
-                                                    if (isLikedTopicData.loading)
-                                                        return (
-                                                            <View style={{ alignSelf: 'center' }}>
-                                                                <View>
-                                                                    <ActivityIndicator size="large" />
-                                                                </View>
-                                                            </View>
-                                                        );
-                                                    if (!isLikedTopicData.data.isLikedTopic) {
-                                                        return (
-                                                            <TouchableOpacity style={styles.heard_icon}
-                                                                onPress={() => likeHandler({
-                                                                    variables: { userID: userInfo.userID, topicID: item.id },
-                                                                    refetchQueries: [{ query: isLikedTopicSchema, variables: { userID: userInfo.userID, topicID: item.id } }]
-                                                                })}
-                                                            >
-                                                                <Icon
-                                                                    name={'heart-multiple-outline'}
-                                                                    size={20}
-                                                                    color={'#333'}
-                                                                />
-                                                            </TouchableOpacity>
-                                                        );
-                                                    } else {
-                                                        return (
-                                                            <TouchableOpacity style={styles.heard_icon}
-                                                                onPress={() => unlikeHandler({
-                                                                    variables: { userID: userInfo.userID, topicID: item.id },
-                                                                    refetchQueries: [{ query: isLikedTopicSchema, variables: { userID: userInfo.userID, topicID: item.id } }]
-                                                                })}
-                                                            >
-                                                                <Icon
-                                                                    name={'heart-multiple'}
-                                                                    size={20}
-                                                                    color={'red'}
-                                                                />
-                                                            </TouchableOpacity>
-                                                        );
-                                                    }
-
-                                                }}
-                                            </Query>
-                                            {/* <TouchableOpacity style={styles.heard_icon}>
-                                                <Icon
-                                                    name={'heart-multiple'}
-                                                    size={20}
-                                                    color={'red'}
-                                                />
-                                            </TouchableOpacity> */}
-                                        </View>
-                                        <View style={styles.topic_card_footer}>
-                                            <Text style={styles.topic_card_title_txt}>
-                                                {item.title}
-                                            </Text>
-                                            <Text style={styles.topic_card_desc_txt}>
-                                                {item.description}
-                                            </Text>
-                                        </View>
-                                    </View>
-
-                                )
-                            }}
+                            renderItem={renderCardItem}
                             keyExtractor={(index) => index.toString()}
                             numColumns={numColumns}
                         />

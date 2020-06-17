@@ -32,9 +32,9 @@ export const styles = StyleSheet.create({
         resizeMode: 'stretch',
     },
     heard_icon:{
-        top:"5%",
-        right:"5%",
-        alignSelf:'flex-end',
+        top:"4%",
+        left:"10%",
+        alignSelf:'flex-start',
         position:"absolute",
         elevation:2
     },
