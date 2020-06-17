@@ -31,7 +31,8 @@ export {
     createCourseSchema,
     checkUserIsEnrolledSchema,
     enrollCourseSchema,
-    unenrollCourseSchema
+    unenrollCourseSchema,
+    uploadCoursePicSchema
 } from './graphqlSchema/course.graphqlSchema';
 
 export {
