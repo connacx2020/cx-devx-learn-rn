@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, ScrollView, TouchableOpacity, TextInput, Button, ToastAndroid, Image, StyleSheet, Picker } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, Button, ToastAndroid, Image, StyleSheet } from 'react-native';
 import { useMutation } from '@apollo/react-hooks';
 import { createCourseSchema, getAllPostSeriesSchema, getAllTopicsSchema, uploadCoursePicSchema } from '../../common/graphQL';
 import { serverlessClient, graphqlClient, devXFileUploadClient } from '../../common/graphQL/graphql.config';
@@ -10,6 +10,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Query } from '@apollo/react-components';
 import MultiSelect from 'react-native-multiple-select';
 import { ReactNativeFile } from 'apollo-upload-client';
+import { Picker } from '@react-native-community/picker';
 
 export const CxDevxCourseCreate = () => {
 
@@ -137,7 +138,7 @@ export const CxDevxCourseCreate = () => {
                         {photo ?
                             <Image resizeMode="stretch" source={{ uri: photo }} style={{ alignSelf: 'center', width: "100%", height: "100%" }} /> :
                             <View style={{ display: 'flex', flexDirection: 'column' }}><Text style={styles.imgSectionText}>Add Course Photo</Text>
-                                <Text style={styles.imgSectionText}>Recommended Size 1024x500 Dimensions</Text>
+                                <Text style={styles.imgSectionText}>Recommended Size 1024x500 dimensions</Text>
                             </View>
                         }
                     </TouchableOpacity>
@@ -153,7 +154,7 @@ export const CxDevxCourseCreate = () => {
 
                                 return <Picker
                                     selectedValue={seriesID}
-                                    onValueChange={(itemValue, itemIndex) => { setSeriesID(itemValue); setTitle(itemValue.title); console.log(itemValue.title) }}
+                                    onValueChange={(itemValue: any, itemIndex) => { setSeriesID(itemValue); setTitle(itemValue.title) }}
                                 >
                                     <Picker.Item label="Choose Series name" value="" />
 
