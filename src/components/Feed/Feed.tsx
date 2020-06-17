@@ -70,7 +70,7 @@ function CxDevxFeed({ navigation }: any) {
                                             <Query<any, any> query={getPostSeriesByIdSchema} variables={{ seriesID: res.seriesID }}>
                                                 {
                                                     courseSeriesByIdData => {
-                                                        console.log(courseSeriesByIdData.data.getPostSeries.posts)
+                                                        
                                                         if (courseSeriesByIdData.loading) return <Text>Loading...</Text>
                                                         if (courseSeriesByIdData.error) return <Text>Error</Text>
 
