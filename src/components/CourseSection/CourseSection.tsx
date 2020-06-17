@@ -5,13 +5,19 @@ import { styles } from './style';
 import { HomeStackNavProps } from '../../common/ultis/ParamLists/HomeParamList';
 import CxPostDetail from '../PostDetail/PostDetail';
 import { ToastAndroid, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 function CxDevxCourseSection({ navigation, route }: HomeStackNavProps<"CourseSection">) {
 
+    const tabNavigation = useNavigation();
+    const parent = tabNavigation.dangerouslyGetParent();
     const { postID, postSeries } = route.params;
     const [renderPostID, setPostID] = React.useState(postID);
     const [headTitle, setHeadTitle] = React.useState(route.params.course)
 
+    useEffect(() => {
+        parent?.setOptions({ tabBarVisible: false })
+    });
 
     useEffect(() => {
         navigation.setOptions({ title: headTitle });

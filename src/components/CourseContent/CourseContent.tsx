@@ -11,6 +11,7 @@ const CxDevxCourseContent: React.FC<any> = (props: Course) => {
     const { colors } = useTheme();
 
     const RenderCourseItem = ({ index, title, postID, postSeries }) => {
+        // console.log(title,postID,postSeries)
         return (
             <View>
                 <TouchableOpacity style={styles.render_course_item_container} onPress={() => navigation.navigate('CourseSection', { course: title, postID, postSeries })}>
@@ -25,6 +26,7 @@ const CxDevxCourseContent: React.FC<any> = (props: Course) => {
             <Query<any, any> query={getPostSeriesByIdSchema} variables={{ seriesID: props.seriesID }}>
                 {
                     ({ loading, error, data }) => {
+                        console.log(data.getPostSeries.posts)
                         if (loading) return <Text>Loading...</Text>
                         if (error) return <Text>Error</Text>
 
