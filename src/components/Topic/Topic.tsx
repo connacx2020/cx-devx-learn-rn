@@ -60,7 +60,7 @@ function CxDevxTopic({ navigation }: any) {
                 <View style={styles.topic_card_footer}>
                 <Query<any, any> query={isLikedTopicSchema} client={graphqlClient} variables={{userID: userInfo.userID, topicID: item.id}}>
                         {(isLikedTopicData) => {
-                            console.log(isLikedTopicData.data);
+                          
                             if (isLikedTopicData.error)
                                 console.log(isLikedTopicData.error);
 
