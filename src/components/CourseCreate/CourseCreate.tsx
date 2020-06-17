@@ -1,14 +1,16 @@
 import React from 'react'
-import { View, Text, ScrollView, TouchableOpacity, TextInput, Button, ToastAndroid, Image, StyleSheet, Picker } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, Button, ToastAndroid, Image, StyleSheet } from 'react-native';
 import { useMutation } from '@apollo/react-hooks';
-import { createCourseSchema, getAllPostSeriesSchema, getAllTopicsSchema } from '../../common/graphQL';
-import { serverlessClient, graphqlClient } from '../../common/graphQL/graphql.config';
+import { createCourseSchema, getAllPostSeriesSchema, getAllTopicsSchema, uploadCoursePicSchema } from '../../common/graphQL';
+import { serverlessClient, graphqlClient, devXFileUploadClient } from '../../common/graphQL/graphql.config';
 import { from } from 'rxjs';
 import { useNavigation } from '@react-navigation/native';
 import DocumentPicker from 'react-native-document-picker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Query } from '@apollo/react-components';
 import MultiSelect from 'react-native-multiple-select';
+import { ReactNativeFile } from 'apollo-upload-client';
+import { Picker } from '@react-native-community/picker';
 
 export const CxDevxCourseCreate = () => {
 
@@ -24,6 +26,7 @@ export const CxDevxCourseCreate = () => {
     const [duration, setDuration] = React.useState<string>('');
     const [photo, setPhoto] = React.useState<any>();
     const [topicID, setTopicID] = React.useState<string[]>([]);
+    const [uploadCoursePhoto] = useMutation(uploadCoursePicSchema, { client: devXFileUploadClient });
     // const auth: AuthUserInfo = useSelector((state: any) => state.authUserInfo);
 
     const [createCourse] = useMutation(createCourseSchema, { client: serverlessClient });
@@ -43,7 +46,16 @@ export const CxDevxCourseCreate = () => {
                 type: [DocumentPicker.types.images],
             });
 
-            setPhoto(res)
+            const file = new ReactNativeFile({
+                uri: res.uri,
+                name: res.name,
+                type: 'image/jpeg'
+            });
+
+            uploadCoursePhoto({ variables: { file } })
+                .then(result => {
+                    setPhoto(result.data.uploadCoursePhoto.uri)
+                }, err => console.log(err))
 
         } catch (err) {
             if (DocumentPicker.isCancel(err)) {
@@ -124,8 +136,11 @@ export const CxDevxCourseCreate = () => {
                 <View>
                     <TouchableOpacity style={styles.imgSection} onPress={() => filePick()}>
                         {photo ?
-                            <Image resizeMode="stretch" source={{ uri: photo.uri }} style={{ alignSelf: 'center', width: "100%", height: "100%" }} /> :
-                            <Text style={styles.imgSectionText}>Add Course Photo</Text>}
+                            <Image resizeMode="stretch" source={{ uri: photo }} style={{ alignSelf: 'center', width: "100%", height: "100%" }} /> :
+                            <View style={{ display: 'flex', flexDirection: 'column' }}><Text style={styles.imgSectionText}>Add Course Photo</Text>
+                                <Text style={styles.imgSectionText}>Recommended Size 1024x500 dimensions</Text>
+                            </View>
+                        }
                     </TouchableOpacity>
                 </View>
 
@@ -139,7 +154,7 @@ export const CxDevxCourseCreate = () => {
 
                                 return <Picker
                                     selectedValue={seriesID}
-                                    onValueChange={(itemValue, itemIndex) => { setSeriesID(itemValue); setTitle(itemValue.title); console.log(itemValue.title) }}
+                                    onValueChange={(itemValue: any, itemIndex) => { setSeriesID(itemValue); setTitle(itemValue.title) }}
                                 >
                                     <Picker.Item label="Choose Series name" value="" />
 
