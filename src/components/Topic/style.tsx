@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
        borderWidth:1,
        borderRadius:10,
        borderColor:'#7C7879',
-       padding:7
+       padding:6
     },
     topic_card_footer:{
         top:-10,
