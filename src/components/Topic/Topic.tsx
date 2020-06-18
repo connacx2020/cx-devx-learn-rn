@@ -9,12 +9,13 @@ import { useMutation } from '@apollo/react-hooks';
 import { graphqlClient } from '../../common/graphQL/graphql.config';
 import { AuthUserInfo } from '../../common/redux/redux-actions';
 
-import { ActivityIndicator, TouchableOpacity, Image, FlatList } from 'react-native';
+import { ActivityIndicator, TouchableOpacity, Image, FlatList,Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import { styles } from './style';
 function CxDevxTopic({ navigation }: any) {
     const { colors } = useTheme();
+    const ScreenWith = Dimensions.get('window').width;
     const numColumns = 2;
     const userInfo: AuthUserInfo = useSelector(
         (state: any) => state.authUserInfo,
@@ -41,13 +42,14 @@ function CxDevxTopic({ navigation }: any) {
                 <View
                     style={[
                         styles.topic_card,
-                        { backgroundColor: 'transparent', elevation: 0 },
+                        { backgroundColor: 'transparent', elevation: 0,width:(ScreenWith/numColumns)-20,height:(ScreenWith/numColumns)+5 },
                     ]}
                 />
             );
         }
         return (
-            <View style={styles.topic_card}>
+            <View style={[styles.topic_card,{width:(ScreenWith/numColumns)-20,height:(ScreenWith/numColumns)+5}]}>
+
                 <View style={styles.topic_card_header}>
                     <Image
                         style={styles.img}
@@ -55,10 +57,19 @@ function CxDevxTopic({ navigation }: any) {
                             uri: item.logo,
                         }}
                     />
-                    
                 </View>
+
                 <View style={styles.topic_card_footer}>
-                <Query<any, any> query={isLikedTopicSchema} client={graphqlClient} variables={{userID: userInfo.userID, topicID: item.id}}>
+
+                    <Text style={styles.topic_card_title_txt}>
+                        {item.title}
+                    </Text> 
+
+                    <Text style={styles.topic_card_desc_txt}>
+                        {item.description}
+                    </Text>
+
+                    <Query<any, any> query={isLikedTopicSchema} client={graphqlClient} variables={{userID: userInfo.userID, topicID: item.id}}>
                         {(isLikedTopicData) => {
                           
                             if (isLikedTopicData.error)
@@ -72,6 +83,7 @@ function CxDevxTopic({ navigation }: any) {
                                         </View>
                                     </View>
                                 );
+
                             if (!isLikedTopicData.data.isLikedTopic) {
                                 return (
                                     <TouchableOpacity style={styles.heard_icon}
@@ -80,11 +92,15 @@ function CxDevxTopic({ navigation }: any) {
                                             refetchQueries: [{ query: isLikedTopicSchema, variables: { userID: userInfo.userID, topicID: item.id } }]
                                         })}
                                     >
-                                        <Icon
-                                            name={'like2'}
-                                            size={20}
-                                            color={'#7C7879'}
-                                        />
+                                        <Text>
+                                            <Icon
+                                                name={'like2'}
+                                                size={20}
+                                                color={'#7C7879'}
+                                            />
+                                              Like
+                                        </Text>
+                                        
                                     </TouchableOpacity>
                                 );
                             } else {
@@ -95,23 +111,20 @@ function CxDevxTopic({ navigation }: any) {
                                             refetchQueries: [{ query: isLikedTopicSchema, variables: { userID: userInfo.userID, topicID: item.id } }]
                                         })}
                                     >
-                                        <Icon
-                                            name={'like1'}
-                                            size={20}
-                                            color={"#1E91D6"}
-                                        />
+                                        <Text>
+                                            <Icon
+                                                name={'like1'}
+                                                size={20}
+                                                color={"#1E91D6"}
+                                            />
+                                          Unlike
+                                        </Text>
+                                        
                                     </TouchableOpacity>
                                 );
                             }
-
                         }}
                     </Query>
-                    <Text style={styles.topic_card_title_txt}>
-                        {item.title}
-                    </Text>
-                    <Text style={styles.topic_card_desc_txt}>
-                        {item.description}
-                    </Text>
                 </View>
             </View>
         );

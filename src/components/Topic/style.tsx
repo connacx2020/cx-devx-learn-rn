@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
         height:150,
         width:150,
         flex:1,
-        margin:15,
+        margin:10,
         flexDirection:'column',
         backgroundColor:'white',
         elevation:3,
@@ -25,18 +25,18 @@ export const styles = StyleSheet.create({
         alignItems:'center',
     },
     img:{
-        top:"10%",
-        position:'absolute',
         width:80,
         height:80,
         resizeMode: 'stretch',
     },
     heard_icon:{
-        top:"4%",
-        left:"10%",
-        alignSelf:'flex-start',
-        position:"absolute",
-        elevation:2
+        marginVertical:5,
+       justifyContent:'center',
+       alignItems:'center',
+       borderWidth:1,
+       borderRadius:10,
+       borderColor:'#7C7879',
+       padding:7
     },
     topic_card_footer:{
         top:-10,
