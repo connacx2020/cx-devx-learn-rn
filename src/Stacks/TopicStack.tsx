@@ -15,7 +15,7 @@ const Stack = createStackNavigator<TopicParamList>();
     <Stack.Navigator initialRouteName="Topic">
       <Stack.Screen
         name="Topic"
-        options={{headerShown: false}}
+        options={{headerShown: true}}
         component={Topic}
       />
     </Stack.Navigator>

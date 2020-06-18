@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ToastAndroid, TextComponent } from 'react-native';
 import { styles } from './style';
 import { useTheme, useNavigation } from '@react-navigation/native';
 import { getPostSeriesByIdSchema } from '../../common/graphQL';
@@ -25,12 +25,16 @@ const CxDevxCourseContent: React.FC<any> = (props: Course) => {
         <View>
             <Query<any, any> query={getPostSeriesByIdSchema} variables={{ seriesID: props.seriesID }}>
                 {
-                    ({ loading, error, data }) => {
-                        console.log(data.getPostSeries.posts)
-                        if (loading) return <Text>Loading...</Text>
-                        if (error) return <Text>Error</Text>
+                    (getPostSeriesByID) => {
+                        // console.log(data.getPostSeries.posts)
+                        if (getPostSeriesByID.loading) return <Text>Loading...</Text>
+                        if (getPostSeriesByID.error) return <Text>Error</Text>
 
-                        return data.getPostSeries.posts.map((res: any, index: any) => <RenderCourseItem key={index} postSeries={data.getPostSeries.posts} index={index} postID={res.id} title={res.title} />)
+                        if (getPostSeriesByID.data) {
+                            return getPostSeriesByID.data.getPostSeries.posts.map((res: any, index: any) => <RenderCourseItem key={index} postSeries={getPostSeriesByID.data.getPostSeries.posts} index={index} postID={res.id} title={res.title} />)
+                        } else {
+                            ToastAndroid.show("No Internet Connection!", ToastAndroid.SHORT)
+                        }
                     }
                 }
             </Query>

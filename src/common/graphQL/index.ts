@@ -21,7 +21,9 @@ export {
     getAllTopicsSchema,
     isLikedTopicSchema,
     likeTopicSchema,
-    unlikeTopicSchema
+    unlikeTopicSchema,
+    getChildTopicsSchema,
+    getRootTopicsSchema
 } from './graphqlSchema/devx.graphqlSchema';
 
 export {

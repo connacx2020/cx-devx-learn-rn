@@ -128,3 +128,15 @@ mutation ($userID: String!, $topicID: String!){
   })
 }
 `;
+
+export const getRootTopicsSchema = gql`
+query {
+  getAllRootTopics
+}
+`;
+
+export const getChildTopicsSchema = gql`
+query ($topicID:ID!){
+  getAllChildTopics(topicID:$topicID)
+}
+`;

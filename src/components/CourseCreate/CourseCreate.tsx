@@ -152,17 +152,21 @@ export const CxDevxCourseCreate = () => {
                                 if (postSeries.loading) return <Text>Loading</Text>
                                 if (postSeries.error) return <Text>Error</Text>
 
-                                return <Picker
-                                    selectedValue={seriesID}
-                                    onValueChange={(itemValue: any, itemIndex) => { setSeriesID(itemValue); setTitle(itemValue.title) }}
-                                >
-                                    <Picker.Item label="Choose Series name" value="" />
+                                if (postSeries.data) {
+                                    return <Picker
+                                        selectedValue={seriesID}
+                                        onValueChange={(itemValue: any, itemIndex) => { setSeriesID(itemValue); setTitle(itemValue.title) }}
+                                    >
+                                        <Picker.Item label="Choose Series name" value="" />
 
-                                    {
-                                        postSeries.data.getAllSeries.map((res: any) => <Picker.Item key={res.id} label={res.title} value={res} />)
-                                    }
+                                        {
+                                            postSeries.data.getAllSeries.map((res: any) => <Picker.Item key={res.id} label={res.title} value={res} />)
+                                        }
 
-                                </Picker>
+                                    </Picker>
+                                } else {
+                                    return <Text>No Internet Connection</Text>
+                                }
                             }
                         }
                     </Query>
@@ -183,31 +187,35 @@ export const CxDevxCourseCreate = () => {
                                 <Text>Loading</Text>
                             </View>
 
-                            return <View style={styles.content_container}>
-                                <Text style={{ marginBottom: 5, fontWeight: "bold" }}>Choose Topics</Text>
-                                <MultiSelect
-                                    hideTags
-                                    items={fetchTopic.data.findAllTopic}
-                                    uniqueKey="id"
-                                    // ref={multiSelectRef}
-                                    onSelectedItemsChange={(selectedItems) => setTopicID(selectedItems)}
-                                    selectedItems={topicID}
-                                    selectText="Choose Topics"
-                                    searchInputPlaceholderText="Search Items..."
-                                    onChangeInput={(text) => console.log(text)}
-                                    altFontFamily="ProximaNova-Light"
-                                    tagRemoveIconColor="#CCC"
-                                    tagBorderColor="#CCC"
-                                    tagTextColor="red"
-                                    selectedItemTextColor="red"
-                                    selectedItemIconColor="red"
-                                    itemTextColor="#000"
-                                    displayKey="title"
-                                    searchInputStyle={{ color: '#CCC' }}
-                                    submitButtonColor="red"
-                                    submitButtonText="Submit"
-                                />
-                            </View>
+                            if (fetchTopic.data) {
+                                return <View style={styles.content_container}>
+                                    <Text style={{ marginBottom: 5, fontWeight: "bold" }}>Choose Topics</Text>
+                                    <MultiSelect
+                                        hideTags
+                                        items={fetchTopic.data.findAllTopic}
+                                        uniqueKey="id"
+                                        // ref={multiSelectRef}
+                                        onSelectedItemsChange={(selectedItems) => setTopicID(selectedItems)}
+                                        selectedItems={topicID}
+                                        selectText="Choose Topics"
+                                        searchInputPlaceholderText="Search Items..."
+                                        onChangeInput={(text) => console.log(text)}
+                                        altFontFamily="ProximaNova-Light"
+                                        tagRemoveIconColor="#CCC"
+                                        tagBorderColor="#CCC"
+                                        tagTextColor="red"
+                                        selectedItemTextColor="red"
+                                        selectedItemIconColor="red"
+                                        itemTextColor="#000"
+                                        displayKey="title"
+                                        searchInputStyle={{ color: '#CCC' }}
+                                        submitButtonColor="red"
+                                        submitButtonText="Submit"
+                                    />
+                                </View>
+                            } else {
+                                return <Text>No Internet Connection!</Text>
+                            }
 
                         }
                     }
