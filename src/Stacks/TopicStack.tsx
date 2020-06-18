@@ -15,12 +15,7 @@ const Stack = createStackNavigator<TopicParamList>();
     <Stack.Navigator initialRouteName="Topic">
       <Stack.Screen
         name="Topic"
-        options={{
-          title: 'Devx Learning',
-          headerTitleStyle: {
-                fontSize:25
-          },
-        }}
+        options={{headerShown: false}}
         component={Topic}
       />
     </Stack.Navigator>

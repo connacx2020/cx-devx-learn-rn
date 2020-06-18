@@ -101,3 +101,30 @@ query($text: String!$limit: Int!, $offset: Int!){
 }
 ${topic_Fragment.topic}
 `;
+
+export const isLikedTopicSchema = gql`
+  query($userID: String!, $topicID: String!) {
+    isLikedTopic(input:{
+        userID: $userID,
+        topicID: $topicID
+    })
+  }
+`;
+
+export const likeTopicSchema = gql`
+mutation($userID: String!, $topicID: String!){
+  likeTopic(input:{
+      userID: $userID,
+      topicID: $topicID
+  })
+}
+`;
+
+export const unlikeTopicSchema = gql`
+mutation ($userID: String!, $topicID: String!){
+  unlikeTopic(input:{
+      userID: $userID,
+      topicID: $topicID
+  })
+}
+`;
