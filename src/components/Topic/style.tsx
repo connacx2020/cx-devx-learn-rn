@@ -8,9 +8,7 @@ export const styles = StyleSheet.create({
         marginVertical:5
     },
     topic_card:{
-        height:150,
-        width:150,
-        flex:1,
+        // flex:1,
         margin:10,
         flexDirection:'column',
         backgroundColor:'white',
@@ -54,4 +52,4 @@ export const styles = StyleSheet.create({
         textAlign:'center'
     }
 
-}) 
+})

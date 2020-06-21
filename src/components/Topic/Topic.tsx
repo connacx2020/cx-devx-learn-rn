@@ -33,35 +33,9 @@ function CxDevxTopic() {
 
 
     let [isParent, setParent] = React.useState(true);
+    let [childTopicsData, setChildTopics] = React.useState([]);
 
-    const [fetchChildTopics, childTopics] = useLazyQuery(getChildTopicsSchema, { client: graphqlClient, onCompleted: (res) => console.log(res) });
-
-    const formatData = (dataList: number, numColumns: number) => {
-        const totalRows = Math.floor(dataList.length / numColumns);
-        let totalLastRow = dataList.length - totalRows * numColumns;
-
-        while (totalLastRow !== 0 && totalLastRow !== numColumns) {
-            dataList.push({ key: 'blank', empty: true });
-            totalLastRow++;
-        }
-        return dataList;
-    };
-
-    const dummyTopics: Topic[] = [
-        { contexts: [], description: "", id: "", likes: 0, logo: "", title: "Python", parentTopic: "" },
-        { contexts: [], description: "", id: "", likes: 0, logo: "", title: "NodeJS", parentTopic: "" },
-        { contexts: [], description: "", id: "", likes: 0, logo: "", title: "React", parentTopic: "" },
-        { contexts: [], description: "", id: "", likes: 0, logo: "", title: "React Native", parentTopic: "" },
-        { contexts: [], description: "", id: "", likes: 0, logo: "", title: "Angular", parentTopic: "" },
-        { contexts: [], description: "", id: "", likes: 0, logo: "", title: "NestJS", parentTopic: "" },
-        { contexts: [], description: "", id: "", likes: 0, logo: "", title: "GraphQL", parentTopic: "" },
-    ]
-
-    const childDummyTopics: Topic[] = [
-        { contexts: [], description: "", id: "", likes: 0, logo: "", title: "Rust", parentTopic: "" },
-        { contexts: [], description: "", id: "", likes: 0, logo: "", title: "GO", parentTopic: "" },
-        { contexts: [], description: "", id: "", likes: 0, logo: "", title: "Dart", parentTopic: "" },
-    ]
+    const [fetchChildTopics, childTopics] = useLazyQuery(getChildTopicsSchema, { client: graphqlClient, onCompleted: (data) => setChildTopics(data.getAllChildTopics) });
 
     const backAction = () => {
         if (isParent) {
@@ -81,25 +55,25 @@ function CxDevxTopic() {
     }, [isParent]);
 
     const renderCardItem = (topicDetail: Topic) => {
-        if (topicDetail === undefined) {
-            return (
-                <View
-                    style={[
-                        styles.topic_card,
-                        { backgroundColor: 'transparent', elevation: 0, width: (ScreenWith / numColumns) - 20, height: (ScreenWith / numColumns) + 5 },
-                    ]}
-                />
-            );
-        }
+        // if (topicDetail === undefined) {
+        //     return (
+        //         <View
+        //             style={[
+        //                 styles.topic_card,
+        //                 { backgroundColor: 'transparent', elevation: 0, width: (ScreenWith / numColumns) - 20, height: (ScreenWith / numColumns) + 5 },
+        //             ]}
+        //         />
+        //     );
+        // }
 
         return (
-            <TouchableOpacity onPress={() => { setParent(false); console.log("97 ---->", isParent) }} style={[styles.topic_card, { width: (ScreenWith / numColumns) - 20, height: (ScreenWith / numColumns) + 5 }]}>
+            <TouchableOpacity onPress={() => { setParent(false); fetchChildTopics({ variables: { topicID: topicDetail.id } }) }} style={[styles.topic_card, { width: (ScreenWith / numColumns) - 20, height: (ScreenWith / numColumns) + 5 }]}>
 
                 <View style={styles.topic_card_header}>
                     <Image
                         style={styles.img}
                         source={{
-                            uri: topicDetail.logo,
+                            uri: topicDetail.logo
                         }}
                     />
                 </View>
@@ -198,14 +172,12 @@ function CxDevxTopic() {
 
 
                         if (getRootTopics.data) {
-                            return getRootTopics.data.getAllRootTopics.map((res: string) => getTopicDetail(res))
-                            // return getTopicDetail(getRootTopics.data.getAllRootTopics)
-                            // return <FlatList
-                            //     data={formatData(getRootTopics.data.getAllRootTopics, numColumns)}
-                            //     renderItem={renderCardItem}
-                            //     keyExtractor={(index) => index.toString()}
-                            //     numColumns={numColumns}
-                            // />
+                            if (isParent) {
+                                return getRootTopics.data.getAllRootTopics.map((res: string) => getTopicDetail(res))
+                            }
+                            else {
+                                return childTopicsData.map((res: string) => getTopicDetail(res))
+                            }
                         } else {
                             return <Text>No Internet Connection!</Text>
                         }
@@ -213,13 +185,6 @@ function CxDevxTopic() {
                     }
                 }
             </Query>
-            {/* <FlatList
-                data={formatData(getAllTopics.data.findAllTopic, numColumns)}
-                // data={formatData(isParent ? dummyTopics : childDummyTopics, numColumns)}
-                renderItem={renderCardItem}
-                keyExtractor={(index) => index.toString()}
-                numColumns={numColumns}
-            /> */}
         </ScrollView>
     );
 }
