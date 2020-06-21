@@ -13,6 +13,7 @@ import { ReactNativeFile } from 'apollo-upload-client';
 import { Picker } from '@react-native-community/picker';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import FeatherIcon from 'react-native-vector-icons/AntDesign';
+import {courseCreateStyles} from './courseCreate-style';
 
 
 
@@ -144,13 +145,13 @@ export const CxDevxCourseCreate = () => {
                 marginBottom={40}
             >
                 <ProgressStep label="First Step">
-                    <View style={styles.container}>
+                    <View style={courseCreateStyles.container}>
                         <View>
-                            <TouchableOpacity style={[styles.imgSection]} onPress={() => filePick()}>
+                            <TouchableOpacity style={[courseCreateStyles.imgSection]} onPress={() => filePick()}>
                                 {photo ?
                                     <Image resizeMode="stretch" source={{ uri: photo }} style={{ alignSelf: 'center', width: "100%", height: "100%" }} /> :
-                                    <View style={{ display: 'flex', flexDirection: 'column' }}><Text style={styles.imgSectionText}>Add Course Photo</Text>
-                                        <Text style={styles.imgSectionText}>Recommended Size 1024x500 dimensions</Text>
+                                    <View style={{ display: 'flex', flexDirection: 'column' }}><Text style={courseCreateStyles.imgSectionText}>Add Course Photo</Text>
+                                        <Text style={courseCreateStyles.imgSectionText}>Recommended Size 1024x500 dimensions</Text>
                                     </View>
                                 }
                                 {
@@ -165,8 +166,8 @@ export const CxDevxCourseCreate = () => {
                             </TouchableOpacity>
                         </View>
 
-                        <View style={styles.content_container}>
-                            <Text style={[styles.content_header, { color: colors.text }]}>Choose Series</Text>
+                        <View style={courseCreateStyles.content_container}>
+                            <Text style={[courseCreateStyles.content_header, { color: colors.text }]}>Choose Series</Text>
                             <Query<any, any> query={getAllPostSeriesSchema} client={graphqlClient}>
                                 {
                                     (postSeries) => {
@@ -190,16 +191,16 @@ export const CxDevxCourseCreate = () => {
                             </Query>
                         </View>
 
-                        <View style={styles.content_container}>
-                            <Text style={[styles.content_header, { color: colors.text }]}>Course Title</Text>
-                            <TextInput value={title} onChangeText={text => setTitle(text)} style={[styles.text_Input, { color: colors.text }]} placeholderTextColor={colors.text} />
+                        <View style={courseCreateStyles.content_container}>
+                            <Text style={[courseCreateStyles.content_header, { color: colors.text }]}>Course Title</Text>
+                            <TextInput value={title} onChangeText={text => setTitle(text)} style={[courseCreateStyles.text_Input, { color: colors.text }]} placeholderTextColor={colors.text} />
                         </View>
 
 
                     </View>
                 </ProgressStep>
                 <ProgressStep label="Second Step">
-                    <View style={styles.container}>
+                    <View style={courseCreateStyles.container}>
                         <Query<any, any> query={getAllTopicsSchema}>
                             {
                                 (fetchTopic) => {
@@ -210,7 +211,7 @@ export const CxDevxCourseCreate = () => {
                                         <Text style={{ color: colors.text }}>Loading</Text>
                                     </View>
 
-                                    return <View style={styles.content_container}>
+                                    return <View style={courseCreateStyles.content_container}>
                                         <Text style={[{ marginBottom: 5, fontWeight: "bold" }, { color: colors.text }]}>Choose Topics</Text>
                                         <MultiSelect
                                             hideTags
@@ -240,14 +241,14 @@ export const CxDevxCourseCreate = () => {
                             }
                         </Query>
 
-                        <View style={styles.content_container}>
-                            <Text style={[styles.content_header, { color: colors.text }]}>Course Description</Text>
+                        <View style={courseCreateStyles.content_container}>
+                            <Text style={[courseCreateStyles.content_header, { color: colors.text }]}>Course Description</Text>
                             <TextInput value={description} onChangeText={text => setDescription(text)} numberOfLines={5} multiline={true} style={{ textAlignVertical: "top", marginVertical: 5, borderBottomWidth: 1, borderColor: '#333', color: colors.text }} placeholderTextColor={colors.text} />
                         </View>
 
-                        <View style={styles.content_container}>
-                            <Text style={[styles.content_header, { color: colors.text }]}>Duration</Text>
-                            <TextInput value={duration} onChangeText={(text) => setDuration(text)} style={[styles.text_Input, { color: colors.text }]} placeholderTextColor={colors.text} />
+                        <View style={courseCreateStyles.content_container}>
+                            <Text style={[courseCreateStyles.content_header, { color: colors.text }]}>Duration</Text>
+                            <TextInput value={duration} onChangeText={(text) => setDuration(text)} style={[courseCreateStyles.text_Input, { color: colors.text }]} placeholderTextColor={colors.text} />
                         </View>
 
                     </View>
@@ -255,13 +256,13 @@ export const CxDevxCourseCreate = () => {
                 <ProgressStep label="Final Step"
                     onSubmit={() => createCoursePressed()}
                 >
-                    <ScrollView style={styles.container}>
-                        <View style={styles.content_container}>
-                            <Text style={[styles.content_header, { color: colors.text }]}>Outcome</Text>
+                    <ScrollView style={courseCreateStyles.container}>
+                        <View style={courseCreateStyles.content_container}>
+                            <Text style={[courseCreateStyles.content_header, { color: colors.text }]}>Outcome</Text>
                             {outcome.length > 0 &&
                                 <View style={{ padding: 5, marginVertical: 5 }}>
                                     {
-                                        outcome.map((res, index) => <View key={index} style={styles.outcome_req_list}>
+                                        outcome.map((res, index) => <View key={index} style={courseCreateStyles.outcome_req_list}>
                                             <Text style={{ flex: 9 }} >{index + 1}. {res}</Text>
                                             <TouchableOpacity onPress={() => removeFromList("outcome", index)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                                                 <Icon
@@ -274,19 +275,19 @@ export const CxDevxCourseCreate = () => {
                                 </View>
                             }
                             <View style={{ flexDirection: 'row' }}>
-                                <TextInput value={outcomeInput} onChangeText={text => setOutComeInput(text)} style={[styles.text_Input, { color: colors.text, flex: 2 }]} placeholderTextColor={colors.text} />
+                                <TextInput value={outcomeInput} onChangeText={text => setOutComeInput(text)} style={[courseCreateStyles.text_Input, { color: colors.text, flex: 2 }]} placeholderTextColor={colors.text} />
                                 <View style={{ flex: 1, paddingLeft: 10 }}>
                                     <Button title='Add' disabled={outcomeInput === ''} onPress={() => addOutCome(outcomeInput)} />
                                 </View>
                             </View>
                         </View>
 
-                        <View style={styles.content_container}>
-                            <Text style={[styles.content_header, { color: colors.text }]}>Requirements</Text>
+                        <View style={courseCreateStyles.content_container}>
+                            <Text style={[courseCreateStyles.content_header, { color: colors.text }]}>Requirements</Text>
                             {requirements.length > 0 &&
                                 <View style={{ padding: 5, marginVertical: 5 }}>
                                     {
-                                        requirements.map((res, index) => <View key={index} style={styles.outcome_req_list}>
+                                        requirements.map((res, index) => <View key={index} style={courseCreateStyles.outcome_req_list}>
                                             <Text style={{ flex: 9 }} >{index + 1}. {res}</Text>
                                             <TouchableOpacity onPress={() => removeFromList("requirements", index)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                                                 <Icon
@@ -299,7 +300,7 @@ export const CxDevxCourseCreate = () => {
                                 </View>
                             }
                             <View style={{ flexDirection: 'row' }}>
-                                <TextInput value={requirementsInput} onChangeText={text => setRequirementsInput(text)} style={[styles.text_Input, { flex: 2, color: colors.text }]} placeholderTextColor={colors.text} />
+                                <TextInput value={requirementsInput} onChangeText={text => setRequirementsInput(text)} style={[courseCreateStyles.text_Input, { flex: 2, color: colors.text }]} placeholderTextColor={colors.text} />
                                 <View style={{ flex: 1, paddingLeft: 10 }}>
                                     <Button disabled={requirementsInput === ''} title='Add' onPress={() => addRequirements(requirementsInput)} />
                                 </View>
@@ -312,74 +313,3 @@ export const CxDevxCourseCreate = () => {
         </View>
     )
 }
-
-export const styles = StyleSheet.create({
-    body: {
-        display: 'flex', justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 10, height: 50, elevation: 3
-    },
-    container: {
-        marginVertical: 10,
-        paddingHorizontal: 10,
-        height: "92%",
-
-    },
-    modalBoxContent: {
-        margin: 20,
-        width: '90%',
-        backgroundColor: "white",
-        shadowColor: "#000",
-        borderRadius: 10,
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-        borderWidth: 1
-    },
-    imgSection: {
-        flex: 1,
-        height: 180,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        backgroundColor: '#000'
-    },
-    imgSectionText: {
-        alignSelf: 'center',
-        color: '#fff',
-        fontWeight: 'bold'
-    },
-    content_container: {
-        display: 'flex',
-        flexDirection: 'column',
-        padding: 10,
-        elevation: 2,
-        shadowColor: '#333',
-        marginVertical: 5,
-        borderRadius: 1,
-        shadowOpacity: 0.5,
-    },
-    content_header: {
-        fontWeight: "bold"
-    },
-    text_Input: {
-        borderColor: '#000',
-        borderBottomWidth: 1
-    },
-    create_btn: {
-        alignSelf: 'center',
-        flexDirection: 'row',
-        backgroundColor: '#24a2f0',
-        padding: 6,
-        borderRadius: 10
-    },
-    outcome_req_list: {
-        marginVertical: 1,
-        padding: 7,
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        backgroundColor: '#c5d1db'
-    }
-});
