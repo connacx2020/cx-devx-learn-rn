@@ -34,8 +34,8 @@ ${topic_Fragment.topic}
 `;
 
 export const findTopicByIDSchema = gql`
-query($id: ID!){
-  findTopicByID(id: $id){
+query($topicID: ID!){
+  findTopicByID(topicID: $topicID){
     ...TopicQuery
   }
 }

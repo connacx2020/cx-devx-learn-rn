@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, ToastAndroid, BackHandler, Alert } from 'react-native';
 import Modal from 'react-native-modal';
 import { Topic } from '../../models';
-import { getAllTopicsSchema, isLikedTopicSchema, likeTopicSchema, unlikeTopicSchema, getChildTopicsSchema } from '../../common/graphQL';
+import { getAllTopicsSchema, isLikedTopicSchema, likeTopicSchema, unlikeTopicSchema, getChildTopicsSchema, getRootTopicsSchema, findTopicByIDSchema } from '../../common/graphQL';
 import { useTheme, useNavigation } from '@react-navigation/native';
 import { Query } from '@apollo/react-components';
 import { useSelector } from 'react-redux';
@@ -80,8 +80,8 @@ function CxDevxTopic() {
             BackHandler.removeEventListener("hardwareBackPress", backAction);
     }, [isParent]);
 
-    const renderCardItem = ({ item }) => {
-        if (item.empty) {
+    const renderCardItem = (topicDetail: Topic) => {
+        if (topicDetail === undefined) {
             return (
                 <View
                     style={[
@@ -99,7 +99,7 @@ function CxDevxTopic() {
                     <Image
                         style={styles.img}
                         source={{
-                            uri: item.logo,
+                            uri: topicDetail.logo,
                         }}
                     />
                 </View>
@@ -107,14 +107,14 @@ function CxDevxTopic() {
                 <View style={styles.topic_card_footer}>
 
                     <Text style={styles.topic_card_title_txt}>
-                        {item.title}
+                        {topicDetail.title}
                     </Text>
 
                     <Text style={styles.topic_card_desc_txt}>
-                        {item.description}
+                        {topicDetail.description}
                     </Text>
 
-                    {/* <Query<any, any> query={isLikedTopicSchema} client={graphqlClient} variables={{ userID: userInfo.userID, topicID: item.id }}>
+                    <Query<any, any> query={isLikedTopicSchema} client={graphqlClient} variables={{ userID: userInfo.userID, topicID: topicDetail.id }}>
                         {(isLikedTopicData) => {
 
                             if (isLikedTopicData.error)
@@ -133,8 +133,8 @@ function CxDevxTopic() {
                                 return (
                                     <TouchableOpacity style={styles.heard_icon}
                                         onPress={() => likeHandler({
-                                            variables: { userID: userInfo.userID, topicID: item.id },
-                                            refetchQueries: [{ query: isLikedTopicSchema, variables: { userID: userInfo.userID, topicID: item.id } }]
+                                            variables: { userID: userInfo.userID, topicID: topicDetail.id },
+                                            refetchQueries: [{ query: isLikedTopicSchema, variables: { userID: userInfo.userID, topicID: topicDetail.id } }]
                                         })}
                                     >
                                         <Text>
@@ -152,8 +152,8 @@ function CxDevxTopic() {
                                 return (
                                     <TouchableOpacity style={styles.heard_icon}
                                         onPress={() => unlikeHandler({
-                                            variables: { userID: userInfo.userID, topicID: item.id },
-                                            refetchQueries: [{ query: isLikedTopicSchema, variables: { userID: userInfo.userID, topicID: item.id } }]
+                                            variables: { userID: userInfo.userID, topicID: topicDetail.id },
+                                            refetchQueries: [{ query: isLikedTopicSchema, variables: { userID: userInfo.userID, topicID: topicDetail.id } }]
                                         })}
                                     >
                                         <Text>
@@ -169,46 +169,57 @@ function CxDevxTopic() {
                                 );
                             }
                         }}
-                    </Query> */}
+                    </Query>
                 </View>
             </TouchableOpacity>
         );
     };
 
+    const getTopicDetail = (topicID: string) => <Query<any, any> query={findTopicByIDSchema} variables={{ topicID }}>
+        {(getByTopicID) => {
+            if (getByTopicID.loading) return <Text>Loading....</Text>
+            if (getByTopicID.error) return <Text>Error</Text>
+
+            // return  <Text>{JSON.stringify(getByTopicID.data.findTopicByID,null,2)}</Text>
+            return renderCardItem(getByTopicID.data.findTopicByID)
+        }}
+    </Query>
+
     return (
         <ScrollView style={styles.body}>
-            {/* <Query<any, any> query={getAllTopicsSchema}>
+            <Query<any, any> query={getRootTopicsSchema}>
                 {
-                    (getAllTopics) => {
-                        if (getAllTopics.error)
+                    (getRootTopics) => {
+                        if (getRootTopics.error)
                             ToastAndroid.show('No Internet Connection ', ToastAndroid.SHORT);
 
-                        if (getAllTopics.loading)
+                        if (getRootTopics.loading)
                             return <Text>Loading......</Text>
 
 
-                        if (getAllTopics.data) {
-                            return <FlatList
-                                // data={formatData(getAllTopics.data.findAllTopic, numColumns)}
-                                data={formatData(dummyTopics, numColumns)}
-                                renderItem={renderCardItem}
-                                keyExtractor={(index) => index.toString()}
-                                numColumns={numColumns}
-                            />
+                        if (getRootTopics.data) {
+                            return getRootTopics.data.getAllRootTopics.map((res: string) => getTopicDetail(res))
+                            // return getTopicDetail(getRootTopics.data.getAllRootTopics)
+                            // return <FlatList
+                            //     data={formatData(getRootTopics.data.getAllRootTopics, numColumns)}
+                            //     renderItem={renderCardItem}
+                            //     keyExtractor={(index) => index.toString()}
+                            //     numColumns={numColumns}
+                            // />
                         } else {
                             return <Text>No Internet Connection!</Text>
                         }
 
                     }
                 }
-            </Query> */}
-            <FlatList
-                // data={formatData(getAllTopics.data.findAllTopic, numColumns)}
-                data={formatData(isParent ? dummyTopics : childDummyTopics, numColumns)}
+            </Query>
+            {/* <FlatList
+                data={formatData(getAllTopics.data.findAllTopic, numColumns)}
+                // data={formatData(isParent ? dummyTopics : childDummyTopics, numColumns)}
                 renderItem={renderCardItem}
                 keyExtractor={(index) => index.toString()}
                 numColumns={numColumns}
-            />
+            /> */}
         </ScrollView>
     );
 }
