@@ -6,7 +6,7 @@ import { serverlessClient, graphqlClient, devXFileUploadClient } from '../../com
 import { from } from 'rxjs';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import DocumentPicker from 'react-native-document-picker';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Query } from '@apollo/react-components';
 import MultiSelect from 'react-native-multiple-select';
 import { ReactNativeFile } from 'apollo-upload-client';
@@ -126,7 +126,7 @@ export const CxDevxCourseCreate = () => {
                 </TouchableOpacity>
 
                 <View style={{ justifyContent: 'center' }}>
-                    <Text style={[{ fontSize: 23 , color: colors.text }]}>
+                    <Text style={[{ fontSize: 23, color: colors.text }]}>
                         Create Course
                     </Text>
                 </View>
@@ -152,6 +152,15 @@ export const CxDevxCourseCreate = () => {
                                     <View style={{ display: 'flex', flexDirection: 'column' }}><Text style={styles.imgSectionText}>Add Course Photo</Text>
                                         <Text style={styles.imgSectionText}>Recommended Size 1024x500 dimensions</Text>
                                     </View>
+                                }
+                                {
+                                    photo && <TouchableOpacity onPress={()=>setPhoto(undefined)} style={{ elevation: 5, alignSelf: 'flex-end', position: 'absolute', top: 10, right: 10 }}>
+                                        <Icon
+                                            name="cancel"
+                                            color="#fff"
+                                            size={30}
+                                        />
+                                    </TouchableOpacity>
                                 }
                             </TouchableOpacity>
                         </View>
@@ -365,12 +374,12 @@ export const styles = StyleSheet.create({
         padding: 6,
         borderRadius: 10
     },
-    outcome_req_list:{
+    outcome_req_list: {
         marginVertical: 1,
         padding: 7,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
         backgroundColor: '#c5d1db'
-     }
+    }
 });
