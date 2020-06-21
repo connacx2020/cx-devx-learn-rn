@@ -4,17 +4,23 @@ import { useMutation } from '@apollo/react-hooks';
 import { createCourseSchema, getAllPostSeriesSchema, getAllTopicsSchema, uploadCoursePicSchema } from '../../common/graphQL';
 import { serverlessClient, graphqlClient, devXFileUploadClient } from '../../common/graphQL/graphql.config';
 import { from } from 'rxjs';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,useTheme } from '@react-navigation/native';
 import DocumentPicker from 'react-native-document-picker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Query } from '@apollo/react-components';
 import MultiSelect from 'react-native-multiple-select';
 import { ReactNativeFile } from 'apollo-upload-client';
 import { Picker } from '@react-native-community/picker';
+import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
+import FeatherIcon from 'react-native-vector-icons/AntDesign';
+import { color } from 'react-native-reanimated';
+
+
 
 export const CxDevxCourseCreate = () => {
 
     const navigation = useNavigation();
+    const { colors } = useTheme();
     const [outcome, setOutCome] = React.useState<string[]>([]);
     const [requirements, setRequirements] = React.useState<string[]>([]);
 
@@ -111,173 +117,192 @@ export const CxDevxCourseCreate = () => {
     }, [photo]);
 
     return (
-        <View>
-            <View style={styles.body}>
-                <Text style={{ fontWeight: "bold", fontSize: 20, alignSelf: 'center' }}>Create Course</Text>
+        <View style={{flex:1}}>
+            <View style={[{height:56,flexDirection:'row',elevation:1},{backgroundColor:colors.navbar}]}>
                 <TouchableOpacity
-                    onPress={() => createCoursePressed()}
-                    style={styles.create_btn}
+                    onPress={() => navigation.goBack()}
+                    style={{width:72,justifyContent:'center',alignItems:'center',marginLeft:-10}}
                 >
-                    <View style={{ alignSelf: 'center', flexDirection: 'row' }}>
-                        <Icon
-                            name="plus"
-                            color="#fff"
-                            size={20}
-                        />
-                        <Text style={{ color: '#fff' }}>Create</Text>
-                    </View>
+                     <FeatherIcon name={"arrowleft"} size={30} color={"#333"} />
+                 </TouchableOpacity>
 
-
-                </TouchableOpacity>
+                <View style={{justifyContent:'center'}}>
+                    <Text style={[{fontSize:23},{color:colors.text}]}>
+                        Create Course
+                    </Text>
+                </View>
             </View>
+            <ProgressSteps
+                activeStepIconBorderColor="#2e85ff"
+                activeLabelColor="#2e85ff"
+                activeStepNumColor="#004fbd"
+                completedCheckColor="white"
+                completedStepIconColor="#2e85ff"
+                completedStepNumColor="#000"
+                completedProgressBarColor="#2e85ff"
+                disabledStepNumColor="blue"
+                marginBottom={40}
+            >
+                <ProgressStep label="First Step">
+                    <View style={styles.container}>
+                       <View>
+                            <TouchableOpacity style={[styles.imgSection,{backgroundColor:colors.card}]} onPress={() => filePick()}>
+                                {photo ?
+                                    <Image resizeMode="stretch" source={{ uri: photo }} style={{ alignSelf: 'center', width: "100%", height: "100%" }} /> :
+                                    <View style={{ display: 'flex', flexDirection: 'column' }}><Text style={styles.imgSectionText}>Add Course Photo</Text>
+                                        <Text style={styles.imgSectionText}>Recommended Size 1024x500 dimensions</Text>
+                                    </View>
+                                }
+                            </TouchableOpacity>
+                        </View>
 
-            <ScrollView style={styles.container}>
+                        <View style={styles.content_container}>
+                            <Text style={[styles.content_header,{color:colors.text}]}>Choose Series</Text>
+                            <Query<any, any> query={getAllPostSeriesSchema} client={graphqlClient}>
+                                {
+                                    (postSeries) => {
+                                        if (postSeries.loading) return <Text style={{color:colors.text}}>Loading</Text>
+                                        if (postSeries.error) return <Text style={{color:colors.text}}>Error</Text>
 
-                <View>
-                    <TouchableOpacity style={styles.imgSection} onPress={() => filePick()}>
-                        {photo ?
-                            <Image resizeMode="stretch" source={{ uri: photo }} style={{ alignSelf: 'center', width: "100%", height: "100%" }} /> :
-                            <View style={{ display: 'flex', flexDirection: 'column' }}><Text style={styles.imgSectionText}>Add Course Photo</Text>
-                                <Text style={styles.imgSectionText}>Recommended Size 1024x500 dimensions</Text>
-                            </View>
-                        }
-                    </TouchableOpacity>
-                </View>
+                                        return <Picker
+                                            style={{color:colors.text}}
+                                            selectedValue={seriesID}
+                                            onValueChange={(itemValue: any, itemIndex) => { setSeriesID(itemValue); setTitle(itemValue.title) }}
+                                        >
+                                            <Picker.Item label="Choose Series name" value="" />
 
-                <View style={styles.content_container}>
-                    <Text style={styles.content_header}>Choose Series</Text>
-                    <Query<any, any> query={getAllPostSeriesSchema} client={graphqlClient}>
-                        {
-                            (postSeries) => {
-                                if (postSeries.loading) return <Text>Loading</Text>
-                                if (postSeries.error) return <Text>Error</Text>
+                                            {
+                                                postSeries.data.getAllSeries.map((res: any) => <Picker.Item key={res.id} label={res.title} value={res} />)
+                                            }
 
-                                return <Picker
-                                    selectedValue={seriesID}
-                                    onValueChange={(itemValue: any, itemIndex) => { setSeriesID(itemValue); setTitle(itemValue.title) }}
-                                >
-                                    <Picker.Item label="Choose Series name" value="" />
-
-                                    {
-                                        postSeries.data.getAllSeries.map((res: any) => <Picker.Item key={res.id} label={res.title} value={res} />)
+                                        </Picker>
                                     }
-
-                                </Picker>
-                            }
-                        }
-                    </Query>
-                </View>
-
-                <View style={styles.content_container}>
-                    <Text style={styles.content_header}>Course Title</Text>
-                    <TextInput value={title} onChangeText={text => setTitle(text)} placeholder="Enter Course Title" style={styles.text_Input} />
-                </View>
-
-                <Query<any, any> query={getAllTopicsSchema}>
-                    {
-                        (fetchTopic) => {
-
-                            if (fetchTopic.error) ToastAndroid.show("No Internet Connection ", ToastAndroid.SHORT);
-
-                            if (fetchTopic.loading) return <View style={{ alignSelf: 'center' }} >
-                                <Text>Loading</Text>
-                            </View>
-
-                            return <View style={styles.content_container}>
-                                <Text style={{ marginBottom: 5, fontWeight: "bold" }}>Choose Topics</Text>
-                                <MultiSelect
-                                    hideTags
-                                    items={fetchTopic.data.findAllTopic}
-                                    uniqueKey="id"
-                                    // ref={multiSelectRef}
-                                    onSelectedItemsChange={(selectedItems) => setTopicID(selectedItems)}
-                                    selectedItems={topicID}
-                                    selectText="Choose Topics"
-                                    searchInputPlaceholderText="Search Items..."
-                                    onChangeInput={(text) => console.log(text)}
-                                    altFontFamily="ProximaNova-Light"
-                                    tagRemoveIconColor="#CCC"
-                                    tagBorderColor="#CCC"
-                                    tagTextColor="red"
-                                    selectedItemTextColor="red"
-                                    selectedItemIconColor="red"
-                                    itemTextColor="#000"
-                                    displayKey="title"
-                                    searchInputStyle={{ color: '#CCC' }}
-                                    submitButtonColor="red"
-                                    submitButtonText="Submit"
-                                />
-                            </View>
-
-                        }
-                    }
-                </Query>
-
-
-                <View style={styles.content_container}>
-                    <Text style={styles.content_header}>Course Description</Text>
-                    <TextInput onChangeText={text => setDescription(text)} placeholder="Enter Course Description" numberOfLines={4} multiline={true} style={styles.text_Input} />
-                </View>
-
-                <View style={styles.content_container}>
-                    <Text style={styles.content_header}>Duration</Text>
-                    <TextInput onChangeText={(text) => setDuration(text)} placeholder="Enter Course duration" style={styles.text_Input} />
-                </View>
-
-                <View style={styles.content_container}>
-                    <Text style={styles.content_header}>Outcome</Text>
-                    {outcome.length > 0 &&
-                        <View style={{ backgroundColor: '#c5d1db', padding: 5, marginVertical: 5 }}>
-                            {
-                                outcome.map((res, index) => <View key={index} style={{ marginVertical: 3, padding: 7, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <Text style={{ flex: 9 }} >{index + 1}. {res}</Text>
-                                    <TouchableOpacity onPress={() => removeFromList("outcome", index)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                                        <Icon
-                                            name="delete"
-                                            color="#000"
-                                            size={25}
-                                        /></TouchableOpacity>
-                                </View>)
-                            }
+                                }
+                            </Query>
                         </View>
-                    }
-                    <View style={{ flexDirection: 'row' }}>
-                        <TextInput value={outcomeInput} onChangeText={text => setOutComeInput(text)} placeholder="Enter" style={[styles.text_Input, { flex: 2 }]} />
-                        <View style={{ flex: 1, paddingLeft: 10 }}>
-                            <Button title='Add' disabled={outcomeInput === ''} onPress={() => addOutCome(outcomeInput)} />
+
+                        <View style={styles.content_container}>
+                            <Text style={[styles.content_header,{color:colors.text}]}>Course Title</Text>
+                            <TextInput value={title} onChangeText={text => setTitle(text)} placeholder="Enter Course Title" style={[styles.text_Input,{color:colors.text}]} placeholderTextColor={colors.text} />
                         </View>
+                    
+
                     </View>
-                </View>
-
-                <View style={styles.content_container}>
-                    <Text style={styles.content_header}>Requirements</Text>
-                    {requirements.length > 0 &&
-                        <View style={{ backgroundColor: '#c5d1db', padding: 5, marginVertical: 5 }}>
+                </ProgressStep>
+                <ProgressStep label="Second Step">
+                    <View style={styles.container}>
+                        <Query<any, any> query={getAllTopicsSchema}>
                             {
-                                requirements.map((res, index) => <View key={index} style={{ marginVertical: 3, padding: 7, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <Text style={{ flex: 9 }} >{index + 1}. {res}</Text>
-                                    <TouchableOpacity onPress={() => removeFromList("requirements", index)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                                        <Icon
-                                            name="delete"
-                                            color="#000"
-                                            size={25}
-                                        /></TouchableOpacity>
-                                </View>)
-                            }
-                        </View>
-                    }
-                    <View style={{ flexDirection: 'row' }}>
-                        <TextInput value={requirementsInput} onChangeText={text => setRequirementsInput(text)} placeholder="Enter" style={[styles.text_Input, { flex: 2 }]} />
-                        <View style={{ flex: 1, paddingLeft: 10 }}>
-                            <Button disabled={requirementsInput === ''} title='Add' onPress={() => addRequirements(requirementsInput)} />
-                        </View>
-                    </View>
-                </View>
+                                (fetchTopic) => {
 
-                <View>
-                    <Button title='Discard' onPress={() => navigation.navigate('Home')} />
-                </View>
-            </ScrollView>
+                                    if (fetchTopic.error) ToastAndroid.show("No Internet Connection ", ToastAndroid.SHORT);
+
+                                    if (fetchTopic.loading) return <View style={{ alignSelf: 'center' }} >
+                                        <Text style={{color:colors.text}}>Loading</Text>
+                                    </View>
+
+                                    return <View style={styles.content_container}>
+                                        <Text style={[{ marginBottom: 5, fontWeight: "bold" },{color:colors.text}]}>Choose Topics</Text>
+                                        <MultiSelect
+                                            hideTags
+                                            items={fetchTopic.data.findAllTopic}
+                                            uniqueKey="id"
+                                            // ref={multiSelectRef}
+                                            onSelectedItemsChange={(selectedItems) => setTopicID(selectedItems)}
+                                            selectedItems={topicID}
+                                            selectText="Choose Topics"
+                                            searchInputPlaceholderText="Search Items..."
+                                            onChangeInput={(text) => console.log(text)}
+                                            altFontFamily="ProximaNova-Light"
+                                            tagRemoveIconColor="#CCC"
+                                            tagBorderColor="#CCC"
+                                            tagTextColor="red"
+                                            selectedItemTextColor="red"
+                                            selectedItemIconColor="red"
+                                            itemTextColor="#000"
+                                            displayKey="title"
+                                            searchInputStyle={{ color: '#CCC' }}
+                                            submitButtonColor="red"
+                                            submitButtonText="Submit"
+                                        />
+                                    </View>
+
+                                }
+                            }
+                        </Query>
+
+                        <View style={styles.content_container}>
+                            <Text style={[styles.content_header,{color:colors.text}]}>Course Description</Text>
+                            <TextInput onChangeText={text => setDescription(text)} placeholder="Enter Course Description" numberOfLines={4} multiline={true} style={[styles.text_Input,{color:colors.text}]} placeholderTextColor={colors.text} />
+                        </View>
+
+                        <View style={styles.content_container}>
+                            <Text style={[styles.content_header,{color:colors.text}]}>Duration</Text>
+                            <TextInput onChangeText={(text) => setDuration(text)} placeholder="Enter Course duration" style={styles.text_Input} placeholderTextColor={colors.text} />
+                        </View>
+
+                    </View>
+                </ProgressStep>
+                <ProgressStep label="Final Step"
+                    onSubmit={() => createCoursePressed()}
+                >
+                    <ScrollView style={styles.container}>
+                        <View style={styles.content_container}>
+                            <Text style={[styles.content_header,{color:colors.text}]}>Outcome</Text>
+                            {outcome.length > 0 &&
+                                <View style={{ padding: 5, marginVertical: 5 }}>
+                                    {
+                                        outcome.map((res, index) => <View key={index} style={{ marginVertical: 1, padding: 7, display: 'flex', flexDirection: 'row', justifyContent: 'space-between',backgroundColor: '#c5d1db',}}>
+                                            <Text style={{ flex: 9 }} >{index + 1}. {res}</Text>
+                                            <TouchableOpacity onPress={() => removeFromList("outcome", index)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                                                <Icon
+                                                    name="delete"
+                                                    color="#000"
+                                                    size={25}
+                                                /></TouchableOpacity>
+                                        </View>)
+                                    }
+                                </View>
+                            }
+                            <View style={{ flexDirection: 'row' }}>
+                                <TextInput value={outcomeInput} onChangeText={text => setOutComeInput(text)} placeholder="Enter" style={[styles.text_Input, { flex: 2 }]} placeholderTextColor={colors.text} />
+                                <View style={{ flex: 1, paddingLeft: 10 }}>
+                                    <Button title='Add' disabled={outcomeInput === ''} onPress={() => addOutCome(outcomeInput)} />
+                                </View>
+                            </View>
+                        </View>
+
+                        <View style={styles.content_container}>
+                            <Text style={[styles.content_header,{color:colors.text}]}>Requirements</Text>
+                            {requirements.length > 0 &&
+                                <View style={{ padding: 5, marginVertical: 5 }}>
+                                    {
+                                        requirements.map((res, index) => <View key={index} style={{ marginVertical: 1, padding: 7, display: 'flex', flexDirection: 'row', justifyContent: 'space-between',backgroundColor: '#c5d1db', }}>
+                                            <Text style={{ flex: 9}} >{index + 1}. {res}</Text>
+                                            <TouchableOpacity onPress={() => removeFromList("requirements", index)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                                                <Icon
+                                                    name="delete"
+                                                    color="#000"
+                                                    size={25}
+                                                /></TouchableOpacity>
+                                        </View>)
+                                    }
+                                </View>
+                            }
+                            <View style={{ flexDirection: 'row' }}>
+                                <TextInput value={requirementsInput} onChangeText={text => setRequirementsInput(text)} placeholder="Enter" style={[styles.text_Input, { flex: 2 }]} placeholderTextColor={colors.text} />
+                                <View style={{ flex: 1, paddingLeft: 10 }}>
+                                    <Button disabled={requirementsInput === ''} title='Add' onPress={() => addRequirements(requirementsInput)} />
+                                </View>
+                            </View>
+                        </View>
+
+                        {/* <View>
+                            <Button title='Discard' onPress={() => navigation.navigate('Home')} />
+                        </View> */}
+                    </ScrollView>
+                </ProgressStep>
+            </ProgressSteps>
         </View>
     )
 }
@@ -287,6 +312,7 @@ export const styles = StyleSheet.create({
         display: 'flex', justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 10, height: 50, elevation: 3
     },
     container: {
+        marginVertical:10,
         paddingHorizontal: 10,
         height: "92%",
 
@@ -308,7 +334,7 @@ export const styles = StyleSheet.create({
     },
     imgSection: {
         flex: 1,
-        height: 200,
+        height: 180,
         flexDirection: 'column',
         justifyContent: 'center',
         backgroundColor: '#333'
