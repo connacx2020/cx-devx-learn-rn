@@ -34,8 +34,8 @@ ${topic_Fragment.topic}
 `;
 
 export const findTopicByIDSchema = gql`
-query($id: ID!){
-  findTopicByID(id: $id){
+query($topicID: ID!){
+  findTopicByID(topicID: $topicID){
     ...TopicQuery
   }
 }
@@ -126,5 +126,17 @@ mutation ($userID: String!, $topicID: String!){
       userID: $userID,
       topicID: $topicID
   })
+}
+`;
+
+export const getRootTopicsSchema = gql`
+query {
+  getAllRootTopics
+}
+`;
+
+export const getChildTopicsSchema = gql`
+query ($topicID:ID!){
+  getAllChildTopics(topicID:$topicID)
 }
 `;

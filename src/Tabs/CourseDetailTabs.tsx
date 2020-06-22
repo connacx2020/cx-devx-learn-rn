@@ -10,7 +10,7 @@ const Tab = createMaterialTopTabNavigator<CourseDetailTabsParamList>();
 
 export const CourseDetailTabs: React.FC<any>=(props:Course)=>{
   return (
-    <Tab.Navigator>
+    <Tab.Navigator initialRouteName="Content">
       <Tab.Screen name="Overview">
           {()=> <CxDevxCourseOverview
           {...props}

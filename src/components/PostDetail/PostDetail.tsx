@@ -122,11 +122,11 @@ function CxPostDetail(props: any) {
                                             <View style={styles.footer}>
                                                 {
                                                     isLiked ?
-                                                        <TouchableOpacity style={{ backgroundColor: 'red' }} onPress={() => { likePressed(); fetchPostByID.refetch() }}>
+                                                        <TouchableOpacity  onPress={() => { likePressed(); fetchPostByID.refetch() }}>
                                                             <Text style={{ color: colors.text }}>{fetchPostByID.data.searchPostByID.likes} Likes</Text>
                                                         </TouchableOpacity>
                                                         :
-                                                        <TouchableOpacity style={{ backgroundColor: 'green' }} onPress={() => { unlikePressed(); fetchPostByID.refetch() }}>
+                                                        <TouchableOpacity  onPress={() => { unlikePressed(); fetchPostByID.refetch() }}>
                                                             <Text style={{ color: colors.text }}>{fetchPostByID.data.searchPostByID.likes} unLikes</Text>
                                                         </TouchableOpacity>
                                                 }

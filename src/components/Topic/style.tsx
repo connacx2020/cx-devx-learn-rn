@@ -5,12 +5,10 @@ export const styles = StyleSheet.create({
     body:{
         flex:1,
         flexDirection:'row',
-        marginVertical:5
+        flexWrap:'wrap',
     },
     topic_card:{
-        height:150,
-        width:150,
-        flex:1,
+        // flex:1,
         margin:10,
         flexDirection:'column',
         backgroundColor:'white',
@@ -27,7 +25,7 @@ export const styles = StyleSheet.create({
     img:{
         width:80,
         height:80,
-        resizeMode: 'stretch',
+        resizeMode: 'contain',
     },
     heard_icon:{
         marginVertical:5,
@@ -54,4 +52,4 @@ export const styles = StyleSheet.create({
         textAlign:'center'
     }
 
-}) 
+})
