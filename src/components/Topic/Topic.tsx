@@ -1,14 +1,12 @@
 import React from 'react';
 import { View, Text, ScrollView, ToastAndroid, FlatList } from 'react-native';
-import { Topic } from '../../models';
-import { isLikedTopicSchema, likeTopicSchema, unlikeTopicSchema, getChildTopicsSchema, getRootTopicsSchema, findTopicByIDSchema } from '../../common/graphQL';
+import { isLikedTopicSchema, likeTopicSchema, unlikeTopicSchema, getRootTopicsSchema, findTopicByIDSchema } from '../../common/graphQL';
 import { useTheme, useNavigation } from '@react-navigation/native';
 import { Query } from '@apollo/react-components';
 import { useSelector } from 'react-redux';
 import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { graphqlClient } from '../../common/graphQL/graphql.config';
 import { AuthUserInfo } from '../../common/redux/redux-actions';
-import FeatherIcon from 'react-native-vector-icons/Feather';
 
 import { ActivityIndicator, TouchableOpacity, Image, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -28,12 +26,6 @@ function CxDevxTopic() {
         client: graphqlClient,
     });
 
-
-    let [isParent, setParent] = React.useState(true);
-    let [childTopicsData, setChildTopics] = React.useState([]);
-
-    const [fetchChildTopics, childTopics] = useLazyQuery(getChildTopicsSchema, { client: graphqlClient, onCompleted: (data) => setChildTopics(data.getAllChildTopics) });
-
     const formatData = (dataList: number, numColumns: number) => {
         const totalRows = Math.floor(dataList.length / numColumns);
         let totalLastRow = dataList.length - totalRows * numColumns;
@@ -44,9 +36,6 @@ function CxDevxTopic() {
         }
         return dataList;
     };
-
-    React.useEffect(() => {
-    }, [isParent]);
 
     const renderCardItem = (topicInfo: any) => {
         if (topicInfo.item.empty) {
@@ -70,7 +59,7 @@ function CxDevxTopic() {
 
             return (
                 <TouchableOpacity key={getByTopicID.data.findTopicByID.id} onPress={() => {
-                    navigation.navigate("Child Topics", { rootTopicID: topicID })
+                    navigation.navigate("Child Topics", { rootTopicID: topicID , rootTitle:getByTopicID.data.findTopicByID.title })
                 }
                 } style={[styles.topic_card, { width: (ScreenWith / numColumns) - 20, height: (ScreenWith / numColumns) + 5 }]} >
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView, ToastAndroid, FlatList } from 'react-native';
-import { Topic } from '../../models';
-import { isLikedTopicSchema, likeTopicSchema, unlikeTopicSchema, getChildTopicsSchema, getRootTopicsSchema, findTopicByIDSchema } from '../../common/graphQL';
+import { isLikedTopicSchema, likeTopicSchema, unlikeTopicSchema, getChildTopicsSchema, findTopicByIDSchema } from '../../common/graphQL';
 import { useTheme, useNavigation } from '@react-navigation/native';
 import { Query } from '@apollo/react-components';
 import { useSelector } from 'react-redux';
@@ -17,7 +16,7 @@ import { styles } from './style';
 function CxDevxChildTopic({ route }: any) {
     const { colors } = useTheme();
     const ScreenWith = Dimensions.get('window').width;
-    const { rootTopicID } = route.params;
+    const { rootTopicID, rootTitle } = route.params;
     const numColumns = 2;
     const navigation = useNavigation();
     const userInfo: AuthUserInfo = useSelector(
@@ -28,15 +27,12 @@ function CxDevxChildTopic({ route }: any) {
         client: graphqlClient,
     });
 
-    const [hasChild, setHasChild] = React.useState([]);
-
-
 
     React.useEffect(() => {
+        navigation.setOptions({ title: rootTitle })
+    }, [])
 
-    }, [hasChild])
-
-    const formatData = (dataList: number, numColumns: number) => {
+    const formatData = (dataList: [any], numColumns: number) => {
         const totalRows = Math.floor(dataList.length / numColumns);
         let totalLastRow = dataList.length - totalRows * numColumns;
 
@@ -48,7 +44,7 @@ function CxDevxChildTopic({ route }: any) {
     };
 
     const renderCardItem = (topicInfo: any) => {
-        if (topicInfo.item.empty) {
+        if (topicInfo.empty) {
             return (
                 <View
                     style={[
@@ -58,7 +54,7 @@ function CxDevxChildTopic({ route }: any) {
                 />
             );
         } else {
-            return getTopicDetail(topicInfo.item)
+            return getTopicDetail(topicInfo)
         }
     }
 
@@ -74,11 +70,11 @@ function CxDevxChildTopic({ route }: any) {
                         {
                             (getChildTopics) => {
                                 if (getChildTopics.loading) <Text>Loading....</Text>
-                                if (getChildTopics.error) <Text>Error</Text>
+                                if (getChildTopics.error) <Text>Error...</Text>
 
                                 return (
                                     <TouchableOpacity key={getByTopicID.data.findTopicByID.id} onPress={() =>
-                                        getChildTopics.data.getAllChildTopics[0] ? navigation.push("Child Topics", { rootTopicID: topicID }): ToastAndroid.show("No more child Topics", ToastAndroid.SHORT)
+                                        getChildTopics.data.getAllChildTopics[0] ? navigation.push("Child Topics", { rootTopicID: topicID, rootTitle: getByTopicID.data.findTopicByID.title }) : ToastAndroid.show("No more child Topics", ToastAndroid.SHORT)
 
                                     } style={[styles.topic_card, { width: (ScreenWith / numColumns) - 20, height: (ScreenWith / numColumns) + 5 }]} >
 
@@ -185,8 +181,8 @@ function CxDevxChildTopic({ route }: any) {
 
                             return <FlatList
                                 data={formatData(getChildTopics.data.getAllChildTopics, numColumns)}
-                                renderItem={renderCardItem}
-                                keyExtractor={(index) => index.toString()}
+                                renderItem={({ item }) => renderCardItem(item)}
+                                keyExtractor={(index) => index}
                                 numColumns={numColumns}
                             />
                         } else {
