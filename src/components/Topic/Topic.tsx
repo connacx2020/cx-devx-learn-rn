@@ -59,7 +59,7 @@ function CxDevxTopic() {
                 />
             );
         } else {
-          return  getTopicDetail(topicInfo.item)
+            return getTopicDetail(topicInfo.item)
         }
     }
 
@@ -70,16 +70,7 @@ function CxDevxTopic() {
 
             return (
                 <TouchableOpacity key={getByTopicID.data.findTopicByID.id} onPress={() => {
-                    setParent(false); navigation.setOptions({
-                        headerLeft: () =>
-                            <TouchableOpacity onPress={() => { setParent(true); navigation.setOptions({ headerLeft: () => null }) }}>
-                                <FeatherIcon
-                                    name={'arrow-left'}
-                                    size={25}
-                                    color={'#7C7879'}
-                                />
-                            </TouchableOpacity>
-                    }); fetchChildTopics({ variables: { topicID: getByTopicID.data.findTopicByID.id } })
+                    navigation.navigate("Child Topics", { rootTopicID: topicID })
                 }
                 } style={[styles.topic_card, { width: (ScreenWith / numColumns) - 20, height: (ScreenWith / numColumns) + 5 }]} >
 
@@ -177,26 +168,16 @@ function CxDevxTopic() {
 
 
                         if (getRootTopics.data) {
-                            if (isParent) {
-                                // return getRootTopics.data.getAllRootTopics.map((res: string) => getTopicDetail(res))
-                                return (
-                                    <FlatList
-                                        data={formatData(getRootTopics.data.getAllRootTopics, numColumns)}
-                                        renderItem={renderCardItem}
-                                        keyExtractor={(index) => index.toString()}
-                                        numColumns={numColumns}
-                                    />
-                                )
-                            }
-                            else {
-                                // return childTopicsData.map((res: string) => getTopicDetail(res))
-                                return (<FlatList
-                                    data={formatData(childTopicsData, numColumns)}
+                            // return getRootTopics.data.getAllRootTopics.map((res: string) => getTopicDetail(res))
+                            return (
+                                <FlatList
+                                    data={formatData(getRootTopics.data.getAllRootTopics, numColumns)}
                                     renderItem={renderCardItem}
                                     keyExtractor={(index) => index.toString()}
                                     numColumns={numColumns}
-                                />)
-                            }
+                                />
+                            )
+
                         } else {
                             return <Text>No Internet Connection!</Text>
                         }
