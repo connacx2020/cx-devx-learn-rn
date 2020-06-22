@@ -70,88 +70,100 @@ function CxDevxChildTopic({ route }: any) {
                 if (getByTopicID.error) return <Text>Error</Text>
 
                 return (
-                    <TouchableOpacity key={getByTopicID.data.findTopicByID.id} onPress={() => {
-                        navigation.navigate("Child Topics", { rootTopicID: topicID })
-                    }
-                    } style={[styles.topic_card, { width: (ScreenWith / numColumns) - 20, height: (ScreenWith / numColumns) + 5 }]} >
+                    <Query<any, any> client={graphqlClient} query={getChildTopicsSchema} variables={{ topicID }}>
+                        {
+                            (getChildTopics) => {
+                                if (getChildTopics.loading) <Text>Loading....</Text>
+                                if (getChildTopics.error) <Text>Error</Text>
 
-                        <View style={styles.topic_card_header}>
-                            <Image
-                                style={styles.img}
-                                source={{
-                                    uri: getByTopicID.data.findTopicByID.logo
-                                }}
-                            />
-                        </View>
+                                return (
+                                    <TouchableOpacity key={getByTopicID.data.findTopicByID.id} onPress={() =>
+                                        getChildTopics.data.getAllChildTopics[0] ? navigation.push("Child Topics", { rootTopicID: topicID }): ToastAndroid.show("No more child Topics", ToastAndroid.SHORT)
 
-                        <View style={styles.topic_card_footer}>
+                                    } style={[styles.topic_card, { width: (ScreenWith / numColumns) - 20, height: (ScreenWith / numColumns) + 5 }]} >
 
-                            <Text style={styles.topic_card_title_txt}>
-                                {getByTopicID.data.findTopicByID.title}
-                            </Text>
+                                        <View style={styles.topic_card_header}>
+                                            <Image
+                                                style={styles.img}
+                                                source={{
+                                                    uri: getByTopicID.data.findTopicByID.logo
+                                                }}
+                                            />
+                                        </View>
 
-                            <Text style={styles.topic_card_desc_txt}>
-                                {getByTopicID.data.findTopicByID.description}
-                            </Text>
+                                        <View style={styles.topic_card_footer}>
 
-                            <Query<any, any> query={isLikedTopicSchema} client={graphqlClient} variables={{ userID: userInfo.userID, topicID: getByTopicID.data.findTopicByID.id }}>
-                                {(isLikedTopicData) => {
+                                            <Text style={styles.topic_card_title_txt}>
+                                                {getByTopicID.data.findTopicByID.title}
+                                            </Text>
 
-                                    if (isLikedTopicData.error)
-                                        console.log(isLikedTopicData.error);
+                                            <Text style={styles.topic_card_desc_txt}>
+                                                {getByTopicID.data.findTopicByID.description}
+                                            </Text>
 
-                                    if (isLikedTopicData.loading)
-                                        return (
-                                            <View style={{ alignSelf: 'center' }}>
-                                                <View>
-                                                    <ActivityIndicator size="large" />
-                                                </View>
-                                            </View>
-                                        );
+                                            <Query<any, any> query={isLikedTopicSchema} client={graphqlClient} variables={{ userID: userInfo.userID, topicID: getByTopicID.data.findTopicByID.id }}>
+                                                {(isLikedTopicData) => {
 
-                                    if (!isLikedTopicData.data.isLikedTopic) {
-                                        return (
-                                            <TouchableOpacity style={styles.heard_icon}
-                                                onPress={() => likeHandler({
-                                                    variables: { userID: userInfo.userID, topicID: getByTopicID.data.findTopicByID.id },
-                                                    refetchQueries: [{ query: isLikedTopicSchema, variables: { userID: userInfo.userID, topicID: getByTopicID.data.findTopicByID.id } }]
-                                                })}
-                                            >
-                                                <Text>
-                                                    <Icon
-                                                        name={'like2'}
-                                                        size={20}
-                                                        color={'#7C7879'}
-                                                    />
-                                              Like
-                                        </Text>
+                                                    if (isLikedTopicData.error)
+                                                        console.log(isLikedTopicData.error);
 
-                                            </TouchableOpacity>
-                                        );
-                                    } else {
-                                        return (
-                                            <TouchableOpacity style={styles.heard_icon}
-                                                onPress={() => unlikeHandler({
-                                                    variables: { userID: userInfo.userID, topicID: getByTopicID.data.findTopicByID.id },
-                                                    refetchQueries: [{ query: isLikedTopicSchema, variables: { userID: userInfo.userID, topicID: getByTopicID.data.findTopicByID.id } }]
-                                                })}
-                                            >
-                                                <Text>
-                                                    <Icon
-                                                        name={'like1'}
-                                                        size={20}
-                                                        color={"#1E91D6"}
-                                                    />
-                                          Unlike
-                                        </Text>
+                                                    if (isLikedTopicData.loading)
+                                                        return (
+                                                            <View style={{ alignSelf: 'center' }}>
+                                                                <View>
+                                                                    <ActivityIndicator size="large" />
+                                                                </View>
+                                                            </View>
+                                                        );
 
-                                            </TouchableOpacity>
-                                        );
-                                    }
-                                }}
-                            </Query>
-                        </View>
-                    </TouchableOpacity >
+                                                    if (!isLikedTopicData.data.isLikedTopic) {
+                                                        return (
+                                                            <TouchableOpacity style={styles.heard_icon}
+                                                                onPress={() => likeHandler({
+                                                                    variables: { userID: userInfo.userID, topicID: getByTopicID.data.findTopicByID.id },
+                                                                    refetchQueries: [{ query: isLikedTopicSchema, variables: { userID: userInfo.userID, topicID: getByTopicID.data.findTopicByID.id } }]
+                                                                })}
+                                                            >
+                                                                <Text>
+                                                                    <Icon
+                                                                        name={'like2'}
+                                                                        size={20}
+                                                                        color={'#7C7879'}
+                                                                    />
+                                                          Like
+                                                    </Text>
+
+                                                            </TouchableOpacity>
+                                                        );
+                                                    } else {
+                                                        return (
+                                                            <TouchableOpacity style={styles.heard_icon}
+                                                                onPress={() => unlikeHandler({
+                                                                    variables: { userID: userInfo.userID, topicID: getByTopicID.data.findTopicByID.id },
+                                                                    refetchQueries: [{ query: isLikedTopicSchema, variables: { userID: userInfo.userID, topicID: getByTopicID.data.findTopicByID.id } }]
+                                                                })}
+                                                            >
+                                                                <Text>
+                                                                    <Icon
+                                                                        name={'like1'}
+                                                                        size={20}
+                                                                        color={"#1E91D6"}
+                                                                    />
+                                                      Unlike
+                                                    </Text>
+
+                                                            </TouchableOpacity>
+                                                        );
+                                                    }
+                                                }}
+                                            </Query>
+                                        </View>
+                                    </TouchableOpacity >
+                                )
+                            }
+                        }
+                    </Query>
+
                 );
             }}
         </Query>)
