@@ -3,17 +3,16 @@ import { StyleSheet, View, Text, ScrollView, RefreshControl, TouchableOpacity, A
 import { LearnStackNavProps } from '../../common/ultis/ParamLists/LearnParamList';
 import { useTheme } from '@react-navigation/native';
 import CxPostDetail from '../PostDetail/PostDetail';
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import { getAllPostsSchema } from '../../common/graphQL/graphqlSchema/post.graphqlSchema';
 import { graphqlClient } from '../../common/graphQL/graphql.config';
 import { getPostSeriesByIdSchema } from '../../common/graphQL';
+import { Query } from '@apollo/react-components';
 
 function CxDevxLearn({ navigation }: LearnStackNavProps<"Learn">) {
     const { colors } = useTheme();
     const [refreshing, setRefreshing] = React.useState<boolean>(false);
-    const [postSeries, setPostSeries] = React.useState();
     const getRandomPosts = useQuery(getAllPostsSchema, { client: graphqlClient, notifyOnNetworkStatusChange: true });
-    const [fetPostSeries, getPostSeries] = useLazyQuery(getPostSeriesByIdSchema, { client: graphqlClient, onError: (error) => console.log("we have error", error), onCompleted: (data) => setPostSeries(data.getPostSeries.posts) })
 
     React.useEffect(() => {
     }, [getRandomPosts])
@@ -25,9 +24,6 @@ function CxDevxLearn({ navigation }: LearnStackNavProps<"Learn">) {
                 onRefresh={() => { setRefreshing(true); getRandomPosts.refetch().then(res => { setRefreshing(false) }).finally(() => setRefreshing(false)) }}
             />}
         >
-            {/* {
-                postSeries && <Text>{JSON.stringify(postSeries,null,2)}</Text>
-            } */}
             {
                 getRandomPosts.loading && <View style={styles.query_info}><ActivityIndicator size="large" /></View>
             }
@@ -35,11 +31,26 @@ function CxDevxLearn({ navigation }: LearnStackNavProps<"Learn">) {
                 getRandomPosts.error && <View style={styles.query_info}><Text>No Internet Connection!</Text></View>
             }
             {
-                getRandomPosts.data && getRandomPosts.data.getPosts.map((res: any) =>
-                    res.seriesID !== null && <View style={styles.postCard}>
-                        <TouchableOpacity onPress={() => { fetPostSeries({ variables: { seriesID: res.seriesID } }); navigation.navigate('CourseSection', { course: res.title, postID: res.id, postSeries }) }}>
-                            <CxPostDetail postID={res.id} />
-                        </TouchableOpacity>
+                getRandomPosts.data && getRandomPosts.data.getPosts.sort(() => Math.random() - 0.5).map((res: any) =>
+                    res.seriesID !== null && <View key={res.id} style={styles.postCard}>
+                        <Query<any, any> query={getPostSeriesByIdSchema} variables={{ seriesID: res.seriesID }} client={graphqlClient}>
+                            {
+                                (getSeries) => {
+
+                                    if (getSeries.loading) return <Text>Loading....</Text>
+                                    // if (getSeries.error) return <Text>Error{JSON.stringify(getSeries.error)}</Text>
+                                    if (getSeries.error) return <Text>Error</Text>
+
+                                    return <TouchableOpacity onPress={() => {
+                                        console.log(getSeries.data.getPostSeries.posts)
+                                        navigation.navigate('CourseSection', { course: res.title, postID: res.id, postSeries: getSeries.data.getPostSeries.posts })
+                                    }}>
+                                        <CxPostDetail postID={res.id} />
+                                    </TouchableOpacity>
+                                }
+                            }
+
+                        </Query>
                     </View>
                 )
             }
