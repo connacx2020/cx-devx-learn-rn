@@ -46,6 +46,8 @@ export const styles = StyleSheet.create({
         marginHorizontal:10,
         flex:1,
         flexDirection: 'column',
+        padding:5,
+        paddingVertical:10
     },
     content_title:{
         fontWeight:'bold',
