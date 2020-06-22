@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     body:{
         flex:1,
         flexDirection:'row',
-        marginVertical:5
+        flexWrap:'wrap',
     },
     topic_card:{
         // flex:1,
@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
     img:{
         width:80,
         height:80,
-        resizeMode: 'stretch',
+        resizeMode: 'contain',
     },
     heard_icon:{
         marginVertical:5,

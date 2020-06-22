@@ -194,7 +194,7 @@ export const InstructorProfile: React.FC = () => {
                                                             <FlatList
                                                                 testID="flatListID"
                                                                 data={data.getCoursesByAuthorId}
-                                                                keyExtractor={(item) => item.title}
+                                                                keyExtractor={(item) => item.id}
                                                                 renderItem={({ item, index }) => {
                                                                     return (
                                                                         <SearchItemCoverLeft
