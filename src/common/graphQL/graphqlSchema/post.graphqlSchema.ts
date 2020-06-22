@@ -38,6 +38,8 @@ export const getAllPostsSchema = gql`
 {
   getPosts{
     id
+    title
+    seriesID
   }
 }
 `;

@@ -13,7 +13,6 @@ import { AuthUserInfo } from '../../common/redux/redux-actions';
 import { useSelector } from 'react-redux';
 import { CxDevxCommentModal } from '../CommentModalBox';
 import { styles } from '../CourseSection/style';
-import { Comment, Post } from '../../models/post.model';
 
 
 function CxPostDetail(props: any) {
@@ -101,7 +100,7 @@ function CxPostDetail(props: any) {
                                                         }}
                                                     />}
                                                 style={{ backgroundColor: colors.background }}>
-                                                <View style={{ flexDirection: 'row', borderBottomColor: 'black', borderBottomWidth: 0.5, paddingBottom: 5 }}>
+                                                <View style={{ flexDirection: 'row', borderBottomColor: 'black', borderBottomWidth: 0.5, paddingBottom: 5, marginTop:5 }}>
 
                                                     <Image style={{ width: 60, height: 60, marginHorizontal: 10, borderRadius: 100, }}
                                                         source={{
