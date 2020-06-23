@@ -66,8 +66,6 @@ export const styles = StyleSheet.create({
         flexDirection:'row',
         height:50,
         borderWidth:0.1,
-        // backgroundColor:'green',
-        elevation: 1,
         justifyContent: 'space-around',
         alignItems: 'center'
     }

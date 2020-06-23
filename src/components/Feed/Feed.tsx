@@ -71,18 +71,18 @@ function CxDevxFeed({ navigation }: any) {
                                 <View>
                                     {hasEnrolled && <Text style={[styles.centerTxt, { color: colors.text }]}>Enrolled Course</Text>}
                                     <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
-                                        {data.getAllCourses && data.getAllCourses.map((res: Course) =>
+                                        {data.getAllCourses && data.getAllCourses.map((res: Course,index: number) =>
                                             res.enrolledUsers.includes(userInfo.userID) ?
                                                 (
                                                     <Query<any, any> query={getPostSeriesByIdSchema} variables={{ seriesID: res.seriesID }}>
                                                         {
                                                             courseSeriesByIdData => {
                                                                 setHasEnrolled(true)
-                                                                if (courseSeriesByIdData.loading) return <Text>Loading...</Text>
-                                                                if (courseSeriesByIdData.error) return <Text>Error</Text>
+                                                                if (courseSeriesByIdData.loading) return <Text key={index}>Loading...</Text>
+                                                                if (courseSeriesByIdData.error) return <Text key={index}>Error</Text>
 
                                                                 return (
-                                                                    <TouchableOpacity onPress={() => routeToEnrolledCourseSection(res.title, courseSeriesByIdData.data.getPostSeries.posts[0].id, courseSeriesByIdData.data.getPostSeries.posts)}>
+                                                                    <TouchableOpacity key={res.id} onPress={() => routeToEnrolledCourseSection(res.title, courseSeriesByIdData.data.getPostSeries.posts[0].id, courseSeriesByIdData.data.getPostSeries.posts)}>
                                                                         <CxDevxEntrolledCourseItem
                                                                             key={res.id}
                                                                             authorID={res.authorID}

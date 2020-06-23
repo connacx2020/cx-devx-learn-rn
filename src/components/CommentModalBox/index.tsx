@@ -17,11 +17,13 @@ import { graphqlClient } from '../../common/graphQL/graphql.config';
 import { AuthUserInfo } from '../../common/redux/redux-actions';
 import { useSelector } from 'react-redux';
 import { from } from 'rxjs';
+import { Divider } from 'react-native-paper';
 
 type CommentModalProps = {
     isLiked: Boolean;
     isModalVisible: Boolean;
-    setLike: () => void;
+    likePress: () => void;
+    unlikePress: () => void;
     setModalVisible: () => void;
     addCommentPressed: () => void;
     addCommentInput: () => void;
@@ -33,7 +35,8 @@ type CommentModalProps = {
 export const CxDevxCommentModal: React.FC<CommentModalProps> = ({
     isLiked,
     isModalVisible,
-    setLike,
+    likePress,
+    unlikePress,
     setModalVisible,
     commentInfo,
     postID
@@ -66,14 +69,15 @@ export const CxDevxCommentModal: React.FC<CommentModalProps> = ({
                         console.log(err);
                     }
                 );
-                commentInfo.push({...commentInfo,
-                    postID: postID,
-                    authorID: auth.userID,
-                    content: commentInput,
-                    likes: 0,
-                    comments: [],
-                    commentedOn: new Date()
-                })
+            commentInfo.push({
+                ...commentInfo,
+                postID: postID,
+                authorID: auth.userID,
+                content: commentInput,
+                likes: 0,
+                comments: [],
+                commentedOn: new Date()
+            })
         }
         else {
             ToastAndroid.show("Comment Fail", 1000)
@@ -98,24 +102,33 @@ export const CxDevxCommentModal: React.FC<CommentModalProps> = ({
                             color={'#7C7879'}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => setLike(!isLiked)}
-                        style={styles.modal_header_likes_right}>
-                        {!isLiked ? (
+
+                    {isLiked ? (
+                        <TouchableOpacity
+                            style={styles.modal_header_likes_right}
+                            onPress={() => unlikePress()}
+                        >
                             <AntdIcon
-                                name={'like2'}
+
+                                name={'like1'}
                                 size={25}
-                                color={'#6D696A'}
-                            />
-                        ) : (
-                                <AntdIcon
-                                    name={'like1'}
-                                    size={25}
-                                    color={'#1E91D6'}
-                                />
-                            )}
+                                color={'blue'}
+                            /></TouchableOpacity>
+                    ) : (<TouchableOpacity
+                        onPress={() => likePress()}
+                        style={styles.modal_header_likes_right}
+                    >
+                        <AntdIcon
+
+                            name={'like2'}
+                            size={25}
+                        />
                     </TouchableOpacity>
+                        )}
+
                 </View>
+
+                <Divider />
 
                 <ScrollView style={styles.modal_content}>
                     <View>
