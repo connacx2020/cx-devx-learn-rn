@@ -6544,6 +6544,14 @@ react-native-dotenv@^0.2.0:
   dependencies:
     babel-plugin-dotenv "0.1.1"
 
+react-native-dropdown-picker@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-dropdown-picker/-/react-native-dropdown-picker-3.0.5.tgz#f5c66dcf0aa2e4a0c68eccf7a68f841ec5fa91e1"
+  integrity sha512-0aFKde6AF62++Dzbjj3GmOERBRlo2oVziWI9y/49rSbSCUClSo0YdeRLEpp5SAizgYFDQf+SMee7eqcH3hGpWg==
+  dependencies:
+    prop-types "^15.7.2"
+    react-native-vector-icons "^6.6.0"
+
 react-native-formik@^1.7.8:
   version "1.7.8"
   resolved "https://registry.yarnpkg.com/react-native-formik/-/react-native-formik-1.7.8.tgz#dc82b735dc104cb048dc127c6d154abe8aea3cb2"
@@ -6616,6 +6624,11 @@ react-native-paper@^3.10.1:
     "@callstack/react-theme-provider" "^3.0.5"
     color "^3.1.2"
     react-native-safe-area-view "^0.14.9"
+
+react-native-popup-menu@^0.15.7:
+  version "0.15.7"
+  resolved "https://registry.yarnpkg.com/react-native-popup-menu/-/react-native-popup-menu-0.15.7.tgz#ddffa8aa6e5d7d11533947921e9bdf94cd7fc7d0"
+  integrity sha512-TgPVGQdsHPgynn+mMpTX51QKKhavDXI3tA879zylRUBMrxfNiR3gAWNanI1Sd5X4Sv0tZ1/A33k/gNTwciMDDg==
 
 react-native-reanimated@^1.9.0:
   version "1.9.0"

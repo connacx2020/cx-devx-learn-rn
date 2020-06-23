@@ -112,7 +112,7 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
                 component={CxDevxCourseSection}
             />
             <Stack.Screen
-                 options={{headerShown: false}}
+                options={{headerShown: false}}
                 name="Search"
                 component={DevxSearch}
             />

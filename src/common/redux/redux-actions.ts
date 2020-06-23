@@ -1,6 +1,8 @@
 import {
     rdxUserInfo,
-    rdxAuthUserInfo
+    rdxAuthUserInfo,
+    mentorStepInfo_save,
+    mentorStepInfo_get
 } from './redux-types';
 import { User } from '../../models';
 
@@ -27,5 +29,17 @@ export const saveUserInfo = (userInfoData: User) => {
     return {
         type: rdxUserInfo,
         userInfoData
+    }
+}
+
+export const saveMentorStep = (ms_route_name:string)=>{
+    return{
+        type:mentorStepInfo_save,
+        payload:ms_route_name
+    }
+}
+export const getMentorStep =()=>{
+    return {
+        type:mentorStepInfo_get
     }
 }

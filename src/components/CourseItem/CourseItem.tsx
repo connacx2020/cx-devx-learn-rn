@@ -3,7 +3,6 @@ import { TouchableOpacity, View, Text, Image, StyleProp, ViewStyle } from 'react
 import StarRating from 'react-native-star-rating';
 import { useTheme } from '@react-navigation/native';
 
-
 import { styles } from './styles';
 import { Course } from '../../models';
 
