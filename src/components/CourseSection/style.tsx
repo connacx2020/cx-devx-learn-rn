@@ -39,8 +39,7 @@ export const styles = StyleSheet.create({
         fontStyle:'italic'
     },
     info_time:{
-        fontSize:15,
-        fontWeight:'bold'
+        fontSize:13,
     },
     content:{
         marginHorizontal:10,
@@ -66,8 +65,6 @@ export const styles = StyleSheet.create({
         flexDirection:'row',
         height:50,
         borderWidth:0.1,
-        // backgroundColor:'green',
-        elevation: 1,
         justifyContent: 'space-around',
         alignItems: 'center'
     }
