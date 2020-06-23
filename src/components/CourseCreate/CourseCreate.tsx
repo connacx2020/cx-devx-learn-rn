@@ -13,7 +13,7 @@ import { ReactNativeFile } from 'apollo-upload-client';
 import { Picker } from '@react-native-community/picker';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import FeatherIcon from 'react-native-vector-icons/AntDesign';
-import {courseCreateStyles} from './courseCreate-style';
+import { courseCreateStyles } from './courseCreate-style';
 
 
 
@@ -30,6 +30,7 @@ export const CxDevxCourseCreate = () => {
     const [description, setDescription] = React.useState<string>('');
     const [seriesID, setSeriesID] = React.useState<any>();
     const [duration, setDuration] = React.useState<string>('');
+    const [coursePrice, setCoursePrice] = React.useState<string>('');
     const [photo, setPhoto] = React.useState<any>();
     const [topicID, setTopicID] = React.useState<string[]>([]);
     const [uploadCoursePhoto] = useMutation(uploadCoursePicSchema, { client: devXFileUploadClient });
@@ -80,6 +81,7 @@ export const CxDevxCourseCreate = () => {
                     title,
                     photoUrl: photo ? photo : '',
                     seriesID: seriesID.id,
+                    price: parseFloat(coursePrice),
                     duration,
                     description,
                     outcome,
@@ -155,7 +157,7 @@ export const CxDevxCourseCreate = () => {
                                     </View>
                                 }
                                 {
-                                    photo && <TouchableOpacity onPress={()=>setPhoto(undefined)} style={{ elevation: 5, alignSelf: 'flex-end', position: 'absolute', top: 10, right: 10 }}>
+                                    photo && <TouchableOpacity onPress={() => setPhoto(undefined)} style={{ elevation: 5, alignSelf: 'flex-end', position: 'absolute', top: 10, right: 10 }}>
                                         <Icon
                                             name="cancel"
                                             color="#fff"
@@ -211,31 +213,35 @@ export const CxDevxCourseCreate = () => {
                                         <Text style={{ color: colors.text }}>Loading</Text>
                                     </View>
 
-                                    return <View style={courseCreateStyles.content_container}>
-                                        <Text style={[{ marginBottom: 5, fontWeight: "bold" }, { color: colors.text }]}>Choose Topics</Text>
-                                        <MultiSelect
-                                            hideTags
-                                            items={fetchTopic.data.findAllTopic}
-                                            uniqueKey="id"
-                                            // ref={multiSelectRef}
-                                            onSelectedItemsChange={(selectedItems) => setTopicID(selectedItems)}
-                                            selectedItems={topicID}
-                                            selectText="Choose Topics"
-                                            searchInputPlaceholderText="Search Items..."
-                                            onChangeInput={(text) => console.log(text)}
-                                            altFontFamily="ProximaNova-Light"
-                                            tagRemoveIconColor="#CCC"
-                                            tagBorderColor="#CCC"
-                                            tagTextColor="red"
-                                            selectedItemTextColor="red"
-                                            selectedItemIconColor="red"
-                                            itemTextColor="#000"
-                                            displayKey="title"
-                                            searchInputStyle={{ color: '#CCC' }}
-                                            submitButtonColor="red"
-                                            submitButtonText="Submit"
-                                        />
-                                    </View>
+                                    if (fetchTopic.data) {
+                                        return <View style={courseCreateStyles.content_container}>
+                                            <Text style={[{ marginBottom: 5, fontWeight: "bold" }, { color: colors.text }]}>Choose Topics</Text>
+                                            <MultiSelect
+                                                hideTags
+                                                items={fetchTopic.data.findAllTopic}
+                                                uniqueKey="id"
+                                                // ref={multiSelectRef}
+                                                onSelectedItemsChange={(selectedItems) => setTopicID(selectedItems)}
+                                                selectedItems={topicID}
+                                                selectText="Choose Topics"
+                                                searchInputPlaceholderText="Search Items..."
+                                                onChangeInput={(text) => console.log(text)}
+                                                altFontFamily="ProximaNova-Light"
+                                                tagRemoveIconColor="#CCC"
+                                                tagBorderColor="#CCC"
+                                                tagTextColor="red"
+                                                selectedItemTextColor="red"
+                                                selectedItemIconColor="red"
+                                                itemTextColor="#000"
+                                                displayKey="title"
+                                                searchInputStyle={{ color: '#CCC' }}
+                                                submitButtonColor="red"
+                                                submitButtonText="Submit"
+                                            />
+                                        </View>
+                                    } else {
+                                        return <Text>No Connection!</Text>
+                                    }
 
                                 }
                             }
@@ -305,6 +311,11 @@ export const CxDevxCourseCreate = () => {
                                     <Button disabled={requirementsInput === ''} title='Add' onPress={() => addRequirements(requirementsInput)} />
                                 </View>
                             </View>
+                        </View>
+
+                        <View style={courseCreateStyles.content_container}>
+                            <Text style={[courseCreateStyles.content_header, { color: colors.text }]}>Course Price in $</Text>
+                            <TextInput value={coursePrice} onChangeText={(text) => setCoursePrice(text)} style={[courseCreateStyles.text_Input, { color: colors.text }]} placeholderTextColor={colors.text} />
                         </View>
 
                     </ScrollView>

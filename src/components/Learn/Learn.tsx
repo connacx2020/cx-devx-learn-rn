@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
 
     query_info: {
         flex: 1,
-        marginTop: Math.round(Dimensions.get("window").height) / 2.8,
+        marginTop: Math.round(Dimensions.get("window").height) / 2.5,
         alignItems: 'center'
     },
     postCard: {
