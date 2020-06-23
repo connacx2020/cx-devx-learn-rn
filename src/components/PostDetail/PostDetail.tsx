@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity, ToastAndroid, RefreshControl } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, ToastAndroid, RefreshControl, Dimensions } from 'react-native';
 
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { Query } from '@apollo/react-components';
@@ -13,6 +13,7 @@ import { AuthUserInfo } from '../../common/redux/redux-actions';
 import { useSelector } from 'react-redux';
 import { CxDevxCommentModal } from '../CommentModalBox';
 import { styles } from '../CourseSection/style';
+import HTML from 'react-native-render-html';
 
 
 function CxPostDetail(props: any) {
@@ -115,7 +116,7 @@ function CxPostDetail(props: any) {
                                                 </View>
 
                                                 <View style={styles.content}>
-                                                    <Text style={[styles.info_time, { color: colors.text }]}>{fetchPostByID.data.searchPostByID.content}</Text>
+                                                    <HTML html={fetchPostByID.data.searchPostByID.content} imagesMaxWidth={Dimensions.get('window').width} />
                                                 </View>
                                             </ScrollView>
 
