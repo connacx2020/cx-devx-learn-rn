@@ -42,7 +42,6 @@ function CxDevxLearn({ navigation }: LearnStackNavProps<"Learn">) {
                                     if (getSeries.error) return <Text>Error</Text>
 
                                     return <TouchableOpacity onPress={() => {
-                                        console.log(getSeries.data.getPostSeries.posts)
                                         navigation.navigate('CourseSection', { course: res.title, postID: res.id, postSeries: getSeries.data.getPostSeries.posts })
                                     }}>
                                         <CxPostDetail postID={res.id} />
@@ -67,7 +66,7 @@ const styles = StyleSheet.create({
     },
     postCard: {
         elevation: 5,
-        borderWidth: 0.5,
+        borderWidth: 0.3,
         marginBottom: 10,
         shadowOpacity: 0.25,
         shadowColor: '#333'

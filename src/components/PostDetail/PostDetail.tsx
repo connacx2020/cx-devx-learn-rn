@@ -27,7 +27,7 @@ function CxPostDetail(props: any) {
     const [addLike] = useMutation(addLikeSchema, { client: graphqlClient });
     const [removeLike] = useMutation(removeLikeSchema, { client: graphqlClient });
     const [refreshing, setRefreshing] = React.useState<boolean>(false);
-    const [comments, setComment] = React.useState([]as any);
+    const [comments, setComment] = React.useState([] as any);
 
 
     const auth: AuthUserInfo = useSelector((state: any) => state.authUserInfo);
@@ -113,6 +113,7 @@ function CxPostDetail(props: any) {
                                                         <Text style={[styles.info_txt, { color: colors.text, fontWeight: 'bold' }]}>{getUserInfo.data.name}</Text>
                                                         <Text style={[styles.info_time, { color: colors.text }]}>{new Date(fetchPostByID.data.searchPostByID.postedOn).toDateString()}</Text>
                                                     </View>
+
                                                 </View>
 
                                                 <View style={styles.content}>
@@ -124,13 +125,13 @@ function CxPostDetail(props: any) {
                                             <Divider />
                                             <View style={{ flexDirection: 'row', paddingVertical: 5, justifyContent: 'space-between', paddingHorizontal: 10 }}>
 
-                                                    <Text style={{ color: colors.text, alignSelf:'center' }}>{fetchPostByID.data.searchPostByID.likes} Likes</Text>
+                                                <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostByID.data.searchPostByID.likes} Likes</Text>
 
-                                                <EntypoIcon name="dot-single" size={25}/>
+                                                <EntypoIcon name="dot-single" size={25} />
                                                 <>
-                                                    <Text style={{ color: colors.text, alignSelf:'center' }}>{fetchPostByID.data.searchPostByID.comments.length} Comments</Text>
+                                                    <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostByID.data.searchPostByID.comments.length} Comments</Text>
                                                     <EntypoIcon name="dot-single" size={25} />
-                                                    <Text style={{ color: colors.text, alignSelf:'center' }}>{fetchPostByID.data.searchPostByID.views}Views</Text>
+                                                    <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostByID.data.searchPostByID.views}Views</Text>
                                                 </>
                                             </View>
                                             <Divider />
