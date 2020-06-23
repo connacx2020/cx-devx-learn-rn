@@ -30,6 +30,7 @@ export const CxDevxCourseCreate = () => {
     const [description, setDescription] = React.useState<string>('');
     const [seriesID, setSeriesID] = React.useState<any>();
     const [duration, setDuration] = React.useState<string>('');
+    const [coursePrice, setCoursePrice] = React.useState<string>('');
     const [photo, setPhoto] = React.useState<any>();
     const [topicID, setTopicID] = React.useState<string[]>([]);
     const [uploadCoursePhoto] = useMutation(uploadCoursePicSchema, { client: devXFileUploadClient });
@@ -80,6 +81,7 @@ export const CxDevxCourseCreate = () => {
                     title,
                     photoUrl: photo ? photo : '',
                     seriesID: seriesID.id,
+                    price: coursePrice,
                     duration,
                     description,
                     outcome,
@@ -309,6 +311,11 @@ export const CxDevxCourseCreate = () => {
                                     <Button disabled={requirementsInput === ''} title='Add' onPress={() => addRequirements(requirementsInput)} />
                                 </View>
                             </View>
+                        </View>
+
+                        <View style={courseCreateStyles.content_container}>
+                            <Text style={[courseCreateStyles.content_header, { color: colors.text }]}>Course Price in $</Text>
+                            <TextInput value={coursePrice} onChangeText={(text) => setCoursePrice(text)} style={[courseCreateStyles.text_Input, { color: colors.text }]} placeholderTextColor={colors.text} />
                         </View>
 
                     </ScrollView>

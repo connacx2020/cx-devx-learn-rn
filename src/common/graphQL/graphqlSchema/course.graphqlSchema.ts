@@ -87,12 +87,13 @@ query ($seriesID: ID!){
   }`;
 
 export const createCourseSchema = gql`
-mutation($authorID: ID!,$title: String!,$photoUrl: String!,$seriesID: ID!,$duration: String! ,$description: String!,$outcome: [String!]!,$requirements: [String!]!, $topicID: [ID!]!){
+mutation($authorID: ID!,$title: String!,$price:Float!, $photoUrl: String!,$seriesID: ID!,$duration: String! ,$description: String!,$outcome: [String!]!,$requirements: [String!]!, $topicID: [ID!]!){
   createNewCourse(courseData:{
     authorID: $authorID
     title: $title
     photoUrl: $photoUrl
     seriesID: $seriesID
+    price: $price
     duration: $duration
     description: $description
     outcome: $outcome
