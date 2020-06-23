@@ -105,45 +105,61 @@ function CxDevxFeed({ navigation }: any) {
                                         }
                                     </ScrollView>
                                 </View>
-                                <View>
-                                    <Text style={[styles.centerTxt, { color: colors.text }]}>Recommended for you</Text>
-                                    <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
-                                        {data.getAllCourses && data.getAllCourses.map((res: Course) =>
 
-                                            <CxDevxCourseItem
-                                                key={res.id}
-                                                authorID={res.authorID}
-                                                id={res.id}
-                                                price={res.price}
-                                                img={res.photoUrl}
-                                                title={res.title}
-                                                rating={res.rating}
-                                                description={res.description}
-                                                enrolled={res.enrolled}
-                                                routeToCourseDetail={routeToCourseDetail}
-                                            />)
-                                        }
-                                    </ScrollView>
-                                </View>
                                 <View>
-                                    <Text style={[styles.centerTxt, { color: colors.text }]}>Most Popular</Text>
+                                    <View>
+                                        {
+                                            data.getAllCourses.length > 0 && <Text style={[styles.centerTxt, { color: colors.text }]}>Recommended for you</Text>
+                                        }
+                                    </View>
                                     <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
-                                        {data.getAllCourses && data.getAllCourses.map((res: Course) =>
-                                            <CxDevxCourseItem
-                                                key={res.id}
-                                                authorID={res.authorID}
-                                                price={res.price}
-                                                id={res.id}
-                                                img={res.photoUrl}
-                                                title={res.title}
-                                                rating={res.rating}
-                                                description={res.description}
-                                                enrolled={res.enrolled}
-                                                routeToCourseDetail={routeToCourseDetail}
-                                            />)
+
+                                        {
+                                            data.getAllCourses && data.getAllCourses.map((res: Course) =>
+                                                <CxDevxCourseItem
+                                                    key={res.id}
+                                                    authorID={res.authorID}
+                                                    id={res.id}
+                                                    price={res.price}
+                                                    img={res.photoUrl}
+                                                    title={res.title}
+                                                    rating={res.rating}
+                                                    description={res.description}
+                                                    enrolled={res.enrolled}
+                                                    routeToCourseDetail={routeToCourseDetail}
+                                                />
+                                            )
                                         }
                                     </ScrollView>
                                 </View>
+
+                                <View>
+                                    <View>
+                                        {
+                                            data.getAllCourses.length > 0 ? <Text style={[styles.centerTxt, { color: colors.text }]}>Most Porpular</Text> : <Text>No Course</Text>
+                                        }
+                                    </View>
+                                    <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
+
+                                        {
+                                            data.getAllCourses && data.getAllCourses.map((res: Course) =>
+                                                <CxDevxCourseItem
+                                                    key={res.id}
+                                                    authorID={res.authorID}
+                                                    id={res.id}
+                                                    price={res.price}
+                                                    img={res.photoUrl}
+                                                    title={res.title}
+                                                    rating={res.rating}
+                                                    description={res.description}
+                                                    enrolled={res.enrolled}
+                                                    routeToCourseDetail={routeToCourseDetail}
+                                                />
+                                            )
+                                        }
+                                    </ScrollView>
+                                </View>
+
                             </> : <View style={styles.query_info}>
                                 <Text>No data receieved from server check connection.</Text>
                             </View>}
