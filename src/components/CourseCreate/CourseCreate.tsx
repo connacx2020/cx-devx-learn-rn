@@ -81,7 +81,7 @@ export const CxDevxCourseCreate = () => {
                     title,
                     photoUrl: photo ? photo : '',
                     seriesID: seriesID.id,
-                    price: coursePrice,
+                    price: parseFloat(coursePrice),
                     duration,
                     description,
                     outcome,

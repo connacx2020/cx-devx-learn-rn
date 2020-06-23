@@ -23,7 +23,7 @@ export const CxDevxCourseItem: React.FC<any> = ({ id, price, enrolled, img, titl
                                     uri: img
                                 }} />
                     }
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 5 }}>
+                    <View style={styles.content_bottom}>
                         <Text testID="titleID" numberOfLines={1} style={[styles.title, { color: colors.text }]}>{title}</Text>
                         <Text style={[{ color: colors.text }, styles.price_text]}>${price}</Text>
                     </View>

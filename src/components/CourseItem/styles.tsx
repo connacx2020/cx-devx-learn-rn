@@ -16,6 +16,11 @@ export const styles = StyleSheet.create({
     },
     content: {
     },
+    content_bottom: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 5
+    },
     img_blank: {
         height: 150,
         display: 'flex',
@@ -26,6 +31,7 @@ export const styles = StyleSheet.create({
     img_blank_text: {
         alignSelf: 'center',
         fontWeight: 'bold',
+        textAlign: 'center',
         fontSize: 30,
         color: 'white'
     },
@@ -53,7 +59,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         paddingBottom: 5,
-        paddingLeft:5,
+        paddingLeft: 5,
         justifyContent: 'space-between'
     },
     ratingContainer: {

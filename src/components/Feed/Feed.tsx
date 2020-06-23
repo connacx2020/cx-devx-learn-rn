@@ -89,7 +89,7 @@ function CxDevxFeed({ navigation }: any) {
                                                                             id={res.id}
                                                                             img={res.photoUrl}
                                                                             title={res.title}
-                                                                            rate={res.rating}
+                                                                            rating={res.rating}
                                                                             description={res.description}
                                                                             enrolled={res.enrolled}
 

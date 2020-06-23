@@ -42,15 +42,6 @@ query($topicID: ID!){
 ${topic_Fragment.topic}
 `;
 
-export const updateTopicLogoSchema = gql`
-mutation($id: ID!, $logoUrl:String!) {
-  addLogoUrl(input:{
-    id:$id,
-    logoUrl:$logoUrl
-  })
-}
-`;
-
 export const createTopicSchema = gql`
 mutation ($title: String!,$description: String!,$parentTopic: String!,$contexts:[String!]!) {
     createTopic(
@@ -103,7 +94,7 @@ ${topic_Fragment.topic}
 `;
 
 export const isLikedTopicSchema = gql`
-  query($userID: String!, $topicID: String!) {
+  query($userID: ID!, $topicID: ID!) {
     isLikedTopic(input:{
         userID: $userID,
         topicID: $topicID
@@ -112,7 +103,7 @@ export const isLikedTopicSchema = gql`
 `;
 
 export const likeTopicSchema = gql`
-mutation($userID: String!, $topicID: String!){
+mutation($userID: ID!, $topicID: ID!){
   likeTopic(input:{
       userID: $userID,
       topicID: $topicID
@@ -121,7 +112,7 @@ mutation($userID: String!, $topicID: String!){
 `;
 
 export const unlikeTopicSchema = gql`
-mutation ($userID: String!, $topicID: String!){
+mutation ($userID: ID!, $topicID: ID!){
   unlikeTopic(input:{
       userID: $userID,
       topicID: $topicID
