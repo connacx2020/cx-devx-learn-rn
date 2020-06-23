@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
         backgroundColor:'#fff'
     },
     user_overview:{
-        padding:15,
+        padding:10,
         marginHorizontal:20,
         shadowColor: '#333',
         shadowOpacity: 0.5,
@@ -69,7 +69,7 @@ export const styles = StyleSheet.create({
         fontSize:14
     },
     rating_field:{
-      
+
     },
     star:{
         color: "#FFD700"

@@ -10,6 +10,7 @@ const Course_Info_Fragment = {
     photoUrl
     enrolled
     description
+    price
     duration
     prerequisite
     outcome
@@ -25,6 +26,7 @@ export const getAllCourseByAuthorID = gql`
             id
             title
             rating
+            price
             photoUrl
             enrolled
         }

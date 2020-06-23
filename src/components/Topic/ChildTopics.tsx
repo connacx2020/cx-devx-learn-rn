@@ -4,7 +4,7 @@ import { isLikedTopicSchema, likeTopicSchema, unlikeTopicSchema, getChildTopicsS
 import { useTheme, useNavigation } from '@react-navigation/native';
 import { Query } from '@apollo/react-components';
 import { useSelector } from 'react-redux';
-import { useMutation, useLazyQuery } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import { graphqlClient } from '../../common/graphQL/graphql.config';
 import { AuthUserInfo } from '../../common/redux/redux-actions';
 

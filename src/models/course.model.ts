@@ -3,6 +3,7 @@ export interface Course {
     authorID: string,
     title: string,
     rating: number,
+    price: number,
     photoUrl: string,
     seriesID: string,
     enrolled: number,

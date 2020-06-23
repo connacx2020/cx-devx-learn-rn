@@ -15,7 +15,7 @@ import { styles } from './style';
 
 function CxDevxTopic() {
     const { colors } = useTheme();
-    const ScreenWith = Dimensions.get('window').width;
+    const ScreenWidth = Dimensions.get('window').width;
     const numColumns = 2;
     const navigation = useNavigation();
     const userInfo: AuthUserInfo = useSelector(
@@ -43,7 +43,7 @@ function CxDevxTopic() {
                 <View
                     style={[
                         styles.topic_card,
-                        { backgroundColor: 'transparent', elevation: 0, width: (ScreenWith / numColumns) - 20, height: (ScreenWith / numColumns) + 5 },
+                        { backgroundColor: 'transparent', elevation: 0, width: (ScreenWidth / numColumns) - 20, height: (ScreenWidth / numColumns) + 5 },
                     ]}
                 />
             );
@@ -61,7 +61,7 @@ function CxDevxTopic() {
                 <TouchableOpacity key={getByTopicID.data.findTopicByID.id} onPress={() => {
                     navigation.navigate("Child Topics", { rootTopicID: topicID , rootTitle:getByTopicID.data.findTopicByID.title })
                 }
-                } style={[styles.topic_card, { width: (ScreenWith / numColumns) - 20, height: (ScreenWith / numColumns) + 5 }]} >
+                } style={[styles.topic_card, { width: (ScreenWidth / numColumns) - 20, height: (ScreenWidth / numColumns) + 5 }]} >
 
                     <View style={styles.topic_card_header}>
                         <Image
@@ -168,7 +168,7 @@ function CxDevxTopic() {
                             )
 
                         } else {
-                            return <Text>No Internet Connection!</Text>
+                        return <Text style={{marginVertical: Math.floor(Dimensions.get('window').height)/2.5, marginHorizontal: Math.floor(Dimensions.get('window').width)/2.5}}>No Data!</Text>
                         }
 
                     }

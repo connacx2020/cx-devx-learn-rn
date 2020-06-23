@@ -5,10 +5,9 @@ import { useTheme } from '@react-navigation/native';
 
 
 import { styles } from './styles';
-import { Course } from '../../models';
 
 
-export const CxDevxCourseItem:React.FC<any> = ({id, authorID, enrolled, img, title, rating, description, routeToCourseDetail}: any, ) => {
+export const CxDevxCourseItem: React.FC<any> = ({ id, price, enrolled, img, title, rating, routeToCourseDetail }: any,) => {
     const { colors } = useTheme();
 
     return (
@@ -16,15 +15,18 @@ export const CxDevxCourseItem:React.FC<any> = ({id, authorID, enrolled, img, tit
             <View style={styles.content}>
                 <TouchableOpacity onPress={() => routeToCourseDetail(id)}>
                     {
-                        img === "" ? <View  style={{height: 150, display:'flex',flexDirection:'column',justifyContent:'center', backgroundColor:'#2289f0'}}><Text style={{alignSelf:'center', fontWeight:'bold', fontSize: 30, color:'white'}}>{title}</Text></View> :
-                        <Image
-                            testID="imgID"
-                            style={styles.img}
-                            source={{
-                                uri: img
-                            }} />
+                        img === "" ? <View style={styles.img_blank}><Text style={styles.img_blank_text}>{title}</Text></View> :
+                            <Image
+                                testID="imgID"
+                                style={styles.img}
+                                source={{
+                                    uri: img
+                                }} />
                     }
-                    <Text testID="titleID" style={[styles.title, { color: colors.text }]}>{title}</Text>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 5 }}>
+                        <Text testID="titleID" numberOfLines={1} style={[styles.title, { color: colors.text }]}>{title}</Text>
+                        <Text style={[{ color: colors.text }, styles.price_text]}>${price}</Text>
+                    </View>
                 </TouchableOpacity>
             </View>
             <View style={styles.footer}>
@@ -37,10 +39,9 @@ export const CxDevxCourseItem:React.FC<any> = ({id, authorID, enrolled, img, tit
                         starStyle={styles.star as StyleProp<ViewStyle>}
                     />
                 </View>
-                <Text style={[styles.likes, { color: colors.text }]}>{enrolled} Enrolls</Text>
+                <Text style={{ color: colors.text, marginHorizontal: 8 }}>{rating}</Text>
+                <Text style={[styles.likes, { color: colors.text, paddingRight: 5 }]}>Enrolls: {enrolled}</Text>
             </View>
-
-
         </View>
 
     )

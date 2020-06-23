@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 
 export const styles = StyleSheet.create({
@@ -51,5 +51,4 @@ export const styles = StyleSheet.create({
         padding:3,
         textAlign:'center'
     }
-
 })

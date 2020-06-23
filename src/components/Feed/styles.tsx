@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 export const styles = StyleSheet.create({
     content: {
@@ -13,5 +13,10 @@ export const styles = StyleSheet.create({
         fontSize:17,
         fontStyle:"italic",
         fontWeight: 'bold'
-    }
+    },
+    query_info: {
+        flex: 1,
+        marginTop: Math.round(Dimensions.get("window").height) / 2.5,
+        alignItems: 'center'
+    },
 })
