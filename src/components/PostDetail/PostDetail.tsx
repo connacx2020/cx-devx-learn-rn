@@ -80,104 +80,108 @@ function CxPostDetail(props: any) {
                         if (fetchPostByID.loading) return <Text>Loading...</Text>
                         if (fetchPostByID.error) return <Text>Error</Text>
 
-                        return <Async promise={getCheckedUserInfo(fetchPostByID.data.searchPostByID.authorID)}>
-                            {
-                                (getUserInfo) => {
-                                    if (getUserInfo.isLoading) return <View><Text>loading</Text></View>
-                                    if (getUserInfo.error) return <View><Text>err</Text></View>
+                        if (fetchPostByID.data.searchPostByID !== null) {
+                            return <Async promise={getCheckedUserInfo(fetchPostByID.data.searchPostByID.authorID)}>
+                                {
+                                    (getUserInfo) => {
+                                        if (getUserInfo.isLoading) return <View><Text>loading</Text></View>
+                                        if (getUserInfo.error) return <View><Text>err</Text></View>
 
-                                    return (
-                                        <View style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-                                            {
-                                                setComment(fetchPostByID.data.searchPostByID.comments)
-                                            }
-                                            <ScrollView
-                                                refreshControl={
-                                                    <RefreshControl
-                                                        refreshing={refreshing}
-                                                        onRefresh={() => {
-                                                            setRefreshing(true)
-                                                            fetchPostByID.refetch().then(res => { setRefreshing(false) });
-                                                        }}
-                                                    />}
-                                                style={{ backgroundColor: colors.background }}>
-                                                <View style={{ flexDirection: 'row', borderBottomColor: 'black', borderBottomWidth: 0.5, paddingBottom: 5, marginTop: 5 }}>
+                                        return (
+                                            <View style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                                                {
+                                                    setComment(fetchPostByID.data.searchPostByID.comments)
+                                                }
+                                                <ScrollView
+                                                    refreshControl={
+                                                        <RefreshControl
+                                                            refreshing={refreshing}
+                                                            onRefresh={() => {
+                                                                setRefreshing(true)
+                                                                fetchPostByID.refetch().then(res => { setRefreshing(false) });
+                                                            }}
+                                                        />}
+                                                    style={{ backgroundColor: colors.background }}>
+                                                    <View style={{ flexDirection: 'row', borderBottomColor: 'black', borderBottomWidth: 0.5, paddingBottom: 5, marginTop: 5 }}>
 
-                                                    <Image style={{ width: 60, height: 60, marginHorizontal: 10, borderRadius: 100, }}
-                                                        source={{
-                                                            uri: getUserInfo.data.photo
-                                                        }}
-                                                    />
+                                                        <Image style={{ width: 60, height: 60, marginHorizontal: 10, borderRadius: 100, }}
+                                                            source={{
+                                                                uri: getUserInfo.data.photo
+                                                            }}
+                                                        />
 
-                                                    <View style={{ justifyContent: 'center', marginHorizontal: 10 }}>
-                                                        <Text style={[styles.info_txt, { color: colors.text, fontWeight: 'bold' }]}>{getUserInfo.data.name}</Text>
-                                                        <Text style={[styles.info_time, { color: colors.text }]}>{new Date(fetchPostByID.data.searchPostByID.postedOn).toDateString()}</Text>
+                                                        <View style={{ justifyContent: 'center', marginHorizontal: 10 }}>
+                                                            <Text style={[styles.info_txt, { color: colors.text, fontWeight: 'bold' }]}>{getUserInfo.data.name}</Text>
+                                                            <Text style={[styles.info_time, { color: colors.text }]}>{new Date(fetchPostByID.data.searchPostByID.postedOn).toDateString()}</Text>
+                                                        </View>
+
                                                     </View>
 
-                                                </View>
-
-                                                <View style={styles.content}>
-                                                    <HTML html={fetchPostByID.data.searchPostByID.content} imagesMaxWidth={Dimensions.get('window').width} />
-                                                </View>
-                                            </ScrollView>
+                                                    <View style={styles.content}>
+                                                        <HTML html={fetchPostByID.data.searchPostByID.content} imagesMaxWidth={Dimensions.get('window').width} />
+                                                    </View>
+                                                </ScrollView>
 
 
-                                            <Divider />
-                                            <View style={{ flexDirection: 'row', paddingVertical: 5, justifyContent: 'space-between', paddingHorizontal: 10 }}>
+                                                <Divider />
+                                                <View style={{ flexDirection: 'row', paddingVertical: 5, justifyContent: 'space-between', paddingHorizontal: 10 }}>
 
-                                                <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostByID.data.searchPostByID.likes} Likes</Text>
+                                                    <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostByID.data.searchPostByID.likes} Likes</Text>
 
-                                                <EntypoIcon name="dot-single" size={25} />
-                                                <>
-                                                    <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostByID.data.searchPostByID.comments.length} Comments</Text>
                                                     <EntypoIcon name="dot-single" size={25} />
-                                                    <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostByID.data.searchPostByID.views}Views</Text>
-                                                </>
-                                            </View>
-                                            <Divider />
+                                                    <>
+                                                        <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostByID.data.searchPostByID.comments.length} Comments</Text>
+                                                        <EntypoIcon name="dot-single" size={25} />
+                                                        <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostByID.data.searchPostByID.views}Views</Text>
+                                                    </>
+                                                </View>
+                                                <Divider />
 
-                                            <View style={styles.footer}>
-                                                <Query<any, any> query={isLikedPostSchema} client={graphqlClient} variables={{ authorID: auth.userID, postID: props.postID }}>
-                                                    {
-                                                        (checkIsLikedPost) => {
-                                                            if (checkIsLikedPost.error) return <Text>Error</Text>
-                                                            if (checkIsLikedPost.loading) return <Text>Loading...</Text>
+                                                <View style={styles.footer}>
+                                                    <Query<any, any> query={isLikedPostSchema} client={graphqlClient} variables={{ authorID: auth.userID, postID: props.postID }}>
+                                                        {
+                                                            (checkIsLikedPost) => {
+                                                                if (checkIsLikedPost.error) return <Text>Error</Text>
+                                                                if (checkIsLikedPost.loading) return <Text>Loading...</Text>
 
-                                                            if (checkIsLikedPost.data) {
-                                                                checkIsLikedPost.data.checkUserLikedPost ? setLike(true) : setLike(false)
-                                                                return isLiked ? <TouchableOpacity onPress={() => { unlikePressed() }}>
-                                                                    <AntIcon
-                                                                        name="like1"
-                                                                        size={25}
-                                                                        color={'blue'}
-                                                                    />
-                                                                </TouchableOpacity> :
-                                                                    <TouchableOpacity onPress={() => { likePressed() }}>
+                                                                if (checkIsLikedPost.data) {
+                                                                    checkIsLikedPost.data.checkUserLikedPost ? setLike(true) : setLike(false)
+                                                                    return isLiked ? <TouchableOpacity onPress={() => { unlikePressed() }}>
                                                                         <AntIcon
-                                                                            name="like2"
+                                                                            name="like1"
                                                                             size={25}
+                                                                            color={'blue'}
                                                                         />
-                                                                    </TouchableOpacity>
-                                                            } else {
-                                                                return <Text>Something wrong</Text>
+                                                                    </TouchableOpacity> :
+                                                                        <TouchableOpacity onPress={() => { likePressed() }}>
+                                                                            <AntIcon
+                                                                                name="like2"
+                                                                                size={25}
+                                                                            />
+                                                                        </TouchableOpacity>
+                                                                } else {
+                                                                    return <Text>Something wrong</Text>
+                                                                }
                                                             }
                                                         }
-                                                    }
-                                                </Query>
+                                                    </Query>
 
-                                                <TouchableOpacity
-                                                    onPress={() => setModalVisible(!isModalVisible)}
-                                                >
-                                                    <Text style={{ color: colors.text }}>
-                                                        <EvilIcons name="comment" size={30} />
-                                                    </Text>
-                                                </TouchableOpacity>
+                                                    <TouchableOpacity
+                                                        onPress={() => setModalVisible(!isModalVisible)}
+                                                    >
+                                                        <Text style={{ color: colors.text }}>
+                                                            <EvilIcons name="comment" size={30} />
+                                                        </Text>
+                                                    </TouchableOpacity>
 
+                                                </View>
                                             </View>
-                                        </View>
-                                    )
-                                }}
-                        </Async>
+                                        )
+                                    }}
+                            </Async>
+                        } else {
+                            return <Text>This content does not exist</Text>
+                        }
 
                     }
                 }

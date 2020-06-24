@@ -8,7 +8,7 @@ function CxDevxLanding({ navigation }: AuthNavProps<"Login">) {
     useEffect(() => {
         setTimeout(() => {
             navigation.replace("Login");
-        }, 1500);
+        }, 1000);
     });
     return (
         <View style={styles.body}>

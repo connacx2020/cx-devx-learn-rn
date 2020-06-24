@@ -63,7 +63,7 @@ export const CxDevxCommentModal: React.FC<CommentModalProps> = ({
             from(addComment({ variables: newComment }))
                 .subscribe(
                     (res: any) => {
-                        ToastAndroid.show("Comment Success", 1000)
+                        // ToastAndroid.show("Comment Success", 1000)
                     },
                     err => {
                         console.log(err);

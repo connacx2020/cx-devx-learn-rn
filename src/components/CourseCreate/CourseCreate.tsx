@@ -74,14 +74,14 @@ export const CxDevxCourseCreate = () => {
     }
 
     const createCoursePressed = () => {
-        if (seriesID !== undefined && duration !== '' && description !== '' && outcome.length > 0 && requirements.length > 0) {
+        if (seriesID !== undefined && duration !== '' && description !== '' && outcome.length > 0) {
             from(createCourse({
                 variables: {
                     authorID: '81e0964d-6da3-4e55-b894-e8a79be6cb02',
                     title,
                     photoUrl: photo ? photo : '',
                     seriesID: seriesID.id,
-                    price: parseFloat(coursePrice),
+                    price: coursePrice === '' ? parseFloat("0") : parseFloat(coursePrice),
                     duration,
                     description,
                     outcome,
