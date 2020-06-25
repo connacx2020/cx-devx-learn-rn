@@ -25,6 +25,7 @@ export const AuthReducer = (state: AuthUserInfo = initialAuthState, action: any)
                     name: action.name,
                     username: action.username,
                     token: action.token,
+                    isLogined: action.isLogined
                 }
             } else {
                 return state;

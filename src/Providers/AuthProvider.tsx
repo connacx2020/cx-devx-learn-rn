@@ -33,7 +33,7 @@ export const AuthContext = React.createContext<{
 interface AuthProviderProps { }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-        
+
     const [isDarkTheme, setIsDarkTheme] = React.useState<Boolean>(false);
     useEffect(()=>{
         AsyncStorage.getItem("isDarkTheme")

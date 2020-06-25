@@ -147,7 +147,7 @@ export const InstructorProfile: React.FC = () => {
                                                                 onPress={() => Linking.openURL(item.url)}
                                                                 style={styles.icon_field}>
                                                                 <Image
-                                                                    style={styles.icon}
+                                                                    style={{width:30,height:25}}
                                                                     source={require('../../asset/icons/linkedin.png')}
                                                                 />
                                                             </TouchableOpacity>
