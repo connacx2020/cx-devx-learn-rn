@@ -24,6 +24,7 @@ export const styles = StyleSheet.create({
   },
   body:{
       flex:1,
-      elevation:1
+      elevation:1,
+    //   backgroundColor:'red'
   }
 });

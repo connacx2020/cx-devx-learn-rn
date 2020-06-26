@@ -28,7 +28,7 @@ export function DrawerContent(props: any) {
                             ({ data, error, isLoading }) => {
 
                                 if (isLoading) return <View><Text>loading</Text></View>
-                                if (error) return <View><Text>{error}</Text></View>
+                                if (error) return <View><Text>error</Text></View>
                                 if (data) {
                                     return (
                                         <View style={styles.userInfoSection}>

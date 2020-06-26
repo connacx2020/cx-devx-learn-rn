@@ -6,7 +6,7 @@ import { Title, Paragraph } from 'react-native-paper';
 import { styles } from './styles';
 import { Course } from '../../models';
 
-export const SearchItemCoverLeft: React.FC<any> = ({id, photoUrl, title, rating, enrolled}) => {
+export const SearchItemCoverLeft: React.FC<any> = ({ id, photoUrl, title, rating, enrolled, price }) => {
     const navigation = useNavigation();
     const { colors } = useTheme();
     return (
@@ -27,18 +27,29 @@ export const SearchItemCoverLeft: React.FC<any> = ({id, photoUrl, title, rating,
 
                     </View>
                     <View style={[styles.card_content, { backgroundColor: colors.background }]}>
-                        <Title testID="titleID" style={[styles.content_title, { color: colors.text }]}>{title}</Title>
-                        <Paragraph testID="enrolledID" style={[styles.content_paragraph, { color: colors.text }]}>{title} enrolled</Paragraph>
-                        <View style={styles.rating_field}>
-                            <StarRating
-                                testID={"star"}
-                                disabled={true}
-                                maxStars={5}
-                                rating={rating}
-                                starSize={15}
-                                starStyle={styles.rating_star as StyleProp<ViewStyle>}
-                            />
+                        <Title testID="titleID" numberOfLines={1} style={[styles.content_title, { color: colors.text }]}>{title}</Title>
+                        <Paragraph testID="enrolledID" numberOfLines={1} style={[styles.content_paragraph, { color: colors.text }]}>{title} enrolled</Paragraph>
+
+                        <View style={styles.search_result_bottom}>
+
+                            <View style={styles.rating_field}>
+                                <StarRating
+                                    testID={"star"}
+                                    disabled={true}
+                                    maxStars={5}
+                                    rating={rating}
+                                    starSize={17}
+                                    starStyle={styles.rating_star as StyleProp<ViewStyle>}
+                                />
+                                <Text style={{ color: colors.text, paddingHorizontal: 8, paddingTop:4.5, alignSelf: 'center' }}>{rating}</Text>
+                            </View>
+
+                            <View style={{ alignSelf: 'flex-end' }}>
+                                <Text style={{ color: colors.text, fontWeight: "normal" }}>Price: {price}$</Text>
+                            </View>
+
                         </View>
+
                     </View>
                 </View>
             </View>

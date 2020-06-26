@@ -32,10 +32,16 @@ export const styles = StyleSheet.create({
         fontStyle: 'italic',
     },
     rating_field:{
-       width:20
+        justifyContent:'center',
+        flexDirection:'row',
+        paddingVertical: 4.5
     },
     rating_star: {
-        color: "#FFD700"
+        color: "#FFD700",
+    },
+    search_result_bottom: {
+        flex: 1, flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     search_result_left: {
         display:"flex",
@@ -47,6 +53,7 @@ export const styles = StyleSheet.create({
     },
     search_result_left_text: {
         color:'#fff',
-        fontWeight:'bold'
+        fontWeight:'bold',
+        textAlign:'center'
     }
 })
