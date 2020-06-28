@@ -18,8 +18,6 @@ function CxDevxMentorStep3({ route }: MentorTopTabNavProps<"MentorStep3">) {
         store.dispatch(saveMentorStep(route.name));
     })
     let initialToBe: any = [
-        { "value":"Full stack developer" },
-        { "value":"Project Manager" },
       ];
       const [isModalVisible,setModalVisible] = React.useState<any>(false);
       let [toBeItem,setToBeItem] = React.useState<String>('');
@@ -28,27 +26,20 @@ function CxDevxMentorStep3({ route }: MentorTopTabNavProps<"MentorStep3">) {
 
       let toBeListData = [
         {
-          label: 'System Analysis Developer',
-          value: 'System Analysis Developer',
+          label: 'Full-Stack web developer',
+          value: 'Full-Stack web developer',
         }, {
-          label: 'Web Developer',
-          value: 'Web Deverloper',
+          label: 'Mobile developer',
+          value: 'Mobile developer',
         }, {
-          label: 'Java Developer',
-          value: 'Java Developer',
+          label: 'Data Scientist',
+          value: 'Data Scientist',
         },{
-            label: 'Android Developer',
-            value: 'Android Developer'
+            label: 'Marketing Manager',
+            value: 'Marketing Manager'
         },{
-            label: 'System Engineer',
-            value: 'System Engineer'
-        },{
-            label: 'Network Engineer',
-            value: 'Network Engineer'
-        },  
-        {
-            label: 'Other',
-            value: 'Other'
+            label: 'Bussiness Analysis',
+            value: 'Bussiness Analysis'
         }
       ];
 
@@ -80,20 +71,20 @@ function CxDevxMentorStep3({ route }: MentorTopTabNavProps<"MentorStep3">) {
                   >
                       <MCIcon name={"delete"} size={20} color={"tomato"} />
                   </TouchableOpacity>
-             
+
           </View>
         )
       }
-      
-    
 
-  
+
+
+
 
     return (
         <View style={styles.wrapper}>
-            
+
             <View style={styles.row}>
-                <Text style={styles.my_goal_txt}>What you want to be</Text>
+                <Text style={styles.my_goal_txt}>Carrier Goal</Text>
 
                 <TouchableOpacity
                     onPress={()=>setModalVisible(true)}
@@ -134,7 +125,7 @@ function CxDevxMentorStep3({ route }: MentorTopTabNavProps<"MentorStep3">) {
                              Submit
                           </Button>
                     </View>
-                    
+
                 </View>
             </Modal>
         </View>

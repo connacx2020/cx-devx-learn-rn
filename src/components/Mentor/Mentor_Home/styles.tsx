@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
   },
   header:{
     marginVertical:10,
-    marginHorizontal:20,
+    marginHorizontal:10,
     position:'relative',
   },
   header_feel:{

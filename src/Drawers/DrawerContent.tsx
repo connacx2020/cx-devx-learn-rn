@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
-import { useTheme,Title,Caption,Paragraph,Drawer,TouchableRipple,Switch,Avatar } from 'react-native-paper';
+import { View, StyleSheet, Text } from 'react-native';
+import { useTheme, Title, Caption, Paragraph, Drawer, TouchableRipple, Switch, Avatar } from 'react-native-paper';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import AsyncStorage from "@react-native-community/async-storage";
 
 import { getCheckedUserInfo } from '../common/ultis/getUserInfo';
 import { Async } from 'react-async';
@@ -76,7 +75,7 @@ export function DrawerContent(props: any) {
                             onPress={() => { props.navigation.navigate('Home') }}
                         />
                         <DrawerItem
-                            icon={({color,size})=>(
+                            icon={({ color, size }) => (
                                 <Icon
                                     name="playlist-plus"
                                     color={color}
@@ -84,7 +83,7 @@ export function DrawerContent(props: any) {
                                 />
                             )}
                             label="Create Course"
-                            onPress={()=>props.navigation.navigate("createCourse")}
+                            onPress={() => props.navigation.navigate("createCourse")}
                         />
                         <DrawerItem
                             icon={({ color, size }) => (
@@ -143,8 +142,8 @@ export function DrawerContent(props: any) {
                         />
                     )}
                     label="Sign Out"
-                    onPress={()=>{props.navigation.navigate("Logout");logout()}}
-                    />
+                    onPress={() => { props.navigation.navigate("Logout"); logout() }}
+                />
             </Drawer.Section>
         </View>
 

@@ -23,12 +23,9 @@ function CxDevxMentorStep1({ navigation,route }: MentorTopTabNavProps<"MentorSte
     const [selectedStar,setSelectStar] = React.useState<any>(0);
     const [skillName,setSkillName] = React.useState<String>('');
     let initailSkill: any = [
-      {"skill_name": "Nodejs" , "rating_star":5 },
-      {"skill_name": "Nestjs" , "rating_star":3 },
-      {"skill_name": "Javascript" , "rating_star":4 },
     ];
     let [skillData,setSkillData] = React.useState<any>(initailSkill);
-   
+
       useFocusEffect(() => {
             store.dispatch(saveMentorStep(route.name));
       })
@@ -60,30 +57,29 @@ function CxDevxMentorStep1({ navigation,route }: MentorTopTabNavProps<"MentorSte
           label: 'Software Engineer',
           value: 'Software Engineer',
         }, {
-          label: 'Web Engineer',
-          value: 'Web Engineer',
+          label: 'Web Developer',
+          value: 'Web Developer',
         }, {
-          label: 'Accounting',
-        },{
-          label: 'Web Engineer',
-            value: 'Architecture Engineer'      
-        },{
-            label: 'Web Engineer',
+          label: 'Accountant',
+          value: 'Accountant',
+        },
+        {
+            label: 'Full Stack Developer',
             value: 'Full Stack Developer'
         },
         {
-            label: 'Web Engineer',
-            value: 'Other'
+            label: 'DataScience',
+            value: 'DataScience'
         }
       ];
-     
+
 
       const addSkillHandler = () =>{
         let temp = {"skill_name": skillName , "rating_star":selectedStar };
         console.log(skillData);
         skillData.push(temp);
         setSkillData(skillData);
-        
+
         ToastAndroid.show(skillName+" have added in your skill!", ToastAndroid.SHORT);
         setSkillName('');
         setSelectStar(0);
@@ -110,7 +106,7 @@ function CxDevxMentorStep1({ navigation,route }: MentorTopTabNavProps<"MentorSte
                       maxStars={5}
                       rating={skill.rating_star}
                       starSize={20}
-                      starStyle={{color: "#FFD700"}}       
+                      starStyle={{color: "#FFD700"}}
                   />
                   <Text style={styles.skill_name_txt}>{skill.rating_star}</Text>
                   <TouchableOpacity style={styles.delete_icon_field}
@@ -122,7 +118,7 @@ function CxDevxMentorStep1({ navigation,route }: MentorTopTabNavProps<"MentorSte
           </View>
         )
       }
-  
+
     return (
         <View style={styles.wrapper}>
           <View style={{zIndex:1,elevation:3}}>
@@ -161,22 +157,22 @@ function CxDevxMentorStep1({ navigation,route }: MentorTopTabNavProps<"MentorSte
                                 onChangeItem={(item:any) => setSelectWorkValue(item.value)}
                     />
                   </View>
-                  
+
               </View>
             </View>
 
-            
-                
+
+
             <View style={styles.skill_field}>
               <View style={styles.skill_render_items_field}>
                 <Text style={styles.my_skill_txt}>My Skill</Text>
                 {
                   skillData.map((skillItem:any) =>_renderSkillItems(skillItem))
                 }
-                
+
               </View>
 
-              
+
 
             </View>
 
@@ -241,11 +237,11 @@ function CxDevxMentorStep1({ navigation,route }: MentorTopTabNavProps<"MentorSte
                             Submit
                           </Button>
                       </View>
-                      
+
                     </View>
-            
+
               </Modal>
-        
+
         </View>
     )
 }

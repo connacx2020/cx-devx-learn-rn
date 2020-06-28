@@ -34,21 +34,12 @@ ${topic_Fragment.topic}
 `;
 
 export const findTopicByIDSchema = gql`
-query($id: ID!){
-  findTopicByID(id: $id){
+query($topicID: ID!){
+  findTopicByID(topicID: $topicID){
     ...TopicQuery
   }
 }
 ${topic_Fragment.topic}
-`;
-
-export const updateTopicLogoSchema = gql`
-mutation($id: ID!, $logoUrl:String!) {
-  addLogoUrl(input:{
-    id:$id,
-    logoUrl:$logoUrl
-  })
-}
 `;
 
 export const createTopicSchema = gql`
@@ -103,7 +94,7 @@ ${topic_Fragment.topic}
 `;
 
 export const isLikedTopicSchema = gql`
-  query($userID: String!, $topicID: String!) {
+  query($userID: ID!, $topicID: ID!) {
     isLikedTopic(input:{
         userID: $userID,
         topicID: $topicID
@@ -112,7 +103,7 @@ export const isLikedTopicSchema = gql`
 `;
 
 export const likeTopicSchema = gql`
-mutation($userID: String!, $topicID: String!){
+mutation($userID: ID!, $topicID: ID!){
   likeTopic(input:{
       userID: $userID,
       topicID: $topicID
@@ -121,10 +112,22 @@ mutation($userID: String!, $topicID: String!){
 `;
 
 export const unlikeTopicSchema = gql`
-mutation ($userID: String!, $topicID: String!){
+mutation ($userID: ID!, $topicID: ID!){
   unlikeTopic(input:{
       userID: $userID,
       topicID: $topicID
   })
+}
+`;
+
+export const getRootTopicsSchema = gql`
+query {
+  getAllRootTopics
+}
+`;
+
+export const getChildTopicsSchema = gql`
+query ($topicID:ID!){
+  getAllChildTopics(topicID:$topicID)
 }
 `;

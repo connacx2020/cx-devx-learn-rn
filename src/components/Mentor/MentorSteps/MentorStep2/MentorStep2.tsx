@@ -6,19 +6,18 @@ import { store } from "../../../../common/redux";
 import { MentorTopTabNavProps } from '../../../../common/ultis/ParamLists/MentorParamList';
 import { useTheme } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
+import CxDevxTopic from '../../../Topic/Topic';
 
 function CxDevxMentorStep2({ navigation,route }: MentorTopTabNavProps<"MentorStep2">) {
     const { colors } = useTheme();
     useFocusEffect(() => {
             store.dispatch(saveMentorStep(route.name));
       })
-    
+
 
     return (
         <View style={[styles.body,{backgroundColor:colors.background}]}>
-            <Text style={[styles.text,{color:colors.text}]}>
-               Mentor Step 2 Screen
-        </Text>
+            <CxDevxTopic/>
         </View>
     )
 }

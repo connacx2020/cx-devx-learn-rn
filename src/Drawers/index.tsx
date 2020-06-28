@@ -5,6 +5,7 @@ import { CxDevxLogout } from '../components/Logout';
 import { UserProfile as CxDevxProfile } from '../components/Profile/UserProfile';
 import { DrawerContent } from './DrawerContent';
 import { CxDevxCourseCreate } from '../components/CourseCreate/CourseCreate';
+import CxDevxLanding from '../components/landing';
 
 const Drawer = createDrawerNavigator();
 

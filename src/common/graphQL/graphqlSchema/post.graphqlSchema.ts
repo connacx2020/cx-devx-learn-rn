@@ -38,9 +38,13 @@ export const getAllPostsSchema = gql`
 {
   getPosts{
     id
+    title
+    seriesID
   }
 }
 `;
+
+
 
 export const getPostByIDSchema = gql`
 query($postID: ID!){
@@ -70,6 +74,14 @@ mutation(
     })
 
   }`;
+
+export const isLikedPostSchema = gql`
+query($postID: ID!, $authorID: ID!){
+    checkUserLikedPost(input:{
+      postID: $postID,
+      authorID: $authorID,
+    })
+}`;
 
 export const addLikeSchema = gql`
 mutation($postID: ID!, $authorID: ID!){

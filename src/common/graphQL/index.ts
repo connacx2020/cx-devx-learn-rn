@@ -7,7 +7,8 @@ export {
     isViewedSchema,
     addViewSchema,
     getPostByIDSchema,
-    getLikedUserSchema
+    getLikedUserSchema,
+    isLikedPostSchema
 } from './graphqlSchema/post.graphqlSchema';
 
 export {
@@ -21,7 +22,9 @@ export {
     getAllTopicsSchema,
     isLikedTopicSchema,
     likeTopicSchema,
-    unlikeTopicSchema
+    unlikeTopicSchema,
+    getChildTopicsSchema,
+    getRootTopicsSchema
 } from './graphqlSchema/devx.graphqlSchema';
 
 export {

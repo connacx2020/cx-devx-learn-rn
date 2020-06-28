@@ -8,7 +8,7 @@ import { styles } from './styles';
 import { Course } from '../../models';
 
 
-export const CxDevxEntrolledCourseItem:React.FC<any> = ({id, authorID, enrolled, img, title, rating, description}: any, ) => {
+export const CxDevxEntrolledCourseItem: React.FC<any> = ({ id, authorID, enrolled, img, title, rating, description }: any,) => {
     const { colors } = useTheme();
 
     return (
@@ -16,15 +16,17 @@ export const CxDevxEntrolledCourseItem:React.FC<any> = ({id, authorID, enrolled,
             <View style={styles.content}>
                 <View>
                     {
-                        img === "" ? <View  style={{height: 150, display:'flex',flexDirection:'column',justifyContent:'center', backgroundColor:'#2289f0'}}><Text style={{alignSelf:'center', fontWeight:'bold', fontSize: 30, color:'white'}}>{title}</Text></View> :
-                        <Image
-                            testID="imgID"
-                            style={styles.img}
-                            source={{
-                                uri: img
-                            }} />
+                        img === "" ? <View style={styles.img_blank}><Text numberOfLines={2} style={styles.img_blank_text}>{title}</Text></View> :
+                            <Image
+                                testID="imgID"
+                                style={styles.img}
+                                source={{
+                                    uri: img
+                                }} />
                     }
-                    <Text testID="titleID" style={[styles.title, { color: colors.text }]}>{title}</Text>
+                    <View style={styles.content_bottom}>
+                        <Text testID="titleID" numberOfLines={1} style={[styles.title, { color: colors.text, alignSelf: 'flex-start' }]}>{title}</Text>
+                    </View>
                 </View>
             </View>
             <View style={styles.footer}>
@@ -37,7 +39,8 @@ export const CxDevxEntrolledCourseItem:React.FC<any> = ({id, authorID, enrolled,
                         starStyle={styles.star as StyleProp<ViewStyle>}
                     />
                 </View>
-                <Text style={[styles.likes, { color: colors.text }]}>{enrolled} Enrolls</Text>
+                <Text style={{ color: colors.text, marginHorizontal: 8 }}>{rating}</Text>
+                <Text style={[styles.likes, { color: colors.text, paddingRight: 5 }]}>Enrolls: {enrolled}</Text>
             </View>
 
 

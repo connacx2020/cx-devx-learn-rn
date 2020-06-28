@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useMutation } from '@apollo/react-hooks';
 import { loginSchema } from '../common/graphQL';
@@ -33,7 +33,18 @@ export const AuthContext = React.createContext<{
 interface AuthProviderProps { }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+
     const [isDarkTheme, setIsDarkTheme] = React.useState<Boolean>(false);
+    useEffect(()=>{
+        AsyncStorage.getItem("isDarkTheme")
+            .then(async (isDarkTheme: any) => {
+                const darktheme = JSON.parse(isDarkTheme);
+                setIsDarkTheme(darktheme);
+            })
+            .catch(err => {
+                console.log(err);
+         });
+    })
     const [token, setToken] = useState<string | ''>('');
     const [errors, setError] = useState<string | ''>('');
     const [loginHook] = useMutation(loginSchema);
@@ -70,7 +81,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                     AsyncStorage.removeItem('devx_token');
                 },
                 toggleTheme: () => {
-                    setIsDarkTheme(isDarkTheme => !isDarkTheme);
+                    setIsDarkTheme(isDarkTheme =>{
+                        AsyncStorage.setItem('isDarkTheme',JSON.stringify(!isDarkTheme));
+                        return !isDarkTheme
+                    });
                 }
             }}>
             {children}

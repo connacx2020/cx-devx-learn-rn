@@ -14,26 +14,26 @@ import { store } from "../../../common/redux";
 function CxDevxMentorSetting({ navigation,route }: MentorStackNavProps<"MentorSetting">) {
     const { colors } = useTheme();
     const [mentorstep,setMentorStep] = React.useState<any>('');
-    
-       
+
+
 
         const getMentorStep = useSelector((state: any) => state.mentorStepInfo.ms_route_name);
         useEffect(()=>{
             setMentorStep(getMentorStep)
         },[getMentorStep])
-   
+
     return (
         <View style={styles.wrapper}>
             <View style={styles.navbar}>
                 <Title>
                     {
-                        mentorstep === "MentorStep1"? "Where I am now?": mentorstep === "MentorStep2"? "My interests": "What I want to be"
+                        mentorstep === "MentorStep1"? "Where I am now?": mentorstep === "MentorStep2"? "My Interests": "Goal"
                     }
                 </Title>
             </View>
-            
+
             <View style={styles.body}>
-                <CourseDetailTabs/> 
+                <CourseDetailTabs/>
             </View>
 
         </View>

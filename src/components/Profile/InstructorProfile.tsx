@@ -147,7 +147,7 @@ export const InstructorProfile: React.FC = () => {
                                                                 onPress={() => Linking.openURL(item.url)}
                                                                 style={styles.icon_field}>
                                                                 <Image
-                                                                    style={styles.icon}
+                                                                    style={{width:30,height:25}}
                                                                     source={require('../../asset/icons/linkedin.png')}
                                                                 />
                                                             </TouchableOpacity>
@@ -194,7 +194,7 @@ export const InstructorProfile: React.FC = () => {
                                                             <FlatList
                                                                 testID="flatListID"
                                                                 data={data.getCoursesByAuthorId}
-                                                                keyExtractor={(item) => item.title}
+                                                                keyExtractor={(item) => item.id}
                                                                 renderItem={({ item, index }) => {
                                                                     return (
                                                                         <SearchItemCoverLeft
