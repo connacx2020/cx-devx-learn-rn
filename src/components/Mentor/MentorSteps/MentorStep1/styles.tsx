@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     fontSize:15,
   },
   type_value_row:{
-    width:220
+    width:220,
   },
   skill_field:{
     zIndex:-1,

@@ -6,6 +6,7 @@ import CxDevxMentorHome from '../components/Mentor/Mentor_Home/MentorHome';
 import CxDevxMentorSetting from '../components/Mentor/Mentor_Setting/MentorSetting';
 
 import { styles } from './styles/header';
+import CxDevxChildTopic from "../components/Topic/ChildTopics";
 
 interface MentorStackProps {}
 
@@ -24,6 +25,11 @@ const Stack = createStackNavigator<MentorParamList>();
         name="MentorSetting"
         options={{headerShown: false}}
         component={CxDevxMentorSetting}
+      />
+       <Stack.Screen
+        name="Child Topics"
+        options={{headerShown: true}}
+        component={CxDevxChildTopic}
       />
     </Stack.Navigator>
   );
