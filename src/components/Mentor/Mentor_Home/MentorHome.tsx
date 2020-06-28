@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Image, Dimensions, ScrollView, FlatList }
 import { MentorStackNavProps } from '../../../common/ultis/ParamLists/MentorParamList';
 import { useTheme } from '@react-navigation/native';
 import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
-import { Title, Chip } from 'react-native-paper';
+import { Title, Chip, Divider } from 'react-native-paper';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import ViewPager from '@react-native-community/viewpager';
 import ImageZoom from 'react-native-image-pan-zoom';
@@ -114,12 +114,12 @@ function CxDevxMentorHome({ navigation }: MentorStackNavProps<"MentorHome">) {
         <MenuProvider>
             <View style={styles.wrapper}>
 
-                <View style={{ flexDirection: 'row', elevation:1,padding: 5, justifyContent: 'space-between' }}>
+                <View style={{ flexDirection: 'row', elevation: 1, padding: 5, justifyContent: 'space-between' }}>
                     <Text style={{ textAlign: 'center', fontSize: 20, flex: 10, }}>
-                        Welcome Oak! I'm Josh your Personal mentor! How are you feeling Today?
+                        Welcome <Text style={{fontWeight:'bold'}}>{userInfo.name}</Text>! I'm <Text style={{fontWeight:'bold'}}>Josh</Text> your Personal mentor! How are you feeling Today?
                     </Text>
                     <TouchableOpacity style={{ flex: 1, alignSelf: 'center', padding: 5 }} onPress={() => navigation.navigate("MentorSetting")}>
-                        <MaterialIcon  name={"mode-edit"} size={25} color={"#333"} />
+                        <MaterialIcon name={"mode-edit"} size={25} color={"#333"} />
                     </TouchableOpacity>
                 </View>
 
@@ -129,6 +129,8 @@ function CxDevxMentorHome({ navigation }: MentorStackNavProps<"MentorHome">) {
                     <Chip style={{ marginRight: 10, marginVertical: 5 }} icon="snowflake" onPress={() => setClickedChipName('lazy')} selected={selectChipHandler('lazy')}>Lazy</Chip>
                     <Chip style={{ marginRight: 10, marginVertical: 5 }} icon="emoticon-cry" onPress={() => setClickedChipName('depression')} selected={selectChipHandler('depression')}>Depressed</Chip>
                 </View>
+
+                <Divider/>
 
                 <View style={styles.body}>
                     {
