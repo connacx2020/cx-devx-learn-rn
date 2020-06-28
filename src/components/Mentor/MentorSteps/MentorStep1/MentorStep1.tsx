@@ -127,7 +127,7 @@ function CxDevxMentorStep1({ navigation, route }: MentorTopTabNavProps<"MentorSt
                         >
                             <Picker.Item label={"What are you study on?"} value="" />
                             {
-                                studyData.map(res => <Picker.Item label={res.label} value={res.value} />)
+                                studyData.map((res,index) => <Picker.Item key={index} label={res.label} value={res.value} />)
                             }
 
                         </Picker>

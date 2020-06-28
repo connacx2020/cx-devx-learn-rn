@@ -85,6 +85,8 @@ target 'devxLearn' do
 
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
+  pod 'react-native-restart', :path => '../node_modules/react-native-restart'
+
   target 'devxLearnTests' do
     inherit! :complete
     # Pods for testing
