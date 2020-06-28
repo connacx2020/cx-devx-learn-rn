@@ -44,12 +44,12 @@ export function CxDevxCourseDetail({ navigation, route }: HomeStackNavProps<"Cou
 
                         if (fetchCourseById.error) return <View><Text>Error</Text></View>
 
-                        if (fetchCourseById.data.null) {
+                        if (fetchCourseById.data.getCourseById !== null) {
                             return (
                                 <View>
                                     <View style={styles.header}>
                                         {
-                                            fetchCourseById.data.getCourseById.photoUrl !== '' ? <Image
+                                            fetchCourseById.data.getCourseById.photoUrl !== null ? <Image
                                                 style={styles.header_course_img}
                                                 source={{
                                                     uri: fetchCourseById.data.getCourseById.photoUrl
