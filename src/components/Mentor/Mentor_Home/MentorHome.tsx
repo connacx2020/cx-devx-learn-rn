@@ -115,11 +115,11 @@ function CxDevxMentorHome({ navigation }: MentorStackNavProps<"MentorHome">) {
             <View style={styles.wrapper}>
 
                 <View style={{ flexDirection: 'row', elevation: 1, padding: 5, justifyContent: 'space-between' }}>
-                    <Text style={{ textAlign: 'center', fontSize: 20, flex: 10, }}>
-                        Welcome <Text style={{fontWeight:'bold'}}>{userInfo.name}</Text>! I'm <Text style={{fontWeight:'bold'}}>Josh</Text> your Personal mentor! How are you feeling Today?
+                    <Text style={{ textAlign: 'center', fontSize: 20, flex: 10, color: colors.text }}>
+                        Welcome <Text style={{fontWeight:'bold',color:colors.text}}>{userInfo.name}</Text>! I'm <Text style={{fontWeight:'bold',color:colors.text}}>Josh</Text> your Personal mentor! How are you feeling Today?
                     </Text>
                     <TouchableOpacity style={{ flex: 1, alignSelf: 'center', padding: 5 }} onPress={() => navigation.navigate("MentorSetting")}>
-                        <MaterialIcon name={"mode-edit"} size={25} color={"#333"} />
+                        <MaterialIcon name={"mode-edit"} size={25} color={colors.text} />
                     </TouchableOpacity>
                 </View>
 

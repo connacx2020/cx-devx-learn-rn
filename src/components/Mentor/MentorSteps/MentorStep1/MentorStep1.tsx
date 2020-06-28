@@ -90,7 +90,7 @@ function CxDevxMentorStep1({ navigation, route }: MentorTopTabNavProps<"MentorSt
     const _renderSkillItems = (skill: any) => {
         return (
             <View style={styles.render_skill_item_field}>
-                <Text style={styles.skill_name_txt}>{skill.skill_name}</Text>
+                <Text style={[styles.skill_name_txt, { color: colors.text }]}>{skill.skill_name}</Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <StarRating
                         disabled={true}
@@ -99,7 +99,7 @@ function CxDevxMentorStep1({ navigation, route }: MentorTopTabNavProps<"MentorSt
                         starSize={20}
                         starStyle={{ color: "#FFD700" }}
                     />
-                    <Text style={styles.skill_name_txt}>{skill.rating_star}</Text>
+                    <Text style={[styles.skill_name_txt, { color: colors.text }]}>{skill.rating_star}</Text>
                     <TouchableOpacity style={styles.delete_icon_field}
                         onPress={() => deleteSkillHander(skill.skill_name)}
                     >
@@ -116,18 +116,18 @@ function CxDevxMentorStep1({ navigation, route }: MentorTopTabNavProps<"MentorSt
                 <View style={styles.row}>
 
                     <View style={styles.type_name_row}>
-                        <Text style={styles.label_txt}>Studying &nbsp;&nbsp;:</Text>
+                        <Text style={[styles.label_txt, { color: colors.text }]}>Studying &nbsp;&nbsp;:</Text>
                     </View>
 
                     <View style={styles.type_value_row}>
                         <Picker
                             selectedValue={selectedStudyValue}
-                            style={{ height: 50, borderWidth: 1, borderColor: 'black' }}
+                            style={{ height: 50, borderWidth: 1, color: colors.text}}
                             onValueChange={(itemValue, itemIndex) => setSelectStudyValue(itemValue)}
                         >
                             <Picker.Item label={"What are you study on?"} value="" />
                             {
-                                studyData.map((res,index) => <Picker.Item key={index} label={res.label} value={res.value} />)
+                                studyData.map((res, index) => <Picker.Item key={index} label={res.label} value={res.value} />)
                             }
 
                         </Picker>
@@ -138,16 +138,16 @@ function CxDevxMentorStep1({ navigation, route }: MentorTopTabNavProps<"MentorSt
                 <View style={styles.row}>
 
                     <View style={styles.type_name_row}>
-                        <Text style={styles.label_txt}>Working as :</Text>
+                        <Text style={[styles.label_txt, { color: colors.text }]}>Working as :</Text>
                     </View>
 
                     <View style={styles.type_value_row}>
                         <Picker
                             selectedValue={selectedWorkValue}
-                            style={{ height: 50, borderWidth: 1, borderColor: 'black' }}
+                            style={{ height: 50, borderWidth: 1, color: colors.text}}
                             onValueChange={(itemValue, itemIndex) => setSelectWorkValue(itemValue)}
                         >
-                            <Picker.Item label={"What are you work as?"} value="" />
+                            <Picker.Item label={"What are you work as?"} value=""/>
 
                             {
                                 workData.map(res => <Picker.Item label={res.label} value={res.value} />)
@@ -163,7 +163,7 @@ function CxDevxMentorStep1({ navigation, route }: MentorTopTabNavProps<"MentorSt
 
             <View style={styles.skill_field}>
                 <View style={styles.skill_render_items_field}>
-                    <Text style={styles.my_skill_txt}>My Skill</Text>
+                    <Text style={[styles.my_skill_txt, { color: colors.text }]}>My Skill</Text>
                     {
                         skillData.map((skillItem: any) => _renderSkillItems(skillItem))
                     }

@@ -65,7 +65,7 @@ function CxDevxMentorStep3({ route }: MentorTopTabNavProps<"MentorStep3">) {
     const _renderToDoList = (item: any) => {
         return (
             <View style={styles.render_goal_item_field}>
-                <Text style={styles.goal_name_txt}>{item.value}</Text>
+                <Text style={[styles.goal_name_txt, { color: colors.text }]}>{item.value}</Text>
 
                 <TouchableOpacity style={styles.delete_icon_field}
                     onPress={() => deleteGoalHander(item.value)}
@@ -85,7 +85,7 @@ function CxDevxMentorStep3({ route }: MentorTopTabNavProps<"MentorStep3">) {
         <View style={styles.wrapper}>
 
             <View style={styles.row}>
-                <Text style={styles.my_goal_txt}>Career Goal</Text>
+                <Text style={[styles.my_goal_txt, { color: colors.text }]}>Career Goal</Text>
 
                 <TouchableOpacity
                     onPress={() => setModalVisible(true)}
@@ -96,7 +96,7 @@ function CxDevxMentorStep3({ route }: MentorTopTabNavProps<"MentorStep3">) {
 
             <View style={styles.goal_field}>
                 <View style={styles.goal_render_items_field}>
-                    <Text style={styles.my_goal_txt}>My Goals</Text>
+                    <Text style={[styles.my_goal_txt, { color: colors.text }]}>My Goals</Text>
                     {
                         toBeList.map((item: any) => _renderToDoList(item))
                     }
