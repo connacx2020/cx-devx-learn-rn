@@ -4,7 +4,6 @@ import { useNavigation, useTheme } from '@react-navigation/native';
 import StarRating from 'react-native-star-rating';
 import { Title, Paragraph } from 'react-native-paper';
 import { styles } from './styles';
-import { Course } from '../../models';
 
 export const SearchItemCoverLeft: React.FC<any> = ({ id, photoUrl, title, rating, enrolled, price }) => {
     const navigation = useNavigation();
@@ -28,7 +27,7 @@ export const SearchItemCoverLeft: React.FC<any> = ({ id, photoUrl, title, rating
                     </View>
                     <View style={[styles.card_content, { backgroundColor: colors.background }]}>
                         <Title testID="titleID" numberOfLines={1} style={[styles.content_title, { color: colors.text }]}>{title}</Title>
-                        <Paragraph testID="enrolledID" numberOfLines={1} style={[styles.content_paragraph, { color: colors.text }]}>{title} enrolled</Paragraph>
+                        <Paragraph testID="enrolledID" numberOfLines={1} style={[styles.content_paragraph, { color: colors.text }]}>{title}</Paragraph>
 
                         <View style={styles.search_result_bottom}>
 
