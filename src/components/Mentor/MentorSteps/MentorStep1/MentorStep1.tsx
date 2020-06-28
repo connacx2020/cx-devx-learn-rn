@@ -59,8 +59,8 @@ function CxDevxMentorStep1({ navigation, route }: MentorTopTabNavProps<"MentorSt
             value: 'Full Stack Developer'
         },
         {
-            label: 'DataScience',
-            value: 'DataScience'
+            label: 'Data Science',
+            value: 'Data Science'
         }
     ];
 
@@ -148,6 +148,7 @@ function CxDevxMentorStep1({ navigation, route }: MentorTopTabNavProps<"MentorSt
                             onValueChange={(itemValue, itemIndex) => setSelectWorkValue(itemValue)}
                         >
                             <Picker.Item label={"What are you work as?"} value="" />
+
                             {
                                 workData.map(res => <Picker.Item label={res.label} value={res.value} />)
                             }
