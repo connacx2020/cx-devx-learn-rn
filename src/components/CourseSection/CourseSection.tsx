@@ -43,21 +43,25 @@ function CxDevxCourseSection({ navigation, route }: HomeStackNavProps<"CourseSec
                         ToastAndroid.BOTTOM
                     );
                 } else {
-                    setPostID(postSeries[postSeries.indexOf(currentPostId[0]) - 1].id);
-                    setHeadTitle(postSeries[postSeries.indexOf(currentPostId[0]) - 1].title);
+                    if (postSeries.length >= 1) {
+                        setPostID(postSeries[postSeries.indexOf(currentPostId[0]) - 1].id);
+                        setHeadTitle(postSeries[postSeries.indexOf(currentPostId[0]) - 1].title);
+                    }
                 }
             }}
             onSwipeLeft={() => {
                 let currentPostId = postSeries.filter((item: any) => item.id === renderPostID);
-                if (postSeries.indexOf(currentPostId[0]) === postSeries.length - 1) {
-                    ToastAndroid.showWithGravity(
-                        "This is Last Post",
-                        ToastAndroid.SHORT,
-                        ToastAndroid.BOTTOM
-                    );
-                } else {
-                    setPostID(postSeries[postSeries.indexOf(currentPostId[0]) + 1].id);
-                    setHeadTitle(postSeries[postSeries.indexOf(currentPostId[0]) + 1].title);
+                if (postSeries.length >= 1) {
+                    if (postSeries.indexOf(currentPostId[0]) === postSeries.length - 1) {
+                        ToastAndroid.showWithGravity(
+                            "This is Last Post",
+                            ToastAndroid.SHORT,
+                            ToastAndroid.BOTTOM
+                        );
+                    } else {
+                        setPostID(postSeries[postSeries.indexOf(currentPostId[0]) + 1].id);
+                        setHeadTitle(postSeries[postSeries.indexOf(currentPostId[0]) + 1].title);
+                    }
                 }
             }}
             config={config}
