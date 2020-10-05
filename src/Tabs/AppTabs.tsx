@@ -12,41 +12,41 @@ import MentorStack from '../Stacks/MentorStack';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tabs = createBottomTabNavigator<AppParamList>();
 
-export const AppTabs: React.FC<{}> = ({}) => {
+export const AppTabs: React.FC<{}> = ({ }) => {
 
     return (
-    <Tabs.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName : string ="";
+        <Tabs.Navigator
+            screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color, size }) => {
+                    let iconName: string = "";
 
-          if (route.name === "Home") {
-            iconName = "home";
-          }else if(route.name === "Mentor"){
-            return <MCIcon name={"teach"} size={size} color={color} />;
-          }else if (route.name === "Learn") {
-              iconName="code"
-          }else if(route.name === "Topic"){
-              iconName="lightbulb-o"
-          }
+                    if (route.name === "Home") {
+                        iconName = "home";
+                    } else if (route.name === "Mentor") {
+                        return <MCIcon name={"teach"} size={size} color={color} />;
+                    } else if (route.name === "Learn") {
+                        iconName = "code"
+                    } else if (route.name === "Topic") {
+                        iconName = "lightbulb-o"
+                    }
 
-          return <Icon name={iconName} size={size} color={color} />;
-        }
-      })}
-      tabBarOptions={{
-        activeTintColor: "tomato",
-        inactiveTintColor: "gray"
-      }}
-    >
-      <Tabs.Screen name="Home" component={HomeStack}
-            options={{
-                tabBarVisible: true
+                    return <Icon name={iconName} size={size} color={color} />;
+                }
+            })}
+            tabBarOptions={{
+                activeTintColor: "tomato",
+                inactiveTintColor: "gray"
             }}
-       />
-      <Tabs.Screen name="Mentor" component={MentorStack} />
-      <Tabs.Screen name="Learn" component={LearnStack} />
-      <Tabs.Screen name="Topic" component={TopicStack} />
+        >
+            <Tabs.Screen name="Home" component={HomeStack}
+                options={{
+                    tabBarVisible: true
+                }}
+            />
+            {/* <Tabs.Screen name="Mentor" component={MentorStack} /> */}
+            <Tabs.Screen name="Learn" component={LearnStack} />
+            <Tabs.Screen name="Topic" component={TopicStack} />
 
-    </Tabs.Navigator>
-  );
+        </Tabs.Navigator>
+    );
 };

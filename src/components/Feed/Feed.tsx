@@ -9,8 +9,8 @@ import { Course } from '../../models/course.model';
 import { Query } from '@apollo/react-components';
 import { useSelector } from 'react-redux'
 
-import { CxDevxCourseItem } from '../CourseItem/CourseItem';
-import { CxDevxEntrolledCourseItem } from '../CourseItem/EnrolledCourseItem'
+import { CxDevxCourseItem } from '../course/CourseItem/CourseItem';
+import { CxDevxEntrolledCourseItem } from '../course/CourseItem/EnrolledCourseItem'
 
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { View } from 'react-native-animatable';
@@ -71,7 +71,7 @@ function CxDevxFeed({ navigation }: any) {
                                 <View>
                                     {hasEnrolled && <Text style={[styles.centerTxt, { color: colors.text }]}>Enrolled Course</Text>}
                                     <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
-                                        {data.getAllCourses && data.getAllCourses.map((res: Course,index: number) =>
+                                        {data.getAllCourses && data.getAllCourses.map((res: Course, index: number) =>
                                             res.enrolledUsers.includes(userInfo.userID) ?
                                                 (
                                                     <Query<any, any> query={getPostSeriesByIdSchema} variables={{ seriesID: res.seriesID }}>

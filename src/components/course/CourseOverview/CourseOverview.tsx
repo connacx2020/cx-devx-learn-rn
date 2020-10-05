@@ -9,8 +9,8 @@ import { TouchableRipple, Paragraph, Divider, useTheme as PaperTheme } from 'rea
 import ViewMoreText from 'react-native-view-more-text';
 
 import { styles } from './style';
-import { Course } from '../../models';
-import { getCheckedUserInfo } from '../../common/ultis/getUserInfo';
+import { Course } from '../../../models';
+import { getCheckedUserInfo } from '../../../common/ultis/getUserInfo';
 import { Async } from 'react-async';
 
 function CxDevxCourseOverview(props: Course) {
@@ -84,9 +84,9 @@ function CxDevxCourseOverview(props: Course) {
                                 if (error) return <View><Text>err</Text></View>
                                 if (data) {
                                     return (<React.Fragment>
-                                        <View style={{ flexDirection: 'column', flex:1 }}>
-                                            <Text style={[styles.course_info_text, { color: colors.text, marginBottom:10 }]}>Instructor</Text>
-                                            <View style={{ flexDirection: 'row', justifyContent: "space-between"}}>
+                                        <View style={{ flexDirection: 'column', flex: 1 }}>
+                                            <Text style={[styles.course_info_text, { color: colors.text, marginBottom: 10 }]}>Instructor</Text>
+                                            <View style={{ flexDirection: 'row', justifyContent: "space-between" }}>
                                                 <TouchableRipple style={styles.user_avatar_field} onPress={() => navigation.navigate('InstructorProfile', { authorID: props.authorID })}>
                                                     <Image style={styles.user_avatar} source={{
                                                         uri: data.photo
@@ -121,7 +121,7 @@ function CxDevxCourseOverview(props: Course) {
                 {/* What you’ll learn Part */}
                 <Text style={[styles.content_title, { color: colors.text }]}>What you’ll learn</Text>
                 {
-                    props.outcome.map((res, index) => <View key={index} style={{ flexDirection: 'row', paddingRight:15 }}>
+                    props.outcome.map((res, index) => <View key={index} style={{ flexDirection: 'row', paddingRight: 15 }}>
                         <Text style={[styles.content_description, { color: colors.text }]}>{'\u2B24'}</Text>
                         <Text style={[styles.content_description, { color: colors.text }]}>{res}</Text>
                     </View>)
@@ -130,7 +130,7 @@ function CxDevxCourseOverview(props: Course) {
                 {/* Requirements Part */}
                 <Text style={[styles.content_title, { color: colors.text }]}>Requirements</Text>
                 {
-                    props.prerequisite.map((res, index) => <View key={index} style={{ flexDirection: 'row', paddingRight:15 }}>
+                    props.prerequisite.map((res, index) => <View key={index} style={{ flexDirection: 'row', paddingRight: 15 }}>
                         <Text style={[styles.content_description, { color: colors.text }]}>{'\u2B24'}</Text>
                         <Text style={[styles.content_description, { color: colors.text }]}>{res}</Text>
                     </View>)

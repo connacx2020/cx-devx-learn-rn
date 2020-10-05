@@ -2,9 +2,9 @@ import React from 'react';
 import { View, Text, TouchableOpacity, ToastAndroid, TextComponent } from 'react-native';
 import { styles } from './style';
 import { useTheme, useNavigation } from '@react-navigation/native';
-import { getPostSeriesByIdSchema } from '../../common/graphQL';
+import { getPostSeriesByIdSchema } from '../../../common/graphQL';
 import { Query } from '@apollo/react-components';
-import { Course } from '../../models';
+import { Course } from '../../../models';
 import { Divider } from 'react-native-paper';
 const CxDevxCourseContent: React.FC<any> = (props: Course) => {
     const navigation = useNavigation();

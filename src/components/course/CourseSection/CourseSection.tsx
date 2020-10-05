@@ -2,8 +2,8 @@ import React from 'react';
 import { useEffect } from 'react';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import { styles } from './style';
-import { HomeStackNavProps } from '../../common/ultis/ParamLists/HomeParamList';
-import CxPostDetail from '../PostDetail/PostDetail';
+import { HomeStackNavProps } from '../../../common/ultis/ParamLists/HomeParamList';
+import CxPostDetail from '../../PostDetail/PostDetail';
 import { ToastAndroid, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 

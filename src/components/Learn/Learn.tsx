@@ -12,69 +12,62 @@ import { Query } from '@apollo/react-components';
 function CxDevxLearn({ navigation }: LearnStackNavProps<"Learn">) {
     const { colors } = useTheme();
     const [refreshing, setRefreshing] = React.useState<boolean>(false);
-    const getRandomPosts = useQuery(getAllPostsSchema, { client: graphqlClient, notifyOnNetworkStatusChange: true });
+    const getRandomPosts = useQuery(getAllPostsSchema, { notifyOnNetworkStatusChange: true });
 
 
     React.useEffect(() => {
     }, [getRandomPosts,])
 
     const reorderPost = (postArray: any[]) => {
-        let searchKey = ["Business Basic:How to learn business?", "Home Gardening:How To Grow Tomatos 1", "Graphql Basic: Introduction", "Home Gardening:How To Grow Tomatos 2","React Basic:Introduction", "NodeJS Basic: Introduction"]
-        let orderedPost: any[] = [];
-        searchKey.map(resKey => {
-            let resultPosts = postArray.find(res => res.title === resKey)
-            // resultPosts && setFinal(finalResult.concat(resultPosts.id))
-            orderedPost.push(resultPosts)
-        })
-        // console.log("data", orderedPost)
-        return orderedPost && orderedPost.map(res =>
-            res.seriesID === null ?
-                <View key={res.id} style={styles.postCard}>
-                    <Query<any, any> query={getPostByIDSchema} variables={{ postID: res.id }} client={graphqlClient}>
-                        {
-                            (getSeries) => {
+        return postArray && postArray.map(res =>
+            // res.seriesID === null ?
+            <View key={res.id} style={styles.postCard}>
+                <Query<any, any> query={getPostByIDSchema} variables={{ postID: res.id }}>
+                    {
+                        (getSeries) => {
 
-                                if (getSeries.loading) return <Text>Loading....</Text>
-                                // if (getSeries.error) return <Text>Error{JSON.stringify(getSeries.error)}</Text>
-                                if (getSeries.error) return <Text>Error</Text>
+                            if (getSeries.loading) return <Text>Loading....</Text>
+                            // if (getSeries.error) return <Text>Error{JSON.stringify(getSeries.error)}</Text>
+                            if (getSeries.error) return <Text>Error</Text>
 
-                                if (getSeries.data) {
-                                    return <TouchableOpacity onPress={() => {
-                                        navigation.navigate('CourseSection', { course: getSeries.data.searchPostByID.title, postID: getSeries.data.searchPostByID.id, postSeries: [] })
-                                    }}>
-                                        <CxPostDetail postID={getSeries.data.searchPostByID.id} />
-                                    </TouchableOpacity>
-                                } else {
-                                    return <Text>Error</Text>
-                                }
+                            if (getSeries.data) {
+                                return <TouchableOpacity onPress={() => {
+                                    navigation.navigate('CourseSection', { course: getSeries.data.findPostByID.title, postID: getSeries.data.searchPostByID.id, postSeries: [] })
+                                }}>
+                                    <CxPostDetail postID={getSeries.data.searchPostByID.id} />
+                                </TouchableOpacity>
+                            } else {
+                                return <Text>Error</Text>
                             }
                         }
+                    }
 
-                    </Query>
-                </View> :
-                <View key={res.id} style={styles.postCard}>
-                    <Query<any, any> query={getPostSeriesByIdSchema} variables={{ seriesID: res.seriesID }} client={graphqlClient}>
-                        {
-                            (getSeries) => {
+                </Query>
+            </View>
+            // :
+            //     <View key={res.id} style={styles.postCard}>
+            //         <Query<any, any> query={getPostSeriesByIdSchema} variables={{ seriesID: res.seriesID }} client={graphqlClient}>
+            //             {
+            //                 (getSeries) => {
 
-                                if (getSeries.loading) return <Text>Loading....</Text>
-                                // if (getSeries.error) return <Text>Error{JSON.stringify(getSeries.error)}</Text>
-                                if (getSeries.error) return <Text>Error</Text>
+            //                     if (getSeries.loading) return <Text>Loading....</Text>
+            //                     // if (getSeries.error) return <Text>Error{JSON.stringify(getSeries.error)}</Text>
+            //                     if (getSeries.error) return <Text>Error</Text>
 
-                                if (getSeries.data) {
-                                    return <TouchableOpacity onPress={() => {
-                                        navigation.navigate('CourseSection', { course: res.title, postID: res.id, postSeries: getSeries.data.getPostSeries.posts })
-                                    }}>
-                                        <CxPostDetail postID={res.id} />
-                                    </TouchableOpacity>
-                                } else {
-                                    return <Text>Error</Text>
-                                }
-                            }
-                        }
+            //                     if (getSeries.data) {
+            //                         return <TouchableOpacity onPress={() => {
+            //                             navigation.navigate('CourseSection', { course: res.title, postID: res.id, postSeries: getSeries.data.getPostSeries.posts })
+            //                         }}>
+            //                             <CxPostDetail postID={res.id} />
+            //                         </TouchableOpacity>
+            //                     } else {
+            //                         return <Text>Error</Text>
+            //                     }
+            //                 }
+            //             }
 
-                    </Query>
-                </View>
+            //         </Query>
+            //     </View>
 
         )
     }
@@ -92,8 +85,7 @@ function CxDevxLearn({ navigation }: LearnStackNavProps<"Learn">) {
             {
                 getRandomPosts.error && <View style={styles.query_info}><Text>No Internet Connection!</Text></View>
             }
-            {getRandomPosts.data &&
-                reorderPost(getRandomPosts.data.getPosts)
+            {getRandomPosts.data && reorderPost(getRandomPosts.data.getPosts)
             }
         </ScrollView>
     )

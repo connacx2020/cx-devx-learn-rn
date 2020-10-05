@@ -12,13 +12,13 @@ import { from } from 'rxjs';
 import { AuthUserInfo } from '../../common/redux/redux-actions';
 import { useSelector } from 'react-redux';
 import { CxDevxCommentModal } from '../CommentModalBox';
-import { styles } from '../CourseSection/style';
+import { styles } from '../course/CourseSection/style';
 import HTML from 'react-native-render-html';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import { Divider } from 'react-native-paper';
-
+import Markdown from 'react-native-markdown-display';
 
 function CxPostDetail(props: any) {
     const { colors } = useTheme();
@@ -118,7 +118,10 @@ function CxPostDetail(props: any) {
                                                     </View>
 
                                                     <View style={styles.content}>
-                                                        <HTML html={fetchPostByID.data.searchPostByID.content} imagesMaxWidth={Dimensions.get('window').width} />
+                                                        {/* <HTML html={fetchPostByID.data.searchPostByID.content} imagesMaxWidth={Dimensions.get('window').width} /> */}
+                                                        <Markdown>
+                                                            {fetchPostByID.data.searchPostByID.content}
+                                                        </Markdown>
                                                     </View>
                                                 </ScrollView>
 
