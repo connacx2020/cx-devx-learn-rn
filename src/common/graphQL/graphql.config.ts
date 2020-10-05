@@ -15,7 +15,7 @@ const cxDevxCdnLink = createUploadLink({
 });
 
 const serverlessLink = new HttpLink({
-    uri: CX_DEVX_SERVERLESS_URL
+    uri: `http://${CX_DEVX_API_GATEWAY_URL}:${CX_DEVX_API_GATEWAY_PORT}/graphql`
 });
 
 

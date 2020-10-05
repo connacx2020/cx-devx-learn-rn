@@ -21,8 +21,8 @@ export function CxDevxCourseDetail({ navigation, route }: HomeStackNavProps<"Cou
 
     const parent = tabNavigation.dangerouslyGetParent();
     const { colors } = useTheme();
-    const [enrollHandler] = useMutation(enrollCourseSchema, { client: serverlessClient });
-    const [unenrollHandler] = useMutation(unenrollCourseSchema, { client: serverlessClient });
+    const [enrollHandler] = useMutation(enrollCourseSchema);
+    const [unenrollHandler] = useMutation(unenrollCourseSchema);
     const userInfo: AuthUserInfo = useSelector((state: any) => state.authUserInfo);
 
     useEffect(() => {
@@ -31,28 +31,29 @@ export function CxDevxCourseDetail({ navigation, route }: HomeStackNavProps<"Cou
 
     return (
         <ScrollView style={styles.container}>
-            <Query<any, any> query={getCourseByIdSchema} client={serverlessClient} variables={{ courseID: id }} >
+            <Query<any, any> query={getCourseByIdSchema} variables={{ courseID: id }} >
                 {
                     (fetchCourseById) => {
 
-                        if (fetchCourseById.loading) return (<View style={{ alignSelf: 'center' }} >
-                            <View>
-                                <ActivityIndicator size="large" />
-                                {/* <Text>Loading</Text> */}
+                        if (fetchCourseById.loading) return (
+                            <View style={{ alignSelf: 'center' }}>
+                                <View>
+                                    <ActivityIndicator size="large" />
+                                </View>
                             </View>
-                        </View>)
+                        )
 
                         if (fetchCourseById.error) return <View><Text>Error</Text></View>
 
-                        if (fetchCourseById.data.getCourseById !== null) {
+                        if (fetchCourseById.data) {
                             return (
                                 <View>
                                     <View style={styles.header}>
                                         {
-                                            fetchCourseById.data.getCourseById.photoUrl !== null ? <Image
+                                            fetchCourseById.data.findCourseByID.photoUrl !== '' ? <Image
                                                 style={styles.header_course_img}
                                                 source={{
-                                                    uri: fetchCourseById.data.getCourseById.photoUrl
+                                                    uri: fetchCourseById.data.findCourseByID.photoUrl
                                                 }}
                                             /> : <View style={{ backgroundColor: '#2289f0', flex: 1, flexDirection: 'row', width: '100%' }} />
                                         }
@@ -63,8 +64,8 @@ export function CxDevxCourseDetail({ navigation, route }: HomeStackNavProps<"Cou
                                         >
                                             <FeatherIcon name={"arrow-left"} size={30} color={"#2541B2"} />
                                         </TouchableOpacity>
-                                        <Text style={[styles.header_title, { color: colors.text }]}>{fetchCourseById.data.getCourseById.title}</Text>
-                                        <Query<any, any> query={checkUserIsEnrolledSchema} client={serverlessClient} variables={{ courseID: fetchCourseById.data.getCourseById.id, userID: userInfo.userID }}>
+                                        <Text style={[styles.header_title, { color: colors.text }]}>{fetchCourseById.data.findCourseByID.title}</Text>
+                                        <Query<any, any> query={checkUserIsEnrolledSchema} client={serverlessClient} variables={{ courseID: fetchCourseById.data.findCourseByID.id, userID: userInfo.userID }}>
                                             {
                                                 checkIsEnrollData => {
                                                     if (checkIsEnrollData.error) console.log(checkIsEnrollData.error);
@@ -78,8 +79,8 @@ export function CxDevxCourseDetail({ navigation, route }: HomeStackNavProps<"Cou
                                                         return (
                                                             <TouchableOpacity style={styles.header_btn_blue}
                                                                 onPress={() => enrollHandler({
-                                                                    variables: { courseID: fetchCourseById.data.getCourseById.id, userID: userInfo.userID },
-                                                                    refetchQueries: [{ query: checkUserIsEnrolledSchema, variables: { courseID: fetchCourseById.data.getCourseById.id, userID: userInfo.userID } }, { query: getCoursesSchema }]
+                                                                    variables: { courseID: fetchCourseById.data.findCourseByID.id, userID: userInfo.userID },
+                                                                    refetchQueries: [{ query: checkUserIsEnrolledSchema, variables: { courseID: fetchCourseById.data.findCourseByID.id, userID: userInfo.userID } }, { query: getCoursesSchema }]
                                                                 })}
                                                             >
                                                                 <Text style={styles.header_btn_txt}> Enroll this course </Text>
@@ -89,8 +90,8 @@ export function CxDevxCourseDetail({ navigation, route }: HomeStackNavProps<"Cou
                                                         return (
                                                             <TouchableOpacity style={styles.header_btn_red}
                                                                 onPress={() => unenrollHandler({
-                                                                    variables: { courseID: fetchCourseById.data.getCourseById.id, userID: userInfo.userID },
-                                                                    refetchQueries: [{ query: checkUserIsEnrolledSchema, variables: { courseID: fetchCourseById.data.getCourseById.id, userID: userInfo.userID } }, { query: getCoursesSchema }]
+                                                                    variables: { courseID: fetchCourseById.data.findCourseByID.id, userID: userInfo.userID },
+                                                                    refetchQueries: [{ query: checkUserIsEnrolledSchema, variables: { courseID: fetchCourseById.data.findCourseByID.id, userID: userInfo.userID } }, { query: getCoursesSchema }]
                                                                 })}
                                                             >
                                                                 <Text style={styles.header_btn_txt}> Unenroll this course </Text>
@@ -107,14 +108,14 @@ export function CxDevxCourseDetail({ navigation, route }: HomeStackNavProps<"Cou
 
                                     <View style={styles.footer_tabs}>
                                         <CourseDetailTabs
-                                            {...fetchCourseById.data.getCourseById}
+                                            {...fetchCourseById.data.findCourseByID}
                                         />
                                     </View>
                                 </View>
                             )
-                        } else {
-                            return <Text>No Course Found</Text>
-                        }
+                        } return (
+                            <View></View>
+                        )
                     }
                 }
 

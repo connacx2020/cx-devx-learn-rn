@@ -4,17 +4,17 @@ import { store } from "../redux";
 import { getUserInfoByIDApi } from "../../common/api";
 import { saveUserInfo } from "../redux";
 
-export async function getCheckedUserInfo(userID: string) {
-    const userInfoFromRedux: User[] = await store.getState().userInfo.userInfoData;
-    let result = checkUserInfoInRedux(userInfoFromRedux, userID);
+export async function getCheckedUserInfo(userID: string): Promise<User> {
+    const reduxUsers: { userInfoData: User[] } = store.getState().userInfo;
+    const result: User | null = checkUserInfoInRedux(reduxUsers.userInfoData, userID);
 
-    if (result) {
-        return result[0]
-    } else {
-        let result: any = await getUserInfoByIDApi(userID);
-        store.dispatch(saveUserInfo(result.data.getUserInfoByID))
-        return result.data.getUserInfoByID;
+    if (result !== null) {
+        return result;
     }
+
+    const resultApi: { data: { getUserInfoByID: User } } = await getUserByIDHandler(userID);
+    store.dispatch(saveUserInfo(resultApi.data.getUserInfoByID));
+    return resultApi.data.getUserInfoByID;
 }
 
 
