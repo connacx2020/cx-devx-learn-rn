@@ -1,4 +1,4 @@
-import { rdxUserInfo, rdxAuthUserInfo } from './redux-types';
+import { rdxUserInfo, rdxAuthUserInfo,mentorStepInfo_save,mentorStepInfo_get } from './redux-types';
 import { User, Auth } from '../../models';
 import { AuthUserInfo } from './redux-actions';
 
@@ -12,6 +12,10 @@ const initialAuthState: AuthUserInfo = {
     name: '',
     username: '',
     token: '',
+}
+
+const initialMentorStep:any = {
+    ms_route_name : ''
 }
 
 export const AuthReducer = (state: AuthUserInfo = initialAuthState, action: any): Auth | any => {
@@ -53,3 +57,17 @@ export const UserInfoReducer = (state: any = initialUserInfoState, userInfoActio
     }
 }
 
+export const MentorStepReducer = (state : any = initialMentorStep, action:any) : any =>{
+    switch (action.type) {
+        case mentorStepInfo_save:
+            return{
+                ...state,
+                ms_route_name:action.payload
+            }
+        case mentorStepInfo_get:
+            return state
+            
+        default:
+            return state;
+    }
+}

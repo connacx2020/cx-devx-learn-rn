@@ -7,7 +7,7 @@ import { SearchItemCoverLeft } from '../SearchResultItem/CoverLeftItem';
 
 const CxDevxSearchResult: React.FC = () => {
     const navigation = useNavigation();
-    const route = useRoute();
+    const route: any = useRoute();
     const [searchResult, setSearchedResult] = React.useState();
     useEffect(() => {
         navigation.setOptions({ title: route.params.searchValue });
@@ -26,6 +26,7 @@ const CxDevxSearchResult: React.FC = () => {
                         title={item.title}
                         rating={item.rating}
                         enrolled={item.enrolled}
+                        price={item.price}
                     />
                 }
             />

@@ -136,13 +136,13 @@ function CxDevxFeed({ navigation }: any) {
                                 <View>
                                     <View>
                                         {
-                                            data.getAllCourses.length > 0 ? <Text style={[styles.centerTxt, { color: colors.text }]}>Most Porpular</Text> : <Text>No Course</Text>
+                                            data.getAllCourses.length > 0 ? <Text style={[styles.centerTxt, { color: colors.text }]}>Most Popular</Text> : <Text>No Course</Text>
                                         }
                                     </View>
                                     <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
 
                                         {
-                                            data.getAllCourses && data.getAllCourses.map((res: Course) =>
+                                            data.getAllCourses && data.getAllCourses.reverse().map((res: Course) =>
                                                 <CxDevxCourseItem
                                                     key={res.id}
                                                     authorID={res.authorID}

@@ -2,10 +2,12 @@ import React from "react";
 
 import { AppParamList } from "../common/ultis/ParamLists/AppParamList";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import HomeStack from '../Stacks/HomeStack';
 import LearnStack from '../Stacks/LearnStack';
 import TopicStack from '../Stacks/TopicStack';
+import MentorStack from '../Stacks/MentorStack';
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tabs = createBottomTabNavigator<AppParamList>();
@@ -20,7 +22,9 @@ export const AppTabs: React.FC<{}> = ({}) => {
 
           if (route.name === "Home") {
             iconName = "home";
-          } else if (route.name === "Learn") {
+          }else if(route.name === "Mentor"){
+            return <MCIcon name={"teach"} size={size} color={color} />;
+          }else if (route.name === "Learn") {
               iconName="code"
           }else if(route.name === "Topic"){
               iconName="lightbulb-o"
@@ -39,6 +43,7 @@ export const AppTabs: React.FC<{}> = ({}) => {
                 tabBarVisible: true
             }}
        />
+      <Tabs.Screen name="Mentor" component={MentorStack} />
       <Tabs.Screen name="Learn" component={LearnStack} />
       <Tabs.Screen name="Topic" component={TopicStack} />
 

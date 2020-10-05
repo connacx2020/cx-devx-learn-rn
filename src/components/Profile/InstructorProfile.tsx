@@ -201,8 +201,9 @@ export const InstructorProfile: React.FC = () => {
                                                                             id={item.id}
                                                                             photoUrl={item.photoUrl}
                                                                             title={item.title}
-                                                                            rate={item.rating}
+                                                                            rating={item.rating}
                                                                             enrolled={item.enrolled}
+                                                                            price={item.price}
                                                                         />
                                                                     );
                                                                 }}

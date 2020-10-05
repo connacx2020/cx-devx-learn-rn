@@ -3,7 +3,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { useMutation } from '@apollo/react-hooks';
 import { loginSchema } from '../common/graphQL';
 import { from } from 'rxjs';
-import { graphqlClient } from '../common/graphQL/graphql.config';
 import { store } from '../common/redux';
 import { saveAuthUserInfo } from '../common/redux/redux-actions';
 

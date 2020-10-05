@@ -1,0 +1,72 @@
+import {StyleSheet} from 'react-native';
+export const styles = StyleSheet.create({
+  wrapper:{
+    flex:1,
+    marginHorizontal:10,
+    marginVertical:20,
+  },
+  form_filed:{
+    justifyContent:'space-between',
+    alignItems:'center',
+    marginVertical:20,
+    borderRadius:10,
+    height:140,
+    width:280,
+    backgroundColor:'white',
+ 
+  },
+  row:{
+      flexDirection:'row',
+      justifyContent:'space-around',
+      alignItems:'center',
+      borderRadius:1,
+      marginVertical:3
+  },
+  type_name_row:{
+      marginRight:20,
+  },
+  label_txt:{
+    fontSize:15,
+  },
+  type_value_row:{
+    width:220
+  },
+  goal_field:{
+    zIndex:-1,
+    marginHorizontal:5,
+    marginVertical:20,
+    elevation:1,
+    borderRadius:1
+  },
+  goal_render_items_field:{
+    justifyContent:'center',
+    alignItems:'center',
+    marginTop:10
+  },
+  my_goal_txt:{
+    fontSize:16,
+    fontWeight:'600',
+    padding:10
+  },
+  goal_name_txt:{
+    fontSize:16,
+    fontWeight:'400',
+    paddingLeft:5
+  },
+  render_goal_item_field:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    padding:10,
+    borderRadius:1,
+    marginHorizontal:20,
+    marginVertical:10,
+    elevation:1,
+    width:300,
+  },
+  delete_icon_field:{
+    marginLeft:5
+  }
+ 
+
+  
+});
