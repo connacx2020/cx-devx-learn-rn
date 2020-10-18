@@ -1,6 +1,6 @@
 import { HttpLink, InMemoryCache, ApolloClient, ApolloLink } from 'apollo-boost';
 // @ts-ignore
-import { CX_DEVX_API_GATEWAY_URL, CX_DEVX_API_GATEWAY_PORT, CX_DEVX_SERVERLESS_URL, CX_DEVX_CDN_PORT } from 'react-native-dotenv';
+import { CX_DEVX_API_GATEWAY_URL, CX_DEVX_API_GATEWAY_PORT, CX_DEVX_CDN_PORT } from 'react-native-dotenv';
 import { createUploadLink } from 'apollo-upload-client';
 
 const gatewayClient = new HttpLink({
@@ -14,10 +14,6 @@ const cxDevxCdnLink = createUploadLink({
     }
 });
 
-const serverlessLink = new HttpLink({
-    uri: `http://${CX_DEVX_API_GATEWAY_URL}:${CX_DEVX_API_GATEWAY_PORT}/graphql`
-});
-
 
 const cache = new InMemoryCache();
 
@@ -26,10 +22,6 @@ const graphqlClient = new ApolloClient({
     cache,
 });
 
-const serverlessClient = new ApolloClient({
-    link: ApolloLink.from([serverlessLink]),
-    cache,
-});
 
 
 const devXFileUploadClient = new ApolloClient({
@@ -38,4 +30,4 @@ const devXFileUploadClient = new ApolloClient({
 })
 
 
-export { graphqlClient, serverlessClient, devXFileUploadClient };
+export { graphqlClient, devXFileUploadClient };

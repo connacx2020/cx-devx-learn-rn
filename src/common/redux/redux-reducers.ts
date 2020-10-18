@@ -1,6 +1,7 @@
-import { rdxUserInfo, rdxAuthUserInfo,mentorStepInfo_save,mentorStepInfo_get } from './redux-types';
+import { rdxUserInfo, rdxAuthUserInfo, mentorStepInfo_save, mentorStepInfo_get } from './redux-types';
 import { User, Auth } from '../../models';
 import { AuthUserInfo } from './redux-actions';
+import { ReduxUsers, UserInfoAction } from './interfaces';
 
 const initialUserInfoState: any = {
     userInfoData: []
@@ -14,8 +15,8 @@ const initialAuthState: AuthUserInfo = {
     token: '',
 }
 
-const initialMentorStep:any = {
-    ms_route_name : ''
+const initialMentorStep: any = {
+    ms_route_name: ''
 }
 
 export const AuthReducer = (state: AuthUserInfo = initialAuthState, action: any): Auth | any => {
@@ -39,34 +40,35 @@ export const AuthReducer = (state: AuthUserInfo = initialAuthState, action: any)
     }
 }
 
-export const UserInfoReducer = (state: any = initialUserInfoState, userInfoAction: any): User | any => {
+export const UserInfoReducer = (
+    state: ReduxUsers = initialUserInfoState,
+    userInfoAction: UserInfoAction,
+): ReduxUsers | ReduxUsers[] => {
     switch (userInfoAction.type) {
         case rdxUserInfo:
             if (state.userInfoData.includes(userInfoAction.userInfoData)) {
-                // console.log('already exist')
-                return state
-            } else {
-                return {
-                    ...state,
-                    userInfoData: [...state.userInfoData, userInfoAction.userInfoData]
-                }
+                return state;
             }
+            return {
+                ...state,
+                userInfoData: [...state.userInfoData, userInfoAction.userInfoData],
+            };
 
         default:
-            return state
+            return state;
     }
-}
+};
 
-export const MentorStepReducer = (state : any = initialMentorStep, action:any) : any =>{
+export const MentorStepReducer = (state: any = initialMentorStep, action: any): any => {
     switch (action.type) {
         case mentorStepInfo_save:
-            return{
+            return {
                 ...state,
-                ms_route_name:action.payload
+                ms_route_name: action.payload
             }
         case mentorStepInfo_get:
             return state
-            
+
         default:
             return state;
     }

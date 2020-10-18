@@ -121,7 +121,7 @@ function CxDevxCourseOverview(props: Course) {
                 {/* What you’ll learn Part */}
                 <Text style={[styles.content_title, { color: colors.text }]}>What you’ll learn</Text>
                 {
-                    props.outcome.map((res, index) => <View key={index} style={{ flexDirection: 'row', paddingRight: 15 }}>
+                    props.outcomes.map((res, index) => <View key={index} style={{ flexDirection: 'row', paddingRight: 15 }}>
                         <Text style={[styles.content_description, { color: colors.text }]}>{'\u2B24'}</Text>
                         <Text style={[styles.content_description, { color: colors.text }]}>{res}</Text>
                     </View>)
@@ -130,7 +130,7 @@ function CxDevxCourseOverview(props: Course) {
                 {/* Requirements Part */}
                 <Text style={[styles.content_title, { color: colors.text }]}>Requirements</Text>
                 {
-                    props.prerequisite.map((res, index) => <View key={index} style={{ flexDirection: 'row', paddingRight: 15 }}>
+                    props.prerequisites.map((res, index) => <View key={index} style={{ flexDirection: 'row', paddingRight: 15 }}>
                         <Text style={[styles.content_description, { color: colors.text }]}>{'\u2B24'}</Text>
                         <Text style={[styles.content_description, { color: colors.text }]}>{res}</Text>
                     </View>)

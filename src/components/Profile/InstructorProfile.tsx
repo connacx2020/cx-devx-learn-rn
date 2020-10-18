@@ -8,7 +8,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { getCheckedUserInfo } from '../../common/ultis/getUserInfo';
 import { Async } from 'react-async';
 import { isFollowedSchema, followUserSchema, unfollowUserSchema, getAllCourseByAuthorID } from '../../common/graphQL';
-import { serverlessClient, graphqlClient } from '../../common/graphQL/graphql.config';
+import { graphqlClient } from '../../common/graphQL/graphql.config';
 import { Query } from '@apollo/react-components';
 
 
@@ -30,7 +30,7 @@ export const InstructorProfile: React.FC = () => {
         <ScrollView style={[styles.wrapper, { backgroundColor: colors.background }]}>
             <Async promise={getCheckedUserInfo(authorID)}>
                 {
-                   (getUserInfo) => {
+                    (getUserInfo) => {
 
                         if (getUserInfo.isLoading) return <View><Text>loading ...</Text></View>
                         if (getUserInfo.error) return <View><Text>{getUserInfo.error}</Text></View>
@@ -114,10 +114,10 @@ export const InstructorProfile: React.FC = () => {
 
 
                                             <View style={styles.social_field}>
-                                               {
-                                                   getUserInfo.data.weblinks.map((item:any)=>{
-                                                       if(item.url.search('github') !== -1){
-                                                           return(
+                                                {
+                                                    getUserInfo.data.weblinks.map((item: any) => {
+                                                        if (item.url.search('github') !== -1) {
+                                                            return (
                                                                 <TouchableOpacity
                                                                     testID="githubImgBtnID"
                                                                     onPress={() => Linking.openURL(item.url)}
@@ -127,9 +127,9 @@ export const InstructorProfile: React.FC = () => {
                                                                         source={require('../../asset/icons/github.png')}
                                                                     />
                                                                 </TouchableOpacity>
-                                                           )
-                                                        }else if(item.url.search('gmail') !== -1){
-                                                            return(
+                                                            )
+                                                        } else if (item.url.search('gmail') !== -1) {
+                                                            return (
                                                                 <TouchableOpacity
                                                                     testID="fbImgBtnID"
                                                                     onPress={() => Linking.openURL(item.url)}
@@ -140,19 +140,19 @@ export const InstructorProfile: React.FC = () => {
                                                                     />
                                                                 </TouchableOpacity>
                                                             )
-                                                        }else if(item.url.search("linkedin") !== -1){
-                                                            return(
+                                                        } else if (item.url.search("linkedin") !== -1) {
+                                                            return (
                                                                 <TouchableOpacity
-                                                                testID="linkedInImgBtnID"
-                                                                onPress={() => Linking.openURL(item.url)}
-                                                                style={styles.icon_field}>
-                                                                <Image
-                                                                    style={{width:30,height:25}}
-                                                                    source={require('../../asset/icons/linkedin.png')}
-                                                                />
-                                                            </TouchableOpacity>
+                                                                    testID="linkedInImgBtnID"
+                                                                    onPress={() => Linking.openURL(item.url)}
+                                                                    style={styles.icon_field}>
+                                                                    <Image
+                                                                        style={{ width: 30, height: 25 }}
+                                                                        source={require('../../asset/icons/linkedin.png')}
+                                                                    />
+                                                                </TouchableOpacity>
                                                             )
-                                                        }else{
+                                                        } else {
                                                             <TouchableOpacity
                                                                 testID="linkedInImgBtnID"
                                                                 onPress={() => Linking.openURL(item.url)}
@@ -163,8 +163,8 @@ export const InstructorProfile: React.FC = () => {
                                                                 />
                                                             </TouchableOpacity>
                                                         }
-                                                   })
-                                               }
+                                                    })
+                                                }
 
 
                                             </View>
@@ -177,7 +177,7 @@ export const InstructorProfile: React.FC = () => {
                                                 {getUserInfo.data.about}
                                             </Text>
                                         </View>
-                                        <Query<any, any> query={getAllCourseByAuthorID} client={serverlessClient} variables={{ authorID: authorID }}>
+                                        <Query<any, any> query={getAllCourseByAuthorID} variables={{ authorID: authorID }}>
                                             {
                                                 ({ loading, error, data }) => {
 

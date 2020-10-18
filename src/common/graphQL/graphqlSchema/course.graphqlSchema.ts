@@ -2,22 +2,19 @@ import gql from 'graphql-tag';
 
 const CourseInfoFragment = {
     courseInfo: gql`
-        fragment CourseData on CourseType {
-            id
-            authorID
-            title
-            rating
-            photoUrl
-            enrolled
-            description
-            price
-            duration
-            prerequisite
-            outcome
-            seriesID
-            topicID
-            enrolledUsers
-        }
+    fragment CourseData on CourseType {
+        id
+        authorID
+        title
+        rating
+        photoUrl
+        description
+        price
+        duration
+        prerequisites
+        outcomes
+        seriesID
+    }
     `,
 };
 
@@ -53,7 +50,7 @@ export const getCoursesSchema = gql`
 
 export const getCourseByIdSchema = gql`
     query getCourseById($courseID: ID!) {
-        findCourseByID(courseId: $courseID) {
+        findCourseByID(courseID: $courseID) {
             ...CourseData
         }
     }

@@ -45,3 +45,7 @@ export {
     followUserSchema,
     unfollowUserSchema
 } from './graphqlSchema/connect.graphql.Schema';
+
+export {
+    getUserByIDHandler
+} from './graphqlHandler/auth.graphqlHandler';

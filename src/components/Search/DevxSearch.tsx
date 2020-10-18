@@ -5,11 +5,10 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { useLazyQuery } from '@apollo/react-hooks';
 import { searchCourseByTitle } from '../../common/graphQL';
-import { serverlessClient } from '../../common/graphQL/graphql.config';
 
 const DevxSearch: React.FC = () => {
     const [searchedResultData, setSearchedData] = useState([]);
-    const [fetchSearch, searchResult] = useLazyQuery(searchCourseByTitle, { variables: { courseTitle: '' }, client:serverlessClient, onCompleted: data => { setSearchedData(data.findCourseWithTitle.map((res: any)=>res)) } });
+    const [fetchSearch, searchResult] = useLazyQuery(searchCourseByTitle, { variables: { courseTitle: '' }, onCompleted: data => { setSearchedData(data.findCourseWithTitle.map((res: any) => res)) } });
     const [searchText, setSearchText] = useState<String>('');
     const navigation = useNavigation();
 
@@ -48,7 +47,7 @@ const DevxSearch: React.FC = () => {
             <FlatList
                 testID="searchArrayList"
                 data={searchedResultData}
-                keyExtractor={(item:any) => item.id}
+                keyExtractor={(item: any) => item.id}
                 renderItem={({ item }) =>
                     (
                         <TouchableOpacity onPress={() => navigation.navigate('SearchResult', { searchValue: item.title, searchData: searchedResultData })}>

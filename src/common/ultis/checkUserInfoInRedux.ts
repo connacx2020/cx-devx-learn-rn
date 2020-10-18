@@ -1,10 +1,9 @@
-export const checkUserInfoInRedux = (reduxData: any, userID: String) => {
-    let userInfoData = reduxData.filter((res: any) => res.id === userID);
-    if(userInfoData.length > 0 ) {
-        // console.log(true);
-        return userInfoData;
-    }else{
-        // console.log(false);
-        return false;
+import { User } from "src/models";
+
+export const checkUserInfoInRedux = (reduxData: User[], userID: string): User | null => {
+    const userInfoData: User[] = reduxData.filter((res: User) => res.id === userID);
+    if (userInfoData.length > 0) {
+        return userInfoData[0];
     }
-}
+    return null;
+};

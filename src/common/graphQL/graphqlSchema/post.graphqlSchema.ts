@@ -2,51 +2,52 @@ import gql from "graphql-tag";
 
 const PostData_Fragment = {
     postResult: gql`
-        fragment PostRequestData on PostType {
+    fragment PostRequestData on PostType {
+        id
+        author {
+            photo
+            name
+            id
+        }
+        authorID
+        title
+        isPublished
+        seriesID
+        series {
+            id
+            title
+        }
+        media {
+            mimetype
+            filename
+            uri
+            encoding
+        }
+        category
+        content
+        comments {
             id
             authorID
-            title
-            published
-            seriesID
-            category
             content
+            commentedOn
             author {
-                photo
+                id
                 name
-                id
+                photo
             }
-
-            media {
-                mimetype
-                filename
-                uri
-                encoding
-            }
-            comments {
-                id
-                authorID
-                content
-                comments {
-                    id
-                    authorID
-                    content
-                    commentedOn
-                    modifiedOn
-                }
-                commentedOn
-                modifiedOn
-            }
-            access
-            postedOn
-            modifiedOn
         }
+        access
+        tags
+        postedOn
+        modifiedOn
+    }
     `,
 };
 
 
 export const getAllPostsSchema = gql`
 {
-  getPosts{
+    getPostsWithFilters{
     id
     title
     seriesID

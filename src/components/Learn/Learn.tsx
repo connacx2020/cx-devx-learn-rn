@@ -20,7 +20,7 @@ function CxDevxLearn({ navigation }: LearnStackNavProps<"Learn">) {
 
     const reorderPost = (postArray: any[]) => {
         return postArray && postArray.map(res =>
-            // res.seriesID === null ?
+            res.seriesID !== null &&
             <View key={res.id} style={styles.postCard}>
                 <Query<any, any> query={getPostByIDSchema} variables={{ postID: res.id }}>
                     {
@@ -85,7 +85,7 @@ function CxDevxLearn({ navigation }: LearnStackNavProps<"Learn">) {
             {
                 getRandomPosts.error && <View style={styles.query_info}><Text>No Internet Connection!</Text></View>
             }
-            {getRandomPosts.data && reorderPost(getRandomPosts.data.getPosts)
+            {getRandomPosts.data && reorderPost(getRandomPosts.data.getPostsWithFilters)
             }
         </ScrollView>
     )

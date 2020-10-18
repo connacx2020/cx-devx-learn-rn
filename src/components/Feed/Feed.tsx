@@ -16,7 +16,6 @@ import { useNavigation, useTheme } from '@react-navigation/native';
 import { View } from 'react-native-animatable';
 
 import { ActivityIndicator } from 'react-native';
-import { serverlessClient } from '../../common/graphQL/graphql.config';
 import { AuthUserInfo } from '../../common/redux/redux-actions';
 import { reach } from 'yup';
 
@@ -45,7 +44,7 @@ function CxDevxFeed({ navigation }: any) {
     }, [hasEnrolled])
 
     return (
-        <Query<any, any> client={serverlessClient} query={getCoursesSchema}>
+        <Query<any, any> query={getCoursesSchema}>
             {
                 ({ loading, error, data, refetch }) => {
 
@@ -68,7 +67,7 @@ function CxDevxFeed({ navigation }: any) {
                             />}>
                         {data ?
                             <>
-                                <View>
+                                {/* <View>
                                     {hasEnrolled && <Text style={[styles.centerTxt, { color: colors.text }]}>Enrolled Course</Text>}
                                     <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
                                         {data.getAllCourses && data.getAllCourses.map((res: Course, index: number) =>
@@ -104,7 +103,7 @@ function CxDevxFeed({ navigation }: any) {
                                         )
                                         }
                                     </ScrollView>
-                                </View>
+                                </View> */}
 
                                 <View>
                                     <View>

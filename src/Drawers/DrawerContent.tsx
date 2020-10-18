@@ -74,7 +74,7 @@ export function DrawerContent(props: any) {
                             label="Home"
                             onPress={() => { props.navigation.navigate('Home') }}
                         />
-                        <DrawerItem
+                        {/* <DrawerItem
                             icon={({ color, size }) => (
                                 <Icon
                                     name="playlist-plus"
@@ -84,8 +84,8 @@ export function DrawerContent(props: any) {
                             )}
                             label="Create Course"
                             onPress={() => props.navigation.navigate("createCourse")}
-                        />
-                        <DrawerItem
+                        /> */}
+                        {/* <DrawerItem
                             icon={({ color, size }) => (
                                 <Icon
                                     name="bookmark-outline"
@@ -117,7 +117,7 @@ export function DrawerContent(props: any) {
                             )}
                             label="Favorite"
                             onPress={() => { }}
-                        />
+                        /> */}
                     </Drawer.Section>
                     <Drawer.Section title="Preferences">
                         <TouchableRipple onPress={() => toggleTheme()}>
