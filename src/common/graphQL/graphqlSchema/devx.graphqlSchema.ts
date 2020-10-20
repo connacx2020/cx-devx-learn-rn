@@ -8,19 +8,16 @@ const topic_Fragment = {
         description
         logo
         parentTopic
-        likes
-        followers
-        contexts
     }
     `
 }
 
 export const searchTopicsByTextSchema = gql`
-query($text:String!){
-    searchTopicsByText(text:$text){
-     ...TopicQuery
+query searchTopicsByText($text: String!) {
+    searchTopicsByText(text: $text) {
+        ...TopicQuery
     }
-  }
+}
   ${topic_Fragment.topic}
   `;
 
@@ -35,7 +32,7 @@ ${topic_Fragment.topic}
 
 export const findTopicByIDSchema = gql`
 query($topicID: ID!){
-  findTopicByID(topicID: $topicID){
+  findTopicByID(id: $topicID){
     ...TopicQuery
   }
 }
@@ -121,13 +118,29 @@ mutation ($userID: ID!, $topicID: ID!){
 `;
 
 export const getRootTopicsSchema = gql`
-query {
-  getAllRootTopics
+query getAllRootTopics {
+  getAllRootTopics{
+    topics{
+      title
+      logo
+      id
+      description
+      parentTopic
+    }
+  }
 }
 `;
 
 export const getChildTopicsSchema = gql`
-query ($topicID:ID!){
-  getAllChildTopics(topicID:$topicID)
+query getChildTopics($topicID:ID!){
+    getAllChildTopics(topicID:$topicID){
+        topics{
+          title
+          logo
+          id
+          description
+          parentTopic
+        }
+      }
 }
 `;

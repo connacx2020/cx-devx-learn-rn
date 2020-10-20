@@ -10,8 +10,8 @@ import ViewMoreText from 'react-native-view-more-text';
 
 import { styles } from './style';
 import { Course } from '../../../models';
-import { getCheckedUserInfo } from '../../../common/ultis/getUserInfo';
-import { Async } from 'react-async';
+import { Query } from '@apollo/react-components';
+import { getUserInfoByIdSchema } from '../../../common/graphQL';
 
 function CxDevxCourseOverview(props: Course) {
     const navigation = useNavigation();
@@ -77,11 +77,13 @@ function CxDevxCourseOverview(props: Course) {
 
             <View style={[styles.user_overview, { backgroundColor: colors.background }]}>
                 <View style={styles.user_container}>
-                    <Async promise={getCheckedUserInfo(props.authorID)}>
+                    <Query<any, any> query={getUserInfoByIdSchema} variables={{ userID: props.authorID }}>
                         {
-                            ({ data, error, isLoading }) => {
-                                if (isLoading) return <View><Text>loading</Text></View>
+                            ({ data, error, loading }) => {
+
+                                if (loading) return <View><Text>loading</Text></View>
                                 if (error) return <View><Text>err</Text></View>
+
                                 if (data) {
                                     return (<React.Fragment>
                                         <View style={{ flexDirection: 'column', flex: 1 }}>
@@ -89,30 +91,31 @@ function CxDevxCourseOverview(props: Course) {
                                             <View style={{ flexDirection: 'row', justifyContent: "space-between" }}>
                                                 <TouchableRipple style={styles.user_avatar_field} onPress={() => navigation.navigate('InstructorProfile', { authorID: props.authorID })}>
                                                     <Image style={styles.user_avatar} source={{
-                                                        uri: data.photo
+                                                        uri: data.getUserInfoByID.photo
                                                     }} />
                                                 </TouchableRipple>
                                                 <View style={styles.user_name_email_field}>
-                                                    <Text style={[styles.user_name_txt, { color: colors.text }]}>{data.name}</Text>
-                                                    <View style={styles.row}>
-                                                        <View style={styles.section}>
+                                                    <Text style={[styles.user_name_txt, { color: colors.text }]}>{data.getUserInfoByID.name}</Text>
+                                                    {/* <View style={styles.row}> */}
+                                                    {/* <View style={styles.section}>
                                                             <Paragraph style={[styles.paragraph, styles.caption]}>65</Paragraph>
                                                             <Paragraph style={styles.caption}>Follower</Paragraph>
                                                         </View>
                                                         <View style={styles.section}>
                                                             <Paragraph style={[styles.paragraph, styles.caption]}>15</Paragraph>
                                                             <Paragraph style={styles.caption}>Course</Paragraph>
-                                                        </View>
-                                                    </View>
+                                                        </View> */}
+                                                    {/* </View> */}
                                                 </View>
                                             </View>
                                         </View>
                                     </React.Fragment>
                                     )
                                 }
+                                return <Text>Error</Text>
                             }
                         }
-                    </Async>
+                    </Query>
                 </View>
 
             </View>

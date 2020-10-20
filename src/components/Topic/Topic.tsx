@@ -12,6 +12,7 @@ import { ActivityIndicator, TouchableOpacity, Image, Dimensions } from 'react-na
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import { styles } from './style';
+import { Topic } from 'src/models';
 
 function CxDevxTopic() {
     const { colors } = useTheme();
@@ -26,7 +27,7 @@ function CxDevxTopic() {
         client: graphqlClient,
     });
 
-    const formatData = (dataList: number, numColumns: number) => {
+    const formatData = (dataList: any, numColumns: number) => {
         const totalRows = Math.floor(dataList.length / numColumns);
         let totalLastRow = dataList.length - totalRows * numColumns;
 
@@ -52,97 +53,89 @@ function CxDevxTopic() {
         }
     }
 
-    const getTopicDetail = (topicID: string) => <Query<any, any> query={findTopicByIDSchema} variables={{ topicID }}>
-        {(getByTopicID) => {
-            if (getByTopicID.loading) return <Text>Loading....</Text>
-            if (getByTopicID.error) return <Text>Error</Text>
+    const getTopicDetail = (topic: Topic) => <TouchableOpacity key={topic.id} onPress={() => {
+        navigation.navigate("Child Topics", { rootTopicID: topic.id, rootTitle: topic.title })
+    }
+    } style={[styles.topic_card, { width: (ScreenWidth / numColumns) - 20, height: (ScreenWidth / numColumns) + 5 }]} >
 
-            return (
-                <TouchableOpacity key={getByTopicID.data.findTopicByID.id} onPress={() => {
-                    navigation.navigate("Child Topics", { rootTopicID: topicID , rootTitle:getByTopicID.data.findTopicByID.title })
-                }
-                } style={[styles.topic_card, { width: (ScreenWidth / numColumns) - 20, height: (ScreenWidth / numColumns) + 5 }]} >
+        <View style={styles.topic_card_header}>
+            <Image
+                style={styles.img}
+                source={{
+                    uri: topic.logo
+                }}
+            />
+        </View>
 
-                    <View style={styles.topic_card_header}>
-                        <Image
-                            style={styles.img}
-                            source={{
-                                uri: getByTopicID.data.findTopicByID.logo
-                            }}
-                        />
-                    </View>
+        <View style={styles.topic_card_footer}>
 
-                    <View style={styles.topic_card_footer}>
+            <Text style={styles.topic_card_title_txt}>
+                {topic.title}
+            </Text>
 
-                        <Text style={styles.topic_card_title_txt}>
-                            {getByTopicID.data.findTopicByID.title}
-                        </Text>
+            <Text style={styles.topic_card_desc_txt}>
+                {topic.description}
+            </Text>
 
-                        <Text style={styles.topic_card_desc_txt}>
-                            {getByTopicID.data.findTopicByID.description}
-                        </Text>
+            <Query<any, any> query={isLikedTopicSchema} client={graphqlClient} variables={{ userID: userInfo.userID, topicID: topic.id }}>
+                {(isLikedTopicData) => {
 
-                        <Query<any, any> query={isLikedTopicSchema} client={graphqlClient} variables={{ userID: userInfo.userID, topicID: getByTopicID.data.findTopicByID.id }}>
-                            {(isLikedTopicData) => {
+                    if (isLikedTopicData.error)
+                        console.log(isLikedTopicData.error);
 
-                                if (isLikedTopicData.error)
-                                    console.log(isLikedTopicData.error);
+                    if (isLikedTopicData.loading)
+                        return (
+                            <View style={{ alignSelf: 'center' }}>
+                                <View>
+                                    <ActivityIndicator size="large" />
+                                </View>
+                            </View>
+                        );
 
-                                if (isLikedTopicData.loading)
-                                    return (
-                                        <View style={{ alignSelf: 'center' }}>
-                                            <View>
-                                                <ActivityIndicator size="large" />
-                                            </View>
-                                        </View>
-                                    );
-
-                                if (!isLikedTopicData.data.isLikedTopic) {
-                                    return (
-                                        <TouchableOpacity style={styles.heard_icon}
-                                            onPress={() => likeHandler({
-                                                variables: { userID: userInfo.userID, topicID: getByTopicID.data.findTopicByID.id },
-                                                refetchQueries: [{ query: isLikedTopicSchema, variables: { userID: userInfo.userID, topicID: getByTopicID.data.findTopicByID.id } }]
-                                            })}
-                                        >
-                                            <Text>
-                                                <Icon
-                                                    name={'like2'}
-                                                    size={20}
-                                                    color={'#7C7879'}
-                                                />
+                    if (!isLikedTopicData.data.isLikedTopic) {
+                        return (
+                            <TouchableOpacity style={styles.heard_icon}
+                                onPress={() => likeHandler({
+                                    variables: { userID: userInfo.userID, topicID: topic.id },
+                                    refetchQueries: [{ query: isLikedTopicSchema, variables: { userID: userInfo.userID, topicID: topic.id } }]
+                                })}
+                            >
+                                <Text>
+                                    <Icon
+                                        name={'like2'}
+                                        size={20}
+                                        color={'#7C7879'}
+                                    />
                                               Like
                                         </Text>
 
-                                        </TouchableOpacity>
-                                    );
-                                } else {
-                                    return (
-                                        <TouchableOpacity style={styles.heard_icon}
-                                            onPress={() => unlikeHandler({
-                                                variables: { userID: userInfo.userID, topicID: getByTopicID.data.findTopicByID.id },
-                                                refetchQueries: [{ query: isLikedTopicSchema, variables: { userID: userInfo.userID, topicID: getByTopicID.data.findTopicByID.id } }]
-                                            })}
-                                        >
-                                            <Text>
-                                                <Icon
-                                                    name={'like1'}
-                                                    size={20}
-                                                    color={"#1E91D6"}
-                                                />
+                            </TouchableOpacity>
+                        );
+                    } else {
+                        return (
+                            <TouchableOpacity style={styles.heard_icon}
+                                onPress={() => unlikeHandler({
+                                    variables: { userID: userInfo.userID, topicID: topic.id },
+                                    refetchQueries: [{ query: isLikedTopicSchema, variables: { userID: userInfo.userID, topicID: topic.id } }]
+                                })}
+                            >
+                                <Text>
+                                    <Icon
+                                        name={'like1'}
+                                        size={20}
+                                        color={"#1E91D6"}
+                                    />
                                           Unlike
                                         </Text>
 
-                                        </TouchableOpacity>
-                                    );
-                                }
-                            }}
-                        </Query>
-                    </View>
-                </TouchableOpacity >
-            );
-        }}
-    </Query>
+                            </TouchableOpacity>
+                        );
+                    }
+                }}
+            </Query>
+
+        </View>
+    </TouchableOpacity>
 
     return (
         <ScrollView style={styles.body}>
@@ -160,7 +153,7 @@ function CxDevxTopic() {
                             // return getRootTopics.data.getAllRootTopics.map((res: string) => getTopicDetail(res))
                             return (
                                 <FlatList
-                                    data={formatData(getRootTopics.data.getAllRootTopics, numColumns)}
+                                    data={formatData(getRootTopics.data.getAllRootTopics.topics, numColumns)}
                                     renderItem={renderCardItem}
                                     keyExtractor={(index) => index.toString()}
                                     numColumns={numColumns}
@@ -168,7 +161,7 @@ function CxDevxTopic() {
                             )
 
                         } else {
-                        return <Text style={{marginVertical: Math.floor(Dimensions.get('window').height)/2.5, marginHorizontal: Math.floor(Dimensions.get('window').width)/2.5}}>No Data!</Text>
+                            return <Text style={{ marginVertical: Math.floor(Dimensions.get('window').height) / 2.5, marginHorizontal: Math.floor(Dimensions.get('window').width) / 2.5 }}>No Data!</Text>
                         }
 
                     }

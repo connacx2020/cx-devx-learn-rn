@@ -11,6 +11,8 @@ const UserInfoFragment = {
         photo
         displayName
         dob
+        phones
+        about
         roles
         weblinks {
             source
@@ -24,8 +26,6 @@ const UserInfoFragment = {
             geolocation
             isCurrent
         }
-        phones
-        about
         educations {
             study
             org {

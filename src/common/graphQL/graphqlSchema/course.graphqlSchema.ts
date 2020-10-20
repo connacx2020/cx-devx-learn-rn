@@ -25,7 +25,7 @@ export const getAllCourseByAuthorID = gql`
             title
             rating
             photoUrl
-            enrolled
+            price
         }
     }
 `;
@@ -50,7 +50,7 @@ export const getCoursesSchema = gql`
 
 export const getCourseByIdSchema = gql`
     query getCourseById($courseID: ID!) {
-        findCourseByID(courseID: $courseID) {
+        findCourseByID(id: $courseID) {
             ...CourseData
         }
     }
@@ -58,8 +58,8 @@ export const getCourseByIdSchema = gql`
 `;
 
 export const searchCourseByTitle = gql`
-    query findCourseWithTitle($courseTitle: String!) {
-        findCourseWithTitle(courseTitle: $courseTitle) {
+    query findCourseByTitle($courseTitle: String!) {
+        findCourseByTitle(courseTitle: $courseTitle) {
             ...CourseData
         }
     }

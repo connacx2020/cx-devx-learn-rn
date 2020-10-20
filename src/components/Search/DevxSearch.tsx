@@ -8,8 +8,8 @@ import { searchCourseByTitle } from '../../common/graphQL';
 
 const DevxSearch: React.FC = () => {
     const [searchedResultData, setSearchedData] = useState([]);
-    const [fetchSearch, searchResult] = useLazyQuery(searchCourseByTitle, { variables: { courseTitle: '' }, onCompleted: data => { setSearchedData(data.findCourseWithTitle.map((res: any) => res)) } });
-    const [searchText, setSearchText] = useState<String>('');
+    const [fetchSearch, searchResult] = useLazyQuery(searchCourseByTitle, { variables: { courseTitle: '' }, onCompleted: data => { setSearchedData(data.findCourseByTitle.map((res: any) => res)) } });
+    const [searchText, setSearchText] = useState<string>('');
     const navigation = useNavigation();
 
 

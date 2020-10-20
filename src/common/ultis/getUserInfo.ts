@@ -14,7 +14,6 @@ export async function getCheckedUserInfo(userID: string): Promise<User> {
     }
 
     const resultApi: { data: { getUserInfoByID: User } } = await getUserByIDHandler(userID);
-    ToastAndroid.show(`user data from ${userID}`, 2000)
     store.dispatch(saveUserInfo(resultApi.data.getUserInfoByID));
     return resultApi.data.getUserInfoByID;
 }

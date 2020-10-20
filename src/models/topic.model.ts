@@ -4,7 +4,5 @@ export interface Topic {
     title: string,
     logo: string,
     description: string,
-    parentTopic: string,
-    likes: number,
-    contexts: string[]
+    parentTopic: string
 }

@@ -10,6 +10,8 @@ import { Async } from 'react-async';
 import { AuthContext } from '../Providers/AuthProvider';
 import { AuthUserInfo } from '../common/redux/redux-actions';
 import { useSelector } from 'react-redux';
+import { Query } from '@apollo/react-components';
+import { getUserInfoByIdSchema } from '../common/graphQL';
 
 export function DrawerContent(props: any) {
     const paperTheme = useTheme();
@@ -22,12 +24,10 @@ export function DrawerContent(props: any) {
         <View style={{ flex: 1 }}>
             <DrawerContentScrollView {...props}>
                 <View style={styles.drawerContent}>
-                    <Async promise={getCheckedUserInfo(auth.userID)}>
+                    <Query<any, any> query={getUserInfoByIdSchema} variables={{ userID: auth.userID }}>
                         {
-                            ({ data, error, isLoading }) => {
+                            ({ data, error, loading }) => {
 
-                                if (isLoading) return <View><Text>loading</Text></View>
-                                if (error) return <View><Text>error</Text></View>
                                 if (data) {
                                     return (
                                         <View style={styles.userInfoSection}>
@@ -35,17 +35,17 @@ export function DrawerContent(props: any) {
                                                 <TouchableRipple onPress={() => props.navigation.navigate("UserProfile", { id: auth.userID })}>
                                                     <Avatar.Image
                                                         source={{
-                                                            uri: data.photo
+                                                            uri: data.getUserInfoByID.photo
                                                         }}
                                                         size={50}
                                                     />
                                                 </TouchableRipple>
                                                 <View style={{ marginLeft: 15, flexDirection: 'column' }}>
-                                                    <Title style={styles.title}>{data.name}</Title>
+                                                    <Title style={styles.title}>{data.getUserInfoByID.name}</Title>
                                                     <Caption style={styles.caption}>@devx</Caption>
                                                 </View>
                                             </View>
-                                            <View style={styles.row}>
+                                            {/* <View style={styles.row}>
                                                 <View style={styles.section}>
                                                     <Paragraph style={[styles.paragraph, styles.caption]}>65</Paragraph>
                                                     <Paragraph style={styles.caption}>Following</Paragraph>
@@ -54,13 +54,14 @@ export function DrawerContent(props: any) {
                                                     <Paragraph style={[styles.paragraph, styles.caption]}>15</Paragraph>
                                                     <Paragraph style={styles.caption}>Follower</Paragraph>
                                                 </View>
-                                            </View>
+                                            </View> */}
                                         </View>
                                     )
                                 }
+                                return <Text>No Data</Text>
                             }
                         }
-                    </Async>
+                    </Query>
 
                     <Drawer.Section style={styles.drawerSection}>
                         <DrawerItem

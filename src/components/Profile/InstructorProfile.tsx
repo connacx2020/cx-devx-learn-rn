@@ -193,7 +193,7 @@ export const InstructorProfile: React.FC = () => {
                                                         <View style={styles.profile_content}>
                                                             <FlatList
                                                                 testID="flatListID"
-                                                                data={data.getCoursesByAuthorId}
+                                                                data={data.findCoursesByInstructorID}
                                                                 keyExtractor={(item) => item.id}
                                                                 renderItem={({ item, index }) => {
                                                                     return (
@@ -202,7 +202,6 @@ export const InstructorProfile: React.FC = () => {
                                                                             photoUrl={item.photoUrl}
                                                                             title={item.title}
                                                                             rating={item.rating}
-                                                                            enrolled={item.enrolled}
                                                                             price={item.price}
                                                                         />
                                                                     );
