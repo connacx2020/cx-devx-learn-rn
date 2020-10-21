@@ -7,7 +7,8 @@ export {
     addViewSchema,
     getPostByIDSchema,
     getLikedUserSchema,
-    isLikedPostSchema
+    isLikedPostSchema,
+    getPostRelatedUsersSchema
 } from './graphqlSchema/post.graphqlSchema';
 
 export {

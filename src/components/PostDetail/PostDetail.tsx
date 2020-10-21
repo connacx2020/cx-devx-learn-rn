@@ -6,7 +6,7 @@ import { Query } from '@apollo/react-components';
 import { getCheckedUserInfo } from '../../common/ultis/getUserInfo';
 import { Async } from 'react-async';
 import { useTheme } from '@react-navigation/native';
-import { getPostByIDSchema, addLikeSchema, removeLikeSchema, isLikedPostSchema } from '../../common/graphQL';
+import { getPostByIDSchema, addLikeSchema, removeLikeSchema, isLikedPostSchema, getPostRelatedUsersSchema } from '../../common/graphQL';
 import { graphqlClient } from '../../common/graphQL/graphql.config';
 import { from } from 'rxjs';
 import { AuthUserInfo } from '../../common/redux/redux-actions';
@@ -21,12 +21,18 @@ import Markdown from 'react-native-markdown-display';
 
 function CxPostDetail(props: any) {
     const { colors } = useTheme();
+
     let [isLiked, setLike] = useState<Boolean>(false);
     let [isModalVisible, setModalVisible] = useState<Boolean>(false);
-    const [addLike] = useMutation(addLikeSchema, { client: graphqlClient });
-    const [removeLike] = useMutation(removeLikeSchema, { client: graphqlClient });
     const [refreshing, setRefreshing] = React.useState<boolean>(false);
     const [comments, setComment] = React.useState([] as any);
+
+    const [addLike] = useMutation(addLikeSchema, { client: graphqlClient });
+    const [removeLike] = useMutation(removeLikeSchema, { client: graphqlClient });
+
+    const fetchPostLikes = useQuery(getPostRelatedUsersSchema, { variables: { postID: props.postID, option: 'likes' } });
+    const fetchPostViews = useQuery(getPostRelatedUsersSchema, { variables: { postID: props.postID, option: 'views' } });
+
 
 
     const auth: AuthUserInfo = useSelector((state: any) => state.authUserInfo);
@@ -36,12 +42,13 @@ function CxPostDetail(props: any) {
         from(addLike({
             variables: { postID: props.postID, authorID: auth.userID },
             refetchQueries: [
-                { query: isLikedPostSchema, variables: { authorID: auth.userID, postID: props.postID } },
-                { query: getPostByIDSchema, variables: { postID: props.postID } }
+                { query: getPostRelatedUsersSchema, variables: { postID: props.postID, option: 'likes' } },
+                { query: isLikedPostSchema, variables: { postID: props.postID, authorID: auth.userID } },
             ]
         }))
             .subscribe(res => {
                 setLike(true)
+                fetchPostLikes.refetch();
             }, err => {
                 ToastAndroid.showWithGravity(
                     "Cannot Like",
@@ -55,12 +62,13 @@ function CxPostDetail(props: any) {
         from(removeLike({
             variables: { postID: props.postID, authorID: auth.userID },
             refetchQueries: [
-                { query: isLikedPostSchema, variables: { authorID: auth.userID, postID: props.postID } },
-                { query: getPostByIDSchema, variables: { postID: props.postID } }
+                { query: getPostRelatedUsersSchema, variables: { postID: props.postID, option: 'likes' } },
+                { query: isLikedPostSchema, variables: { postID: props.postID, authorID: auth.userID } },
             ]
         }))
             .subscribe(res => {
-                setLike(false)
+                setLike(false);
+                fetchPostLikes.refetch();
             }, err => {
                 ToastAndroid.showWithGravity(
                     "Cannot UnLike",
@@ -80,12 +88,6 @@ function CxPostDetail(props: any) {
                         if (fetchPostByID.error) return <Text>Error</Text>
 
                         if (fetchPostByID.data.searchPostByID !== null) {
-                            // return <Async promise={getCheckedUserInfo(fetchPostByID.data.searchPostByID.authorID)}>
-                            //     {
-                            //         (getUserInfo) => {
-                            //             if (getUserInfo.isLoading) return <View><Text>loading</Text></View>
-                            //             if (getUserInfo.error) return <Text>err</Text>
-
                             return (
                                 <View style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                                     {
@@ -128,7 +130,12 @@ function CxPostDetail(props: any) {
                                     <Divider />
                                     <View style={{ flexDirection: 'row', paddingVertical: 5, justifyContent: 'space-between', paddingHorizontal: 10 }}>
 
-                                        <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostByID.data.searchPostByID.likes} Likes</Text>
+                                        {/* <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostByID.data.searchPostByID.likes} Likes</Text> */}
+
+                                        {
+                                            fetchPostLikes.data &&
+                                            <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostLikes.data.getPostRelatedUsers.users.length} like{fetchPostLikes.data.getPostRelatedUsers.users.length > 1 && 's'} </Text>
+                                        }
 
                                         <EntypoIcon name="dot-single" size={25} />
                                         <>
@@ -179,8 +186,6 @@ function CxPostDetail(props: any) {
                                     </View>
                                 </View>
                             )
-                            //         }}
-                            // </Async>
                         } else {
                             return <Text>This content does not exist</Text>
                         }

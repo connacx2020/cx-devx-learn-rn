@@ -86,8 +86,22 @@ mutation(
 
   }`;
 
+
+export const getPostRelatedUsersSchema = gql`
+    query getPostRelatedUsers($postID: ID!, $option: String!) {
+        getPostRelatedUsers(input: { id: $postID, relation: $option }) {
+            users {
+                id
+                name
+                displayName
+                photo
+            }
+        }
+    }
+`;
+
 export const isLikedPostSchema = gql`
-query($postID: ID!, $authorID: ID!){
+query checkUserLikedpost($postID: ID!, $authorID: ID!){
     checkUserLikedPost(input:{
       postID: $postID,
       authorID: $authorID,
@@ -95,19 +109,13 @@ query($postID: ID!, $authorID: ID!){
 }`;
 
 export const addLikeSchema = gql`
-mutation($postID: ID!, $authorID: ID!){
-  addLike(input:{
-      postID: $postID,
-      authorID: $authorID,
-    })
+mutation likePost($postID: ID!, $authorID: ID!){
+    likePost(input: { postID: $postID, sourceUser: $authorID })
 }`;
 
 export const removeLikeSchema = gql`
-mutation($postID: ID!, $authorID: ID!){
-    removeLike(input:{
-      postID: $postID,
-      authorID: $authorID,
-    })
+mutation unlikePost($postID: ID!, $authorID: ID!){
+    unlikePost(input: { postID: $postID, sourceUser: $authorID })
 }`;
 
 export const getLikedUserSchema = gql`

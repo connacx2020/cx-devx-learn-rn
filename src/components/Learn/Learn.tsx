@@ -31,11 +31,13 @@ function CxDevxLearn({ navigation }: LearnStackNavProps<"Learn">) {
                             if (getSeries.error) return <Text>Error</Text>
 
                             if (getSeries.data) {
-                                return <TouchableOpacity onPress={() => {
-                                    navigation.navigate('CourseSection', { course: getSeries.data.findPostByID.title, postID: getSeries.data.searchPostByID.id, postSeries: [] })
-                                }}>
+                                return <View
+                                //  onPress={() => {
+                                //     navigation.navigate('CourseSection', { course: getSeries.data.findPostByID.title, postID: getSeries.data.searchPostByID.id, postSeries: [] })
+                                // }}
+                                >
                                     <CxPostDetail postID={getSeries.data.searchPostByID.id} />
-                                </TouchableOpacity>
+                                </View>
                             } else {
                                 return <Text>Error</Text>
                             }
