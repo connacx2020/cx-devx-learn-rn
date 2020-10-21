@@ -48,7 +48,7 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
             <Stack.Screen
                 name="Feed"
                 options={{
-                    title: 'Devx Learning',
+                    title: 'devX',
                     headerTitleStyle: {
                         fontSize: 18,
                         fontStyle: 'italic'

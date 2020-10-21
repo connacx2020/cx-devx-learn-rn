@@ -14,7 +14,7 @@ function CxDevxLanding({ navigation }: AuthNavProps<"Login">) {
         <View style={styles.body}>
             <Text style={styles.text}>
                 Welcome From Devx Learning.
-        </Text>
+            </Text>
         </View>
     )
 }
