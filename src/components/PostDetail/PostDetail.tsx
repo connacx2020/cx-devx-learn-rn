@@ -6,7 +6,7 @@ import { Query } from '@apollo/react-components';
 import { getCheckedUserInfo } from '../../common/ultis/getUserInfo';
 import { Async } from 'react-async';
 import { useTheme } from '@react-navigation/native';
-import { getPostByIDSchema, addLikeSchema, removeLikeSchema, isLikedPostSchema, getPostRelatedUsersSchema } from '../../common/graphQL';
+import { getPostByIDSchema, addLikeSchema, removeLikeSchema, isPostLikedSchema, getPostRelatedUsersSchema } from '../../common/graphQL';
 import { graphqlClient } from '../../common/graphQL/graphql.config';
 import { from } from 'rxjs';
 import { AuthUserInfo } from '../../common/redux/redux-actions';
@@ -32,18 +32,15 @@ function CxPostDetail(props: any) {
 
     const fetchPostLikes = useQuery(getPostRelatedUsersSchema, { variables: { postID: props.postID, option: 'likes' } });
     const fetchPostViews = useQuery(getPostRelatedUsersSchema, { variables: { postID: props.postID, option: 'views' } });
-
-
-
     const auth: AuthUserInfo = useSelector((state: any) => state.authUserInfo);
-    const islikedPost = useQuery(isLikedPostSchema, { variables: { authorID: auth.userID, postID: props.postID }, client: graphqlClient, notifyOnNetworkStatusChange: true })
+    const islikedPost = useQuery(isPostLikedSchema, { variables: { userID: auth.userID, postID: props.postID }, client: graphqlClient, notifyOnNetworkStatusChange: true })
 
     const likePressed = () => {
         from(addLike({
-            variables: { postID: props.postID, authorID: auth.userID },
+            variables: { postID: props.postID, userID: auth.userID },
             refetchQueries: [
                 { query: getPostRelatedUsersSchema, variables: { postID: props.postID, option: 'likes' } },
-                { query: isLikedPostSchema, variables: { postID: props.postID, authorID: auth.userID } },
+                { query: isPostLikedSchema, variables: { postID: props.postID, userID: auth.userID } },
             ]
         }))
             .subscribe(res => {
@@ -63,7 +60,7 @@ function CxPostDetail(props: any) {
             variables: { postID: props.postID, authorID: auth.userID },
             refetchQueries: [
                 { query: getPostRelatedUsersSchema, variables: { postID: props.postID, option: 'likes' } },
-                { query: isLikedPostSchema, variables: { postID: props.postID, authorID: auth.userID } },
+                { query: isPostLikedSchema, variables: { postID: props.postID, userID: auth.userID } },
             ]
         }))
             .subscribe(res => {
@@ -147,7 +144,7 @@ function CxPostDetail(props: any) {
                                     <Divider />
 
                                     <View style={styles.footer}>
-                                        <Query<any, any> query={isLikedPostSchema} client={graphqlClient} variables={{ authorID: auth.userID, postID: props.postID }}>
+                                        <Query<any, any> query={isPostLikedSchema} client={graphqlClient} variables={{ authorID: auth.userID, postID: props.postID }}>
                                             {
                                                 (checkIsLikedPost) => {
                                                     if (checkIsLikedPost.error) return <Text>Error</Text>
