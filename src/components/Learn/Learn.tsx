@@ -1,13 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, Text, ScrollView, RefreshControl, TouchableOpacity, ActivityIndicator, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, RefreshControl, ActivityIndicator, Dimensions } from 'react-native';
 import { LearnStackNavProps } from '../../common/ultis/ParamLists/LearnParamList';
 import { useTheme } from '@react-navigation/native';
 import CxPostDetail from '../PostDetail/PostDetail';
 import { useQuery } from '@apollo/react-hooks';
-import { getAllPostsSchema, getPostByIDSchema } from '../../common/graphQL/graphqlSchema/post.graphqlSchema';
-import { graphqlClient } from '../../common/graphQL/graphql.config';
-import { getPostSeriesByIdSchema } from '../../common/graphQL';
-import { Query } from '@apollo/react-components';
+import { getAllPostsSchema } from '../../common/graphQL/graphqlSchema/post.graphqlSchema';
+
 
 function CxDevxLearn({ navigation }: LearnStackNavProps<"Learn">) {
     const { colors } = useTheme();
@@ -20,32 +18,10 @@ function CxDevxLearn({ navigation }: LearnStackNavProps<"Learn">) {
 
     const reorderPost = (postArray: any[]) => {
         return postArray && postArray.map(res =>
-            res.seriesID !== null &&
-            <View key={res.id} style={styles.postCard}>
-                <Query<any, any> query={getPostByIDSchema} variables={{ postID: res.id }}>
-                    {
-                        (getSeries) => {
-
-                            if (getSeries.loading) return <Text>Loading....</Text>
-                            // if (getSeries.error) return <Text>Error{JSON.stringify(getSeries.error)}</Text>
-                            if (getSeries.error) return <Text>Error</Text>
-
-                            if (getSeries.data) {
-                                return <View
-                                //  onPress={() => {
-                                //     navigation.navigate('CourseSection', { course: getSeries.data.findPostByID.title, postID: getSeries.data.searchPostByID.id, postSeries: [] })
-                                // }}
-                                >
-                                    <CxPostDetail postID={getSeries.data.searchPostByID.id} />
-                                </View>
-                            } else {
-                                return <Text>Error</Text>
-                            }
-                        }
-                    }
-
-                </Query>
-            </View>
+            res.seriesID !== null ?
+                <View key={res.id} style={styles.postCard}>
+                    <CxPostDetail postID={res.id} key={res.id} />
+                </View> : null
             // :
             //     <View key={res.id} style={styles.postCard}>
             //         <Query<any, any> query={getPostSeriesByIdSchema} variables={{ seriesID: res.seriesID }} client={graphqlClient}>
@@ -81,13 +57,15 @@ function CxDevxLearn({ navigation }: LearnStackNavProps<"Learn">) {
                 onRefresh={() => { setRefreshing(true); getRandomPosts.refetch().then(res => { setRefreshing(false) }).finally(() => setRefreshing(false)) }}
             />}
         >
+
             {
                 getRandomPosts.loading && <View style={styles.query_info}><ActivityIndicator size="large" /></View>
             }
             {
                 getRandomPosts.error && <View style={styles.query_info}><Text>No Internet Connection!</Text></View>
             }
-            {getRandomPosts.data && reorderPost(getRandomPosts.data.getPostsWithFilters)
+            {
+                getRandomPosts.data && reorderPost(getRandomPosts.data.getPostsWithFilters)
             }
         </ScrollView>
     )

@@ -45,17 +45,17 @@ const PostData_Fragment = {
 };
 
 export const getAllPostsSchema = gql`
-query getAllPosts{
-  getPostsWithFilters{
-  id
-  title
-  seriesID
-}
+query getPostsWithFilters{
+  getPostsWithFilters {
+    id
+    title
+    seriesID
+  }
 }
 `;
 
 export const getPostByIDSchema = gql`
-query searchPostByID($postID:ID!){
+query fetchPostByID($postID:ID!){
   searchPostByID(postID:$postID) {
         ...PostRequestData
   }
@@ -97,17 +97,17 @@ export const getPostRelatedUsersSchema = gql`
 
 export const isPostLikedSchema = gql`
 query isPostLikedByUser($postID: ID!, $authorID: ID!){
-  isPostLikedByUser(postID: $postID, userID: $authorID)
+  isPostLikedByUser(postID: $postID, authorID: $authorID)
 }`;
 
 export const addLikeSchema = gql`
-mutation likePost($postID: ID!, $authorID: ID!){
-    likePost(postID: $postID, userID: $authorID )
+mutation likePost($postID: ID!, $userID: ID!){
+    likePost(postID: $postID, userID: $userID )
 }`;
 
 export const removeLikeSchema = gql`
-mutation unlikePost($postID: ID!, $authorID: ID!){
-    unlikePost(postID: $postID, userID: $authorID )
+mutation unlikePost($postID: ID!, $userID: ID!){
+    unlikePost(postID: $postID, userID: $userID )
 }`;
 
 export const getLikedUserSchema = gql`

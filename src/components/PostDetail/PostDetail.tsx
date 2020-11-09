@@ -3,8 +3,6 @@ import { View, Text, Image, ScrollView, TouchableOpacity, ToastAndroid, RefreshC
 
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { Query } from '@apollo/react-components';
-import { getCheckedUserInfo } from '../../common/ultis/getUserInfo';
-import { Async } from 'react-async';
 import { useTheme } from '@react-navigation/native';
 import { getPostByIDSchema, addLikeSchema, removeLikeSchema, isPostLikedSchema, getPostRelatedUsersSchema } from '../../common/graphQL';
 import { graphqlClient } from '../../common/graphQL/graphql.config';
@@ -22,7 +20,7 @@ import Markdown from 'react-native-markdown-display';
 function CxPostDetail(props: any) {
     const { colors } = useTheme();
 
-    let [isLiked, setLike] = useState<Boolean>(false);
+    let [isLiked, setLike] = useState<boolean>(false);
     let [isModalVisible, setModalVisible] = useState<Boolean>(false);
     const [refreshing, setRefreshing] = React.useState<boolean>(false);
     const [comments, setComment] = React.useState([] as any);
@@ -33,18 +31,19 @@ function CxPostDetail(props: any) {
     const fetchPostLikes = useQuery(getPostRelatedUsersSchema, { variables: { postID: props.postID, option: 'likes' } });
     const fetchPostViews = useQuery(getPostRelatedUsersSchema, { variables: { postID: props.postID, option: 'views' } });
     const auth: AuthUserInfo = useSelector((state: any) => state.authUserInfo);
-    const islikedPost = useQuery(isPostLikedSchema, { variables: { userID: auth.userID, postID: props.postID }, client: graphqlClient, notifyOnNetworkStatusChange: true })
+    const islikedPost = useQuery(isPostLikedSchema, { variables: { authorID: auth.userID, postID: props.postID }, client: graphqlClient, notifyOnNetworkStatusChange: true })
 
     const likePressed = () => {
         from(addLike({
             variables: { postID: props.postID, userID: auth.userID },
             refetchQueries: [
                 { query: getPostRelatedUsersSchema, variables: { postID: props.postID, option: 'likes' } },
-                { query: isPostLikedSchema, variables: { postID: props.postID, userID: auth.userID } },
+                { query: isPostLikedSchema, variables: { postID: props.postID, authorID: auth.userID } },
             ]
         }))
             .subscribe(res => {
                 setLike(true)
+                console.log("IsLiked?:", isLiked);
                 fetchPostLikes.refetch();
             }, err => {
                 ToastAndroid.showWithGravity(
@@ -57,10 +56,10 @@ function CxPostDetail(props: any) {
 
     const unlikePressed = () => {
         from(removeLike({
-            variables: { postID: props.postID, authorID: auth.userID },
+            variables: { postID: props.postID, userID: auth.userID },
             refetchQueries: [
                 { query: getPostRelatedUsersSchema, variables: { postID: props.postID, option: 'likes' } },
-                { query: isPostLikedSchema, variables: { postID: props.postID, userID: auth.userID } },
+                { query: isPostLikedSchema, variables: { postID: props.postID, authorID: auth.userID } },
             ]
         }))
             .subscribe(res => {
@@ -131,14 +130,14 @@ function CxPostDetail(props: any) {
 
                                         {
                                             fetchPostLikes.data &&
-                                            <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostLikes.data.getPostRelatedUsers.users.length} like{fetchPostLikes.data.getPostRelatedUsers.users.length > 1 && 's'} </Text>
+                                            <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostLikes.data && fetchPostLikes.data.getPostRelatedUsers.users.length} like{fetchPostLikes.data.getPostRelatedUsers.users.length > 1 && 's'} </Text>
                                         }
 
                                         <EntypoIcon name="dot-single" size={25} />
                                         <>
-                                            <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostByID.data.searchPostByID.comments.length} Comments</Text>
+                                            <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostByID.data && fetchPostByID.data.searchPostByID.comments.length} Comments</Text>
                                             <EntypoIcon name="dot-single" size={25} />
-                                            <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostByID.data.searchPostByID.views}Views</Text>
+                                            <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostViews.data && fetchPostViews.data.getPostRelatedUsers.users.length} Views</Text>
                                         </>
                                     </View>
                                     <Divider />
@@ -152,7 +151,7 @@ function CxPostDetail(props: any) {
 
                                                     if (checkIsLikedPost.data) {
                                                         checkIsLikedPost.data.checkUserLikedPost ? setLike(true) : setLike(false)
-                                                        return isLiked ? <TouchableOpacity onPress={() => { unlikePressed() }}>
+                                                        return islikedPost.data.isPostLikedByUser ? <TouchableOpacity onPress={() => { unlikePressed() }}>
                                                             <AntIcon
                                                                 name="like1"
                                                                 size={25}
