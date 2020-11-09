@@ -3,22 +3,19 @@ import { ScrollView, TouchableOpacity, Text, Dimensions, ToastAndroid, RefreshCo
 import { useFocusEffect } from '@react-navigation/native';
 
 import { styles } from './styles';
-import { getCoursesSchema, getPostSeriesByIdSchema } from '../../common/graphQL';
+import { getCoursesSchema } from '../../common/graphQL';
 
 import { Course } from '../../models/course.model';
 import { Query } from '@apollo/react-components';
 import { useSelector } from 'react-redux'
 
 import { CxDevxCourseItem } from '../course/CourseItem/CourseItem';
-import { CxDevxEntrolledCourseItem } from '../course/CourseItem/EnrolledCourseItem'
 
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { View } from 'react-native-animatable';
 
 import { ActivityIndicator } from 'react-native';
 import { AuthUserInfo } from '../../common/redux/redux-actions';
-import { reach } from 'yup';
-
 
 function CxDevxFeed({ navigation }: any) {
     const { colors } = useTheme();
@@ -33,8 +30,8 @@ function CxDevxFeed({ navigation }: any) {
         parent?.setOptions({ tabBarVisible: true });
     })
 
-    const routeToCourseDetail = (id: string, authourId: string, img: string, title: string) => {
-        navigation.navigate("CourseDetail", { id, authourId, image: img, title: title });
+    const routeToCourseDetail = (id: string, img: string, title: string, author: Record<string, any>) => {
+        navigation.navigate("CourseDetail", { id, author, image: img, title: title });
     }
     const routeToEnrolledCourseSection = (title: string, postID: string, postSeries: string) => {
         navigation.navigate('CourseSection', { course: title, postID, postSeries })
@@ -114,17 +111,17 @@ function CxDevxFeed({ navigation }: any) {
                                     <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
 
                                         {
-                                            data.getAllCourses && data.getAllCourses.map((res: Course) =>
+                                            data.getAllCourses && data.getAllCourses.map((res: any) =>
                                                 <CxDevxCourseItem
                                                     key={res.id}
-                                                    authorID={res.authorID}
+                                                    author={res.author}
                                                     id={res.id}
                                                     price={res.price}
                                                     img={res.photoUrl}
                                                     title={res.title}
                                                     rating={res.rating}
                                                     description={res.description}
-                                                    enrolled={res.enrolled}
+                                                    enrolls={res.courseRelatedData.enrolls}
                                                     routeToCourseDetail={routeToCourseDetail}
                                                 />
                                             )
@@ -141,17 +138,17 @@ function CxDevxFeed({ navigation }: any) {
                                     <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
 
                                         {
-                                            data.getAllCourses && data.getAllCourses.reverse().map((res: Course) =>
+                                            data.getAllCourses && data.getAllCourses.reverse().map((res: any) =>
                                                 <CxDevxCourseItem
                                                     key={res.id}
-                                                    authorID={res.authorID}
+                                                    author={res.author}
                                                     id={res.id}
                                                     price={res.price}
                                                     img={res.photoUrl}
                                                     title={res.title}
                                                     rating={res.rating}
                                                     description={res.description}
-                                                    enrolled={res.enrolled}
+                                                    enrolls={res.courseRelatedData.enrolls}
                                                     routeToCourseDetail={routeToCourseDetail}
                                                 />
                                             )

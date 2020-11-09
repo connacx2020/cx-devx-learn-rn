@@ -5,6 +5,12 @@ const CourseInfoFragment = {
     fragment CourseData on CourseType {
         id
         authorID
+        author{
+            id
+            name
+            displayName
+            photo
+        }
         title
         rating
         photoUrl
@@ -14,6 +20,15 @@ const CourseInfoFragment = {
         prerequisites
         outcomes
         seriesID
+        courseRelatedData{
+            enrolls
+            topicIDs
+            topics{
+              title
+              id
+              logo
+            }
+          }
     }
     `,
 };

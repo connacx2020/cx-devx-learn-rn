@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 const topic_Fragment = {
-    topic: gql`
+  topic: gql`
     fragment TopicQuery on TopicType {
         id
         title
@@ -92,10 +92,10 @@ ${topic_Fragment.topic}
 
 export const isLikedTopicSchema = gql`
   query($userID: ID!, $topicID: ID!) {
-    isLikedTopic(input:{
+    isTopicLikedByUser(
         userID: $userID,
         topicID: $topicID
-    })
+    )
   }
 `;
 
@@ -119,7 +119,7 @@ mutation ($userID: ID!, $topicID: ID!){
 
 export const getRootTopicsSchema = gql`
 query getAllRootTopics {
-  getAllRootTopics{
+  getRootTopics{
     topics{
       title
       logo

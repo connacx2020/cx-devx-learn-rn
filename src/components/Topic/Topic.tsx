@@ -153,7 +153,7 @@ function CxDevxTopic() {
                             // return getRootTopics.data.getAllRootTopics.map((res: string) => getTopicDetail(res))
                             return (
                                 <FlatList
-                                    data={formatData(getRootTopics.data.getAllRootTopics.topics, numColumns)}
+                                    data={formatData(getRootTopics.data.getRootTopics.topics, numColumns)}
                                     renderItem={renderCardItem}
                                     keyExtractor={(index) => index.toString()}
                                     numColumns={numColumns}
