@@ -91,7 +91,7 @@ ${topic_Fragment.topic}
 `;
 
 export const isLikedTopicSchema = gql`
-  query($userID: ID!, $topicID: ID!) {
+  query isTopicLikedByUser($userID: ID!, $topicID: ID!) {
     isTopicLikedByUser(
         userID: $userID,
         topicID: $topicID
@@ -100,20 +100,14 @@ export const isLikedTopicSchema = gql`
 `;
 
 export const likeTopicSchema = gql`
-mutation($userID: ID!, $topicID: ID!){
-  likeTopic(input:{
-      userID: $userID,
-      topicID: $topicID
-  })
+mutation($userID: ID!, $topicID: ID!) {
+  likeTopic(userID: $userID, topicID: $topicID)
 }
 `;
 
 export const unlikeTopicSchema = gql`
-mutation ($userID: ID!, $topicID: ID!){
-  unlikeTopic(input:{
-      userID: $userID,
-      topicID: $topicID
-  })
+mutation ($userID: ID!, $topicID: ID!) {
+  unlikeTopic(userID: $userID, topicID: $topicID)
 }
 `;
 
@@ -132,15 +126,15 @@ query getAllRootTopics {
 `;
 
 export const getChildTopicsSchema = gql`
-query getChildTopics($topicID:ID!){
-    getAllChildTopics(topicID:$topicID){
-        topics{
-          title
-          logo
-          id
-          description
-          parentTopic
-        }
-      }
+query getChildTopics($parentTopicID:ID!) {
+  getChildTopics(topicID:$parentTopicID) {
+    topics{
+      title
+      logo
+      id
+      description
+      parentTopic
+    }
+  }
 }
 `;

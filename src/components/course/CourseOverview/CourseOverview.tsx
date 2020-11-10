@@ -12,8 +12,9 @@ import { styles } from './style';
 import { Course } from '../../../models';
 import { Query } from '@apollo/react-components';
 import { getUserInfoByIdSchema } from '../../../common/graphQL';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-function CxDevxCourseOverview(props: Course) {
+function CxDevxCourseOverview(props: any) {
     const navigation = useNavigation();
     const paperTheme = PaperTheme();
     const { colors } = useTheme();
@@ -75,29 +76,24 @@ function CxDevxCourseOverview(props: Course) {
                 </View>
             </View>
 
+
             <View style={[styles.user_overview, { backgroundColor: colors.background }]}>
-                <View style={styles.user_container}>
-                    <Query<any, any> query={getUserInfoByIdSchema} variables={{ userID: props.authorID }}>
-                        {
-                            ({ data, error, loading }) => {
-
-                                if (loading) return <View><Text>loading</Text></View>
-                                if (error) return <View><Text>err</Text></View>
-
-                                if (data) {
-                                    return (<React.Fragment>
-                                        <View style={{ flexDirection: 'column', flex: 1 }}>
-                                            <Text style={[styles.course_info_text, { color: colors.text, marginBottom: 10 }]}>Instructor</Text>
-                                            <View style={{ flexDirection: 'row', justifyContent: "space-between" }}>
-                                                <TouchableRipple style={styles.user_avatar_field} onPress={() => navigation.navigate('InstructorProfile', { authorID: props.authorID })}>
-                                                    <Image style={styles.user_avatar} source={{
-                                                        uri: data.getUserInfoByID.photo
-                                                    }} />
-                                                </TouchableRipple>
-                                                <View style={styles.user_name_email_field}>
-                                                    <Text style={[styles.user_name_txt, { color: colors.text }]}>{data.getUserInfoByID.name}</Text>
-                                                    {/* <View style={styles.row}> */}
-                                                    {/* <View style={styles.section}>
+                <TouchableOpacity onPress={() => navigation.navigate('InstructorProfile', { authorID: props.authorID })}>
+                    <View style={styles.user_container}>
+                        {/* <Text>{JSON.stringify(props.author, null, 2)}</Text> */}
+                        <React.Fragment>
+                            <View style={{ flexDirection: 'column', flex: 1 }}>
+                                <Text style={[styles.course_info_text, { color: colors.text, marginBottom: 10 }]}>Instructor</Text>
+                                <View style={{ flexDirection: 'row', justifyContent: "space-between" }}>
+                                    <TouchableRipple style={styles.user_avatar_field} onPress={() => navigation.navigate('InstructorProfile', { authorID: props.authorID })}>
+                                        <Image style={styles.user_avatar} source={{
+                                            uri: props.author.photo
+                                        }} />
+                                    </TouchableRipple>
+                                    <View style={styles.user_name_email_field}>
+                                        <Text style={[styles.user_name_txt, { color: colors.text }]}>{props.author.name}</Text>
+                                        {/* <View style={styles.row}> */}
+                                        {/* <View style={styles.section}>
                                                             <Paragraph style={[styles.paragraph, styles.caption]}>65</Paragraph>
                                                             <Paragraph style={styles.caption}>Follower</Paragraph>
                                                         </View>
@@ -105,19 +101,13 @@ function CxDevxCourseOverview(props: Course) {
                                                             <Paragraph style={[styles.paragraph, styles.caption]}>15</Paragraph>
                                                             <Paragraph style={styles.caption}>Course</Paragraph>
                                                         </View> */}
-                                                    {/* </View> */}
-                                                </View>
-                                            </View>
-                                        </View>
-                                    </React.Fragment>
-                                    )
-                                }
-                                return <Text>Error</Text>
-                            }
-                        }
-                    </Query>
-                </View>
-
+                                        {/* </View> */}
+                                    </View>
+                                </View>
+                            </View>
+                        </React.Fragment>
+                    </View>
+                </TouchableOpacity>
             </View>
 
             <View style={[styles.content_overiew, , { backgroundColor: colors.background }]}>

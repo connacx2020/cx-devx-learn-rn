@@ -4,22 +4,22 @@ import { TopicParamList } from "../common/ultis/ParamLists/TopicParamList";
 import Topic from '../components/Topic/Topic';
 import CxDevxChildTopic from "../components/Topic/ChildTopics";
 
-interface HomeStackProps {}
+interface HomeStackProps { }
 
 const Stack = createStackNavigator<TopicParamList>();
 
 
- const TopicStack: React.FC<HomeStackProps> = ({}) => {
+const TopicStack: React.FC<HomeStackProps> = ({ }) => {
   return (
     <Stack.Navigator initialRouteName="Topics">
       <Stack.Screen
         name="Topics"
-        options={{headerShown: true}}
+        options={{ headerShown: true }}
         component={Topic}
       />
       <Stack.Screen
-        name="Child Topics"
-        options={{headerShown: true}}
+        name="ChildTopics"
+        options={{ headerShown: true }}
         component={CxDevxChildTopic}
       />
     </Stack.Navigator>
