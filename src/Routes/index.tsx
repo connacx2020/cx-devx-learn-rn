@@ -7,8 +7,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { AuthContext } from "../Providers/AuthProvider";
 import AuthStack from "../Stacks/AuthStack";
 import { AppDrawer } from '../Drawers';
-import { getCheckedUserInfo } from "../common/ultis/getUserInfo";
-import { store, saveUserInfo } from "../common/redux";
+import { store } from "../common/redux";
 import { saveAuthUserInfo } from "../common/redux/redux-actions";
 
 

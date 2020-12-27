@@ -30,7 +30,7 @@ function CxDevxLogin({
     return (
         <View style={styles.body}>
             <View style={styles.brandField}>
-                <Text style={styles.brandText} testID="loginPageBrand">Devx Learning</Text>
+                <Text style={styles.brandText} testID="loginPageBrand">DevX</Text>
             </View>
             <Formik
                 validationSchema={LoginSchema}

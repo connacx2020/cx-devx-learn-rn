@@ -1,10 +1,10 @@
 import { HttpLink, InMemoryCache, ApolloClient, ApolloLink } from 'apollo-boost';
 // @ts-ignore
-import { CX_DEVX_API_GATEWAY_URL, CX_DEVX_API_GATEWAY_PORT, CX_DEVX_CDN_PORT } from 'react-native-dotenv';
+import { CX_DEVX_API_GATEWAY_URL, CX_DEVX_CDN_PORT } from 'react-native-dotenv';
 import { createUploadLink } from 'apollo-upload-client';
 
 const gatewayClient = new HttpLink({
-    uri: `http://${CX_DEVX_API_GATEWAY_URL}:${CX_DEVX_API_GATEWAY_PORT}/graphql`
+    uri: `https://devx.connacx.com/gateway`
 });
 
 const cxDevxCdnLink = createUploadLink({

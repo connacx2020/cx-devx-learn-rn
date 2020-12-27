@@ -44,8 +44,14 @@ export const AppTabs: React.FC<{}> = ({ }) => {
                 }}
             />
             {/* <Tabs.Screen name="Mentor" component={MentorStack} /> */}
-            <Tabs.Screen name="Learn" component={LearnStack} />
-            <Tabs.Screen name="Topic" component={TopicStack} />
+            <Tabs.Screen name="Learn" component={LearnStack}
+                options={{
+                    tabBarVisible: true
+                }} />
+            <Tabs.Screen name="Topic" component={TopicStack}
+                options={{
+                    tabBarVisible: true
+                }} />
 
         </Tabs.Navigator>
     );

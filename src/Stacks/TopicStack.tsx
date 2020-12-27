@@ -14,12 +14,21 @@ const TopicStack: React.FC<HomeStackProps> = ({ }) => {
     <Stack.Navigator initialRouteName="Topics">
       <Stack.Screen
         name="Topics"
-        options={{ headerShown: true }}
+        options={{
+          title: 'Topics',
+          headerTitleStyle: {
+            fontSize: 25
+          }
+        }}
         component={Topic}
       />
       <Stack.Screen
         name="ChildTopics"
-        options={{ headerShown: true }}
+        options={{
+          headerShown: true, headerTitleStyle: {
+            fontSize: 25
+          }
+        }}
         component={CxDevxChildTopic}
       />
     </Stack.Navigator>
