@@ -1,54 +1,54 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 
 export const styles = StyleSheet.create({
-    body:{
-        flex:1,
-        flexDirection:'row',
-        flexWrap:'wrap',
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        margin: 5
     },
-    topic_card:{
-        // flex:1,
-        margin:10,
-        flexDirection:'column',
-        backgroundColor:'white',
-        elevation:3,
-        borderRadius:5
+    topic_card: {
+        margin:5,
+        flex: 1,
+        flexDirection: 'column',
+        elevation: 5,
+        borderRadius: 3
     },
-    topic_card_header:{
-        height:100,
-        flexGrow:3,
-        position:"relative",
-        justifyContent:'center',
-        alignItems:'center',
+    topic_card_header: {
+        height: 100,
+        flexGrow: 3,
+        position: 'relative',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    img:{
-        width:80,
-        height:80,
-        resizeMode: 'contain',
+    img: {
+        width: '100%',
+        height: '100%',
+        resizeMode:'cover',
     },
-    heard_icon:{
-        marginVertical:5,
-       justifyContent:'center',
-       alignItems:'center',
-       borderWidth:1,
-       borderRadius:10,
-       borderColor:'#7C7879',
-       padding:6
+    heard_icon: {
+        marginVertical: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: '#7C7879',
+        paddingHorizontal: 8,
+        paddingVertical: 5
     },
-    topic_card_footer:{
-        top:-10,
-        justifyContent:'center',
-        alignItems:'center',
+    topic_card_footer: {
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    topic_card_title_txt:{
-        fontSize:17,
-        fontWeight:'bold'
+    topic_card_title_txt: {
+        fontSize: 15,
+        padding: 2,
+        fontWeight: 'bold'
     },
-    topic_card_desc_txt:{
-        fontStyle:'italic',
-        fontSize:13,
-        padding:3,
-        textAlign:'center'
+    topic_card_desc_txt: {
+        fontStyle: 'italic',
+        fontSize: 12,
+        padding: 2,
+        textAlign: 'center'
     }
 })

@@ -5,6 +5,7 @@ import { Query } from '@apollo/react-components';
 import { styles } from './style';
 import CxTopicCard from './TopicCard';
 import { AuthContext } from "../../Providers/AuthProvider";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 function CxDevxTopic() {
     const ScreenWidth = Dimensions.get('window').width;
@@ -27,14 +28,14 @@ function CxDevxTopic() {
             <View
                 style={[
                     styles.topic_card,
-                    { backgroundColor: 'transparent', elevation: 0, width: (ScreenWidth / numColumns) - 20, height: (ScreenWidth / numColumns) + 5 },
+                    { backgroundColor: 'transparent', elevation: 0, height: (ScreenWidth / numColumns) + 5 },
                 ]}
             /> :
             <CxTopicCard topic={topicInfo.item} />
     }
 
     return (
-        <ScrollView style={styles.body}>
+        <SafeAreaView style={styles.container}>
             <Query<any, any> query={getRootTopicsSchema}>
                 {
                     (getRootTopics) => {
@@ -63,7 +64,7 @@ function CxDevxTopic() {
                     }
                 }
             </Query>
-        </ScrollView>
+        </SafeAreaView>
     );
 }
 export default CxDevxTopic;

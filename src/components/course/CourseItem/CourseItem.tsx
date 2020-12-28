@@ -8,7 +8,7 @@ export const CxDevxCourseItem: React.FC<any> = ({ id, price, enrolls, img, title
     const { colors } = useTheme();
 
     return (
-        <View style={[styles.container, { backgroundColor: colors.background }]}>
+        <View style={[styles.container, { backgroundColor: colors.card }]}>
             <View style={styles.content}>
                 <TouchableOpacity onPress={() => routeToCourseDetail(id)}>
                     {
