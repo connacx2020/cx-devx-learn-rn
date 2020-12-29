@@ -1,39 +1,37 @@
 import React, { useState } from 'react';
 import { View, FlatList } from 'react-native';
-import { Searchbar, List } from 'react-native-paper';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Searchbar } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useLazyQuery } from '@apollo/react-hooks';
-import { searchCourseByTitle } from '../../common/graphQL';
+import { searchCourseByTitle, searchPostsByTextSchema, searchTopicsByTextSchema } from '../../common/graphQL';
+import { SearchItemCoverLeft } from '../SearchResultItem/CoverLeftItem';
 
-const DevxSearch: React.FC = () => {
+const DevxSearch: React.FC = (props: any) => {
+    const { searchFor } = props.route.params;
     const [searchedResultData, setSearchedData] = useState([]);
-    const [fetchSearch, searchResult] = useLazyQuery(searchCourseByTitle, { variables: { courseTitle: '' }, onCompleted: data => { setSearchedData(data.findCourseByTitle.map((res: any) => res)) } });
+    const [searchCourses, resultCourses] = useLazyQuery(searchCourseByTitle, { variables: { courseTitle: '' }, onCompleted: data => { setSearchedData(data.findCourseByTitle.map((res: any) => res)) } });
+    const [searchTopics, resultTopics] = useLazyQuery(searchTopicsByTextSchema, { variables: { text: '' }, onCompleted: data => { setSearchedData(data.searchTopicsByText.map((res: any) => res)) } });
+    const [searchPosts, resultPosts] = useLazyQuery(searchPostsByTextSchema, { variables: { text: '' }, onCompleted: data => { setSearchedData(data.searchPostsByText.map((res: any) => res)) } });
+
     const [searchText, setSearchText] = useState<string>('');
     const navigation = useNavigation();
 
-
     const updateSearch = (value: string) => {
-        fetchSearch({ variables: { courseTitle: value } })
         setSearchText(value);
-        if (searchResult.data) {
-            // console.log(searchResult.data)
-            // let result = searchResult.data.findCourseWithTitle.map((res: any)=>res.title)
-            // console.log(result)
-            // setSearchedData(result)
-
-            // searchedData.filter((item: any) => {
-            //     return item.includes(value);
-            // }).map((item) => {
-            //     return item
-            // });
-            // setSearchedData(searchedData);
+        const cases: any = {
+            'post': () => {
+                searchPosts({ variables: { text: value } });
+            },
+            'course': () => {
+                searchCourses({ variables: { courseTitle: value } });
+            },
+            'topic': () => {
+                searchTopics({ variables: { text: value } });
+            }
         }
-        else {
-            console.log(searchResult.error)
+        if (cases[searchFor]) {
+            cases[searchFor]();
         }
-
-
     }
 
     return (
@@ -49,13 +47,15 @@ const DevxSearch: React.FC = () => {
                 data={searchedResultData}
                 keyExtractor={(item: any) => item.id}
                 renderItem={({ item }) =>
-                    (
-                        <TouchableOpacity onPress={() => navigation.navigate('SearchResult', { searchValue: item.title, searchData: searchedResultData })}>
-                            <List.Item
-                                title={item.title}
-                            />
-                        </TouchableOpacity>
-                    )
+                    <SearchItemCoverLeft
+                        searchFor={searchFor}
+                        searchResult={item}
+                    />
+                    // <TouchableOpacity onPress={() => navigation.navigate('SearchResult', { searchValue: item.title, searchData: searchedResultData })}>
+                    //     <List.Item
+                    //         title={item.title}
+                    //     />
+                    // </TouchableOpacity>
                 }
             />
         </View>

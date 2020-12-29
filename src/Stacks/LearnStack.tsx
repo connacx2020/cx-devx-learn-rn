@@ -47,7 +47,7 @@ const LearnStack: React.FC<LearnStackProps> = ({ }) => {
                         return (
                             !isShowSearch ?
                                 (
-                                    <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Search', {searchFor: 'course'})}>
                                         <Icon style={searchStyles.barsIcon} name="search" size={20} color={isDarkTheme ? '#fff' : "#333"} />
                                     </TouchableOpacity>
                                 ) :

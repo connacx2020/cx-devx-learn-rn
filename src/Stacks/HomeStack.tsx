@@ -54,7 +54,7 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
                         return (
                             !isShowSearch ?
                                 (
-                                    <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Search', {searchFor: 'post'})}>
                                         <Icon style={searchStyles.barsIcon} name="search" size={20} color={isDarkTheme ? '#fff' : "#333"} />
                                     </TouchableOpacity>
                                 ) :
@@ -64,7 +64,7 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
                                         placeholder="Search"
                                         onChangeText={(value) => { setSearchValue(value); console.log(searchValue); }}
                                         value={searchValue}
-                                        style={{ width: screenWidth - 80, marginRight: 20, elevation: 1 }}
+                                        style={{ elevation: 1 }}
                                     />
                                 )
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -6,8 +6,6 @@ import {
     ScrollView,
     TouchableOpacity,
     ToastAndroid,
-    RefreshControl,
-    SafeAreaView
 } from 'react-native';
 import {
     getPostByIDSchema,
@@ -17,7 +15,6 @@ import {
     getPostRelatedUsersSchema
 } from '../../common/graphQL';
 import { useMutation, useQuery } from '@apollo/react-hooks';
-import { Query } from '@apollo/react-components';
 import { useTheme } from '@react-navigation/native';
 import { graphqlClient } from '../../common/graphQL/graphql.config';
 import { from } from 'rxjs';
@@ -34,11 +31,9 @@ import { styles } from './styles';
 function CxPostDetail(props: any) {
     const { colors } = useTheme();
     const { postData } = props;
-    console.log(postData.id);
     let [isLiked, setLike] = useState<boolean>(false);
     let [isModalVisible, setModalVisible] = useState<Boolean>(false);
     const [comments, setComment] = React.useState([] as any);
-    const [post, setPost] = React.useState(postData);
     const [addLike] = useMutation(addLikeSchema, { client: graphqlClient });
     const [removeLike] = useMutation(removeLikeSchema, { client: graphqlClient });
     const fetchPostLikes = useQuery(getPostRelatedUsersSchema, { variables: { postID: props.postID, option: 'likes' } });
