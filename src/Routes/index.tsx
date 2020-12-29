@@ -24,8 +24,8 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
         colors: {
           ...NavigationDefaultTheme.colors,
           ...PaperDefaultTheme.colors,
-          background: '#ffffff',
-          text: '#333333',
+          background: '#DCDEDF',
+          text: '#000000',
           navbar:'#333'
         }
       }
@@ -36,7 +36,7 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
         colors: {
           ...NavigationDarkTheme.colors,
           ...PaperDarkTheme.colors,
-          background: '#333333',
+          background: '#686868',
           text: '#ffffff',
           navbar:'#000'
         }

@@ -1,6 +1,13 @@
 import React from 'react';
-import { StyleSheet, View, Text, ScrollView, RefreshControl, ActivityIndicator, Dimensions } from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import {
+    StyleSheet,
+    View,
+    Text,
+    ScrollView,
+    RefreshControl,
+    ActivityIndicator,
+    Dimensions
+} from 'react-native';
 import CxPostDetail from '../PostDetail/PostDetail';
 import { useQuery } from '@apollo/react-hooks';
 import { getAllPostsSchema } from '../../common/graphQL/graphqlSchema/post.graphqlSchema';
@@ -8,7 +15,6 @@ import { HomeStackNavProps } from '../../common/ultis/ParamLists/HomeParamList';
 
 
 function CxDevXFeed({ navigation }: HomeStackNavProps<"Feed">) {
-    const { colors } = useTheme();
     const [refreshing, setRefreshing] = React.useState<boolean>(false);
     const getRandomPosts = useQuery(getAllPostsSchema, { notifyOnNetworkStatusChange: true });
 
@@ -19,9 +25,8 @@ function CxDevXFeed({ navigation }: HomeStackNavProps<"Feed">) {
     const reorderPost = (postArray: any[]) => {
         return postArray && postArray.map(res =>
             res.seriesID !== null ?
-                <View key={res.id} style={styles.postCard}>
-                    <CxPostDetail postID={res.id} key={res.id} />
-                </View> : null
+                <CxPostDetail postID={res.id} key={res.id} postData={res} />
+                : null
             // :
             //     <View key={res.id} style={styles.postCard}>
             //         <Query<any, any> query={getPostSeriesByIdSchema} variables={{ seriesID: res.seriesID }} client={graphqlClient}>
@@ -51,7 +56,7 @@ function CxDevXFeed({ navigation }: HomeStackNavProps<"Feed">) {
     }
 
     return (
-        <ScrollView style={{ flex: 1, padding: 5 }}
+        <ScrollView style={{ flex: 1, }}
             refreshControl={<RefreshControl
                 refreshing={refreshing}
                 onRefresh={() => { setRefreshing(true); getRandomPosts.refetch().then(res => { setRefreshing(false) }).finally(() => setRefreshing(false)) }}
@@ -80,10 +85,9 @@ const styles = StyleSheet.create({
     },
     postCard: {
         elevation: 5,
-        borderWidth: 0.3,
+        borderRadius: 8,
         marginBottom: 10,
         shadowOpacity: 0.25,
-        shadowColor: '#333'
     }
 });
 

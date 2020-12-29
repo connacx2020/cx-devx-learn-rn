@@ -1,21 +1,35 @@
 import React, { useState } from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity, ToastAndroid, RefreshControl, Dimensions } from 'react-native';
-
+import {
+    View,
+    Text,
+    Image,
+    ScrollView,
+    TouchableOpacity,
+    ToastAndroid,
+    RefreshControl,
+    SafeAreaView
+} from 'react-native';
+import {
+    getPostByIDSchema,
+    addLikeSchema,
+    removeLikeSchema,
+    isPostLikedSchema,
+    getPostRelatedUsersSchema
+} from '../../common/graphQL';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { Query } from '@apollo/react-components';
 import { useTheme } from '@react-navigation/native';
-import { getPostByIDSchema, addLikeSchema, removeLikeSchema, isPostLikedSchema, getPostRelatedUsersSchema } from '../../common/graphQL';
 import { graphqlClient } from '../../common/graphQL/graphql.config';
 import { from } from 'rxjs';
 import { AuthUserInfo } from '../../common/redux/redux-actions';
 import { useSelector } from 'react-redux';
 import { CxDevxCommentModal } from '../CommentModalBox';
-import { styles } from '../course/CourseSection/style';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import { Divider } from 'react-native-paper';
 import Markdown from 'react-native-markdown-display';
+import { styles } from './styles';
 
 function CxPostDetail(props: any) {
     const { colors } = useTheme();
@@ -75,7 +89,7 @@ function CxPostDetail(props: any) {
     }
 
     return (
-        <View style={[styles.container, { backgroundColor: colors.background }]}>
+        <View style={[styles.container, { backgroundColor: colors.card }]}>
 
             <Query<any, any> query={getPostByIDSchema} variables={{ postID: props.postID }}>
                 {
@@ -98,8 +112,8 @@ function CxPostDetail(props: any) {
                                                     fetchPostByID.refetch().then(res => { setRefreshing(false) });
                                                 }}
                                             />}
-                                        style={{ backgroundColor: colors.background }}>
-                                        <View style={{ flexDirection: 'row', borderBottomColor: 'black', borderBottomWidth: 0.5, paddingBottom: 5, marginTop: 5 }}>
+                                        style={{ backgroundColor: colors.card }}>
+                                        <View style={{ flexDirection: 'row', borderBottomColor: colors.border, borderBottomWidth: 0.5, paddingBottom: 5, marginTop: 5 }}>
 
                                             <Image style={{ width: 60, height: 60, marginHorizontal: 10, borderRadius: 100, }}
                                                 source={{
@@ -116,7 +130,40 @@ function CxPostDetail(props: any) {
 
                                         <View style={styles.content}>
                                             {/* <HTML html={fetchPostByID.data.searchPostByID.content} imagesMaxWidth={Dimensions.get('window').width} /> */}
-                                            <Markdown>
+                                            {
+                                                fetchPostByID.data.searchPostByID.title ?
+                                                    <View style={styles.titleContainer}>
+                                                        <Text style={[styles.titleText, { color: colors.text }]}>
+                                                            {fetchPostByID.data.searchPostByID.title}
+                                                        </Text>
+                                                    </View> : null
+                                            }
+                                            <Markdown style={{
+                                                body: { color: colors.text },
+                                                hr: { backgroundColor: colors.background },
+                                                blockquote: { backgroundColor: colors.background },
+                                                code_inline: {
+                                                    backgroundColor: colors.background,
+                                                    borderColor: colors.border,
+                                                },
+                                                code_block: {
+                                                    backgroundColor: colors.background,
+                                                    borderColor: colors.border,
+                                                },
+                                                fence: {
+                                                    backgroundColor: colors.background,
+                                                    borderColor: colors.border,
+                                                },
+                                                table: {
+                                                    borderColor: colors.border,
+                                                },
+                                                tr: {
+                                                    borderColor: colors.border
+                                                },
+                                                blockLink: {
+                                                    borderColor: colors.border
+                                                },
+                                            }}>
                                                 {fetchPostByID.data.searchPostByID.content}
                                             </Markdown>
                                         </View>
