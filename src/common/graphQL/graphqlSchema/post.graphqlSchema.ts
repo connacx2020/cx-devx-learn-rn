@@ -47,11 +47,10 @@ const PostData_Fragment = {
 export const getAllPostsSchema = gql`
 query getPostsWithFilters{
   getPostsWithFilters {
-    id
-    title
-    seriesID
+    ...PostRequestData
   }
 }
+${PostData_Fragment.postResult}
 `;
 
 export const getPostByIDSchema = gql`
