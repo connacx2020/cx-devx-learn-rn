@@ -18,7 +18,6 @@ function CxDevXFeed({ navigation }: HomeStackNavProps<"Feed">) {
     const [refreshing, setRefreshing] = React.useState<boolean>(false);
     const getRandomPosts = useQuery(getAllPostsSchema, { notifyOnNetworkStatusChange: true });
 
-
     React.useEffect(() => {
     }, [getRandomPosts,])
 
@@ -27,31 +26,6 @@ function CxDevXFeed({ navigation }: HomeStackNavProps<"Feed">) {
             res.seriesID !== null ?
                 <CxPostDetail postID={res.id} key={res.id} postData={res} />
                 : null
-            // :
-            //     <View key={res.id} style={styles.postCard}>
-            //         <Query<any, any> query={getPostSeriesByIdSchema} variables={{ seriesID: res.seriesID }} client={graphqlClient}>
-            //             {
-            //                 (getSeries) => {
-
-            //                     if (getSeries.loading) return <Text>Loading....</Text>
-            //                     // if (getSeries.error) return <Text>Error{JSON.stringify(getSeries.error)}</Text>
-            //                     if (getSeries.error) return <Text>Error</Text>
-
-            //                     if (getSeries.data) {
-            //                         return <TouchableOpacity onPress={() => {
-            //                             navigation.navigate('CourseSection', { course: res.title, postID: res.id, postSeries: getSeries.data.getPostSeries.posts })
-            //                         }}>
-            //                             <CxPostDetail postID={res.id} />
-            //                         </TouchableOpacity>
-            //                     } else {
-            //                         return <Text>Error</Text>
-            //                     }
-            //                 }
-            //             }
-
-            //         </Query>
-            //     </View>
-
         )
     }
 

@@ -4,3 +4,4 @@ export * from './graphqlSchema/topic.graphqlSchema';
 export * from './graphqlSchema/course.graphqlSchema';
 export * from './graphqlSchema/connect.graphql.Schema';
 export * from './graphqlHandler/auth.graphqlHandler';
+export * from './graphql.config';

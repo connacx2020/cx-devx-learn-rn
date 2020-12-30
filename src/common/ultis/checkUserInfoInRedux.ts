@@ -1,4 +1,4 @@
-import { User } from "src/models";
+import { User } from "../../models";
 
 export const checkUserInfoInRedux = (reduxData: User[], userID: string): User | null => {
     const userInfoData: User[] = reduxData.filter((res: User) => res.id === userID);

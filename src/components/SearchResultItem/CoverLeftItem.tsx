@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, StyleProp, ViewStyle, TouchableOpacity, Text } from 'react-native';
+import { View, Image, StyleProp, ViewStyle, TouchableOpacity, Text, ToastAndroid } from 'react-native';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import StarRating from 'react-native-star-rating';
 import { Title, Paragraph } from 'react-native-paper';
 import { styles } from './styles';
+import { useQuery } from '@apollo/react-hooks';
+import { getChildTopicsSchema, graphqlClient } from '../../common/graphQL';
 
 export const SearchItemCoverLeft: React.FC<any> = (props: any) => {
     const { searchFor, searchResult } = props;
@@ -13,6 +15,7 @@ export const SearchItemCoverLeft: React.FC<any> = (props: any) => {
     const [photoUrl, setPhotoUrl] = useState('');
     const navigation = useNavigation();
     const { colors } = useTheme();
+    const getChildTopicsQuery = useQuery(getChildTopicsSchema, { variables: { parentTopicID: id }, client: graphqlClient, notifyOnNetworkStatusChange: true });
 
     const handleOnPressItem = () => {
         const cases: any = {
@@ -23,9 +26,11 @@ export const SearchItemCoverLeft: React.FC<any> = (props: any) => {
                 navigation.navigate("CourseDetail", { id: id })
             },
             'topic': () => {
-                console.log("Pressed: ", title);
+                getChildTopicsQuery?.data?.getChildTopics.topics.length > 0 ?
+                    navigation.navigate("ChildTopics", { rootTopicID: id, rootTitle: title })
+                    : ToastAndroid.show(`${title} has no sub-topic!`, ToastAndroid.SHORT);
             }
-        }
+        };
         if (cases[searchFor]) {
             cases[searchFor]();
         }
@@ -36,12 +41,18 @@ export const SearchItemCoverLeft: React.FC<any> = (props: any) => {
             'post': () => {
                 setPhotoUrl('');
                 searchResult.title.length > 0 ? setTitle(searchResult.title) : setTitle('No Title')
-                setSubtitle(searchResult.category)
+                setSubtitle(searchResult.category);
             },
             'course': () => {
-                // navigation.navigate("CourseDetail", { id: id })
+                setTitle(searchResult.title);
+                setPhotoUrl(searchResult.photoUrl);
+                setSubtitle(searchResult.description);
             },
-            'topic': () => {            }
+            'topic': () => {
+                setPhotoUrl(searchResult.logo);
+                setTitle(searchResult.title);
+                setSubtitle(searchResult.description);
+            }
         };
         if (cases[searchFor]) {
             cases[searchFor]();
@@ -56,7 +67,7 @@ export const SearchItemCoverLeft: React.FC<any> = (props: any) => {
                         {
                             !photoUrl || photoUrl === "" ?
                                 <View style={styles.imageView}>
-                                    <Text style={[styles.imageText, { color: colors.text }]}>{searchResult.title}</Text>
+                                    <Text style={[styles.imageText, { color: colors.text }]}>{title}</Text>
                                 </View> :
                                 <Image
                                     testID="imgID"
@@ -78,7 +89,6 @@ export const SearchItemCoverLeft: React.FC<any> = (props: any) => {
 
                                 <View style={styles.rating_field}>
                                     <StarRating
-                                        testID={"star"}
                                         disabled={true}
                                         maxStars={5}
                                         rating={rating}

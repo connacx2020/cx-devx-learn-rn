@@ -1,6 +1,5 @@
 
-import { ToastAndroid } from 'react-native';
-import { User } from 'src/models';
+import { User } from '../../models';
 import { getUserByIDHandler } from '../graphQL';
 import { saveUserInfo, store } from '../redux';
 import { checkUserInfoInRedux } from './checkUserInfoInRedux';
