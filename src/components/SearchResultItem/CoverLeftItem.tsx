@@ -17,7 +17,6 @@ export const SearchItemCoverLeft: React.FC<any> = (props: any) => {
     const handleOnPressItem = () => {
         const cases: any = {
             'post': () => {
-                console.log("Pressed: ", title);
                 navigation.navigate("PostDetail", { postData: searchResult, postID: searchResult.id });
             },
             'course': () => {
@@ -40,12 +39,9 @@ export const SearchItemCoverLeft: React.FC<any> = (props: any) => {
                 setSubtitle(searchResult.category)
             },
             'course': () => {
-                navigation.navigate("CourseDetail", { id: id })
+                // navigation.navigate("CourseDetail", { id: id })
             },
-            'topic': () => {
-                console.log("Pressed: ", title);
-                // searchTopics({ variables: { text: value } });
-            }
+            'topic': () => {            }
         };
         if (cases[searchFor]) {
             cases[searchFor]();

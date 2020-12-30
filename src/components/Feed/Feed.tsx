@@ -62,7 +62,6 @@ function CxDevXFeed({ navigation }: HomeStackNavProps<"Feed">) {
                 onRefresh={() => { setRefreshing(true); getRandomPosts.refetch().then(res => { setRefreshing(false) }).finally(() => setRefreshing(false)) }}
             />}
         >
-
             {
                 getRandomPosts.loading && <View style={styles.query_info}><ActivityIndicator size="large" /></View>
             }

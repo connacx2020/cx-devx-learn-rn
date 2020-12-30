@@ -10,12 +10,13 @@ import { AuthContext } from "../Providers/AuthProvider";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FeatureIcon from 'react-native-vector-icons/Feather';
 import { Searchbar } from 'react-native-paper';
+import DevxSearch from "../components/Search/DevxSearch";
 
-interface HomeStackProps { }
+interface TopicStackProps { }
 
 const Stack = createStackNavigator<TopicParamList>();
 
-const TopicStack: React.FC<HomeStackProps> = ({ }) => {
+const TopicStack: React.FC<TopicStackProps> = ({ }) => {
   const navigation = useNavigation();
   const { isDarkTheme } = useContext(AuthContext);
   const [isShowSearch, setShowSearch] = useState(false);
@@ -46,7 +47,7 @@ const TopicStack: React.FC<HomeStackProps> = ({ }) => {
             return (
               !isShowSearch ?
                 (
-                  <TouchableOpacity onPress={() => navigation.navigate('Search', {searchFor: 'topic'})}>
+                  <TouchableOpacity onPress={() => navigation.navigate('Search', { searchFor: 'topic' })}>
                     <Icon style={searchStyles.barsIcon} name="search" size={20} color={isDarkTheme ? '#fff' : "#333"} />
                   </TouchableOpacity>
                 ) :
@@ -72,6 +73,11 @@ const TopicStack: React.FC<HomeStackProps> = ({ }) => {
           }
         }}
         component={CxDevxChildTopic}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Search"
+        component={DevxSearch}
       />
     </Stack.Navigator>
   );

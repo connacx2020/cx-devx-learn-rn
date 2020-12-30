@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     View,
     Text,
@@ -33,9 +33,11 @@ function CxPostDetail(props: any) {
     const { postData } = props.postData ? props : props.route.params;
     const navigation = useNavigation();
 
-    let [isLiked, setLike] = useState<boolean>(false);
     let [isModalVisible, setModalVisible] = useState<Boolean>(false);
-    const [comments, setComment] = React.useState([] as any);
+    let [isLiked, setLike] = useState<boolean>(false);
+    const [likes, setLikes] = useState([] as any);
+    const [views, setViews] = useState([] as any);
+    const [comments, setComment] = useState([] as any);
     const [addLike] = useMutation(addLikeSchema, { client: graphqlClient });
     const [removeLike] = useMutation(removeLikeSchema, { client: graphqlClient });
     const fetchPostLikes = useQuery(getPostRelatedUsersSchema, { variables: { postID: props.postID, option: 'likes' } });
@@ -79,38 +81,19 @@ function CxPostDetail(props: any) {
                 });
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         props?.route?.params && navigation.setOptions({ id: postData.id, title: postData.title });
         isPostLikedQuery?.data?.isPostLikedByUser ? setLike(true) : setLike(false);
         getPostByIDQuery?.data?.searchPostByID && setComment(getPostByIDQuery?.data?.searchPostByID.comments);
-    }, [isPostLikedQuery.data, getPostByIDQuery.data]);
+        fetchPostLikes?.data?.getPostRelatedUsers && setLikes(fetchPostLikes?.data?.getPostRelatedUsers.users);
+        fetchPostViews?.data?.getPostRelatedUsers && setViews(fetchPostViews?.data?.getPostRelatedUsers.users);
+    }, [isPostLikedQuery.data, getPostByIDQuery.data, fetchPostViews.data, fetchPostLikes.data]);
 
     return (
         <ScrollView style={[styles.container, { backgroundColor: colors.card }]}>
 
-            {/* <Query<any, any> query={getPostByIDSchema} variables={{ postID: props.postID }}>
-                {
-                    (fetchPostByID) => {
-                        if (fetchPostByID.loading) return <Text>Loading...</Text>
-                        if (fetchPostByID.error) return <Text>Error</Text>
-                        return (
-                            
-                        )
-
-                    }
-                }
-            </Query> */}
-
             <View style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                 <View
-                    // refreshControl={
-                    //     <RefreshControl
-                    //         refreshing={refreshing}
-                    //         onRefresh={() => {
-                    //             setRefreshing(true)
-                    //             getPostByIDQuery.refetch().then(res => { setPost(res); setRefreshing(false) });
-                    //         }}
-                    //     />}
                     style={{ backgroundColor: colors.card }}>
                     <View style={{ flexDirection: 'row', borderBottomColor: colors.border, borderBottomWidth: 0.5, paddingBottom: 5, marginTop: 5 }}>
 
@@ -170,21 +153,12 @@ function CxPostDetail(props: any) {
 
 
                 <Divider />
-                <View style={{ flexDirection: 'row', paddingVertical: 5, justifyContent: 'space-between', paddingHorizontal: 10 }}>
-
-                    {/* <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostByID.data.searchPostByID.likes} Likes</Text> */}
-
-                    {
-                        fetchPostLikes.data &&
-                        <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostLikes.data && fetchPostLikes.data.getPostRelatedUsers.users.length} like{fetchPostLikes.data.getPostRelatedUsers.users.length > 1 && 's'} </Text>
-                    }
-
-                    <EntypoIcon name="dot-single" size={25} />
-                    <>
-                        <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{comments.length} Comments</Text>
-                        <EntypoIcon name="dot-single" size={25} color={colors.text} />
-                        <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostViews.data && fetchPostViews.data.getPostRelatedUsers.users.length} Views</Text>
-                    </>
+                <View style={{ flexDirection: 'row', paddingVertical: 5, justifyContent: 'space-between', paddingHorizontal: 16 }}>
+                    <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{likes.length} like{likes.length > 1 && 's'} </Text>
+                    <EntypoIcon name="dot-single" size={25} color={colors.text} />
+                    <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{comments.length} Comment{comments.length > 1 && 's'}</Text>
+                    <EntypoIcon name="dot-single" size={25} color={colors.text} />
+                    <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{views.length} View{views.length > 1 && 's'}</Text>
                 </View>
                 <Divider />
 
@@ -205,7 +179,7 @@ function CxPostDetail(props: any) {
                     </TouchableOpacity>
                 </View>
             </View>
-            <CxDevxCommentModal postID={props.postID} commentInfo={comments} isLiked={isLiked} isModalVisible={isModalVisible} unlikePress={handleLikeButton} likePress={handleLikeButton} setModalVisible={setModalVisible} />
+            <CxDevxCommentModal postID={postData.id} commentInfo={comments} isLiked={isLiked} isModalVisible={isModalVisible} unlikePress={handleLikeButton} likePress={handleLikeButton} setModalVisible={setModalVisible} />
         </ScrollView>
     )
 }

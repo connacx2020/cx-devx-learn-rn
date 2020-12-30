@@ -3,6 +3,8 @@ import { RouteProp } from "@react-navigation/native";
 
 export type TopicParamList = {
   Topics: undefined;
+  Search: undefined;
+  ChildTopics: undefined;
 }
 
 

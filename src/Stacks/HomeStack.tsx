@@ -1,13 +1,7 @@
 import React, { useContext, useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { HomeParamList } from "../common/ultis/ParamLists/HomeParamList";
-import { CxDevxCourseDetail } from "../components/course/CourseDetail/CourseDetail";
-import CxDevxCourseOverview from '../components/course/CourseOverview/CourseOverview';
-import CxDevxCourseContent from '../components/Search/CourseContent/CourseContent';
-import CxDevxCourseSection from '../components/course/CourseSection/CourseSection';
-import { InstructorProfile as CxDevxInstructorProfile } from '../components/Profile/InstructorProfile'
 import DevxSearch from "../components/Search/DevxSearch";
-import CxDevxSearchResult from "../components/Search/DevxSearchResult";
 import { TouchableOpacity, Dimensions } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FeatureIcon from 'react-native-vector-icons/Feather';
@@ -75,38 +69,8 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
             />
             <Stack.Screen
                 options={{ headerShown: false }}
-                name="CourseDetail"
-                component={CxDevxCourseDetail}
-            />
-            <Stack.Screen
-                options={{ headerShown: false }}
-                name="CourseOverview"
-                component={CxDevxCourseOverview}
-            />
-            <Stack.Screen
-                options={{ headerShown: false }}
-                name="CourseContent"
-                component={CxDevxCourseContent}
-            />
-            <Stack.Screen
-                options={{ headerShown: true }}
-                name="CourseSection"
-                component={CxDevxCourseSection}
-            />
-            <Stack.Screen
-                options={{ headerShown: false }}
                 name="Search"
                 component={DevxSearch}
-            />
-            <Stack.Screen
-                options={{ headerShown: true }}
-                name="SearchResult"
-                component={CxDevxSearchResult}
-            />
-            <Stack.Screen
-                options={{ headerShown: false }}
-                name="InstructorProfile"
-                component={CxDevxInstructorProfile}
             />
             <Stack.Screen
                 options={{ headerShown: true }}

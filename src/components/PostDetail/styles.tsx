@@ -2,10 +2,11 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
     container: {
-        marginBottom: 5,
         flex: 1,
+        paddingHorizontal: 8,
         flexDirection: 'column',
         elevation: 5,
+        marginVertical: 5
     },
     titleContainer: {
         display: 'flex',

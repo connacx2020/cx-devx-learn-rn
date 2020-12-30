@@ -3,7 +3,13 @@ import { RouteProp } from '@react-navigation/native';
 
 
 export type LearnParamList = {
-    Learn: undefined
+    Learn: undefined,
+    CourseDetail: undefined;
+    CourseOverview: undefined;
+    CourseContent: undefined;
+    CourseSection: undefined;
+    Search: undefined;
+    InstructorProfile: undefined;
 };
 
 

@@ -1,4 +1,10 @@
 import React, { useContext, useState } from "react";
+import { CxDevxCourseDetail } from "../components/course/CourseDetail/CourseDetail";
+import CxDevxCourseOverview from '../components/course/CourseOverview/CourseOverview';
+import CxDevxCourseContent from '../components/Search/CourseContent/CourseContent';
+import CxDevxCourseSection from '../components/course/CourseSection/CourseSection';
+import DevxSearch from "../components/Search/DevxSearch";
+import { InstructorProfile as CxDevxInstructorProfile } from '../components/Profile/InstructorProfile';
 import { createStackNavigator } from "@react-navigation/stack";
 import { LearnParamList } from "../common/ultis/ParamLists/LearnParamList";
 import CxDevXLearn from "../components/Learn/Learn";
@@ -47,7 +53,7 @@ const LearnStack: React.FC<LearnStackProps> = ({ }) => {
                         return (
                             !isShowSearch ?
                                 (
-                                    <TouchableOpacity onPress={() => navigation.navigate('Search', {searchFor: 'course'})}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Search', { searchFor: 'course' })}>
                                         <Icon style={searchStyles.barsIcon} name="search" size={20} color={isDarkTheme ? '#fff' : "#333"} />
                                     </TouchableOpacity>
                                 ) :
@@ -65,6 +71,36 @@ const LearnStack: React.FC<LearnStackProps> = ({ }) => {
                     }
                 }}
                 component={CxDevXLearn}
+            />
+            <Stack.Screen
+                options={{ headerShown: false }}
+                name="CourseDetail"
+                component={CxDevxCourseDetail}
+            />
+            <Stack.Screen
+                options={{ headerShown: false }}
+                name="CourseOverview"
+                component={CxDevxCourseOverview}
+            />
+            <Stack.Screen
+                options={{ headerShown: false }}
+                name="CourseContent"
+                component={CxDevxCourseContent}
+            />
+            <Stack.Screen
+                options={{ headerShown: true }}
+                name="CourseSection"
+                component={CxDevxCourseSection}
+            />
+            <Stack.Screen
+                options={{ headerShown: false }}
+                name="InstructorProfile"
+                component={CxDevxInstructorProfile}
+            />
+            <Stack.Screen
+                options={{ headerShown: false }}
+                name="Search"
+                component={DevxSearch}
             />
         </Stack.Navigator>
     );
