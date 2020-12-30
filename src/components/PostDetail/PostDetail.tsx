@@ -15,7 +15,7 @@ import {
     getPostRelatedUsersSchema
 } from '../../common/graphQL';
 import { useMutation, useQuery } from '@apollo/react-hooks';
-import { useTheme } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import { graphqlClient } from '../../common/graphQL/graphql.config';
 import { from } from 'rxjs';
 import { AuthUserInfo } from '../../common/redux/redux-actions';
@@ -30,7 +30,9 @@ import { styles } from './styles';
 
 function CxPostDetail(props: any) {
     const { colors } = useTheme();
-    const { postData } = props;
+    const { postData } = props.postData ? props : props.route.params;
+    const navigation = useNavigation();
+
     let [isLiked, setLike] = useState<boolean>(false);
     let [isModalVisible, setModalVisible] = useState<Boolean>(false);
     const [comments, setComment] = React.useState([] as any);
@@ -78,12 +80,13 @@ function CxPostDetail(props: any) {
     }
 
     React.useEffect(() => {
+        props?.route?.params && navigation.setOptions({ id: postData.id, title: postData.title });
         isPostLikedQuery?.data?.isPostLikedByUser ? setLike(true) : setLike(false);
         getPostByIDQuery?.data?.searchPostByID && setComment(getPostByIDQuery?.data?.searchPostByID.comments);
     }, [isPostLikedQuery.data, getPostByIDQuery.data]);
 
     return (
-        <View style={[styles.container, { backgroundColor: colors.card }]}>
+        <ScrollView style={[styles.container, { backgroundColor: colors.card }]}>
 
             {/* <Query<any, any> query={getPostByIDSchema} variables={{ postID: props.postID }}>
                 {
@@ -99,7 +102,7 @@ function CxPostDetail(props: any) {
             </Query> */}
 
             <View style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-                <ScrollView
+                <View
                     // refreshControl={
                     //     <RefreshControl
                     //         refreshing={refreshing}
@@ -163,7 +166,7 @@ function CxPostDetail(props: any) {
                             {postData.content}
                         </Markdown>
                     </View>
-                </ScrollView>
+                </View>
 
 
                 <Divider />
@@ -179,7 +182,7 @@ function CxPostDetail(props: any) {
                     <EntypoIcon name="dot-single" size={25} />
                     <>
                         <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{comments.length} Comments</Text>
-                        <EntypoIcon name="dot-single" size={25} color={colors.text}/>
+                        <EntypoIcon name="dot-single" size={25} color={colors.text} />
                         <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{fetchPostViews.data && fetchPostViews.data.getPostRelatedUsers.users.length} Views</Text>
                     </>
                 </View>
@@ -203,7 +206,7 @@ function CxPostDetail(props: any) {
                 </View>
             </View>
             <CxDevxCommentModal postID={props.postID} commentInfo={comments} isLiked={isLiked} isModalVisible={isModalVisible} unlikePress={handleLikeButton} likePress={handleLikeButton} setModalVisible={setModalVisible} />
-        </View>
+        </ScrollView>
     )
 }
 

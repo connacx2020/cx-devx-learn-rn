@@ -18,14 +18,13 @@ export const SearchItemCoverLeft: React.FC<any> = (props: any) => {
         const cases: any = {
             'post': () => {
                 console.log("Pressed: ", title);
-                // searchPosts({ variables: { text: value } });
+                navigation.navigate("PostDetail", { postData: searchResult, postID: searchResult.id });
             },
             'course': () => {
                 navigation.navigate("CourseDetail", { id: id })
             },
             'topic': () => {
                 console.log("Pressed: ", title);
-                // searchTopics({ variables: { text: value } });
             }
         }
         if (cases[searchFor]) {
@@ -37,7 +36,7 @@ export const SearchItemCoverLeft: React.FC<any> = (props: any) => {
         const cases: any = {
             'post': () => {
                 setPhotoUrl('');
-                searchResult.title.length > 0 ? setTitle(searchResult.title): setTitle('No Title')
+                searchResult.title.length > 0 ? setTitle(searchResult.title) : setTitle('No Title')
                 setSubtitle(searchResult.category)
             },
             'course': () => {

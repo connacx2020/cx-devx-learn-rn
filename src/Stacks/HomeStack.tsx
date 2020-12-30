@@ -16,11 +16,11 @@ import { DrawerActions, useNavigation } from '@react-navigation/native';
 import { searchStyles } from './styles/searchBar';
 import { AuthContext } from "../Providers/AuthProvider";
 import CxDevXFeed from "../components/Feed/Feed";
+import CxPostDetail from "../components/PostDetail/PostDetail";
 
 interface HomeStackProps { }
 
 const Stack = createStackNavigator<HomeParamList>();
-
 
 const HomeStack: React.FC<HomeStackProps> = ({ }) => {
     const navigation = useNavigation();
@@ -54,7 +54,7 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
                         return (
                             !isShowSearch ?
                                 (
-                                    <TouchableOpacity onPress={() => navigation.navigate('Search', {searchFor: 'post'})}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Search', { searchFor: 'post' })}>
                                         <Icon style={searchStyles.barsIcon} name="search" size={20} color={isDarkTheme ? '#fff' : "#333"} />
                                     </TouchableOpacity>
                                 ) :
@@ -108,6 +108,10 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
                 name="InstructorProfile"
                 component={CxDevxInstructorProfile}
             />
+            <Stack.Screen
+                options={{ headerShown: true }}
+                name="PostDetail"
+                component={CxPostDetail} />
         </Stack.Navigator>
     );
 };

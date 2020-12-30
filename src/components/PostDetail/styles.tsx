@@ -25,8 +25,6 @@ export const styles = StyleSheet.create({
         fontSize:13,
     },
     content:{
-        marginHorizontal:10,
-        flex:1,
         flexDirection: 'column',
         padding:5,
         paddingVertical:10

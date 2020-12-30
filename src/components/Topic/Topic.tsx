@@ -1,15 +1,13 @@
-import React, { useContext } from 'react';
-import { View, Text, ScrollView, ToastAndroid, FlatList, Dimensions } from 'react-native';
+import React from 'react';
+import { View, Text, ToastAndroid, FlatList, Dimensions } from 'react-native';
 import { getRootTopicsSchema } from '../../common/graphQL';
 import { Query } from '@apollo/react-components';
 import { styles } from './style';
 import CxTopicCard from './TopicCard';
-import { AuthContext } from "../../Providers/AuthProvider";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 function CxDevxTopic() {
     const ScreenWidth = Dimensions.get('window').width;
-    const { isDarkTheme } = useContext(AuthContext);
     const numColumns = 2;
 
     const formatData = (dataList: any, numColumns: number) => {
