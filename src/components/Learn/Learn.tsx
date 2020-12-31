@@ -1,118 +1,172 @@
-import React from 'react';
-import { StyleSheet, View, Text, ScrollView, RefreshControl, TouchableOpacity, ActivityIndicator, Dimensions } from 'react-native';
-import { LearnStackNavProps } from '../../common/ultis/ParamLists/LearnParamList';
-import { useTheme } from '@react-navigation/native';
-import CxPostDetail from '../PostDetail/PostDetail';
-import { useQuery } from '@apollo/react-hooks';
-import { getAllPostsSchema, getPostByIDSchema } from '../../common/graphQL/graphqlSchema/post.graphqlSchema';
-import { graphqlClient } from '../../common/graphQL/graphql.config';
-import { getPostSeriesByIdSchema } from '../../common/graphQL';
+import React, { useContext, useRef } from 'react';
+import { ScrollView, TouchableOpacity, Text, Dimensions, ToastAndroid, RefreshControl } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+
+import { styles } from './styles';
+import { getCoursesSchema } from '../../common/graphQL';
+
+import { Course } from '../../models/course.model';
 import { Query } from '@apollo/react-components';
+import { useSelector } from 'react-redux'
 
-function CxDevxLearn({ navigation }: LearnStackNavProps<"Learn">) {
+import { CxDevxCourseItem } from '../course/CourseItem/CourseItem';
+
+import { useNavigation, useTheme } from '@react-navigation/native';
+import { View } from 'react-native-animatable';
+
+import { ActivityIndicator } from 'react-native';
+import { AuthUserInfo } from '../../common/redux/redux-actions';
+
+function CxDevXLearn({ navigation }: any) {
     const { colors } = useTheme();
+
+    const tabNavigation = useNavigation();
+    const parent = tabNavigation.dangerouslyGetParent();
+    const userInfo: AuthUserInfo = useSelector((state: any) => state.authUserInfo);
     const [refreshing, setRefreshing] = React.useState<boolean>(false);
-    const getRandomPosts = useQuery(getAllPostsSchema, { client: graphqlClient, notifyOnNetworkStatusChange: true });
+    const [hasEnrolled, setHasEnrolled] = React.useState<boolean>(false);
 
+    useFocusEffect(() => {
+        parent?.setOptions({ tabBarVisible: true });
+    })
 
-    React.useEffect(() => {
-    }, [getRandomPosts,])
-
-    const reorderPost = (postArray: any[]) => {
-        let searchKey = ["Business Basic:How to learn business?", "Home Gardening:How To Grow Tomatos 1", "Graphql Basic: Introduction", "Home Gardening:How To Grow Tomatos 2","React Basic:Introduction", "NodeJS Basic: Introduction"]
-        let orderedPost: any[] = [];
-        searchKey.map(resKey => {
-            let resultPosts = postArray.find(res => res.title === resKey)
-            // resultPosts && setFinal(finalResult.concat(resultPosts.id))
-            orderedPost.push(resultPosts)
-        })
-        // console.log("data", orderedPost)
-        return orderedPost && orderedPost.map(res =>
-            res.seriesID === null ?
-                <View key={res.id} style={styles.postCard}>
-                    <Query<any, any> query={getPostByIDSchema} variables={{ postID: res.id }} client={graphqlClient}>
-                        {
-                            (getSeries) => {
-
-                                if (getSeries.loading) return <Text>Loading....</Text>
-                                // if (getSeries.error) return <Text>Error{JSON.stringify(getSeries.error)}</Text>
-                                if (getSeries.error) return <Text>Error</Text>
-
-                                if (getSeries.data) {
-                                    return <TouchableOpacity onPress={() => {
-                                        navigation.navigate('CourseSection', { course: getSeries.data.searchPostByID.title, postID: getSeries.data.searchPostByID.id, postSeries: [] })
-                                    }}>
-                                        <CxPostDetail postID={getSeries.data.searchPostByID.id} />
-                                    </TouchableOpacity>
-                                } else {
-                                    return <Text>Error</Text>
-                                }
-                            }
-                        }
-
-                    </Query>
-                </View> :
-                <View key={res.id} style={styles.postCard}>
-                    <Query<any, any> query={getPostSeriesByIdSchema} variables={{ seriesID: res.seriesID }} client={graphqlClient}>
-                        {
-                            (getSeries) => {
-
-                                if (getSeries.loading) return <Text>Loading....</Text>
-                                // if (getSeries.error) return <Text>Error{JSON.stringify(getSeries.error)}</Text>
-                                if (getSeries.error) return <Text>Error</Text>
-
-                                if (getSeries.data) {
-                                    return <TouchableOpacity onPress={() => {
-                                        navigation.navigate('CourseSection', { course: res.title, postID: res.id, postSeries: getSeries.data.getPostSeries.posts })
-                                    }}>
-                                        <CxPostDetail postID={res.id} />
-                                    </TouchableOpacity>
-                                } else {
-                                    return <Text>Error</Text>
-                                }
-                            }
-                        }
-
-                    </Query>
-                </View>
-
-        )
+    const routeToCourseDetail = (id: string, img: string, title: string, author: Record<string, any>) => {
+        navigation.navigate("CourseDetail", { id, author, image: img, title: title });
+    }
+    const routeToEnrolledCourseSection = (title: string, postID: string, postSeries: string) => {
+        navigation.navigate('CourseSection', { course: title, postID, postSeries })
     }
 
+    React.useEffect(() => {
+    }, [hasEnrolled])
+
     return (
-        <ScrollView style={{ flex: 1, padding: 5 }}
-            refreshControl={<RefreshControl
-                refreshing={refreshing}
-                onRefresh={() => { setRefreshing(true); getRandomPosts.refetch().then(res => { setRefreshing(false) }).finally(() => setRefreshing(false)) }}
-            />}
-        >
+        <Query<any, any> query={getCoursesSchema}>
             {
-                getRandomPosts.loading && <View style={styles.query_info}><ActivityIndicator size="large" /></View>
+                ({ loading, error, data, refetch }) => {
+
+                    if (error) ToastAndroid.show("No Internet Connection ", ToastAndroid.SHORT);
+
+                    if (loading) return <View style={{ alignSelf: 'center' }} >
+                        <View style={styles.query_info}>
+                            <ActivityIndicator size="large" />
+                        </View>
+                    </View>
+
+                    return <ScrollView style={{ flex: 1 }}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={() => {
+                                    setRefreshing(true)
+                                    refetch().then((res: any) => { setRefreshing(false) });
+                                }}
+                            />}>
+                        {data ?
+                            <>
+                                {/* <View>
+                                    {hasEnrolled && <Text style={[styles.centerTxt, { color: colors.text }]}>Enrolled Course</Text>}
+                                    <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
+                                        {data.getAllCourses && data.getAllCourses.map((res: Course, index: number) =>
+                                            res.enrolledUsers.includes(userInfo.userID) ?
+                                                (
+                                                    <Query<any, any> query={getPostSeriesByIdSchema} variables={{ seriesID: res.seriesID }}>
+                                                        {
+                                                            courseSeriesByIdData => {
+                                                                setHasEnrolled(true)
+                                                                if (courseSeriesByIdData.loading) return <Text key={index}>Loading...</Text>
+                                                                if (courseSeriesByIdData.error) return <Text key={index}>Error</Text>
+
+                                                                return (
+                                                                    <TouchableOpacity key={res.id} onPress={() => routeToEnrolledCourseSection(res.title, courseSeriesByIdData.data.getPostSeries.posts[0].id, courseSeriesByIdData.data.getPostSeries.posts)}>
+                                                                        <CxDevxEntrolledCourseItem
+                                                                            key={res.id}
+                                                                            authorID={res.authorID}
+                                                                            id={res.id}
+                                                                            img={res.photoUrl}
+                                                                            title={res.title}
+                                                                            rating={res.rating}
+                                                                            description={res.description}
+                                                                            enrolled={res.enrolled}
+
+                                                                        />
+
+                                                                    </TouchableOpacity>
+                                                                )
+                                                            }
+                                                        }
+                                                    </Query>
+                                                ) : setHasEnrolled(false)
+                                        )
+                                        }
+                                    </ScrollView>
+                                </View> */}
+
+                                <View>
+                                    <View>
+                                        {
+                                            data.getAllCourses.length > 0 && <Text style={[styles.centerTxt, { color: colors.text }]}>Recommended for you</Text>
+                                        }
+                                    </View>
+                                    <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
+
+                                        {
+                                            data.getAllCourses && data.getAllCourses.map((res: any) =>
+                                                <CxDevxCourseItem
+                                                    key={res.id}
+                                                    author={res.author}
+                                                    id={res.id}
+                                                    price={res.price}
+                                                    img={res.photoUrl}
+                                                    title={res.title}
+                                                    rating={res.rating}
+                                                    description={res.description}
+                                                    enrolls={res.courseRelatedData.enrolls}
+                                                    routeToCourseDetail={routeToCourseDetail}
+                                                />
+                                            )
+                                        }
+                                    </ScrollView>
+                                </View>
+
+                                <View>
+                                    <View>
+                                        {
+                                            data.getAllCourses.length > 0 ? <Text style={[styles.centerTxt, { color: colors.text }]}>Most Popular</Text> : <Text>No Course</Text>
+                                        }
+                                    </View>
+                                    <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={{ display: 'flex', flexDirection: 'row', overflow: 'visible' }}>
+
+                                        {
+                                            data.getAllCourses && data.getAllCourses.reverse().map((res: any) =>
+                                                <CxDevxCourseItem
+                                                    key={res.id}
+                                                    author={res.author}
+                                                    id={res.id}
+                                                    price={res.price}
+                                                    img={res.photoUrl}
+                                                    title={res.title}
+                                                    rating={res.rating}
+                                                    description={res.description}
+                                                    enrolls={res.courseRelatedData.enrolls}
+                                                    routeToCourseDetail={routeToCourseDetail}
+                                                />
+                                            )
+                                        }
+                                    </ScrollView>
+                                </View>
+
+                            </> : <View style={styles.query_info}>
+                                <Text>No data receieved from server check connection.</Text>
+                            </View>}
+                    </ScrollView>
+
+                }
             }
-            {
-                getRandomPosts.error && <View style={styles.query_info}><Text>No Internet Connection!</Text></View>
-            }
-            {getRandomPosts.data &&
-                reorderPost(getRandomPosts.data.getPosts)
-            }
-        </ScrollView>
+        </Query>
     )
 }
 
-const styles = StyleSheet.create({
 
-    query_info: {
-        flex: 1,
-        marginTop: Math.round(Dimensions.get("window").height) / 2.5,
-        alignItems: 'center'
-    },
-    postCard: {
-        elevation: 5,
-        borderWidth: 0.3,
-        marginBottom: 10,
-        shadowOpacity: 0.25,
-        shadowColor: '#333'
-    }
-});
 
-export default CxDevxLearn;
+export default CxDevXLearn;

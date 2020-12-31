@@ -2,22 +2,34 @@ import gql from 'graphql-tag';
 
 const CourseInfoFragment = {
     courseInfo: gql`
-        fragment CourseData on CourseType {
+    fragment CourseData on CourseType {
+        id
+        authorID
+        author{
             id
-            authorID
-            title
-            rating
-            photoUrl
-            enrolled
-            description
-            price
-            duration
-            prerequisite
-            outcome
-            seriesID
-            topicID
-            enrolledUsers
+            name
+            displayName
+            photo
         }
+        title
+        rating
+        photoUrl
+        description
+        price
+        duration
+        prerequisites
+        outcomes
+        seriesID
+        courseRelatedData{
+            enrolls
+            topicIDs
+            topics{
+              title
+              id
+              logo
+            }
+          }
+    }
     `,
 };
 
@@ -28,7 +40,7 @@ export const getAllCourseByAuthorID = gql`
             title
             rating
             photoUrl
-            enrolled
+            price
         }
     }
 `;
@@ -53,7 +65,7 @@ export const getCoursesSchema = gql`
 
 export const getCourseByIdSchema = gql`
     query getCourseById($courseID: ID!) {
-        findCourseByID(courseId: $courseID) {
+        findCourseByID(id: $courseID) {
             ...CourseData
         }
     }
@@ -61,8 +73,8 @@ export const getCourseByIdSchema = gql`
 `;
 
 export const searchCourseByTitle = gql`
-    query findCourseWithTitle($courseTitle: String!) {
-        findCourseWithTitle(courseTitle: $courseTitle) {
+    query findCourseByTitle($courseTitle: String!) {
+        findCourseByTitle(courseTitle: $courseTitle) {
             ...CourseData
         }
     }

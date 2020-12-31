@@ -1,67 +1,69 @@
 import { gql } from "apollo-boost";
 
-const UserInfo_Fragment = {
+const UserInfoFragment = {
     userInfo: gql`
     fragment UserInfoData on UserType {
         id
-      type
-      gender
-      name
-      photo
-      displayName
-      dob
-      weblinks{
-        source
-        url
-      }
-      addresses{
-        city
-        addressL1
-        state
-        country
-        geolocation
-        isCurrent
-      }
-      phones
-      about
-      educations{
-        study
-        org {
-            id
-          name
-          type
+        type
+        gender
+        roles
+        name
+        photo
+        displayName
+        dob
+        phones
+        about
+        roles
+        weblinks {
+            source
+            url
         }
-        awards{
-            title
-            description
-            eventID
-            awardedBy
-            awardedOn
-            tags
-          }
-          certs{
-            title
-            description
-            awardedBy
-            awardedOn
-            tags
-          }
-        to
-        from
-        isCurrent
-      }
+        addresses {
+            city
+            addressL1
+            state
+            country
+            geolocation
+            isCurrent
+        }
+        educations {
+            study
+            org {
+                id
+                name
+                type
+            }
+            awards {
+                title
+                description
+                eventID
+                awardedBy
+                awardedOn
+                tags
+            }
+            certs {
+                title
+                description
+                awardedBy
+                awardedOn
+                tags
+            }
+            to
+            from
+            isCurrent
+        }
 
-      professions{
-        title
-        org{
-            id
-          name
-          type
+        professions {
+            title
+            org {
+                id
+                name
+                type
+            }
+            from
+            to
+            isCurrent
         }
-        from
-        to
-        isCurrent
-      }
     }
     `
 };
@@ -90,10 +92,10 @@ query{
 `;
 
 export const getUserInfoByIdSchema = gql`
-query($userID: ID!){
-    getUserInfoByID(id:$userID){
-        ...UserInfoData
+    query getUserInfoByID($userID: ID!) {
+        getUserInfoByID(id: $userID) {
+            ...UserInfoData
+        }
     }
-  }
-  ${UserInfo_Fragment.userInfo}
-  `;
+    ${UserInfoFragment.userInfo}
+`;

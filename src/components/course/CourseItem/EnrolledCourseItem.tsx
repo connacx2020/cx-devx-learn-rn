@@ -5,7 +5,7 @@ import { useTheme } from '@react-navigation/native';
 
 
 import { styles } from './styles';
-import { Course } from '../../models';
+import { Course } from '../../../models';
 
 
 export const CxDevxEntrolledCourseItem: React.FC<any> = ({ id, authorID, enrolled, img, title, rating, description }: any,) => {

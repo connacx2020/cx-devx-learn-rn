@@ -7,8 +7,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { AuthContext } from "../Providers/AuthProvider";
 import AuthStack from "../Stacks/AuthStack";
 import { AppDrawer } from '../Drawers';
-import { getCheckedUserInfo } from "../common/ultis/getUserInfo";
-import { store, saveUserInfo } from "../common/redux";
+import { store } from "../common/redux";
 import { saveAuthUserInfo } from "../common/redux/redux-actions";
 
 
@@ -25,8 +24,8 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
         colors: {
           ...NavigationDefaultTheme.colors,
           ...PaperDefaultTheme.colors,
-          background: '#ffffff',
-          text: '#333333',
+          background: '#DCDEDF',
+          text: '#000000',
           navbar:'#333'
         }
       }
@@ -37,7 +36,7 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
         colors: {
           ...NavigationDarkTheme.colors,
           ...PaperDarkTheme.colors,
-          background: '#333333',
+          background: '#686868',
           text: '#ffffff',
           navbar:'#000'
         }

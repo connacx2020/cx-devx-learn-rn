@@ -1,26 +1,23 @@
 import gql from 'graphql-tag';
 
 const topic_Fragment = {
-    topic: gql`
+  topic: gql`
     fragment TopicQuery on TopicType {
         id
         title
         description
         logo
         parentTopic
-        likes
-        followers
-        contexts
     }
     `
 }
 
 export const searchTopicsByTextSchema = gql`
-query($text:String!){
-    searchTopicsByText(text:$text){
-     ...TopicQuery
+query searchTopicsByText($text: String!) {
+    searchTopicsByText(text: $text) {
+        ...TopicQuery
     }
-  }
+}
   ${topic_Fragment.topic}
   `;
 
@@ -35,7 +32,7 @@ ${topic_Fragment.topic}
 
 export const findTopicByIDSchema = gql`
 query($topicID: ID!){
-  findTopicByID(topicID: $topicID){
+  findTopicByID(id: $topicID){
     ...TopicQuery
   }
 }
@@ -94,40 +91,50 @@ ${topic_Fragment.topic}
 `;
 
 export const isLikedTopicSchema = gql`
-  query($userID: ID!, $topicID: ID!) {
-    isLikedTopic(input:{
+  query isTopicLikedByUser($userID: ID!, $topicID: ID!) {
+    isTopicLikedByUser(
         userID: $userID,
         topicID: $topicID
-    })
+    )
   }
 `;
 
 export const likeTopicSchema = gql`
-mutation($userID: ID!, $topicID: ID!){
-  likeTopic(input:{
-      userID: $userID,
-      topicID: $topicID
-  })
+mutation($userID: ID!, $topicID: ID!) {
+  likeTopic(userID: $userID, topicID: $topicID)
 }
 `;
 
 export const unlikeTopicSchema = gql`
-mutation ($userID: ID!, $topicID: ID!){
-  unlikeTopic(input:{
-      userID: $userID,
-      topicID: $topicID
-  })
+mutation ($userID: ID!, $topicID: ID!) {
+  unlikeTopic(userID: $userID, topicID: $topicID)
 }
 `;
 
 export const getRootTopicsSchema = gql`
-query {
-  getAllRootTopics
+query getAllRootTopics {
+  getRootTopics{
+    topics{
+      title
+      logo
+      id
+      description
+      parentTopic
+    }
+  }
 }
 `;
 
 export const getChildTopicsSchema = gql`
-query ($topicID:ID!){
-  getAllChildTopics(topicID:$topicID)
+query getChildTopics($parentTopicID:ID!) {
+  getChildTopics(topicID:$parentTopicID) {
+    topics{
+      title
+      logo
+      id
+      description
+      parentTopic
+    }
+  }
 }
 `;

@@ -1,8 +1,8 @@
 import React from 'react'
 import { View, Text, ScrollView, TouchableOpacity, TextInput, Button, ToastAndroid, Image, StyleSheet, Alert } from 'react-native';
 import { useMutation } from '@apollo/react-hooks';
-import { createCourseSchema, getAllPostSeriesSchema, getAllTopicsSchema, uploadCoursePicSchema } from '../../common/graphQL';
-import { serverlessClient, graphqlClient, devXFileUploadClient } from '../../common/graphQL/graphql.config';
+import { createCourseSchema, getAllPostSeriesSchema, getAllTopicsSchema, uploadCoursePicSchema } from '../../../common/graphQL';
+import { graphqlClient, devXFileUploadClient } from '../../../common/graphQL/graphql.config';
 import { from } from 'rxjs';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import DocumentPicker from 'react-native-document-picker';
@@ -36,7 +36,7 @@ export const CxDevxCourseCreate = () => {
     const [uploadCoursePhoto] = useMutation(uploadCoursePicSchema, { client: devXFileUploadClient });
     // const auth: AuthUserInfo = useSelector((state: any) => state.authUserInfo);
 
-    const [createCourse] = useMutation(createCourseSchema, { client: serverlessClient });
+    const [createCourse] = useMutation(createCourseSchema);
 
     const addOutCome = (value: string) => {
         value !== "" && setOutCome(outcome.concat(value));

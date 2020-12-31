@@ -5,14 +5,13 @@ import { useSelector } from 'react-redux'
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
 
-import { HomeStackNavProps } from '../../common/ultis/ParamLists/HomeParamList';
+import { HomeStackNavProps } from '../../../common/ultis/ParamLists/HomeParamList';
 import { styles } from './style';
-import { CourseDetailTabs } from '../../Tabs/CourseDetailTabs';
-import { getCourseByIdSchema, checkUserIsEnrolledSchema, enrollCourseSchema, unenrollCourseSchema, getCoursesSchema } from '../../common/graphQL';
-import { serverlessClient } from '../../common/graphQL/graphql.config';
+import { CourseDetailTabs } from '../../../Tabs/CourseDetailTabs';
+import { getCourseByIdSchema, checkUserIsEnrolledSchema, enrollCourseSchema, unenrollCourseSchema, getCoursesSchema } from '../../../common/graphQL';
 import { Query } from '@apollo/react-components';
 import { useMutation } from '@apollo/react-hooks';
-import { AuthUserInfo } from '../../common/redux/redux-actions';
+import { AuthUserInfo } from '../../../common/redux/redux-actions';
 
 
 export function CxDevxCourseDetail({ navigation, route }: HomeStackNavProps<"CourseDetail">) {
@@ -65,7 +64,7 @@ export function CxDevxCourseDetail({ navigation, route }: HomeStackNavProps<"Cou
                                             <FeatherIcon name={"arrow-left"} size={30} color={"#2541B2"} />
                                         </TouchableOpacity>
                                         <Text style={[styles.header_title, { color: colors.text }]}>{fetchCourseById.data.findCourseByID.title}</Text>
-                                        <Query<any, any> query={checkUserIsEnrolledSchema} client={serverlessClient} variables={{ courseID: fetchCourseById.data.findCourseByID.id, userID: userInfo.userID }}>
+                                        {/* <Query<any, any> query={checkUserIsEnrolledSchema} variables={{ courseID: fetchCourseById.data.findCourseByID.id, userID: userInfo.userID }}>
                                             {
                                                 checkIsEnrollData => {
                                                     if (checkIsEnrollData.error) console.log(checkIsEnrollData.error);
@@ -102,7 +101,7 @@ export function CxDevxCourseDetail({ navigation, route }: HomeStackNavProps<"Cou
 
                                                 }
                                             }
-                                        </Query>
+                                        </Query> */}
 
                                     </View>
 

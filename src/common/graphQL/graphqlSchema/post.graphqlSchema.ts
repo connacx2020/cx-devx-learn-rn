@@ -1,54 +1,61 @@
 import gql from "graphql-tag";
 
 const PostData_Fragment = {
-    postResult: gql`
+  postResult: gql`
     fragment PostRequestData on PostType {
-    id
-      authorID
-      title
-      category
-      content
-      published
-      likes
-      views
-      comments{
-          id
-          authorID
-          content
-          likes
-          comments {
-              id
-              authorID
-              content
-              likes
-              commentedOn
-              modifiedOn
-          }
-          commentedOn
-          modifiedOn
-      }
-      access
-      postedOn
-      modifiedOn
-      }
-    `
-}
+        id
+        author {
+            photo
+            name
+            id
+        }
+        authorID
+        title
+        isPublished
+        seriesID
+        series {
+            id
+            title
+        }
+        media {
+            mimetype
+            filename
+            uri
+            encoding
+        }
+        category
+        content
+        comments {
+            id
+            authorID
+            content
+            commentedOn
+            author {
+                id
+                name
+                photo
+            }
+        }
+        access
+        tags
+        postedOn
+        modifiedOn
+    }
+    `,
+};
 
 export const getAllPostsSchema = gql`
-{
-  getPosts{
-    id
-    title
-    seriesID
+query getPostsWithFilters{
+  getPostsWithFilters {
+    ...PostRequestData
   }
 }
+${PostData_Fragment.postResult}
 `;
 
-
-
 export const getPostByIDSchema = gql`
-query($postID: ID!){
-	searchPostByID(postID:$postID) {
+query fetchPostByID($postID:ID!){
+  searchPostByID(postID:$postID) {
         ...PostRequestData
   }
 }
@@ -60,7 +67,6 @@ mutation(
     $postID: ID!,
     $authorID: ID!,
     $content : String!,
-    $likes: Int!,
     $comments: [CommentInput!]!
   ){
     addComment(input: {
@@ -68,39 +74,43 @@ mutation(
       comment: {
         authorID: $authorID,
         content:$content,
-        likes: $likes,
         comments:$comments,
       }
     })
 
   }`;
 
-export const isLikedPostSchema = gql`
-query($postID: ID!, $authorID: ID!){
-    checkUserLikedPost(input:{
-      postID: $postID,
-      authorID: $authorID,
-    })
+
+export const getPostRelatedUsersSchema = gql`
+    query getPostRelatedUsers($postID: ID!, $option: String!) {
+        getPostRelatedUsers(id: $postID, relation: $option) {
+            users {
+                id
+                name
+                displayName
+                photo
+            }
+        }
+    }
+`;
+
+export const isPostLikedSchema = gql`
+query isPostLikedByUser($postID: ID!, $authorID: ID!){
+  isPostLikedByUser(postID: $postID, authorID: $authorID)
 }`;
 
 export const addLikeSchema = gql`
-mutation($postID: ID!, $authorID: ID!){
-  addLike(input:{
-      postID: $postID,
-      authorID: $authorID,
-    })
+mutation likePost($postID: ID!, $userID: ID!){
+    likePost(postID: $postID, userID: $userID )
 }`;
 
 export const removeLikeSchema = gql`
-mutation($postID: ID!, $authorID: ID!){
-    removeLike(input:{
-      postID: $postID,
-      authorID: $authorID,
-    })
+mutation unlikePost($postID: ID!, $userID: ID!){
+    unlikePost(postID: $postID, userID: $userID )
 }`;
 
 export const getLikedUserSchema = gql`
-  query ($postID: String!){
+  query getPostLikedUsers($postID: String!){
     getPostLikedUsers(postID:$postID)
   }
 `;
@@ -116,16 +126,10 @@ ${PostData_Fragment.postResult}
 
 export const addViewSchema = gql`
 mutation($postID: ID!, $authorID: ID!){
-  addViewCount(input:{
-      postID: $postID,
-      authorID: $authorID,
-    })
+  addViewCount(postID: $postID, authorID: $authorID)
 }`;
 
 export const isViewedSchema = gql`
 query ($postID: String!, $authorID: String!) {
-  isViewed(input:{
-    postID:$postID,
-    authorID:$authorID
-  })
+  isViewed(postID:$postID, authorID:$authorID)
 }`;

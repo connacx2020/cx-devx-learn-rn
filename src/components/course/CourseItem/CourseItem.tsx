@@ -2,15 +2,13 @@ import React from 'react';
 import { TouchableOpacity, View, Text, Image, StyleProp, ViewStyle } from 'react-native';
 import StarRating from 'react-native-star-rating';
 import { useTheme } from '@react-navigation/native';
-
 import { styles } from './styles';
 
-
-export const CxDevxCourseItem: React.FC<any> = ({ id, price, enrolled, img, title, rating, routeToCourseDetail }: any,) => {
+export const CxDevxCourseItem: React.FC<any> = ({ id, price, enrolls, img, title, rating, routeToCourseDetail }: any,) => {
     const { colors } = useTheme();
 
     return (
-        <View style={[styles.container, { backgroundColor: colors.background }]}>
+        <View style={[styles.container, { backgroundColor: colors.card }]}>
             <View style={styles.content}>
                 <TouchableOpacity onPress={() => routeToCourseDetail(id)}>
                     {
@@ -39,7 +37,7 @@ export const CxDevxCourseItem: React.FC<any> = ({ id, price, enrolled, img, titl
                     />
                 </View>
                 <Text style={{ color: colors.text, marginHorizontal: 8 }}>{rating}</Text>
-                <Text style={[styles.likes, { color: colors.text, paddingRight: 5 }]}>Enrolls: {enrolled}</Text>
+                <Text style={[styles.likes, { color: colors.text, paddingRight: 5 }]}>Enrolls: {enrolls}</Text>
             </View>
         </View>
 

@@ -3,19 +3,13 @@ import { RouteProp } from '@react-navigation/native';
 
 
 export type HomeParamList = {
-    Course: undefined;
-    CourseDetail : undefined;
-    CourseOverview: undefined;
-    CourseContent: undefined;
-    CourseSection: undefined;
-    Feed: undefined;
-    Search:undefined;
-    SearchResult:undefined;
-    InstructorProfile:undefined;
+  Feed: undefined;
+  Search: undefined;
+  PostDetail: undefined;
 };
 
 
 export type HomeStackNavProps<T extends keyof HomeParamList> = {
-    navigation: StackNavigationProp<HomeParamList, T>;
-    route: RouteProp<HomeParamList, T>;
+  navigation: StackNavigationProp<HomeParamList, T>;
+  route: RouteProp<HomeParamList, T>;
 };

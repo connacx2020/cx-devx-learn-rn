@@ -1,14 +1,18 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
+    cardContainer: {
+        margin: 5,
+        borderRadius: 5,
+        elevation: 10
+    },
     card_body: {
         height: 80,
-        backgroundColor: 'blue',
         flexDirection: 'row',
         elevation: 3
     },
     card_cover: {
-        backgroundColor: 'white',
+        backgroundColor: 'blue',
         width: '35%'
     },
     cover_img: {
@@ -17,7 +21,6 @@ export const styles = StyleSheet.create({
     },
     card_content: {
         flexGrow: 1,
-        backgroundColor: 'white',
         flexDirection: 'column',
         width: "50%",
         justifyContent: 'space-around',
@@ -43,16 +46,14 @@ export const styles = StyleSheet.create({
         flex: 1, flexDirection: 'row',
         justifyContent: 'space-between'
     },
-    search_result_left: {
+    imageView: {
         display:"flex",
         flex:1,
-        flexDirection:"column",
+        flexDirection:'column',
         justifyContent:'center',
-        backgroundColor:'#2289f0',
         alignItems:'center'
     },
-    search_result_left_text: {
-        color:'#fff',
+    imageText: {
         fontWeight:'bold',
         textAlign:'center'
     }

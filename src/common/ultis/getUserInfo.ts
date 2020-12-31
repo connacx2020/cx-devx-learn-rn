@@ -1,8 +1,8 @@
-import { User } from "../../models";
-import { checkUserInfoInRedux } from "./checkUserInfoInRedux";
-import { store } from "../redux";
-import { getUserInfoByIDApi } from "../../common/api";
-import { saveUserInfo } from "../redux";
+
+import { User } from '../../models';
+import { getUserByIDHandler } from '../graphQL';
+import { saveUserInfo, store } from '../redux';
+import { checkUserInfoInRedux } from './checkUserInfoInRedux';
 
 export async function getCheckedUserInfo(userID: string): Promise<User> {
     const reduxUsers: { userInfoData: User[] } = store.getState().userInfo;
@@ -16,7 +16,5 @@ export async function getCheckedUserInfo(userID: string): Promise<User> {
     store.dispatch(saveUserInfo(resultApi.data.getUserInfoByID));
     return resultApi.data.getUserInfoByID;
 }
-
-
 
 
