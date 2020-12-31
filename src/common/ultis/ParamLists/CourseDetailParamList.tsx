@@ -8,7 +8,6 @@ export type CourseDetailParamList = {
     CourseOverview: undefined;
     CourseContent: undefined;
     CourseSection: undefined;
-    Feed: undefined;
 };
 
 

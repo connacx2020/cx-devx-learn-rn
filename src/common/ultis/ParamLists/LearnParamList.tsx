@@ -8,7 +8,7 @@ export type LearnParamList = {
     CourseOverview: undefined;
     CourseContent: undefined;
     CourseSection: undefined;
-    Search: undefined;
+    SearchCourse: undefined;
     InstructorProfile: undefined;
 };
 

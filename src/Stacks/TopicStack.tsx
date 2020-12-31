@@ -47,7 +47,7 @@ const TopicStack: React.FC<TopicStackProps> = ({ }) => {
             return (
               !isShowSearch ?
                 (
-                  <TouchableOpacity onPress={() => navigation.navigate('Search', { searchFor: 'topic' })}>
+                  <TouchableOpacity onPress={() => navigation.navigate('SearchTopic', { searchFor: 'topic' })}>
                     <Icon style={searchStyles.barsIcon} name="search" size={20} color={isDarkTheme ? '#fff' : "#333"} />
                   </TouchableOpacity>
                 ) :
@@ -76,7 +76,7 @@ const TopicStack: React.FC<TopicStackProps> = ({ }) => {
       />
       <Stack.Screen
         options={{ headerShown: false }}
-        name="Search"
+        name="SearchTopic"
         component={DevxSearch}
       />
     </Stack.Navigator>

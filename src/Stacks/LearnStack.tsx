@@ -53,7 +53,7 @@ const LearnStack: React.FC<LearnStackProps> = ({ }) => {
                         return (
                             !isShowSearch ?
                                 (
-                                    <TouchableOpacity onPress={() => navigation.navigate('Search', { searchFor: 'course' })}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('SearchCourse', { searchFor: 'course' })}>
                                         <Icon style={searchStyles.barsIcon} name="search" size={20} color={isDarkTheme ? '#fff' : "#333"} />
                                     </TouchableOpacity>
                                 ) :
@@ -99,7 +99,7 @@ const LearnStack: React.FC<LearnStackProps> = ({ }) => {
             />
             <Stack.Screen
                 options={{ headerShown: false }}
-                name="Search"
+                name="SearchCourse"
                 component={DevxSearch}
             />
         </Stack.Navigator>

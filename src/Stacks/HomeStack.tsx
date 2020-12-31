@@ -1,75 +1,49 @@
 import React, { useContext, useState } from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
 import { HomeParamList } from "../common/ultis/ParamLists/HomeParamList";
 import DevxSearch from "../components/Search/DevxSearch";
-import { TouchableOpacity, Dimensions } from "react-native";
-import Icon from 'react-native-vector-icons/FontAwesome';
-import FeatureIcon from 'react-native-vector-icons/Feather';
-import { Searchbar } from 'react-native-paper';
-import { DrawerActions, useNavigation } from '@react-navigation/native';
-import { searchStyles } from './styles/searchBar';
 import { AuthContext } from "../Providers/AuthProvider";
 import CxDevXFeed from "../components/Feed/Feed";
 import CxPostDetail from "../components/PostDetail/PostDetail";
+import { CxAppBar } from "../components/AppBar/appBar";
+import { useNavigation } from "@react-navigation/native";
 
 interface HomeStackProps { }
-
 const Stack = createStackNavigator<HomeParamList>();
 
 const HomeStack: React.FC<HomeStackProps> = ({ }) => {
     const navigation = useNavigation();
     const { isDarkTheme } = useContext(AuthContext);
     const [isShowSearch, setShowSearch] = useState(false);
-    const [searchValue, setSearchValue] = React.useState<string>('');
-    const screenWidth = Math.round(Dimensions.get('window').width);
+    const [isShowFilter, setShowFilter] = useState(false);
+    const [searchValue, setSearchValue] = useState<string>('');
+    const [filterText, setFilterText] = useState<string>('');
 
     return (
-        <Stack.Navigator initialRouteName="Feed">
-            <Stack.Screen
-                name="Feed"
-                options={{
-                    title: 'Feeds',
-                    headerTitleStyle: {
-                        fontSize: 25
-                    },
-                    headerLeft: () => {
-                        return (
-                            !isShowSearch ?
-                                (<TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
-                                    <Icon style={searchStyles.barsIcon} name="bars" size={25} color={isDarkTheme ? '#fff' : "#333"} />
-                                </TouchableOpacity>)
-                                :
-                                (<TouchableOpacity onPress={() => setShowSearch(false)}>
-                                    <FeatureIcon style={searchStyles.barsIcon} name="arrow-left" size={25} color={isDarkTheme ? '#fff' : "#333"} />
-                                </TouchableOpacity>)
-                        );
-                    },
-                    headerRight: () => {
-                        return (
-                            !isShowSearch ?
-                                (
-                                    <TouchableOpacity onPress={() => navigation.navigate('Search', { searchFor: 'post' })}>
-                                        <Icon style={searchStyles.barsIcon} name="search" size={20} color={isDarkTheme ? '#fff' : "#333"} />
-                                    </TouchableOpacity>
-                                ) :
-                                (
-                                    // <TextInput style={searchStyles.searchBar} placeholder="Search ..." />
-                                    <Searchbar
-                                        placeholder="Search"
-                                        onChangeText={(value) => { setSearchValue(value); console.log(searchValue); }}
-                                        value={searchValue}
-                                        style={{ elevation: 1 }}
-                                    />
-                                )
+        <Stack.Navigator initialRouteName={"Home"}
+            screenOptions={{
+                header: (props) => {
+                    return (
+                        <CxAppBar {...props} title='Feeds'
+                            isShowFilter={isShowFilter}
+                            isShowSearch={isShowSearch}
+                            setShowFilter={(prop: any) => setShowFilter(prop)}
+                            setShowSearch={(prop: any) => setShowSearch(prop)}
+                            setSearchValue={(text: string) => setSearchValue(text)}
+                            setFilterText={(text: string) => setFilterText(text)} />
+                    )
+                }
+            }}>
 
-                        )
-                    }
-                }}
-                component={CxDevXFeed}
-            />
             <Stack.Screen
-                options={{ headerShown: false }}
-                name="Search"
+                options={{ headerShown: true }}
+                name="Home"
+            >
+                {props => <CxDevXFeed {...props} isShowSearch={isShowSearch}/>}
+            </Stack.Screen>
+            <Stack.Screen
+                options={{ headerShown: true }}
+                name="SearchPost"
                 component={DevxSearch}
             />
             <Stack.Screen

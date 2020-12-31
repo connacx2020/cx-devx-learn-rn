@@ -5,13 +5,10 @@ import IonicIcon from 'react-native-vector-icons/Ionicons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import StarRating from 'react-native-star-rating';
 import { useTheme, useNavigation } from '@react-navigation/native';
-import { TouchableRipple, Paragraph, Divider, useTheme as PaperTheme } from 'react-native-paper';
+import { TouchableRipple, Divider, useTheme as PaperTheme } from 'react-native-paper';
 import ViewMoreText from 'react-native-view-more-text';
 
 import { styles } from './style';
-import { Course } from '../../../models';
-import { Query } from '@apollo/react-components';
-import { getUserInfoByIdSchema } from '../../../common/graphQL';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 function CxDevxCourseOverview(props: any) {
