@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { NavigationContainer, DefaultTheme as NavigationDefaultTheme, DarkTheme as NavigationDarkTheme } from "@react-navigation/native";
-import { Provider as PaperProvider, DefaultTheme as PaperDefaultTheme, DarkTheme as PaperDarkTheme  } from 'react-native-paper';
+import { Provider as PaperProvider, DefaultTheme as PaperDefaultTheme, DarkTheme as PaperDarkTheme } from 'react-native-paper';
 import AsyncStorage from "@react-native-community/async-storage";
 
 
@@ -10,11 +10,10 @@ import { AppDrawer } from '../Drawers';
 import { store } from "../common/redux";
 import { saveAuthUserInfo } from "../common/redux/redux-actions";
 
-
 interface RoutesProps { }
 
 export const Routes: React.FC<RoutesProps> = ({ }) => {
-    const { token,isDarkTheme } = useContext(AuthContext);
+    const { token, isDarkTheme } = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [isLogined, setLogin] = useState(false);
 
@@ -22,28 +21,27 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
         ...NavigationDefaultTheme,
         ...PaperDefaultTheme,
         colors: {
-          ...NavigationDefaultTheme.colors,
-          ...PaperDefaultTheme.colors,
-          background: '#DCDEDF',
-          text: '#000000',
-          navbar:'#333'
+            ...NavigationDefaultTheme.colors,
+            ...PaperDefaultTheme.colors,
+            background: '#DCDEDF',
+            text: '#000000',
+            navbar: '#333'
         }
-      }
+    }
 
-      const CustomDarkTheme = {
+    const CustomDarkTheme = {
         ...NavigationDarkTheme,
         ...PaperDarkTheme,
         colors: {
-          ...NavigationDarkTheme.colors,
-          ...PaperDarkTheme.colors,
-          background: '#686868',
-          text: '#ffffff',
-          navbar:'#000'
+            ...NavigationDarkTheme.colors,
+            ...PaperDarkTheme.colors,
+            background: '#686868',
+            text: '#ffffff',
+            navbar: '#000'
         }
-      }
+    }
 
-      const theme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme;
-
+    const paperTheme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme;
 
     useEffect(() => {
         AsyncStorage.getItem("devx_token")
@@ -63,9 +61,9 @@ export const Routes: React.FC<RoutesProps> = ({ }) => {
     }, [token]);
 
     return (
-        <PaperProvider theme={theme}>
-            <NavigationContainer theme={theme}>
-                { !isLogined ? <AuthStack /> : <AppDrawer />}
+        <PaperProvider theme={paperTheme}>
+            <NavigationContainer theme={paperTheme}>
+                {!isLogined ? <AuthStack /> : <AppDrawer />}
             </NavigationContainer>
         </PaperProvider>
     );

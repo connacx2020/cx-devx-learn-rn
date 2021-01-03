@@ -1,6 +1,7 @@
 export type AppParamList = {
     Home: undefined;
-    Mentor:undefined;
+    Mentor: undefined;
     Learn: undefined;
     Topic: undefined;
+    styledComp: undefined;
 };

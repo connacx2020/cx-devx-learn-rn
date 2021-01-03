@@ -8,6 +8,7 @@ import HomeStack from '../Stacks/HomeStack';
 import LearnStack from '../Stacks/LearnStack';
 import TopicStack from '../Stacks/TopicStack';
 import MentorStack from '../Stacks/MentorStack';
+import CxStyledComponentsStack from "../Stacks/StyledComponentsStack";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tabs = createBottomTabNavigator<AppParamList>();
@@ -16,6 +17,7 @@ export const AppTabs: React.FC<{}> = ({ }) => {
 
     return (
         <Tabs.Navigator
+            initialRouteName="styledComp"
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
                     let iconName: string = "";
@@ -43,6 +45,13 @@ export const AppTabs: React.FC<{}> = ({ }) => {
                     tabBarVisible: true
                 }}
             />
+
+            <Tabs.Screen name="styledComp" component={CxStyledComponentsStack}
+                options={{
+                    tabBarVisible: true
+                }}
+            />
+
             {/* <Tabs.Screen name="Mentor" component={MentorStack} /> */}
             <Tabs.Screen name="Learn" component={LearnStack}
                 options={{
