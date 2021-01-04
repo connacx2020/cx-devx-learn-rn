@@ -120,6 +120,7 @@ function CxPostDetail(props: any) {
                                     </Text>
                                 </View> : null
                         }
+                        <Text>Topics: {postData.topics?.topicIDs}</Text>
                         <Markdown style={{
                             body: { color: colors.text },
                             hr: { backgroundColor: colors.background },

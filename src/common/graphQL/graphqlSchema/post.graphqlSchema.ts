@@ -36,6 +36,9 @@ const PostData_Fragment = {
                 photo
             }
         }
+        topics {
+          topicIDs
+        }
         access
         tags
         postedOn

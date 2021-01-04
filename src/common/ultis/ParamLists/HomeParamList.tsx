@@ -13,5 +13,5 @@ export type HomeParamList = {
 export type HomeStackNavProps<T extends keyof HomeParamList> = {
   navigation: StackNavigationProp<HomeParamList, T>;
   route: RouteProp<HomeParamList, T>;
-  isShowSearch: boolean;
+  selectedTopic: string;
 };

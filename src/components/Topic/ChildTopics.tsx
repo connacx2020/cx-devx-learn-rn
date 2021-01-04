@@ -41,7 +41,7 @@ function CxDevxChildTopic({ route }: any) {
     }
 
     return (
-        <ScrollView style={styles.body}>
+        <ScrollView style={styles.container}>
             <Query<any, any> query={getChildTopicsSchema} variables={{ parentTopicID: rootTopicID }} client={graphqlClient}>
                 {
                     (getChildTopics) => {
