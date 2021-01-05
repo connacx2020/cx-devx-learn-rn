@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import { ThemeStyle } from '../../../models';
 
 export const CxStyCard = styled.View`
@@ -8,4 +8,7 @@ export const CxStyCard = styled.View`
         background: ${({ theme }: { theme: ThemeStyle }) => theme.color.primary};
         shadowOpacity: 0.5;
         shadowRadius: 5;
-`; 
+        height: 210;
+        marginHorizontal: 10;
+        marginVertical: 10;
+`;

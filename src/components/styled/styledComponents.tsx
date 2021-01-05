@@ -1,19 +1,16 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, Image } from 'react-native'
 import { Button } from 'react-native'
 import { ThemeProvider } from 'styled-components'
 import { CxStyTouchableOpacity } from './elements/buttons'
 import { CxStyCard } from './elements/cards'
 import { CxButtonText, CxStyTitle, CxStyText } from './elements/texts'
-import { CxStyMainView } from './elements/views'
+import { CxStyVView, CxStyMainView, CxStyHView } from './elements/views'
 import theme, { themeModes } from './theme/theme'
-import HomeStack from '../../Stacks/HomeStack';
-import LearnStack from '../../Stacks/LearnStack';
-import TopicStack from '../../Stacks/TopicStack';
-import MentorStack from '../../Stacks/MentorStack';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { CxStyImage } from './elements/images'
 
 const Tabs = createBottomTabNavigator();
 
@@ -32,17 +29,36 @@ function CxStyledComponents() {
             <CxStyMainView>
                 <CxStyText>Buttons</CxStyText>
                 <CxStyTouchableOpacity>
-                    <CxButtonText onPress={toggleTheme}>switch theme!</CxButtonText>
+                    <View style={{ alignSelf: 'flex-start', padding: 12, backgroundColor: 'blue', borderRadius: 5 }} >
+                        <CxButtonText onPress={toggleTheme}>switch theme!</CxButtonText>
+                    </View>
                 </CxStyTouchableOpacity>
 
                 <CxStyText>Cards</CxStyText>
                 <CxStyCard>
-                    <CxStyTitle>card</CxStyTitle>
+                    <CxStyImage
+                        testID="imgID"
+                        source={{
+                            uri: 'https://cx-devx-cdn-uploaded-images.s3.ap-southeast-1.amazonaws.com/topic-logos/0f30104a-c046-4ad1-b08e-7dcae849af37.jpeg'
+                        }} />
+
+                    <CxStyHView justifyType="end" alignType="center">
+                        <CxStyVView justifyType="center"  >
+                            <CxStyText>Graphql Course</CxStyText>
+                            <CxStyText>3 $</CxStyText>
+                        </CxStyVView>
+                        <CxStyTouchableOpacity>
+                            <View style={{ padding: 8, backgroundColor: 'blue', borderRadius: 5 }} >
+                                <CxButtonText>Enroll</CxButtonText>
+                            </View>
+                        </CxStyTouchableOpacity>
+                    </CxStyHView>
                 </CxStyCard>
 
                 <View style={{ height: 70 }}>
                     <CxStyText>Tabs</CxStyText>
                     <Tabs.Navigator
+
                         initialRouteName="Topic"
                         screenOptions={({ route }) => ({
                             tabBarIcon: ({ focused, color, size }) => {
@@ -66,7 +82,6 @@ function CxStyledComponents() {
                             inactiveTintColor: "gray",
                             style: {
                                 position: 'relative',
-                                backgroundColor: 'red'
                             }
                         }}
 
@@ -92,7 +107,7 @@ function CxStyledComponents() {
                     </Tabs.Navigator>
                 </View>
             </CxStyMainView>
-        </ThemeProvider>
+        </ThemeProvider >
     )
 }
 
