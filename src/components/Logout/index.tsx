@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, DevSettings } from 'react-native';
 
 import { AuthContext } from "../../Providers/AuthProvider";
 import { Center } from '../../common/ultis/Center';
@@ -9,7 +9,8 @@ export const CxDevxLogout: React.FC = () => {
 
     useEffect(() => {
         logout();
-    })
+        DevSettings.reload()
+    }, [])
 
     return (
         <Center>
