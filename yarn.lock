@@ -6738,6 +6738,11 @@ react-native-fit-image@^1.5.5:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-flags-typescript@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-flags-typescript/-/react-native-flags-typescript-1.0.1.tgz#7c0f64b41f2af1328e4e96faa7149154cc64b32c"
+  integrity sha512-yIGgOPLM6bmCMRKQgB4evMRCf94LSMcOz7J6qaQuhUdy6p/K8zurBcic4ck3UqFD7NucjYMweY5Hb/I0xNDTXA==
+
 react-native-formik@^1.7.8:
   version "1.7.8"
   resolved "https://registry.yarnpkg.com/react-native-formik/-/react-native-formik-1.7.8.tgz#dc82b735dc104cb048dc127c6d154abe8aea3cb2"
@@ -6767,6 +6772,11 @@ react-native-iphone-x-helper@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.1.tgz#645e2ffbbb49e80844bb4cbbe34a126fda1e6772"
   integrity sha512-/VbpIEp8tSNNHIvstuA3Swx610whci1Zpc9mqNkqn14DkMbw+ORviln2u0XyHG1kPvvwTNGZY6QpeFwxYaSdbQ==
+
+react-native-linear-gradient@^2.5.6:
+  version "2.5.6"
+  resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.5.6.tgz#96215cbc5ec7a01247a20890888aa75b834d44a0"
+  integrity sha512-HDwEaXcQIuXXCV70O+bK1rizFong3wj+5Q/jSyifKFLg0VWF95xh8XQgfzXwtq0NggL9vNjPKXa016KuFu+VFg==
 
 react-native-markdown-display@^6.1.6:
   version "6.1.6"
@@ -6912,6 +6922,11 @@ react-native-tab-view@^2.14.2:
   version "2.14.2"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.14.2.tgz#5f1e2063f632ec7f8ab27374ecaf72677788b445"
   integrity sha512-BkQ9htmUM3iroMTgIdCSP+1On8bRHkgFHiOCAnk9OhoFlQOvwZebSU6k705QBDeuuwEVIIT4+C+nT2MvXI/FEQ==
+
+react-native-tooltips@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-tooltips/-/react-native-tooltips-1.0.2.tgz#51f8f0e5e49f1a1999a37f257d7d04c0c5d69593"
+  integrity sha512-4JDI9fjWmCeiGzSGp5FFEPRYCX/kfawd+IU9LEIN8oICV5AWowF6xmCt0Qtxiqh8Ek4y0nF1JLSO3HeVXGXPAQ==
 
 react-native-vector-icons@^4.5.0:
   version "4.6.0"

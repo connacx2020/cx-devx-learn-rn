@@ -14,6 +14,7 @@ const UserInfoFragment = {
         phones
         about
         roles
+        nationality
         weblinks {
             source
             url

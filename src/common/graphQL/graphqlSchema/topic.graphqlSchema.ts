@@ -22,8 +22,8 @@ query searchTopicsByText($text: String!) {
   `;
 
 export const getAllTopicsSchema = gql`
-query{
-  findAllTopic{
+query findAllTopics{
+  findAllTopics {
     ...TopicQuery
   }
 }

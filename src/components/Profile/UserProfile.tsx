@@ -1,18 +1,20 @@
 import React from 'react';
-import { View, Text, ScrollView, Image, TouchableOpacity, ImageBackground } from 'react-native';
-import FeatherIcon from 'react-native-vector-icons/Feather';
-import { useNavigation, useRoute, useTheme } from '@react-navigation/native';
+import { View, Text, ScrollView, Image } from 'react-native';
+import { DrawerActions, useNavigation, useRoute, useTheme } from '@react-navigation/native';
 import { getCheckedUserInfo } from '../../common/ultis/getUserInfo';
 import { Async } from 'react-async';
-
+import LinearGradient from 'react-native-linear-gradient';
 import { styles } from './user_styles';
+import FeatureIcon from 'react-native-vector-icons/Feather';
+import Flag from 'react-native-flags-typescript';
+import { Card } from 'react-native-paper';
 
 export const UserProfile: React.FC = () => {
     const route = useRoute();
     const navigation = useNavigation();
     const { colors } = useTheme();
     return (
-        <ScrollView style={[styles.wrapper, { backgroundColor: colors.background }]}>
+        <ScrollView style={[{ backgroundColor: colors.background }]}>
             <Async promise={getCheckedUserInfo(route.params.id)}>
                 {
                     ({ data, error, isLoading }) => {
@@ -20,52 +22,37 @@ export const UserProfile: React.FC = () => {
                         if (isLoading) return <View><Text>loading</Text></View>
                         if (error) return <View><Text>{error}</Text></View>
                         if (data) {
+                            console.log("national",data.nationality)
                             return (
-                                <>
-                                    <ImageBackground
-                                        testID="bgID"
-                                        source={{
-                                            uri:
-                                                "https://cdn4.vectorstock.com/i/1000x1000/77/88/poligonal-background-of-rhombus-gradient-colors-vector-20407788.jpg"
-                                        }}
-                                        style={styles.header}>
-                                        <View style={styles.header_left}>
-                                            <TouchableOpacity
-                                                style={styles.back_arrow}
-                                                onPress={() => navigation.goBack()}>
-                                                <FeatherIcon
-                                                    testID="iconID"
-                                                    name={'arrow-left'}
-                                                    size={25}
-                                                    color={'#fff'}
-                                                />
-                                            </TouchableOpacity>
-                                            <View style={styles.avator_container}>
-                                                <Image
-                                                    testID="avatarID"
-                                                    style={styles.avatar}
-                                                    source={{
-                                                        uri: data.photo
-                                                    }}
-                                                />
+                                <View style={styles.container}>
+                                    <LinearGradient
+                                        style={styles.topContainer}
+                                        colors={['#48C9B0', '#58D68D']}>
+                                        <View style={styles.header}>
+                                            <FeatureIcon name="menu" size={25} color='white' onPress={() => navigation.dispatch(DrawerActions.openDrawer())} />
+                                        </View>
+                                        <View style={styles.topMain}>
+                                            <Image
+                                                testID="avatarID"
+                                                style={styles.avatar}
+                                                source={{
+                                                    uri: data.photo
+                                                }}
+                                            />
+                                            <View style={styles.nameSection}>
+                                                <Text testID="nameID" style={styles.name}>{data.name}</Text>
+                                                <Flag code={data.nationality} size={32}/>
                                             </View>
                                         </View>
-                                        <View style={styles.header_right}>
-                                            <Text testID="nameID" style={styles.user_name}>{data.name}</Text>
-                                            <View style={styles.devx_view_field}>
-                                                <TouchableOpacity testID="btnID" style={styles.devx_view_btn}>
-                                                    <Text testID="btnTxt">View on Devx</Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                        </View>
-                                    </ImageBackground>
-                                    <View style={styles.body}>
-                                        <View style={{ marginHorizontal: 20, elevation: 2, marginVertical: 10 }}>
-                                            <Text style={{ fontSize: 20, padding: 10 }}>{data.about}</Text>
-                                        </View>
+                                    </LinearGradient>
+                                    {/* <Card
+                                        style={
+                                            
+                                        }
+                                    >
 
-                                    </View>
-                                </>
+                                    </Card> */}
+                                </View>
                             )
                         }
                     }

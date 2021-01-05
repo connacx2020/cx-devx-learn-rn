@@ -1,12 +1,52 @@
-import { DrawerActions } from "@react-navigation/native";
-import React, { FC, useState } from "react";
-import { TextInput } from "react-native";
+import { useQuery } from "@apollo/react-hooks";
+import { Picker } from "@react-native-community/picker";
+import { DrawerActions, useTheme } from "@react-navigation/native";
+import React, { FC, useEffect, useState } from "react";
 import { Appbar } from "react-native-paper";
+import { getAllTopicsSchema } from "../../common/graphQL";
+import { styles } from "./styles";
 
-export const CxAppBar: FC<any> = ({ navigation, previous, title, setShowFilter, setShowSearch, isShowFilter, isShowSearch }) => {
-    const [placeholder, setPlaceholder] = useState('');
+export const CxAppBar: FC<any> = (props) => {
+    const { navigation, previous, title } = props;
+    const [showSearch, setShowSearch] = useState(false);
+    const [showFilter, setShowFilter] = useState(false);
+    const [selectedValue, setSelectedValue] = useState('');
+    const [topics, setTopics] = useState([] as any);
+    const { colors } = useTheme();
+    const getAllTopicsQuery = useQuery(getAllTopicsSchema, { notifyOnNetworkStatusChange: true });
+
+    const handleBackPress = () => {
+        if (showFilter) {
+            setShowFilter(false);
+            setSelectedValue('');
+            props.setSelectedTopic('');
+        }
+        else {
+            setShowSearch(false);
+            navigation.goBack;
+        }
+    }
+
+    const handleItemPress = (item: string) => {
+        if (item.toLowerCase() === 'filter') {
+            setShowFilter(true);
+        } else {
+            setShowSearch(true);
+            navigation.navigate('SearchPost', { searchFor: 'post' });
+        }
+    }
+
+    const handlePickerValueChange = (itemValue: any, itemIndex: any) => {
+        setSelectedValue(itemValue);
+        props.setSelectedTopic(itemValue);
+    }
+
+    useEffect(() => {
+        getAllTopicsQuery?.data && setTopics(getAllTopicsQuery.data.findAllTopics);
+    }, [getAllTopicsQuery.data])
+
     return (
-        !isShowFilter && !isShowSearch ?
+        !showFilter && !showSearch ?
             <Appbar.Header>
                 {
                     previous ?
@@ -15,15 +55,25 @@ export const CxAppBar: FC<any> = ({ navigation, previous, title, setShowFilter, 
                 }
                 <Appbar.Content title={title} />
                 <Appbar.Action icon="filter"
-                    onPress={() => {
-                        setShowFilter(true);
-                        setPlaceholder('Filter');
-                    }} />
-                <Appbar.Action icon="magnify" onPress={() => { setShowSearch(true); setPlaceholder('Search here'); }} />
+                    onPress={() => handleItemPress('filter')} />
+                <Appbar.Action icon="magnify" onPress={() => handleItemPress('search')} />
             </Appbar.Header> :
-            <Appbar style={{ margin: 0, padding: 0 }}>
-                <Appbar.BackAction onPress={() => { setShowSearch(false); setShowFilter(false); }} />
-                <TextInput autoFocus placeholder={placeholder} placeholderTextColor="#D3CFCF" style={{ color: 'white', fontSize: 18 }} />
+            <Appbar>
+                <Appbar.BackAction onPress={handleBackPress} />
+                <Picker
+                    testID='pickerFilter'
+                    style={styles.pickerContainer}
+                    mode='dropdown'
+                    selectedValue={selectedValue}
+                    onValueChange={handlePickerValueChange}
+                    accessibilityHint="Select Topic to Filter"
+                >
+                    <Picker.Item label="Filter by Topic" value="" color="#A4A2A2" />
+                    {
+                        topics?.map((topic: any) => <Picker.Item label={topic.title} value={topic.id} />)
+                    }
+                </Picker>
+                <Appbar.Action icon="filter" color="white" />
             </Appbar>
     );
 } 

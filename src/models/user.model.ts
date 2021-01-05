@@ -18,6 +18,7 @@ export interface User {
     weblinks: WebLink[],
     about: string,
     connections: number,
+    nationality: string,
     contexts: UserContext[]
 }
 

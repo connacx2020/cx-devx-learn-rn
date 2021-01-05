@@ -7,7 +7,7 @@ import { searchCourseByTitle, searchPostsByTextSchema, searchTopicsByTextSchema 
 import { SearchItemCoverLeft } from '../SearchResultItem/CoverLeftItem';
 
 const DevxSearch: React.FC = (props: any) => {
-    const { searchFor } = props.route?.params;
+    const { searchFor } = props?.route?.params;
     const [searchedResultData, setSearchedData] = useState([]);
     const [searchCourses, resultCourses] = useLazyQuery(searchCourseByTitle, { variables: { courseTitle: '' }, onCompleted: data => { setSearchedData(data.findCourseByTitle.map((res: any) => res)) } });
     const [searchTopics, resultTopics] = useLazyQuery(searchTopicsByTextSchema, { variables: { text: '' }, onCompleted: data => { setSearchedData(data.searchTopicsByText.map((res: any) => res)) } });
@@ -33,6 +33,10 @@ const DevxSearch: React.FC = (props: any) => {
             cases[searchFor]();
         }
     }
+
+    React.useEffect(() => {
+        navigation.setOptions({ title: 'search' });
+    }, [])
 
     return (
         <View>
