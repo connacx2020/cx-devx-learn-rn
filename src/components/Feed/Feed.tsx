@@ -6,13 +6,11 @@ import {
     ActivityIndicator,
     Image
 } from 'react-native';
-import CxPostDetail from '../PostDetail/PostDetail';
 import { useLazyQuery, useQuery } from '@apollo/react-hooks';
 import { getAllPostsSchema, getPostRelatedUsersSchema } from '../../common/graphQL/graphqlSchema/post.graphqlSchema';
 import { HomeStackNavProps } from '../../common/ultis/ParamLists/HomeParamList';
 import { styles } from './styles';
 import { useTheme } from '@react-navigation/native';
-import Markdown from 'react-native-markdown-display';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Divider } from 'react-native-paper';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
@@ -87,7 +85,7 @@ function CxDevXFeed({ navigation, route, selectedTopic }: HomeStackNavProps<"Hom
                                 </View>
                                 <Divider accessibilityStates='' />
                                 <View style={{ flexDirection: 'row', paddingVertical: 5, justifyContent: 'space-between', paddingHorizontal: 16 }}>
-                                    {renderPost(post.id)}
+                                    {/* {renderPost(post.id)} */}
                                     <EntypoIcon name="dot-single" size={25} color={colors.text} />
                                     {/* <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{comments.length} Comment{comments.length > 1 && 's'}</Text>
                                     <EntypoIcon name="dot-single" size={25} color={colors.text} />
