@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
 const PostData_Fragment = {
-  postResult: gql`
+    postResult: gql`
     fragment PostRequestData on PostType {
         id
         author {
@@ -57,6 +57,9 @@ query getPostsWithFilters{
       photo
       name
       id
+    }
+    comments{
+        id
     }
     authorID
     title

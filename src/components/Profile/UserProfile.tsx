@@ -25,7 +25,6 @@ export const UserProfile: React.FC = () => {
                     if (isLoading) return <View><Text>loading</Text></View>
                     if (error) return <View><Text>{error}</Text></View>
                     if (data) {
-                        console.log("national", data.nationality)
                         return (
                             <View style={styles.container}>
                                 <LinearGradient
@@ -61,14 +60,14 @@ export const UserProfile: React.FC = () => {
                                 >
                                     <ScrollView>
                                         <View style={{ margin: 30 }}>
-                                            <Text style={[styles.labelText, {color: colors.text}]}>About</Text>
-                                            <Text style={[styles.aboutText, , {color: colors.text}]}>{data.about}</Text>
+                                            <Text style={[styles.labelText, { color: colors.text }]}>About</Text>
+                                            <Text style={[styles.aboutText, , { color: colors.text }]}>{data.about}</Text>
 
-                                            <Text style={[styles.labelText, , {color: colors.text}]}>Links</Text>
+                                            <Text style={[styles.labelText, , { color: colors.text }]}>Links</Text>
                                             {
                                                 data.weblinks && data.weblinks.map(link =>
                                                     <View style={{ flexDirection: 'row', padding: 7 }}>
-                                                        <Text style={[styles.sourceText, {color: colors.text}]}>{link.source} : </Text>
+                                                        <Text style={[styles.sourceText, { color: colors.text }]}>{link.source} : </Text>
                                                         <Text style={styles.linkText} onPress={() => Linking.openURL(link.url)}>{link.url}</Text>
                                                     </View>
                                                 )

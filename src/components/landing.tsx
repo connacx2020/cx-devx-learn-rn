@@ -13,7 +13,7 @@ function CxDevxLanding({ navigation }: AuthNavProps<"Login">) {
     return (
         <View style={styles.body}>
             <Text style={styles.text}>
-                Welcome from Devx!
+                Welcome to devX!
             </Text>
         </View>
     )
