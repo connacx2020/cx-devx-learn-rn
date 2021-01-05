@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useContext } from 'react';
 import { styles } from './styles'
-import { View, Text, TextInput, TouchableOpacity, Button } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Button, Image } from 'react-native';
 import { compose } from 'recompose';
 import { Formik } from 'formik';
 import { handleTextInput, withNextInputAutoFocusInput, withNextInputAutoFocusForm } from 'react-native-formik';
@@ -30,7 +30,9 @@ function CxDevxLogin({
     return (
         <View style={styles.body}>
             <View style={styles.brandField}>
-                <Text style={styles.brandText} testID="loginPageBrand">DevX</Text>
+                {/* <Text style={styles.brandText} testID="loginPageBrand">DevX</Text> */}
+                <Image source={require('../../asset/blackDevX.png')} />
+
             </View>
             <Formik
                 validationSchema={LoginSchema}
@@ -81,7 +83,7 @@ function CxDevxLogin({
                                     </Text>
                                 ) : null}
                             {!errors ? null :
-                            <Text testID="authErrId" style={styles.invalid}>{errors}</Text>}
+                                <Text testID="authErrId" style={styles.invalid}>{errors}</Text>}
                             <TouchableOpacity
                                 onPress={FormikProps.handleSubmit}
                                 testID="loginBtn"
