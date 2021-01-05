@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
         elevation: 5,
         marginVertical: 3,
         marginHorizontal: 5,
+        paddingVertical: 5
     },
     query_info: {
         flex: 1,
@@ -53,11 +54,10 @@ export const styles = StyleSheet.create({
     titleContainer: {
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
     },
     titleText: {
-        fontWeight: '200',
-        fontSize: 16,
+        fontWeight: 'bold',
+        fontSize: 18,
         padding: 5
     },
 });
