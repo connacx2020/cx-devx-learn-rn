@@ -23,7 +23,7 @@ export const CxAppBar: FC<any> = (props) => {
         }
         else {
             setShowSearch(false);
-            navigation.goBack;
+            navigation.goBack();
         }
     }
 
@@ -50,7 +50,7 @@ export const CxAppBar: FC<any> = (props) => {
             <Appbar.Header>
                 {
                     previous ?
-                        <Appbar.BackAction onPress={() => navigation.goBack} /> :
+                        <Appbar.BackAction onPress={() => navigation.goBack()} /> :
                         <Appbar.Action icon="menu" color="white" onPress={() => navigation.dispatch(DrawerActions.openDrawer())} />
                 }
                 <Appbar.Content title={title} />
