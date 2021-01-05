@@ -50,10 +50,26 @@ const PostData_Fragment = {
 export const getAllPostsSchema = gql`
 query getPostsWithFilters{
   getPostsWithFilters {
-    ...PostRequestData
+    id
+    content
+    tags
+    author {
+      photo
+      name
+      id
+    }
+    authorID
+    title
+    isPublished
+    seriesID
+    category
+    access
+    postedOn
+    topics {
+      topicIDs
+    }
   }
 }
-${PostData_Fragment.postResult}
 `;
 
 export const getPostByIDSchema = gql`
@@ -63,6 +79,24 @@ query fetchPostByID($postID:ID!){
   }
 }
 ${PostData_Fragment.postResult}
+`;
+
+export const getCommentByPostIDSchema = gql`
+query fetchPostByID($postID:ID!){
+  searchPostByID(postID:$postID) {
+    comments {
+      id
+      authorID
+      content
+      commentedOn
+      author {
+          id
+          name
+          photo
+      }
+    }
+  }
+}
 `;
 
 export const addCommentSchema = gql`

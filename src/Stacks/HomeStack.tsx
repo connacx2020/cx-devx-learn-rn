@@ -34,7 +34,7 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
                 {props => <CxDevXFeed {...props} selectedTopic={selectedTopic} />}
             </Stack.Screen>
             <Stack.Screen
-                options={{ headerShown: true }}
+                options={{ headerShown: false }}
                 name="SearchPost"
                 component={DevxSearch}
             />

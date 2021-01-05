@@ -18,6 +18,8 @@ export const CxAppBar: FC<any> = (props) => {
     const handleBackPress = () => {
         if (showFilter) {
             setShowFilter(false);
+            setSelectedValue('');
+            props.setSelectedTopic('');
         }
         else {
             setShowSearch(false);

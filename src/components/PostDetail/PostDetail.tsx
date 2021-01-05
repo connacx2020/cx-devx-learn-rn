@@ -12,7 +12,8 @@ import {
     addLikeSchema,
     removeLikeSchema,
     isPostLikedSchema,
-    getPostRelatedUsersSchema
+    getPostRelatedUsersSchema,
+    getCommentByPostIDSchema
 } from '../../common/graphQL';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { useNavigation, useTheme } from '@react-navigation/native';
@@ -40,11 +41,11 @@ function CxPostDetail(props: any) {
     const [comments, setComment] = useState([] as any);
     const [addLike] = useMutation(addLikeSchema, { client: graphqlClient });
     const [removeLike] = useMutation(removeLikeSchema, { client: graphqlClient });
-    const fetchPostLikes = useQuery(getPostRelatedUsersSchema, { variables: { postID: props.postID, option: 'likes' } });
-    const fetchPostViews = useQuery(getPostRelatedUsersSchema, { variables: { postID: props.postID, option: 'views' } });
+    // const fetchPostLikes = useQuery(getPostRelatedUsersSchema, { variables: { postID: props.postID, option: 'likes' } });
+    // const fetchPostViews = useQuery(getPostRelatedUsersSchema, { variables: { postID: props.postID, option: 'views' } });
     const auth: AuthUserInfo = useSelector((state: any) => state.authUserInfo);
-    const isPostLikedQuery = useQuery(isPostLikedSchema, { variables: { authorID: auth.userID, postID: props.postID }, client: graphqlClient, notifyOnNetworkStatusChange: true })
-    const getPostByIDQuery = useQuery(getPostByIDSchema, { variables: { postID: postData.id }, client: graphqlClient, notifyOnNetworkStatusChange: true });
+    // const isPostLikedQuery = useQuery(isPostLikedSchema, { variables: { authorID: auth.userID, postID: props.postID }, client: graphqlClient, notifyOnNetworkStatusChange: true })
+    const getPostCommentsQuery = useQuery(getCommentByPostIDSchema, { variables: { postID: postData.id }, client: graphqlClient, notifyOnNetworkStatusChange: true });
     const handleLikeButton = () => {
         isLiked ? from(removeLike({
             variables: { postID: props.postID, userID: auth.userID },
@@ -55,7 +56,7 @@ function CxPostDetail(props: any) {
         }))
             .subscribe(res => {
                 setLike(false);
-                fetchPostLikes.refetch();
+                // fetchPostLikes.refetch();
             }, err => {
                 ToastAndroid.showWithGravity(
                     "Cannot UnLike",
@@ -71,7 +72,7 @@ function CxPostDetail(props: any) {
             }))
                 .subscribe(res => {
                     setLike(true)
-                    fetchPostLikes.refetch();
+                    // fetchPostLikes.refetch();
                 }, err => {
                     ToastAndroid.showWithGravity(
                         "Cannot Like",
@@ -83,14 +84,14 @@ function CxPostDetail(props: any) {
 
     useEffect(() => {
         props?.route?.params && navigation.setOptions({ id: postData.id, title: postData.title });
-        isPostLikedQuery?.data?.isPostLikedByUser ? setLike(true) : setLike(false);
-        getPostByIDQuery?.data?.searchPostByID && setComment(getPostByIDQuery?.data?.searchPostByID.comments);
-        fetchPostLikes?.data?.getPostRelatedUsers && setLikes(fetchPostLikes?.data?.getPostRelatedUsers.users);
-        fetchPostViews?.data?.getPostRelatedUsers && setViews(fetchPostViews?.data?.getPostRelatedUsers.users);
-    }, [isPostLikedQuery.data, getPostByIDQuery.data, fetchPostViews.data, fetchPostLikes.data]);
-
+        // isPostLikedQuery?.data?.isPostLikedByUser ? setLike(true) : setLike(false);
+        getPostCommentsQuery?.data?.searchPostByID && setComment(getPostCommentsQuery?.data?.searchPostByID.comments);
+        // fetchPostLikes?.data?.getPostRelatedUsers && setLikes(fetchPostLikes?.data?.getPostRelatedUsers.users);
+        // fetchPostViews?.data?.getPostRelatedUsers && setViews(fetchPostViews?.data?.getPostRelatedUsers.users);
+    }, []);
+// [isPostLikedQuery.data, getPostCommentsQuery.data, fetchPostViews.data, fetchPostLikes.data]
     return (
-        <ScrollView style={[styles.container, { backgroundColor: colors.card }]}>
+        <View style={[styles.container, { backgroundColor: colors.card }]}>
 
             <View style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                 <View
@@ -153,7 +154,7 @@ function CxPostDetail(props: any) {
                 </View>
 
 
-                <Divider />
+                <Divider accessibilityStates=''/>
                 <View style={{ flexDirection: 'row', paddingVertical: 5, justifyContent: 'space-between', paddingHorizontal: 16 }}>
                     <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{likes.length} like{likes.length > 1 && 's'} </Text>
                     <EntypoIcon name="dot-single" size={25} color={colors.text} />
@@ -161,27 +162,27 @@ function CxPostDetail(props: any) {
                     <EntypoIcon name="dot-single" size={25} color={colors.text} />
                     <Text style={{ color: colors.text, alignSelf: 'center', fontSize: 12 }}>{views.length} View{views.length > 1 && 's'}</Text>
                 </View>
-                <Divider />
+                <Divider accessibilityStates=''/>
 
                 <View style={styles.footer}>
-                    <TouchableOpacity onPress={handleLikeButton}>
+                    {/* <TouchableOpacity onPress={handleLikeButton}>
                         <AntIcon
                             name={isLiked ? 'like1' : 'like2'}
                             size={25}
                             color={isLiked ? colors.primary : colors.text}
                         />
-                    </TouchableOpacity>
-                    <TouchableOpacity
+                    </TouchableOpacity> */}
+                    {/* <TouchableOpacity
                         onPress={() => setModalVisible(!isModalVisible)}
                     >
                         <Text style={{ color: colors.text }}>
                             <EvilIcons name="comment" size={30} />
                         </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             </View>
             <CxDevxCommentModal postID={postData.id} commentInfo={comments} isLiked={isLiked} isModalVisible={isModalVisible} unlikePress={handleLikeButton} likePress={handleLikeButton} setModalVisible={setModalVisible} />
-        </ScrollView>
+        </View>
     )
 }
 

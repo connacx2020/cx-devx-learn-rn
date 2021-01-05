@@ -1,11 +1,12 @@
 import { Dimensions, StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-    modalContainer: {
+    container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22,
+        flexDirection: 'column',
+        elevation: 5,
+        marginVertical: 3,
+        marginHorizontal: 5,
     },
     query_info: {
         flex: 1,
@@ -23,5 +24,40 @@ export const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 10,
         elevation: 2
+    },
+    info_txt: {
+        fontSize: 17,
+    },
+    info_time: {
+        fontSize: 13,
+    },
+    content: {
+        flexDirection: 'column',
+        margin: 5,
+        padding: 5,
+        paddingVertical: 10,
+    },
+    content_title: {
+        fontWeight: 'bold',
+        fontSize: 20
+    },
+    content_title_txt: {
+        fontWeight: 'bold',
+        fontSize: 16,
+        paddingVertical: 10
+    },
+    content_txt: {
+        padding: 5,
+        fontSize: 15
+    },
+    titleContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    titleText: {
+        fontWeight: '200',
+        fontSize: 16,
+        padding: 5
     },
 });
