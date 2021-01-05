@@ -61,14 +61,14 @@ export const UserProfile: React.FC = () => {
                                 >
                                     <ScrollView>
                                         <View style={{ margin: 30 }}>
-                                            <Text style={styles.labelText}>About</Text>
-                                            <Text style={styles.aboutText}>{data.about}</Text>
+                                            <Text style={[styles.labelText, {color: colors.text}]}>About</Text>
+                                            <Text style={[styles.aboutText, , {color: colors.text}]}>{data.about}</Text>
 
-                                            <Text style={styles.labelText}>Links</Text>
+                                            <Text style={[styles.labelText, , {color: colors.text}]}>Links</Text>
                                             {
                                                 data.weblinks && data.weblinks.map(link =>
                                                     <View style={{ flexDirection: 'row', padding: 7 }}>
-                                                        <Text style={styles.sourceText}>{link.source}:</Text>
+                                                        <Text style={[styles.sourceText, {color: colors.text}]}>{link.source} : </Text>
                                                         <Text style={styles.linkText} onPress={() => Linking.openURL(link.url)}>{link.url}</Text>
                                                     </View>
                                                 )
