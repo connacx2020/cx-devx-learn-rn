@@ -11,6 +11,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import FeatureIcon from 'react-native-vector-icons/Feather';
 import { Searchbar } from 'react-native-paper';
 import DevxSearch from "../components/Search/DevxSearch";
+import { CxAppBar } from "../components/AppBar/appBar";
 
 interface TopicStackProps { }
 
@@ -28,40 +29,11 @@ const TopicStack: React.FC<TopicStackProps> = ({ }) => {
         name="Topics"
         options={{
           title: 'Topics',
-          headerTitleStyle: {
-            fontSize: 25
-          },
-          headerLeft: () => {
+          header: (props) => {
             return (
-              !isShowSearch ?
-                (<TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
-                  <Icon style={searchStyles.barsIcon} name="bars" size={25} color={isDarkTheme ? '#fff' : "#333"} />
-                </TouchableOpacity>)
-                :
-                (<TouchableOpacity onPress={() => setShowSearch(false)}>
-                  <FeatureIcon style={searchStyles.barsIcon} name="arrow-left" size={25} color={isDarkTheme ? '#fff' : "#333"} />
-                </TouchableOpacity>)
-            );
-          },
-          headerRight: () => {
-            return (
-              !isShowSearch ?
-                (
-                  <TouchableOpacity onPress={() => navigation.navigate('SearchTopic', { searchFor: 'topic' })}>
-                    <Icon style={searchStyles.barsIcon} name="search" size={20} color={isDarkTheme ? '#fff' : "#333"} />
-                  </TouchableOpacity>
-                ) :
-                (
-                  // <TextInput style={searchStyles.searchBar} placeholder="Search ..." />
-                  <Searchbar
-                    placeholder="Search"
-                    onChangeText={(value) => { setSearchValue(value); console.log(searchValue); }}
-                    value={searchValue}
-                  />
-                )
-
+                <CxAppBar {...props} title='Topics' />
             )
-          }
+        }
         }}
         component={Topic}
       />

@@ -32,7 +32,20 @@ export const CxAppBar: FC<any> = (props) => {
             setShowFilter(true);
         } else {
             setShowSearch(true);
-            navigation.navigate('SearchPost', { searchFor: 'post' });
+            const cases: any = {
+                'feeds': () => {
+                    navigation.navigate('SearchPost', { searchFor: 'post' });
+                },
+                'courses': () => {
+                    navigation.navigate('SearchCourse', { searchFor: 'course' });
+                },
+                'topics': () => {
+                    navigation.navigate('SearchTopic', { searchFor: 'topic' });
+                }
+            }
+            if (cases[title.toLowerCase()]) {
+                cases[title.toLowerCase()]();
+            }
         }
     }
 
@@ -41,23 +54,18 @@ export const CxAppBar: FC<any> = (props) => {
         props.setSelectedTopic(itemValue);
     }
 
-    useEffect(() => {
-        getAllTopicsQuery?.data && setTopics(getAllTopicsQuery.data.findAllTopics);
-    }, [getAllTopicsQuery.data])
-
-    return (
-        !showFilter && !showSearch ?
-            <Appbar.Header>
-                {
-                    previous ?
-                        <Appbar.BackAction onPress={() => navigation.goBack()} /> :
-                        <Appbar.Action icon="menu" color="white" onPress={() => navigation.dispatch(DrawerActions.openDrawer())} />
-                }
-                <Appbar.Content title={title} />
-                <Appbar.Action icon="filter"
-                    onPress={() => handleItemPress('filter')} />
-                <Appbar.Action icon="magnify" onPress={() => handleItemPress('search')} />
-            </Appbar.Header> :
+    const renderFeedsAppBar = () =>
+        !showFilter && !showSearch ? <Appbar.Header>
+            {
+                previous ?
+                    <Appbar.BackAction onPress={() => navigation.goBack()} /> :
+                    <Appbar.Action icon="menu" color="white" onPress={() => navigation.dispatch(DrawerActions.openDrawer())} />
+            }
+            <Appbar.Content title={title} />
+            <Appbar.Action icon="filter"
+                onPress={() => handleItemPress('filter')} />
+            <Appbar.Action icon="magnify" onPress={() => handleItemPress('search')} />
+        </Appbar.Header> :
             <Appbar>
                 <Appbar.BackAction onPress={handleBackPress} />
                 <Picker
@@ -75,5 +83,22 @@ export const CxAppBar: FC<any> = (props) => {
                 </Picker>
                 <Appbar.Action icon="filter" color="white" />
             </Appbar>
+
+    useEffect(() => {
+        getAllTopicsQuery?.data && setTopics(getAllTopicsQuery.data.findAllTopics);
+    }, [getAllTopicsQuery.data]);
+
+    return (
+        title.toLowerCase() === 'feeds' ?
+            renderFeedsAppBar() :
+            <Appbar.Header>
+                {
+                    previous ?
+                        <Appbar.BackAction onPress={() => navigation.goBack()} /> :
+                        <Appbar.Action icon="menu" color="white" onPress={() => navigation.dispatch(DrawerActions.openDrawer())} />
+                }
+                <Appbar.Content title={title} />
+                <Appbar.Action icon="magnify" onPress={() => handleItemPress('search')} />
+            </Appbar.Header>
     );
 } 

@@ -15,6 +15,7 @@ import { AuthContext } from "../Providers/AuthProvider";
 import FeatureIcon from 'react-native-vector-icons/Feather';
 import { searchStyles } from './styles/searchBar';
 import { Searchbar } from 'react-native-paper';
+import { CxAppBar } from "../components/AppBar/appBar";
 
 interface LearnStackProps { }
 
@@ -37,36 +38,9 @@ const LearnStack: React.FC<LearnStackProps> = ({ }) => {
                     headerTitleStyle: {
                         fontSize: 25
                     },
-                    headerLeft: () => {
+                    header: (props) => {
                         return (
-                            !isShowSearch ?
-                                (<TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
-                                    <Icon style={searchStyles.barsIcon} name="bars" size={25} color={isDarkTheme ? '#fff' : "#333"} />
-                                </TouchableOpacity>)
-                                :
-                                (<TouchableOpacity onPress={() => setShowSearch(false)}>
-                                    <FeatureIcon style={searchStyles.barsIcon} name="arrow-left" size={25} color={isDarkTheme ? '#fff' : "#333"} />
-                                </TouchableOpacity>)
-                        );
-                    },
-                    headerRight: () => {
-                        return (
-                            !isShowSearch ?
-                                (
-                                    <TouchableOpacity onPress={() => navigation.navigate('SearchCourse', { searchFor: 'course' })}>
-                                        <Icon style={searchStyles.barsIcon} name="search" size={20} color={isDarkTheme ? '#fff' : "#333"} />
-                                    </TouchableOpacity>
-                                ) :
-                                (
-                                    // <TextInput style={searchStyles.searchBar} placeholder="Search ..." />
-                                    <Searchbar
-                                        placeholder="Search"
-                                        onChangeText={(value) => { setSearchValue(value); console.log(searchValue); }}
-                                        value={searchValue}
-                                        style={{ width: screenWidth - 80, marginRight: 20, elevation: 1 }}
-                                    />
-                                )
-
+                            <CxAppBar {...props} title='Courses' />
                         )
                     }
                 }}
