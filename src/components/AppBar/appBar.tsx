@@ -23,7 +23,6 @@ export const CxAppBar: FC<any> = (props) => {
         }
         else {
             setShowSearch(false);
-            navigation.goBack();
         }
     }
 
@@ -55,7 +54,7 @@ export const CxAppBar: FC<any> = (props) => {
     }
 
     const renderFeedsAppBar = () =>
-        !showFilter && !showSearch ? <Appbar.Header>
+        !showFilter ? <Appbar.Header>
             {
                 previous ?
                     <Appbar.BackAction onPress={() => navigation.goBack()} /> :
