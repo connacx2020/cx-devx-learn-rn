@@ -15,7 +15,6 @@ const HomeStack: React.FC<HomeStackProps> = ({ }) => {
     const navigation = useNavigation();
     const { isDarkTheme } = useContext(AuthContext);
     const [selectedTopic, setSelectedTopic] = useState('');
-    console.log("selectedTopics:", selectedTopic);
 
     return (
         <Stack.Navigator initialRouteName={"Home"}
