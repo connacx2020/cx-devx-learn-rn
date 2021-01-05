@@ -2,7 +2,9 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
     container: {
-        display: 'flex'
+        display: 'flex',
+        flex:1,
+        flexDirection: 'column'
     },
     header: {
         position: 'relative',
@@ -19,8 +21,8 @@ export const styles = StyleSheet.create({
     topMain: {
         alignItems: 'center',
         flex: 1,
-        margin:20,
-        alignSelf:'stretch',
+        margin: 20,
+        alignSelf: 'stretch',
         flexDirection: 'column'
     },
     avatar: {
@@ -31,7 +33,8 @@ export const styles = StyleSheet.create({
     nameSection: {
         display: 'flex',
         flexDirection: 'row',
-        marginTop: 20
+        marginTop: 20,
+        marginStart: 20
     },
     name: {
         fontSize: 25,
@@ -39,9 +42,41 @@ export const styles = StyleSheet.create({
         color: '#fff',
         marginEnd: 10,
     },
+    addressSection: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginTop: 10
+    },
+    addressText: {
+        color: 'white',
+        fontSize: 17,
+        fontWeight: '200',
+        paddingStart: 6
+    },
     body: {
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'space-around'
+        borderTopStartRadius: 20,
+        borderTopEndRadius: 20,
+        marginTop: -10,
+    },
+    labelText: {
+        fontSize: 18,
+        fontWeight: '300',
+        padding: 3
+    },
+    aboutText: {
+        fontSize: 16,
+        fontWeight: '100',
+        padding: 7
+    },
+    sourceText: {
+        fontSize: 15,
+    },
+    linkText: {
+        color: 'blue',
+        fontSize: 15,
+        fontWeight: '100',
+        paddingEnd: 30
     }
 });
